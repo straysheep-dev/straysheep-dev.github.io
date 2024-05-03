@@ -1,0 +1,65 @@
+site_name: straysheep-dev
+#site_url: http://127.0.0.1:8000
+site_url: https://straysheep-dev.github.io
+repo_url: https://github.com/straysheep-dev/straysheep-dev.github.io
+
+theme:
+  name: material
+
+  icon:
+    logo: material/sheep
+
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: deep orange
+      scheme: default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: indigo
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.path
+    - navigation.tabs
+    - navigation.sections
+#    - navigation.expand
+    - toc.integrate
+#    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tooltips
+
+plugins:
+  - blog:
+      blog_toc: true
+      archive_toc: true
+      categories: false
+      blog_dir: blog
+  - search
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/straysheep-dev
+
+
+copyright: Copyright &copy; 2023-2024 straysheep-dev
