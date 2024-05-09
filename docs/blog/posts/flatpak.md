@@ -8,53 +8,55 @@ categories:
   - cli
 ---
 
-# Flatpak
+# flatpak
 
 Overview of using and configuring flatpak.
 
 <!-- more -->
 
-### References
+*This file is originally from [straysheep-dev/linux-configs](https://github.com/straysheep-dev/linux-configs/tree/main/flatpak).*
+
+## References
 
 Full documentation:
 
-- https://docs.flatpak.org/en/latest/index.html
+- <https://docs.flatpak.org/en/latest/index.html>
 
 Read these first before jumping in:
 
-- https://github.com/flatpak/flatpak/wiki/Sandbox
+- <https://github.com/flatpak/flatpak/wiki/Sandbox>
 
-- https://github.com/flatpak/flatpak/wiki/Metadata
+- <https://github.com/flatpak/flatpak/wiki/Metadata>
 
-- https://github.com/flatpak/flatpak/wiki/Filesystem
+- <https://github.com/flatpak/flatpak/wiki/Filesystem>
 
-- https://github.com/flatpak/flatpak/wiki/Portals
+- <https://github.com/flatpak/flatpak/wiki/Portals>
 
-- https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing
+- <https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing>
 
-- https://docs.flatpak.org/en/latest/conventions.html
+- <https://docs.flatpak.org/en/latest/conventions.html>
 
 Flatpak documentation is licensed under the `CC-BY 4.0`
 
-- https://github.com/flatpak/flatpak-docs/blob/master/COPYING
+- <https://github.com/flatpak/flatpak-docs/blob/master/COPYING>
 
 Examples adapted from stackexchange are also under the `CC-BY 4.0`
 
-- See answer from user Ian here: https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application
+- See answer from user Ian here: <https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application>
 
-- https://stackoverflow.com/legal/terms-of-service#licensing
+- <https://stackoverflow.com/legal/terms-of-service#licensing>
 
-- https://creativecommons.org/licenses/by-sa/4.0/
+- <https://creativecommons.org/licenses/by-sa/4.0/>
 
 Examples adapted from hacktricks use the `CC BY-NC 4.0` (non-commercial)
 
-- https://github.com/carlospolop/hacktricks/blob/master/LICENSE.md
+- <https://github.com/carlospolop/hacktricks/blob/master/LICENSE.md>
 
 ---
 
 ## Setup
 
-https://www.flatpak.org/setup/Ubuntu
+<https://www.flatpak.org/setup/Ubuntu>
 
 ```bash
 sudo apt install flatpak
@@ -94,9 +96,9 @@ reboot
 
 `/var/lib/flatpak/(app|runtime)/ID/ARCH/BRANCH`
 
-# Repositories
+## Repositories
 
-https://docs.flatpak.org/en/latest/repositories.html
+<https://docs.flatpak.org/en/latest/repositories.html>
 
 ### SIgning Keys (Flathub):
 
@@ -136,17 +138,17 @@ You can then read the key data with:
 grep GPG ./org.example.app.flatpakref | cut -d '=' -f 2 | base64 -d | gpg
 ```
 
-## Verifying a flatpak Application
+### Verifying a flatpak Application
 
 While flatpaks exist within a security sandbox, it's still a good idea to verify you're installing the intended application from the correct developer.
 
-https://docs.flatpak.org/en/latest/using-flatpak.html#identifiers
+<https://docs.flatpak.org/en/latest/using-flatpak.html#identifiers>
 
 > Flatpak identifies each application and runtime using a unique three-part identifier, such as `com.company.App`. The final segment of this address is the object’s name, and the preceding part identifies the developer, so that the same developer can have multiple applications, like `com.company.App1` and `com.company.App2`.
 
-https://docs.flatpak.org/en/latest/conventions.html#application-ids
+<https://docs.flatpak.org/en/latest/conventions.html#application-ids>
 
-https://github.com/flathub/flathub/wiki/App-Requirements#application-id
+<https://github.com/flathub/flathub/wiki/App-Requirements#application-id>
 
 > As described in Using Flatpak, Flatpak requires each application to have a unique identifier, which has a form such as `org.gnome.Dictionary`.
 
@@ -165,7 +167,7 @@ Ways you can verify you have the correct flatpak:
 
 ## General Commands
 
-https://docs.flatpak.org/en/latest/using-flatpak.html
+<https://docs.flatpak.org/en/latest/using-flatpak.html>
 
 ```bash
 # find applications
@@ -215,7 +217,7 @@ flatpak permissions
 
 Configuring resource limits for apps
 
-https://docs.flatpak.org/en/latest/tips-and-tricks.html#configuring-resource-limits-for-apps
+<https://docs.flatpak.org/en/latest/tips-and-tricks.html#configuring-resource-limits-for-apps>
 
 When systemd is available, Flatpak tries to put app processes in a scope such
 
@@ -240,11 +242,11 @@ app.
 
 ---
 
-# Creating Applications To-Go
+## Creating Applications To-Go
 
 Create offline / local copies of applications as backups or specific versions or to install on offline machines.
 
-#### Summary;
+**Summary**
 
 1. `flatpak install flathub org.example.app`
 
@@ -254,17 +256,17 @@ Create offline / local copies of applications as backups or specific versions or
 	or
 	3.2 run `flatpak install --sideload-repo=/path/to/.ostree/repo flathub org.example.app`
 
-- https://docs.flatpak.org/en/latest/usb-drives.html
+- <https://docs.flatpak.org/en/latest/usb-drives.html>
 
-- https://blogs.gnome.org/mclasen/2018/08/26/about-flatpak-installations/
+- <https://blogs.gnome.org/mclasen/2018/08/26/about-flatpak-installations/>
 
-- https://github.com/flatpak/flatpak-docs/commit/5febc66828e485a3632e97b78030aad433544896
+- <https://github.com/flatpak/flatpak-docs/commit/5febc66828e485a3632e97b78030aad433544896>
 
-- https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak
+- <https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak>
 
-- https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak-create-usb
+- <https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak-create-usb>
 
-- https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application
+- <https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application>
 
 If you're familiar with `snap` packages, this effectively gives you the `.snap` and `.assert` equivalent, the app, runtimes, and valid gpg signatures. With flatpak, it's in the form of a local repository, meaning a directory of the application with all of the necessary data to install it offline.
 
@@ -272,7 +274,7 @@ To create, or essentially download a flatpak application either to have as an of
 
 This is ideal for running tests on various versions of an application without burning a large amount of data uninstalling then redownloading, both for yourself and for the flatpak remote server you're pulling from.
 
-This example uses the following: 
+This example uses the following:
 
 - flathub as the remote repo.
 - org.gnome.Recipes as the application
@@ -322,7 +324,7 @@ drwxr-xr-x 3 user user 4096 Apr 20 18:58 .ostree
 ```
 **TIP**: Additionally, you can use `create-usb` in this exact same directory just like before, to add other applications to this `.ostree` repo.
 
-## Installing the Local / Offline Application
+### Installing the Local / Offline Application
 
 If the environment is completely offline and does not have the inital setup of remotes, be sure to use the `flathub.flatpak` file:
 
@@ -410,9 +412,9 @@ Again, running `--ostree-verbose` with the install command will show the local r
 
 Run another command within the security context of the application
 
-- https://github.com/flatpak/flatpak/wiki/Sandbox#the-current-flatpak-sandbox
+- <https://github.com/flatpak/flatpak/wiki/Sandbox#the-current-flatpak-sandbox>
 
-- https://docs.flatpak.org/en/latest/debugging.html#running-debugging-tools
+- <https://docs.flatpak.org/en/latest/debugging.html#running-debugging-tools>
 
 ```
 # extremely useful for debugging and validating permission overrides
@@ -421,13 +423,13 @@ flatpak run --command=bash org.gimp.GIMP
 
 ### File-Chooser Portal / Database
 
-https://github.com/flatpak/flatpak/wiki/Portals#the-filechooser-portal
+<https://github.com/flatpak/flatpak/wiki/Portals#the-filechooser-portal>
 
 The following commands will show you all permissions **granted by the user**, from GUI interaction with the portal mechanism (dialogues).
 
-- https://docs.flatpak.org/en/latest/debugging.html#inspecting-portal-permissions
+- <https://docs.flatpak.org/en/latest/debugging.html#inspecting-portal-permissions>
 
-This is described here: https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.portal.FileChooser
+This is described here: <https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.portal.FileChooser>
 
 ```
 # show permissions per app, or for all apps
@@ -463,39 +465,39 @@ To see where copies of host files are made available to the sandbox, run `ls -l 
 
 ---
 
-# Sanbox Overview
+## Sandbox Overview
 
-https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes
+<https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes>
 
 Both the application and it's runtimes operate within the defined sandbox.
 
 Runtimes adhere to the permissions granted to the application itself.
 
-## Sandbox Permissions
+### Sandbox Permissions
 
 See this page for an overview of permissions:
 
-https://docs.flatpak.org/en/latest/sandbox-permissions.html
+<https://docs.flatpak.org/en/latest/sandbox-permissions.html>
 
 And this page for a complete reference:
 
-https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
+<https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html>
 
 ---
 
-## D-Bus Access
+### D-Bus Access
 
-https://docs.flatpak.org/en/latest/sandbox-permissions.html#d-bus-access
+<https://docs.flatpak.org/en/latest/sandbox-permissions.html#d-bus-access
 
 Applications exist in their own namespace, and typically do not need access beyond that.
 
 Media controls, for example, would be an exception (see the above link for details).
 
-## Monitoring D-Bus
+### Monitoring D-Bus
 
-https://wiki.ubuntu.com/DebuggingDBus
+<https://wiki.ubuntu.com/DebuggingDBus>
 
-https://github.com/carlospolop/hacktricks/blob/master/linux-unix/privilege-escalation/d-bus-enumeration-and-command-injection-privilege-escalation.md
+<https://github.com/carlospolop/hacktricks/blob/master/linux-unix/privilege-escalation/d-bus-enumeration-and-command-injection-privilege-escalation.md>
 
 ```bash
 sudo apt install -y d-feet gdbus
@@ -511,15 +513,15 @@ sudo dbus-monitor --system
 sudo busctl monitor
 ```
 
-## Portals
+### Portals
 
-https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals
+<https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals>
 
-https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing
+<https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing>
 
 Complete API reference:
 
-- https://flatpak.github.io/xdg-desktop-portal/
+- <https://flatpak.github.io/xdg-desktop-portal/>
 
 Portals handle the following actions, and require user interaction for the action to take place:
 
@@ -533,15 +535,15 @@ Portals handle the following actions, and require user interaction for the actio
 
 GTK3 and Qt5 have support for portals built-in, while applications not using either can refer to this documentation:
 
-- https://flatpak.github.io/xdg-desktop-portal/portal-docs.html
+- <https://flatpak.github.io/xdg-desktop-portal/portal-docs.html>
 
 From the portal docs:
 
 ```
-The FileChooser portal allows sandboxed applications to ask the user for access to files outside the sandbox. 
+The FileChooser portal allows sandboxed applications to ask the user for access to files outside the sandbox.
 The portal backend will present the user with a file chooser dialog.
 
-The selected files will be made accessible to the application via the document portal, 
+The selected files will be made accessible to the application via the document portal,
 and the returned URI will point into the document portal fuse filesystem in /run/user/$UID/doc/.
 
 This documentation describes version 3 of this interface.
@@ -568,7 +570,7 @@ The CherryTree (flatpak) has a few options under File > Export:
 
 ---
 
-# User Defined Permissions (flatpak override)
+## User Defined Permissions (flatpak override)
 
 Modify the application's sandbox and permissions.
 
@@ -579,19 +581,19 @@ Users can define a global override policy, for example:
 ```bash
 sudo flatpak override --nofilesystem=host
 
-flatpak override --show 
+flatpak override --show
 
 [Context]
 filesystems=!host;
 ```
-This will prevent **all** flatpak applications from accessing the host filesystem unrestricted. 
+This will prevent **all** flatpak applications from accessing the host filesystem unrestricted.
 
 This can be ideal, as many applications come with unrestricted 'host' enabled by default ('host' meaning all non-system files are accessible to the app).
 
 The following is one approach, using a global 'deny all', then allowing only what's necessary in an application's specific overrides:
 
 
-## System-Wide Overrides:
+### System-Wide Overrides:
 
 `/var/lib/flatpak/overrides/global`
 
@@ -609,14 +611,14 @@ org.gtk.vfs=none
 
 According to this, applications should not be using `org.gtk.vfs` in their permissions.
 
-https://docs.flatpak.org/en/latest/sandbox-permissions.html#gvfs-access
+<https://docs.flatpak.org/en/latest/sandbox-permissions.html#gvfs-access>
 
 ```bash
 sudo flatpak override --no-talk-name="org.gtk.vfs"
 sudo flatpak override --no-talk-name="org.gtk.vfs.*"
 ```
 
-## Application Level Overrides:
+### Application Level Overrides:
 
 `/var/lib/flatpak/overrides/org.gimp.GIMP`
 
@@ -628,13 +630,13 @@ filesystems=~/snap/flatpakaccess/gimp:create;
 org.freedesktop.FileManager1=none
 ```
 
-https://github.com/flatpak/flatpak/issues/4643
+<https://github.com/flatpak/flatpak/issues/4643>
 
-## Runtimes and Sandboxing
+### Runtimes and Sandboxing
 
-- https://github.com/flatpak/flatpak/wiki/Metadata#runtime-metadata
+- <https://github.com/flatpak/flatpak/wiki/Metadata#runtime-metadata>
 
-- https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes
+- <https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes>
 
 Each sandbox contains an application and its runtime.
 
@@ -652,11 +654,11 @@ find /var/lib/flatpak/ -name "metadata" -ls
 cat /var/lib/flatpak/app/<app-name>/path/to/metadata
 ```
 
-## The Override Command
+### The Override Command
 
 To modify the default permissions of an application, use the `override` command.
 
-https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=manaing%20portal%20permissions#flatpak-override
+<https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=manaing%20portal%20permissions#flatpak-override>
 
 `flatpak override [OPTION...] [APP] - Override settings [for application]`
 
@@ -677,7 +679,7 @@ sudo flatpak override --unshare=network org.gimp.GIMP
 
 # overrides policy at /var/lib/flatpak/overrides/org.gimp.GIMP
 
-flatpak override --show org.gimp.GIMP 
+flatpak override --show org.gimp.GIMP
 
 # [Context]
 # shared=!network;
@@ -695,7 +697,7 @@ flatpak override --show org.gimp.GIMP
 
 Next try removing access to a specific directory:
 
-**NOTE**: FILESYSTEM can be one of (This option can be used multiple times): 
+**NOTE**: FILESYSTEM can be one of (This option can be used multiple times):
 - home
 - host
 - host-os
@@ -792,7 +794,7 @@ python3 -c 'import pty; pty.spawn("/bin/sh")' ; cat /etc/shadow
 Try to create an http server (it should actually succeed here, but only exists within the sandbox and is not visible by the host):
 
 ```bash
-python3 -m http.server 8080 --bind 127.0.0.1; 
+python3 -m http.server 8080 --bind 127.0.0.1;
 # in another terminal on the host, try (this should fail):
 curl http://127.0.0.1:8080
 # see if it's visible to the host, it should not be visible or accessible from outside of the sandbox
@@ -865,11 +867,11 @@ Event SYSMONEVENT_FILE_CREATE
 
 Looking for `/newroot` online leads to this commit, closing issue #305, showing that the default mount point is `/tmp/newroot`, updated from previous paths that were used.
 
-- https://github.com/containers/bubblewrap/commit/efc89e3b939b4bde42c10f065f6b7b02958ed50e
+- <https://github.com/containers/bubblewrap/commit/efc89e3b939b4bde42c10f065f6b7b02958ed50e>
 
 The first paragraph in the usage for `bwrap` also explains this chroot-like environment is completely invisible to the normal host:
 
-- https://github.com/containers/bubblewrap#usage
+- <https://github.com/containers/bubblewrap#usage>
 
 ---
 

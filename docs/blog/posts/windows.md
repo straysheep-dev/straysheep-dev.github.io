@@ -9,13 +9,15 @@ categories:
   - home-lab
 ---
 
-# windows-configs
+# windows
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
 <!-- more -->
 
-### Licenses
+*This file is originally from [straysheep-dev/windows-configs](https://github.com/straysheep-dev/windows-configs).*
+
+## Licenses
 
 Unless a different license is included with a file as `<filename>.copyright-notice` all files are released under the MIT license.
 
@@ -31,11 +33,11 @@ Examples in this README taken and adapted from the Microsoft documents:
 	* [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 
-# Windows Baselining
+## Windows Baselining
 
 Creating a security baseline for Windows.
 
-## Backup the Registry
+### Backup the Registry
 
 Before making changes, it's useful to create a backup of the registry in a default or working state.
 
@@ -71,7 +73,7 @@ Restore-Computer -RestorePoint 1
 
 The restore process can take several minutes, even when reverting a single change to the registry. Generally it takes about 3-4 minutes for local test VM's.
 
-## Applying a Baseline
+### Applying a Baseline
 
 See the tools available in the [Microsoft Security Compliance Toolkit](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 
@@ -91,9 +93,9 @@ Deploy and test these configurations in a temporary or virtual environment first
 
 Windows Sandbox is a temporary, and (depending on your `.wsb` configuration) fully isolated environment that can be started very quickly from either launching the application as you would any other, or by running a `.wsb` [configuration file](https://github.com/MicrosoftDocs/windows-itpro-docs/blob/public/windows/security/threat-protection/windows-sandbox/windows-sandbox-configure-using-wsb-file.md).
 
-# Active Directory
+## Active Directory
 
-## AD: Installing the AD RSAT Tools
+### AD: Installing the AD RSAT Tools
 
 You no longer need to download the AD RSAT packages from Microsoft's website, instead these are included as Windows Features on Demand. The AD RSAT tools come available by default in most Windows Server installations. However you can add the capability manually to a workstation by following the references below.
 
@@ -127,7 +129,7 @@ The cmdlet syntax is similar to other PowerShell cmdlets. PowerView has great ex
 - [PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 
 
-## AD: Group Policy
+### AD: Group Policy
 
 Update Group Policy to sync with the Domain Controller via `cmd.exe`:
 
@@ -151,10 +153,10 @@ One example of this is Disabling Link-Local Multicast Name Resolution (LLMNR) pr
 Setting Computer Configuration > Administrative Templates > Network > DNS Client > Turn off multicast name resolution to Enabled on the Domain Controller and pushing the update with `Invoke-GPUpdate` or similar will not display this policy as Enabled on the endpoints, however it will show as set in their registry. This can be tested by changing the policy on the DC and refreshing each endpoint before checking again with `Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient"`.
 
 
-# Managing Windows Security
+## Managing Windows Security
 
 
-## Configuring Device Lock
+### Configuring Device Lock
 
 - [Lock Windows When Screen Turns Off](https://superuser.com/questions/1737726/windows-10-ask-password-when-return-from-sleep)
 - [PromptPasswordOnResume](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-power#pw_promptpasswordonresume)
@@ -182,7 +184,7 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DelayLockInterval" -
 ```
 
 
-## Windows Defender Cmdlets
+### Windows Defender Cmdlets
 
 <https://docs.microsoft.com/en-us/powershell/module/defender/?view=windowsserver2022-ps>
 
@@ -202,7 +204,7 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DelayLockInterval" -
 | `Update-MpSignature`    | Updates the antimalware definitions on a computer.                   |
 
 
-## Controlled Folder Access
+### Controlled Folder Access
 
 > Protect your data from malicious apps such as ransomware
 
@@ -236,7 +238,7 @@ Add-MpPreference -ControlledFolderAccessAllowedApplications "c:\apps\test.exe"
 Remove-MpPreference -ControlledFolderAccessAllowedApplications "c:\apps\test.exe"
 ```
 
-## ASR (Attack Surface Reduction)
+### ASR (Attack Surface Reduction)
 
 - [ASR Overview](https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-deployment?view=o365-worldwide)
 - [Rule List Reference](https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-reference?view=o365-worldwide)
@@ -310,7 +312,7 @@ Add-MpPreference -AttackSurfaceReductionRules_Ids c1db55ab-c21a-4637-bb3f-a12568
 > Add-MpPreference -AttackSurfaceReductionOnlyExclusions "<fully qualified path or resource>"
 > ```
 
-# Windows Sandbox
+## Windows Sandbox
 
 - [This post from SANS details using Windows Sandbox for malware analysis](https://isc.sans.edu/diary/Malware+Analysis+with+elasticagent+and+Microsoft+Sandbox/27248)
 - [This documenation from Microsoft walks through every option for creating a Windows Sandbox Configuration (.wsb) file.](https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-sandbox/windows-sandbox-configure-using-wsb-file)
@@ -364,7 +366,7 @@ Set-EdgePolicy Apply
 ```
 
 
-## Windows Sandbox + VPN
+### Windows Sandbox + VPN
 
 Windows Sandbox is limited in networking options when compared to Hyper-V VMs. However, it's lightweight and highly configurable, making it easy to network using something like Wireguard.
 
@@ -417,7 +419,7 @@ tailscale.exe up --authkey tskey-<your-key-here>
 ```
 
 
-# WSL
+## WSL
 
 - [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 - [Comparison of WSL1 and WSL2](https://learn.microsoft.com/en-us/windows/wsl/compare-versions#exceptions-for-using-wsl-1-rather-than-wsl-2)
@@ -451,7 +453,7 @@ systemd=true
 Once it does, exit wsl and run `wsl --shutdown; wsl` to restart wsl with systemd.
 
 
-## WSL: Communicating with Hyper-V
+### Communicating with Hyper-V
 
 WSL's `vEthernet (WSL (Hyper-V firewall))` and Hyper-V's `vEthernet (Default Switch)` are two separate subnets running virtually on your host. By default Windows blocks all inbound traffic that doesn't have an explicit allow rule. You can write allow rules, however this doesn't work well with these virtual interfaces as they're regenerated with new information on reboot. Instead the more robust option is to configure these two adapters to communicate with each other. Regardless of the network information, the adapter names tend to stay the same unless there is an update in Windows that changes them for some reason (this happened with WSL's adapter name, changing it from `vEthernet (WSL)` to `vEthernet (WSL (Hyper-V firewall))`).  [This all happens internally on your host](https://stackoverflow.com/questions/61868920/connect-hyper-v-vm-from-wsl-ubuntu).
 
@@ -471,7 +473,7 @@ Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (WSL (Hyper-V firew
 Keep in mind if you want to make a service running on WSL2 available to other (external) networks, you'll need to [port forward the connection](https://github.com/microsoft/WSL/issues/4150#issuecomment-504051131).
 
 
-## WSL: Allow External Inbound Connections
+### External Inbound Connections
 
 Using a python3 web server running on WSL as an example, you can copy and paste the following code snippet to configure the Windows host to allow and forward incoming connections to the python web server.
 
@@ -500,7 +502,7 @@ netsh interface portproxy delete v4tov4 listenport="$http_port" listenaddress=$w
 ```
 
 
-## WSL: Using SSH
+### SSH
 
 See [adding your ssh key to the ssh-agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent). The `ssh-agent` needs to be started manually or added to `.bashrc`:
 
@@ -516,14 +518,14 @@ For use with a hardware security key (covered below):
 - [Securing SSH with FIDO2](https://developers.yubico.com/SSH/Securing_SSH_with_FIDO2.html)
 
 
-## WSL: USB Passthrough
+### USB Passthrough
 
 WSL1 can natively "see" and use *some* USB devices.
 
 WSL2 can traverse external USB storage devices mounted as filesystems to the host. However passing through a Yubikey or another USB device has various challenges and solutions. We'll use the documented `usbipd` method first.
 
 
-### usbipd
+#### USBIPD
 
 - [Connect USB Devices (to WSL2)](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
 - [usbipd: Share USB Devices with Hyper-V and WSL2](https://github.com/dorssel/usbipd-win)
@@ -585,7 +587,7 @@ If you're getting the following error, you need to [build your own WSL kernel to
 > WARNING: No OTP HID backend available. OTP protocols will not function.
 
 
-#### Connection Method 1: SSH Tunnel
+#### Connect via Local SSH Tunnel
 
 - You need Windows admin + WSL sudo privileges
 - If you have both, you can run this entirely from a standard Windows user's WSL instance, using a normal WSL user's sudo privileges (effectively low privilege) and the administrative password when prompted for it
@@ -631,7 +633,7 @@ In this case the `usbipd detach` command will disconnect the device from WSL, bu
 All of this has been [written into a single function for convenience](https://github.com/straysheep-dev/windows-configs/blob/main/Connect-UsbipSSHTunnel.ps1).
 
 
-#### Connection Method 2: Firewall Rules
+#### Connect Directly
 
 Installing usbipd creates a firewall rule called usbipd that allows all local subnets to connect to the service. Modify this rule to limit access.
 
@@ -758,7 +760,7 @@ usbip: error: open vhci_driver
 ```
 
 
-#### GPG + SSH + Git + Yubikey with usbipd
+#### GPG + SSH + Git + Yubikey
 
 *Tested on WSL 2 running Ubuntu 22.04 5.15.90.1-microsoft-standard-WSL2.*
 
@@ -811,7 +813,7 @@ gpg-connect-agent updatestartuptty /bye
 ```
 
 
-## WSL: GPU Passthrough
+### GPU Passthrough
 
 By default, WSL2 can use the host's GPU. Check with the following commands (Ubuntu 22.04):
 
@@ -826,7 +828,7 @@ Resources:
 - [NVIDIA: Container Toolkit](https://github.com/NVIDIA/nvidia-container-toolkit)
 
 
-## WSL: Miscellaneous
+### Miscellaneous
 
 Always copy and paste untrusted text into WSL files opened in Notepad or VSCode in Restricted Mode instead of directly into the terminal with an open `vi` or `nano` session due to the possibility of command injection / escaping.
 
@@ -835,7 +837,7 @@ Always copy and paste untrusted text into WSL files opened in Notepad or VSCode 
 - It's a rare possibility, but [PoC's exist](https://www.cyberark.com/resources/threat-research-blog/dont-trust-this-title-abusing-terminal-emulators-with-ansi-escape-characters)
 
 
-# Hyper-V
+## Hyper-V
 
 [Enable Hyper-V](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v):
 
@@ -843,7 +845,7 @@ Always copy and paste untrusted text into WSL files opened in Notepad or VSCode 
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-## Default Paths
+### Default Paths
 
 - Virtual Hard Disks (Recommended by kali.org): `C:\ProgramData\Microsoft\Windows\Virtual Hard Disks\`
 - Virtual machine configuration folder: `C:\ProgramData\Microsoft\Windows\Hyper-V`
@@ -862,7 +864,7 @@ VM_NAME
 The key is in most cases to point all file paths under the VM's settings to the "VM_NAME" folder, rather than the subdirectories themselves. Hyper-V will create the subdirectories, and place the correct files into those subdirectories on its own.
 
 
-## Importing / Exporting VM's
+### Importing / Exporting VM's
 
 [Hyper-V Import Types](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/deploy/export-and-import-virtual-machines#import-types)
 
@@ -883,7 +885,7 @@ Hyper-V does not appear to have a cloning feature similar to VMware or VirtualBo
 - This export can serve as a backup of your template VM used for cloning
 
 
-## Creating an Ubuntu Developer VM
+### Create an Ubuntu Developer VM
 
 The easiest way is to use Hyper-V's "Quick Create" feature, let it download and install, then do the setup. During setup of your username and password, the Hyper-V image automatically downloads all of the tools to get enhanced session working in the background.
 
@@ -896,7 +898,7 @@ Microsoft previously maintained scripts mentioned here:
 But they are not longer maintained, assuming this functionality has been built into the Ubuntu quick-create image.
 
 
-### Expand the Disk Space
+#### Expand the Disk Space
 
 References:
 
@@ -944,7 +946,7 @@ To do this at runtime:
 The system should reboot without issue.
 
 
-### Enhanced Session Login Stuck on Blue Screen
+#### Enhanced Session Login Stuck on Blue Screen
 
 This occurs if you set your user to auto-login during setup. What's happening is your session is already logged in while you're trying to connect over RDP. This will break the session. Simply turn off enhanced session to return to a basic session, log out, log back in, and make the following changes:
 
@@ -961,7 +963,7 @@ Comment out the following lines:
 ```
 
 
-## Creating the Windows Developer Eval VM
+### Create a Windows Developer VM
 
 *This is slightly different than importing the VMware version.*
 
@@ -974,7 +976,7 @@ Comment out the following lines:
 Make any additional changes after, like changing memory size and CPU count, before taking an initial snapshot.
 
 
-## Enable Nested Virtualization
+### Nested Virtualization
 
 - [What is Nested Virtualization?](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization)
 - [Enable Nested Virtualization](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/enable-nested-virtualization)
@@ -986,11 +988,11 @@ Set-VMProcessor -VMName WinDev2308Eval -ExposeVirtualizationExtensions $true
 ```
 
 
-## Share Resources
+### Share Resources
 
 *Sharing resources between the guest and host.*
 
-### Clipboard
+#### Clipboard
 
 Connecting over an Enhanced Sessions allows you to copy and paste text or files into the guest like you would on the host.
 
@@ -1004,7 +1006,7 @@ The guest VM cannot access the host clipboard in the following cases:
 - While you're disconnected from the session but the VM is still running
 - When connected over a Basic Session
 
-### Session Settings
+#### Session Settings
 
 Adjusting session settings:
 
@@ -1023,7 +1025,7 @@ If you ever need to revise these settings:
 - Select the VM, choose `Edit Session Settings...`
 
 
-### Share Folders by Mounting a Local Drive
+#### Share Folders, Local Drives
 
 - [Share Local Resources with a VM](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/learn-more/Use-local-resources-on-Hyper-V-virtual-machine-with-VMConnect)
 
@@ -1035,7 +1037,7 @@ This isn't as granular as what VMware offers, but it works without networking:
 You'll need to dedicate an entire drive mount to be shared, it's also R/W by default. This isn't as convenient, but a dedicated partition can be created with the disks utilities in Windows.
 
 
-## Configure a Malware Analysis Hyper-V VM
+### Create a Malware Analysis VM
 
 First review Microsoft's security checklist for both the Hyper-V host and guest VM's.
 
@@ -1079,12 +1081,12 @@ What session type to use:
 - Basic: With all of the above steps followed to disable everything, you'd typically do setup with an Enhanced Session and reconnect via Basic to detonate malware
 
 
-## Hyper-V Troubleshooting
+### Hyper-V Troubleshooting
 
 There are a number of issues with managing networking in Hyper-V. These items are listed in order of what's most common to least common.
 
 
-### Hyper-V Default Switch has no DHCP
+#### Hyper-V Default Switch has no DHCP
 
 *NOTE: The Default Switch is supposed to provide DHCP to connected guests, however it often doesn't if strict firewall rules are in place.*
 
@@ -1129,7 +1131,7 @@ Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (CustomNATSwitch)'}
 - Connect other VM's to the "router" VM's "LAN" interfaces, if it's running as a router it will handle DHCP and more if configured to do so
 
 
-### Hyper-V Network Performance Issues
+#### Hyper-V Network Performance Issues
 
 *The easiest and safest test is Google's built in speed test, just search for it in Google.*
 
@@ -1144,7 +1146,7 @@ Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (CustomNATSwitch)'}
 	- Set a static MAC address
 
 
-### Hyper-V Default Network doesn't have internet access
+#### Hyper-V Default Network doesn't have internet access
 
 This appeared solved, but continues to behave strangely. I wanted to document this as I continue to use Hyper-V.
 
@@ -1196,9 +1198,9 @@ sudo nmcli connection modify "$CONN_NAME" connection.autoconnect yes
 - Hyper-V Extensible Virtual Switch is still unchecked even when it's working
 
 
-# PowerShell
+## PowerShell
 
-## PowerShell Versions
+### PowerShell Versions
 
 - Recent PowerShell versions since v2 have improved security features
 - v2 can still be found installed on some systems, even if v5 is the default
@@ -1218,7 +1220,7 @@ Get-WindowsOptionalFeature -Online | where FeatureName -Like MicrosoftWindowsPow
 ```
 
 
-## Script Execution
+### Script Execution
 
 - `Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell"`
 - `Computer Configuration > Administrative Templates > Windows Components > Windows PowerShell > Turn on Script Execution`
@@ -1266,7 +1268,7 @@ if (Test-Path $basePath) {
 ```
 
 
-## PowerShell Language Mode
+### PowerShell Language Mode
 
 - [About Language Modes](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-7.3)
 - [DevBlogs: Constrained Language Mode](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/)
@@ -1277,14 +1279,14 @@ $ExecutionContext.SessionState.LanguageMode
 ```
 
 
-## PowerShell JEA
+### PowerShell JEA
 
 *Just Enough Admin*
 
 - [JEA Overview](https://learn.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview?view=powershell-7.3)
 
 
-## PowerShell Protected Event Logging
+### PowerShell Protected Event Logging
 
 [Protected Event Logging](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1#protected-event-logging)
 
@@ -1293,7 +1295,7 @@ $ExecutionContext.SessionState.LanguageMode
 - Ship logs to a central SIEM, where they can be decrypted
 
 
-# Winget
+## Winget
 
 The Windows Package Manager
 
@@ -1301,7 +1303,7 @@ The Windows Package Manager
 - https://learn.microsoft.com/en-us/windows/package-manager/winget/
 
 
-## Install
+### Install
 
 Winget appears to be available by default on Windows 11 now. But it's not available by default in Windows Sandbox instances.
  
@@ -1355,15 +1357,15 @@ winget install --interactive --exact dorssel.usbipd-win
 ```
 
 
-# User Accounts
+## User Accounts
 
 
-## Active Directory
+### Active Directory
 
 To do
 
 
-## Local
+### Local System
 
 <https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/new-localuser?view=powershell-5.1>
 
@@ -1400,12 +1402,12 @@ runas /user:Domain\DomainUser2 powershell.exe -ep bypass -nop -w hidden iex <pay
 See [HackTricks - Credential User Impersonation](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-local-privilege-escalation/access-tokens.md#credentials-user-impersonation) for more on this.
 
 
-## Account Policy
+### Account Policy
 
 To do
 
 
-## Honey Accounts
+### Honey Accounts
 
 References:
 
@@ -1457,7 +1459,7 @@ Start-Process powershell -Verb runAs "notepad.exe"
 
 If you are not prompted to allow `notepad` to run, then UAC is not enabled.
 
-### Configuring the UAC Prompt for local users
+### UAC Prompt for local users
 
 See the following documentation for guidance:
 
@@ -1530,7 +1532,7 @@ When logged in as an admin, this will prompt the user with a yes/no dialogue ins
 Set-ItemProptery -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value "0x2"
 ```
 
-# Network
+## Network
 
 Display general network information
 ```cmd
@@ -1569,7 +1571,7 @@ Additional tools for network visibility:
 - <https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview>
 
 
-#### Troubleshooting
+### Troubleshooting
 
 Sometimes when trying to start a service on a specific port (`py -m http.server 8080 --bind <your-ip>`) you'll receive an error about lacking permissions even if you're running as administrator.
 
@@ -1598,7 +1600,7 @@ PS C:\> Stop-Process -Name spoolsv
 In the above case, a meterpreter session had migrated to the `spoolsv.exe` process and was port forwarding traffic on tcp/8080.
 
 
-## Firewall Rules
+### Firewall Rules
 
 Open Windows Defender Firewall from an elevated PowerShell prompt with:
 
@@ -1653,7 +1655,7 @@ Set-NetConnectionProfile -NetworkCategory Public
 *NOTE: these baselines are fairly close to the defaults, and are mainly for reference.*
 
 
-### Managing Firewall Rules with PowerShell
+### Managing Firewall Rules (PowerShell)
 
 There are three different network profiles in Windows:
 
@@ -1830,7 +1832,7 @@ Set-NetFirewallRule -DisplayName "*LLMNR*" | Set-NetFirewallRule -Action "Block"
 ```
 
 
-### Managing Firewall Rules with cmd.exe
+### Managing Firewall Rules (cmd.exe)
 
 cmd.exe / netsh.exe basics:
 ```cmd
@@ -1894,7 +1896,7 @@ netsh advfirewall reset
 ```
 
 
-### Netsh / Port Proxy
+### Netsh Port Proxy
 
 <https://www.sans.org/blog/pen-test-poster-white-board-cmd-exe-c-netsh-interface/>
 
@@ -1948,7 +1950,7 @@ To turn off this setting via the GUI:
 - Uncheck `Blocks all incoming connections, including those on the list of allowed apps.`
 
 
-## LLMNR
+### LLMNR
 
 <https://www.blackhillsinfosec.com/how-to-disable-llmnr-why-you-want-to/>
 
@@ -1992,7 +1994,7 @@ REG ADD  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient”
 REG ADD  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” EnableMulticast” /t REG_DWORD /d “0” /f
 ```
 
-## Mitigate IPv6 MitM Attacks
+### Mitigate IPv6 MitM Attacks
 
 <https://academy.tcm-sec.com/p/practical-ethical-hacking-the-complete-course>
 
@@ -2065,7 +2067,7 @@ Update Group Policy via cmd.exe:
 gpupdate
 ```
 
-## Enable SMB Signing
+### Enable SMB Signing
 
 <https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/overview-server-message-block-signing>
 
@@ -2104,11 +2106,11 @@ Update Group Policy via cmd.exe:
 gpupdate
 ```
 
-# Filesystem Permissions
+## Filesystem Permissions
 
 How to do the equivalent of `chmod` operations in Windows.
 
-## takeown.exe
+### takeown.exe
 
 Change ownership recursively of a file(s) or folder(s) to the current user:
 
@@ -2128,7 +2130,7 @@ Change ownership back to a standard user (where $HOSTNAME is either local pc nam
 takeown.exe /S $HOSTNAME /U $USER /F .\ExampleDir\
 ```
 
-## icacls.exe
+### icacls.exe
 
 Remove all permissions on a file or folder:
 
@@ -2225,7 +2227,7 @@ administrators_authorized_keys NT AUTHORITY\SYSTEM:(F)
                                BUILTIN\Administrators:(F)
 ```
 
-## Set-Acl
+### Set-Acl
 
 Take the ACL data of one filesystem object and apply it to another
 
@@ -2247,7 +2249,7 @@ Looking at the three arguments to `FileSystemAccessRule($identity, $fileSystemRi
 Aside from the list of fields for `$fileSystemRights`, [`$identity`](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.identityreference?view=net-7.0) is a reference to a user account and [`$type`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.accesscontroltype?view=net-7.0) is either `Allow` (0) or `Deny` (1).
 
 
-## SMB
+### SMB
 
 This section references the following sources:
 
@@ -2306,7 +2308,7 @@ Remove-SmbShare -Name "Share"
 ```
 
 
-# SysInternals
+## SysInternals
 
 Overview:
 
@@ -2321,7 +2323,7 @@ Download the entire suite as a zip archive:
 <https://download.sysinternals.com/files/SysinternalsSuite.zip>
 
 
-## AccessChk
+### AccessChk
 
 - <https://live.sysinternals.com/accesschk64.exe>
 - <https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk>
@@ -2335,12 +2337,12 @@ Evaluate what access to C:\$PATH is available to $USER:
 accesschk64.exe "$USER" c:\$PATH
 ```
 
-## Sysmon
+### Sysmon
 
 - <https://live.sysinternals.com/Sysmon64.exe>
 - <https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon>
 
-### Installing Sysmon
+#### Installing Sysmon
 
 Open an administrative PowerShell session.
 
@@ -2383,7 +2385,7 @@ C:\Tools\Sysmon64.exe -accepteula -i C:\Tools\sysmon-config.xml
 
 **NOTE**: This does not erase or remove current log files, and they can all still be read again after installing the new binary.
 
-### Cleanup
+#### Cleanup
 
 - Option 1: Make the config file readable only by SYSTEM and BUILTIN\Administrator
 	```powershell
@@ -2395,7 +2397,7 @@ C:\Tools\Sysmon64.exe -accepteula -i C:\Tools\sysmon-config.xml
 - Both: Monitor and log for execution of `Sysmon64.exe -c` which dumps the entire configuration whether it's still on disk or not. If you find this in your logs and did not run this, you may have been broken into.
 
 
-### Custom Config
+#### Custom Config
 
 Using Sysmon-Modular it's easy to create custom configuration files.
 
@@ -2415,7 +2417,7 @@ Find-RulesInBasePath -BasePath C:\Tools\sysmon-modular\ | sls "DLL Side-Loading"
 - Regenerate the config using `Merge-AllSysmonXml -Path ( Get-ChildItem '[0-9]*\*.xml') -AsString | Out-File sysmonconfig.xml`.
 
 
-### Tune a Config (with PowerShell)
+#### Tune a Config (with PowerShell)
 
 *This will depend on your configuration file. The sysmon-modular config mentioned above is a great starting place to help you maintain includes and excludes.*
 
@@ -2439,7 +2441,7 @@ Get-WinEvent -FilterHashtable @{ Logname='Microsoft-Windows-Sysmon/Operational';
 ```
 
 
-# Windows Logging
+## Windows Logging
 
 To see all available logs on a (Windows) system:
 
@@ -2453,7 +2455,7 @@ To see the available properties for a log, use:
 Get-WinEvent -MaxEvents 1 -LogName '<log>' | select -Property *
 ```
 
-## Event Logs
+### Event Logs
 
 - [Microsoft Docs: Event IDs to Monitor](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor)
 - [Intro to SOC: Domain Log Review](https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/Tools/IntroClass/DomainLogReview/DomainLogReview.md)
@@ -2646,20 +2648,20 @@ Get-WinEvent -FilterHashtable @{LogName='Security'} | where TimeCreated -gt $sta
 ```
 
 
-## PowerShell Logs
+### PowerShell Logs
 
 - At minimum, enable Script Block logging (without Invocation Logging)
 - If possible, enable Transcription to a protected directory that's sent to a central logging server
 
 
-### Module Logging
+#### Module Logging
 
 Enable logging for selected PowerShell modules.
 
 *This may not be necessary if you enable script block logging.*
 
 
-### Script Block Logging
+#### Script Block Logging
 
 Logs PowerShell input (commands, functions, decodes and tracks script content)
 
@@ -2715,7 +2717,7 @@ $mergedScript = -join ($sortedScripts | % { $_.Properties[2].Value })
 ```
 
 
-### Transcription Logging
+#### Transcription Logging
 
 Logs PowerShell output (everything that appears in the powershell terminal session)
 
@@ -2763,7 +2765,7 @@ if (Test-Path $basePath) {
 ```
 
 
-## Sysmon Logs
+### Sysmon Logs
 
 This is a quick start on how to read your Sysmon logs.
 - [Get-WinEvent](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-7.2)
@@ -2829,7 +2831,7 @@ $StartDate = (Get-Date).AddDays(-2)
 ```
 
 
-### Sysmon ID's
+#### Sysmon ID's
 
 These references can help you sort through event properties visually.
 
@@ -2838,7 +2840,7 @@ These references can help you sort through event properties visually.
 - [olafhartong/sysmon-cheatsheet (PDF)](https://github.com/olafhartong/sysmon-cheatsheet/blob/master/Sysmon-Cheatsheet-dark.pdf)
 
 
-### Sysmon ID 22: DNS Queries
+#### Sysmon ID 22: DNS Queries
 
 DNS query property values:
 
@@ -2867,7 +2869,7 @@ Show all DNS queries (ID 22) and when they were made:
 Get-WinEvent -FilterHashtable @{ Logname='Microsoft-Windows-Sysmon/Operational'; StartTime=$StartDate; Id='22' } | ForEach-Object { Out-String -InputObject $_.properties[1,4].value }
 ```
 
-### Sysmon ID 3: Network Connection
+#### Sysmon ID 3: Network Connection
 
 Network connection property values:
 
@@ -2909,7 +2911,7 @@ Show all network connections (ID 3), what executable made them, when, and destin
 Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational'; StartTime=$StartDate; Id='3' } | ForEach-Object { Out-String -InputObject $_.properties[1,4,14,15].value }
 ```
 
-### Sysmon ID 1: Process Creation
+#### Sysmon ID 1: Process Creation
 
 Process creation property values:
 - [0]RuleName
@@ -2957,7 +2959,7 @@ Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational';
 ```
 
 
-### Sysmon ID 10: Process Accessed
+#### Sysmon ID 10: Process Accessed
 
 Process accessed property values:
 - [0]RuleName
@@ -2980,9 +2982,9 @@ Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational';
 ```
 
 
-# Services
+## Services
 
-## OpenSSH
+### OpenSSH
 
 | Directory              | Description
 | ---------------------- | ------------------------------------------------- |
@@ -3072,7 +3074,7 @@ Restart-Service sshd
 
 ---
 
-# Scheduled Tasks
+## Scheduled Tasks
 
 List all scheduled tasks by creation date:
 
@@ -3091,7 +3093,7 @@ Autoruns will also quickly identify any scheduled tasks in the `Scheduled Tasks`
 
 <https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns>
 
-### Log and audit when a new scheduled task is created:
+### Log & Audit Schtask Creation
 
 <https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698#security-monitoring-recommendations>
 
@@ -3130,7 +3132,7 @@ Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Audit\Obj
 
 ---
 
-# Windows CLI / WMI
+## Windows CLI / WMI
 
 - [Intro to SOC: Windows CLI](https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/Tools/IntroClass/WindowsCLI/WindowsCLI.md)
 - [Hacktricks: CMD](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/basic-cmd-for-pentesters.md)
@@ -3140,7 +3142,7 @@ Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Audit\Obj
 
 ---
 
-# Disk Management
+## Disk Management
 
 This SuperUser answer by user VainMan is an excellent walkthrough of managing disks with just built in Windows tools:
 
@@ -3158,7 +3160,7 @@ Additional documentation for this section:
 - `diskmgmt.mmc`
 
 
-## Mount and Unmount Volumes and Drives
+### Mount and Unmount Volumes and Drives
 
 This is functionally the equivalent of using `diskmgmt.mmc` in any of the following ways:
 
@@ -3206,7 +3208,7 @@ mountvol.exe /R
 ```
 
 
-## Extend the C Drive
+### Extend the C Drive
 
 Extending the C drive isn't intuitive because the partition the OS is installed on is sandwiched between the boot and recovery partitions. Even if you have free space (say on a newly extended VM or on a dual boot machine where you're removing the other OS) you cannot extend the installed partition without moving the recovery partition.
 
@@ -3266,7 +3268,7 @@ Optionally:
 - Delete the recovery image file `del C:\recovery-image.wim`
 
 
-## Prevent Automatic Mounting of New Volumes
+### Prevent Automatic Mounting of New Volumes
 
 *NOTE: this still needs tested, and does not appear to work as expected.*
 
@@ -3289,7 +3291,7 @@ mountvol.exe /E
 ```
 
 
-## EFI Partition
+### EFI Partition
 
 This mounts the `\EFI` partiton under `E:\` if it's available (you can use any available drive letter).
 ```cmd
@@ -3314,7 +3316,7 @@ foreach ($efi_file in (gci E:\ -Recurse -Force -File).FullName) { if (C:\Tools\s
 ---
 
 
-# Device Management
+## Device Management
 
 Restricting device and driver installation.
 
@@ -3323,7 +3325,7 @@ Restricting device and driver installation.
 - [System Defined Device Setup Classes Reserved for System Use](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/system-defined-device-setup-classes-reserved-for-system-use)
 - [USB Device Descriptors](https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-descriptors)
 
-### Determine Device ID Strings
+### Device ID Strings
 
 <https://learn.microsoft.com/en-us/windows/client-management/manage-device-installation-with-group-policy#determine-device-identification-strings>
 
@@ -3331,7 +3333,7 @@ The `Class GUID` is the type of device, for example a printer or a tablet.
 
 The `Instance ID`, `Hardware IDs`, and `Compatible IDs` are identifiers for the device. The most specific is the `Instance ID`. This relates to that one device, and individual devices may have multiple `Instance ID`s. You'll need these ID's to 'allow' or 'deny' devices.
 
-### Enum Device ID Strings with cmd.exe
+### Enum Device ID Strings (cmd.exe)
 
 You can start like this from a command prompt with [`pnputil`](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/pnputil):
 
@@ -3355,7 +3357,7 @@ Finally, query the device directly using the `Instance ID` (there may be multipl
 pnputil /enum-devices /instanceid '<instance-id>' /ids
 ```
 
-### Enum Device ID Strings with PowerShell
+### Enum Device ID Strings (PowerShell)
 
 All the credit for this one goes to the [PowerShell Team](https://devblogs.microsoft.com/powershell/) over on the Microsoft DevBlogs:
 
@@ -3412,7 +3414,7 @@ pnputil.exe /enum-devices /connected /class '{<guid>}'
 Disabling or setting that policy to Not Configured will reconnect the devices.
 
 
-## Removable Storage: Deny Execute Access, Disable Autorun
+### Deny Execute Access, Disable Autorun
 
 By default, Windows will automatically mount any external drives connected. However, these settings will prevent them from executing any content. AutoPlay typically loads media or external files automatically based on a user setting. Autoruns (since Vista) execute content from an `autorun.inf` file. These files should require user interaction.
 
@@ -3451,7 +3453,7 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 ```
 
 
-## Enable or Disable PnP Devices
+### Enable or Disable PnP Devices
 
 [stackoverflow: Enable / Disable Webcam with PowerShell](https://stackoverflow.com/questions/61057551/how-to-enable-disable-webcam-by-script-win-10)
 
@@ -3475,7 +3477,7 @@ Enable-PnpDevice -InstanceId "<instanceid>"
 ```
 
 
-## Blocking ISO Mounting
+### Blocking ISO Mounting
 
 Taken directly from [Mubix](https://twitter.com/mubix)'s blog post:
 
@@ -3534,7 +3536,7 @@ sudo rm -rf /mnt/my-iso
 
 Now move the `.iso` file over to your Windows machine (or if you did this in WSL it's already there) to confirm your policy configurations are working.
 
-### Additional Use Case Microsoft Documentation
+**Additional Use Case Microsoft Documentation**
 
 - [Allow only authorized USB device(s), block all other USB devices](https://learn.microsoft.com/en-us/windows/client-management/manage-device-installation-with-group-policy#scenario-steps--preventing-installation-of-all-usb-devices-while-allowing-only-an-authorized-usb-thumb-drive)
 

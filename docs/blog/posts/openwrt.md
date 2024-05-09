@@ -17,6 +17,8 @@ A quick reference for general setup and usage.
 
 <!-- more -->
 
+*This file is originally from [straysheep-dev/linux-configs](https://github.com/straysheep-dev/linux-configs/tree/main/openwrt).*
+
 ## References
 
 - Essentials
@@ -30,7 +32,7 @@ A quick reference for general setup and usage.
 - UCI CLI Interface
     * <https://openwrt.org/docs/guide-user/base-system/uci>
 
-- Wireless 
+- Wireless
     * <https://openwrt.org/docs/guide-user/network/wifi/basic>
     * <https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_command_line_interface>
     * <https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan>
@@ -270,7 +272,7 @@ sysupgrade -r /tmp/backup-*.tar.gz
 You can manually restore a configuration over the CLI with `vi` and `copy/paste`.
 
 In the future if either:
-1) A configuration file becomes corrupted and is causing issues with the system, or 
+1) A configuration file becomes corrupted and is causing issues with the system, or
 2) There's been a change in the way OpenWrt reads configuration files as part of a difference in upgrade to a newer verison
 
 **NOTE**: configuration files can be edited freely, until you run `/etc/init.d/<service> restart` your changes won't be loaded.
@@ -297,7 +299,7 @@ cat /etc/dropbear/authorized_keys
 ```
 ---
 
-# UCI
+## UCI
 
 ```ash
 uci [<options>] <command> [<args>]
@@ -375,7 +377,7 @@ EOI
 uci commit
 ```
 
-# Administration
+## Administration
 
 A factory install / reset of OpenWrt has open ssh / http access on the LAN, but wireless radios are disabled by default.
 
@@ -642,7 +644,7 @@ uci commit dhcp
 ```
 ---
 
-The `/etc/config/network` example at: 
+The `/etc/config/network` example at:
 
 <https://openwrt.org/docs/guide-user/network/dsa/dsa-mini-tutorial#multiple_bridged_networks>
 
@@ -718,13 +720,13 @@ config interface 'guest'
 - <https://en.wikipedia.org/wiki/List_of_WLAN_channels>
 - <https://www.ecfr.gov/current/title-47>
 
-#### Country Code and Regulatory Requirements
+### Country Code and Regulatory Requirements
 
 As mentioned above under [administration](#administration) for how to obtain your wireless card's [regulatory info](https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode#how_does_openwrt_known_what_wi-fi_channel_settings_are_ok_for_my_country), once the country code is set under `/etc/config/wireless` the device will only allow settings in compliance with that country's regulations.
 
 OpenWrt uses the CRDA database to do this which is part of the Linux kernel.
 
-- <https://wireless.wiki.kernel.org/en/developers/Regulatory#crda> 
+- <https://wireless.wiki.kernel.org/en/developers/Regulatory#crda>
 
 ```
 config wifi-device 'radio0'
@@ -734,7 +736,7 @@ config wifi-device 'radio0'
 
 Be aware you must still comply with the maximum transmission power (`txpower`) for your locale, taking into account [indoor and outdoor operation](https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode#wi-fi_outdoor_operation).
 
-#### Wireless Channels
+### Wireless Channels
 
 In many devices, setting the channel to `auto` will select the lowest available channel regardless of local signal density.
 
@@ -760,7 +762,7 @@ From here change your wireless radio('s) channel to the least populated.
 - <https://openwrt.org/docs/guide-user/virtualization/vmware>
 - <https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm>
 
-#### qemu-utils
+### qemu-utils
 
 Using qemu-utils is the quickest way to create an OpenWrt VM.
 
@@ -821,7 +823,7 @@ Convert the raw image to a vmdk file:
 qemu-img convert -f raw -O vmdk <input-file>.img <output-file>.vmdk
 ```
 
-### Starting the OpenWrt VM
+### VMware & VirtualBox
 
 **VirtualBox**
 - `Tools > Add` and browser to the .vmdk file
