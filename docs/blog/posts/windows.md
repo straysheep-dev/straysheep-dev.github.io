@@ -2831,7 +2831,7 @@ $StartDate = (Get-Date).AddDays(-2)
 ```
 
 
-#### Sysmon ID's
+#### Sysmon Event IDs
 
 These references can help you sort through event properties visually.
 
@@ -2840,7 +2840,7 @@ These references can help you sort through event properties visually.
 - [olafhartong/sysmon-cheatsheet (PDF)](https://github.com/olafhartong/sysmon-cheatsheet/blob/master/Sysmon-Cheatsheet-dark.pdf)
 
 
-#### Sysmon ID 22: DNS Queries
+#### ID 22: DNS Queries
 
 DNS query property values:
 
@@ -2869,7 +2869,7 @@ Show all DNS queries (ID 22) and when they were made:
 Get-WinEvent -FilterHashtable @{ Logname='Microsoft-Windows-Sysmon/Operational'; StartTime=$StartDate; Id='22' } | ForEach-Object { Out-String -InputObject $_.properties[1,4].value }
 ```
 
-#### Sysmon ID 3: Network Connection
+#### ID 3: Network Connection
 
 Network connection property values:
 
@@ -2911,7 +2911,7 @@ Show all network connections (ID 3), what executable made them, when, and destin
 Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational'; StartTime=$StartDate; Id='3' } | ForEach-Object { Out-String -InputObject $_.properties[1,4,14,15].value }
 ```
 
-#### Sysmon ID 1: Process Creation
+#### ID 1: Process Creation
 
 Process creation property values:
 - [0]RuleName
@@ -2959,7 +2959,7 @@ Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational';
 ```
 
 
-#### Sysmon ID 10: Process Accessed
+#### ID 10: Process Accessed
 
 Process accessed property values:
 - [0]RuleName
@@ -3093,7 +3093,7 @@ Autoruns will also quickly identify any scheduled tasks in the `Scheduled Tasks`
 
 <https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns>
 
-### Log & Audit Schtask Creation
+### Log & Audit Task Creation
 
 <https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698#security-monitoring-recommendations>
 
@@ -3132,7 +3132,7 @@ Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Audit\Obj
 
 ---
 
-## Windows CLI / WMI
+## WMI
 
 - [Intro to SOC: Windows CLI](https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/Tools/IntroClass/WindowsCLI/WindowsCLI.md)
 - [Hacktricks: CMD](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/basic-cmd-for-pentesters.md)
@@ -3536,7 +3536,7 @@ sudo rm -rf /mnt/my-iso
 
 Now move the `.iso` file over to your Windows machine (or if you did this in WSL it's already there) to confirm your policy configurations are working.
 
-**Additional Use Case Microsoft Documentation**
+**Additional Use Cases**
 
 - [Allow only authorized USB device(s), block all other USB devices](https://learn.microsoft.com/en-us/windows/client-management/manage-device-installation-with-group-policy#scenario-steps--preventing-installation-of-all-usb-devices-while-allowing-only-an-authorized-usb-thumb-drive)
 
