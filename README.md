@@ -4,7 +4,7 @@ A site to document, maintain, and share notes with demonstrations or visual comp
 
 ## Development
 
-These steps will clone the site's source, install mkdocs-material, and serve a working version locally for development.
+These steps will clone the site's source, install mkdocs-material, and serve a working version locally for development. The entire snippet can be copied and pasted into a terminal.
 
 ```bash
 mkdir ~/src
