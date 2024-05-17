@@ -31,7 +31,12 @@ It's important to note that in order for this tool to pull data from the system,
   <source src="/blog/media/check-auditd-demo/Check-Auditd-Demo.mp4" type="video/mp4">
 </video>
 
-## Manual
+<!-- How to embed video:
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+https://github.com/squidfunk/mkdocs-material/discussions/3984
+-->
+
+## Usage
 
 *This section contains the full `-h`, `--help` manual.*
 
