@@ -11,7 +11,7 @@ categories:
 
 # windows
 
-Various configuration settings and notes for Microsoft Windows operating systems.
+Various configuration settings and notes for Microsoft Windows operating systems. Updated on 2024/05/19.
 
 <!-- more -->
 
@@ -885,17 +885,46 @@ Hyper-V does not appear to have a cloning feature similar to VMware or VirtualBo
 - This export can serve as a backup of your template VM used for cloning
 
 
-### Create an Ubuntu Developer VM
+## Creating an Ubuntu VM
 
 The easiest way is to use Hyper-V's "Quick Create" feature, let it download and install, then do the setup. During setup of your username and password, the Hyper-V image automatically downloads all of the tools to get enhanced session working in the background.
 
 Microsoft previously maintained scripts mentioned here:
 
-- https://github.com/microsoft/linux-vm-tools
-- https://github.com/mimura1133/linux-vm-tools
-- https://www.kali.org/docs/virtualization/install-hyper-v-guest-enhanced-session-mode/
+- <https://github.com/microsoft/linux-vm-tools>
+- <https://github.com/mimura1133/linux-vm-tools>
+- <https://www.kali.org/docs/virtualization/install-hyper-v-guest-enhanced-session-mode/>
 
-But they are not longer maintained, assuming this functionality has been built into the Ubuntu quick-create image.
+But they are no longer actively maintained, with this functionality having been built into the Ubuntu Quick Create image.
+
+
+### Manual Installation
+
+If you prefer to install an Ubuntu VM manually (e.g. using the ISO, going with a minimal install, creating custom partitions, or provisioning SecureBoot) you can still do so with a slightly modified version of the linux-vm-tools script referenced above by using my fork [maintained here](https://github.com/straysheep-dev/linux-vm-tools/tree/master/ubuntu).
+
+There are two changes to the script that are in use with current Quick Create VMs under `/etc/xrdp/xrdp.ini`:
+
+- `port=vsock://-1:3389`
+- `use_vsock=false`
+
+Instead of `use_vsock=true`, set `port=` to specify vsock as the protocol and bind to localhost using `-1` (otherwise xrdp will try to bind to all interfaces on `0.0.0.0` or `::`).
+
+Follow the [original instructions](https://github.com/microsoft/linux-vm-tools/wiki/Onboarding:-Ubuntu#manual-config---ubuntu-1804), using `intall.sh` from my updated fork.
+
+```bash
+cd ~/Downloads
+wget https://raw.githubusercontent.com/straysheep-dev/linux-vm-tools/master/ubuntu/22.04/install.sh
+chmod +x ./install.sh
+bash ./install.sh
+```
+
+Finally enable enhanced session mode.
+
+```powershell
+Set-VM -VMName "<vm-name>" -EnhancedSessionTransportType HVSocket
+```
+
+Now you can connect via an Enhanced Session just like you can with a Quick Create VM.
 
 
 #### Expand the Disk Space
@@ -1306,7 +1335,7 @@ The Windows Package Manager
 ### Install
 
 Winget appears to be available by default on Windows 11 now. But it's not available by default in Windows Sandbox instances.
- 
+
 [Install the latest version of Winget in Windows Sandbox (or anywhere programmatically)](https://learn.microsoft.com/en-us/windows/package-manager/winget/#install-winget-on-windows-sandbox):
 
 ```powershell
