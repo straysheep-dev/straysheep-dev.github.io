@@ -372,7 +372,7 @@ Windows Sandbox is limited in networking options when compared to Hyper-V VMs. H
 
 Two interesting use cases as examples, the first is detailed in the link:
 
-- [Connect Windows Sandbox to Cloud Infrastucture with Terraform, Anisble, and Wireguard](https://github.com/straysheep-dev/ansible-configs/tree/main/build-wireguard-server#use-case-windows-sandbox--wireguard)
+- [Connect Windows Sandbox to Cloud Infrastucture with Terraform, Anisble, and Wireguard](https://github.com/straysheep-dev/ansible-configs/tree/main/build_wireguard_server#use-case-windows-sandbox--wireguard)
 - Windows Sandbox as a disposable OSINT container with Wireguard
 
 The second uses the same idea, but with a public VPN provider that can generate *disposable* Wireguard configurations. The keyword being **disposable** in that the configuration does not reveal your username, password, or account data tied to the VPN provider, and the configuration can be revoked manually at any time by you. Assuming during an OSINT investigation Windows Sandbox could be compomised, you would not want those details stolen.

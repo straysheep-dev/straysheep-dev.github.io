@@ -193,7 +193,7 @@ hide:
         - Choose log size, number, and type
         - Locks rules to prevent live modification
 
-        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/install-auditd)
+        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd)
 
         [:octicons-arrow-right-24: Go to shell script :material-github:](https://github.com/straysheep-dev/setup-auditd)
 
@@ -224,7 +224,7 @@ hide:
         - [Logs minimum pcap data for Zeek](https://www.activecountermeasures.com/filtering-out-high-volume-traffic/)
         - Set retention period for pcaps
 
-        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/build-wireguard-server)
+        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/build_wireguard_server)
 
     - :material-tools:{ .lg .middle } __Manage OpenSSH Server on Windows__
 
