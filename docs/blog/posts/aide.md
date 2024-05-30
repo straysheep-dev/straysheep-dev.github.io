@@ -43,7 +43,7 @@ How to set up `aide` for filesystem integrity monitoring and do basic tuning of 
 
 ## Quick Start
 
-If you'd like to either follow along, or deploy and manage `aide` after reading, you could use one of the following.
+If you'd like to either follow along, or deploy and manage `aide` after reading, you could use one of the following:
 
 - [aide Ansible Role](https://github.com/straysheep-dev/ansible-configs/tree/main/aide) - Deploy, check, and manage `aide` across an inventory
 - [initialize-baseline.sh](https://github.com/straysheep-dev/linux-configs/blob/main/initialize-baseline.sh) - Installs `aide`, `rkhunter`, `chkrootkit` using the conf files in the same repo.
