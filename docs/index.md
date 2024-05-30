@@ -139,9 +139,23 @@ hide:
 
     <div class="grid cards" markdown>
 
+    - :material-file-document-check-outline:{ .lg .middle } __OpenSCAP Practical Usage__
+
+        ---
+
+        A complete guide to starting with OpenSCAP content focusing on Ansible.
+
+        - Install OpenSCAP
+        - Pull compliance profiles from GitHub/ComplianceAsCode
+        - Debug policies with Ansible's `-C` and `-D` options
+        - Apply, test, and maintain policies with Ansible tags.
+
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](/blog/2024/05/29/openscap-practical-usage/)
+
     - :simple-linux:{ .lg .middle } __Linux Utils__
 
         ---
+
         Visualization tools with built in parsing options **in color**. These tools are in the base of the linux-configs repo.
 
         `check-auditd.sh` Parse + search auditd
@@ -212,6 +226,19 @@ hide:
 
         [:octicons-arrow-right-24: Go to ps1 script :material-github:](https://github.com/straysheep-dev/windows-configs/blob/main/Manage-Sysinternals.ps1)
 
+    - :material-database-alert-outline:{ .lg .middle } __Deploy & Manage AIDE__
+
+        ---
+
+        Ansible role to deploy, run, and manage AIDE at scale
+
+        - Install AIDE (advanced intrusion detection environment)
+        - Initialize a database if one does not exist
+        - Check existing systems for integrity
+        - Update a database if one exists (optional)
+
+        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/aide)
+
     - :simple-wireguard:{ .lg .middle } __Wireguard VPN / IDS Server__
 
         ---
@@ -225,6 +252,19 @@ hide:
         - Set retention period for pcaps
 
         [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/build_wireguard_server)
+
+    - :simple-tailscale:{ .lg .middle } __Build Tailscale Node__
+
+        ---
+
+        Automates deployment of a Tailscale node.
+
+        - Provision with terraform
+        - Build with ansible
+        - Automatically enroll the node into your Tailnet with an Ansible vault
+        - [Logs minimum pcap data for Zeek on the tailscale0 interface](https://www.activecountermeasures.com/filtering-out-high-volume-traffic/)
+
+        [:octicons-arrow-right-24: Go to ansible role :material-github:](https://github.com/straysheep-dev/ansible-configs/tree/main/build_tailscale_node)
 
     - :material-tools:{ .lg .middle } __Manage OpenSSH Server on Windows__
 
@@ -283,6 +323,21 @@ hide:
         - You have sudo privileges within WSL
 
         [:octicons-arrow-right-24: Go to ps1 module :material-github:](https://github.com/straysheep-dev/windows-configs/blob/main/Connect-UsbipSSHTunnel.ps1)
+
+    - :simple-gnubash:{ .lg .middle } __Customizing Shell Profiles__
+
+        ---
+
+        Use your shell prompt to track the following (and more) in real time:
+
+        - Username
+        - Hostname
+        - TTY
+        - Date & time
+        - Network interface information
+        - Working directory
+
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](/blog/2024/05/29/custom-shell-profiles/)
 
     </div>
 

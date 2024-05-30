@@ -192,7 +192,7 @@ In this example the date string, and time string, will be green, but the dot `â€
 ```
 
 - `\D{%Y-%m-%d}`: Displays the date based on the format within curly brackets
-- `\t`: Displays the time as hh:mm:ss
+- `\t`: Displays the time as `hh:mm:ss`
 - `\l`: Shows your current TTY
 
 Matching `.bashrc` prompt string code, if you'd like to try to insert this into your `PS1` variable:
