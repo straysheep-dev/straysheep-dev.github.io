@@ -316,7 +316,7 @@ Generate remediation files from that scan's results. There are multiple options 
 - `--fix-type bash`
 - `--fix-type ansible`
 
-You could even write this as `gen-remediation.sh`. To create an Ansible remediation playbook:
+You could even write this as `make-remediation.sh`. To create an Ansible remediation playbook:
 
 ```bash
 #!/bin/bash
