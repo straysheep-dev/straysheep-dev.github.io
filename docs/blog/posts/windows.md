@@ -11,7 +11,9 @@ categories:
 
 # windows
 
-Various configuration settings and notes for Microsoft Windows operating systems. Updated on 2024/05/19.
+Various configuration settings and notes for Microsoft Windows operating systems.
+
+*Updated on 2024/05/19.*
 
 <!-- more -->
 

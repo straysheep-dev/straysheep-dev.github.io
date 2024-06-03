@@ -17,6 +17,8 @@ categories:
 
 Install OpenSCAP, pull compliance profiles from GitHub/ComplianceAsCode, debug policies with Ansible's `-C` and `-D` options, apply, test, and maintain policies with Ansible tags.
 
+*Updated on 2024/06/02.*
+
 <!-- more -->
 
 ## Intro
@@ -593,6 +595,65 @@ Now you can scan the system again, saving separate results files for comparison 
 Generally, anything needing a site specific configuration like `aide` or `auditd` may benefit from be configured separately from these policies. The same goes for repartitioning drives, these policies will not attempt to do this for you. Whether this means writing your own anisble roles for these items or similar, is up to you.
 
 The following section walks through applying a standard profile to Ubuntu 22.04. This may be helpful as practice if you were lost in the last example.
+
+
+### Rules Without Ansible Tasks
+
+*Some rules simply have no Ansible tasks to apply them. It's also possible a task continues to fail during a play. In both cases you will have to use a bash remediation script.*
+
+Take the [auditd rules for the CIS L2 workstation benchmark on Ubuntu 22.04](https://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-cis_level2_workstation.html#xccdf_org.ssgproject.content_group_auditing) as an example. These Ansible tasks may fail, resulting in an endless loop when running the playbook. You will need to resolve this manually, either on the command line, or with the SCAP Workbench GUI tool (install via `dnf` on Fedora, or compile from source on Ubuntu).
+
+Related rules are often grouped together in policy files, *but not always*. Whether you're using the prebuilt bash scripts that ship with ComplianceAsCode/content, a remediation script you created using `oscap`, or building a custom profile in SCAP Workbench, the same technique applies.
+
+The following approach tries to mimic what we've been doing using Ansible tags.
+
+***NOTE**: Rules in bash remediation scripts can't be easily referenced in groups by name, type, or policy, in the way that they can be by tags in Ansible playbooks.*
+
+---
+
+#### Customize with SCAP Workbench
+
+*You can customize profiles for **any** policy from the Workbench GUI.*
+
+- `sudo dnf install -y scap-workbench` on Fedora or [compile from source](https://github.com/OpenSCAP/scap-workbench)
+- Run SCAP Workbench, select the main `Profile` you're targeting from the Profile drop down menu
+- To the right of the `Profile` drop down menu, click the `Customize` button
+- You'll be prompted to name the profile, Click OK or change the custom profile name
+- Click `Deselect all` at the top
+- Use the search box to find all the rules you need and enable them by checking their boxes
+- Click OK when you're done
+- Now back on the main window, select the `Generate remediation role` drop down on the bottom left, choose `bash`, save it
+- To save the customization profile, go to File > Save Customization Only
+
+Run the remediation script with `sudo bash ./remediation.sh`.
+
+
+#### Customize with `bash`
+
+List every rule matching `*rule_audit*`, which will also display the rule number as `(<some-number> / <some-number>)`:
+
+```bash
+grep -P "BEGIN fix.+rule_audit.*$" ./ubuntu2204-script-cis_level2_workstation.sh
+```
+
+- Create a copy of the remediation script to edit
+- Note the number of the first rule returned by `grep`, use that to find that line
+- Delete everything before that line
+- Do the same for the last rule's number, and everything *after* that line
+- Check for any extra rules in between, remove them
+
+Run the remediation script with `sudo bash ./remediation.sh`.
+
+---
+
+Using these methods in additon to tags to fill any gaps in policy coverage is a more manageable approach.
+
+Include the script in an Ansible role under `files/remediation-auditd.sh` or reference it in a playbook. It will be copied to each node and executed.
+
+In some cases it may make more sense to write your own reusable Ansible role or shell script you can use accross multiple machines to remedy the items that are missing. This is something I've found particularly useful with `aide` and `auditd`, as a better way to customize and manage them:
+
+- [Auditd Ansible role](https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd)
+- [AIDE Ansible role](https://github.com/straysheep-dev/ansible-configs/tree/main/aide)
 
 
 ### Complete Walkthrough of a Policy
