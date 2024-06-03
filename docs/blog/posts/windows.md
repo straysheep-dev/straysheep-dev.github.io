@@ -13,7 +13,7 @@ categories:
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
-*Updated on 2024/05/19.*
+*Updated on 2024/06/03.*
 
 <!-- more -->
 
@@ -421,7 +421,18 @@ tailscale.exe up --authkey tskey-<your-key-here>
 ```
 
 
+### Windows Sandbox Limitations
+
+- Docker on Windows requires Hyper-V containerization or WSL
+- Python libraries may fail to load missing DLLs
+	- This is true if installing Google's [`magika`](https://github.com/google/magika) even via pip or `pipx`, [`onnxruntime`](https://github.com/microsoft/onnxruntime) may fail to find a missing DLL
+
 ## WSL
+
+*Windows Subsystems for Linux.*
+
+
+### Install
 
 - [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 - [Comparison of WSL1 and WSL2](https://learn.microsoft.com/en-us/windows/wsl/compare-versions#exceptions-for-using-wsl-1-rather-than-wsl-2)
@@ -453,6 +464,32 @@ systemd=true
 ```
 
 Once it does, exit wsl and run `wsl --shutdown; wsl` to restart wsl with systemd.
+
+
+### Configure
+
+Adjust WSL settings, using `wsl.conf` to set a hostname, the default user, or with `.wslconfig` to change automount policies, whether to use Windows Firewall for WSL, or limit host RAM usage.
+
+- [`wsl.conf`: Per-Distribution Local Settings](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconf)
+	- [`wsl.conf` Example File](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#example-wslconf-file)
+- [`.wslconfig`: Global Settings for all WSL Instances](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig)
+	- [`.wslconfig` Example File](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#example-wslconfig-file)
+
+Below are some settings that are often used, when you need a unique hostname, systemd enabled, and you're using your own DNS daemon such as `unbound` or `stubby` instead of `systemd-resolved`:
+
+```conf
+# wsl.conf
+
+[boot]
+systemd=true
+
+[network]
+hostname = WSL-USER
+generateResolvConf = false
+
+[user]
+default=myuser
+```
 
 
 ### Communicating with Hyper-V
@@ -3181,6 +3218,12 @@ This SuperUser answer by user VainMan is an excellent walkthrough of managing di
 	* <https://stackoverflow.com/legal/terms-of-service#licensing>
 	* This section is released under the same [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/) license as the original post.
 
+PowerShell Cmdlets:
+
+- [Get-Disk](https://learn.microsoft.com/en-us/powershell/module/storage/get-disk?view=windowsserver2022-ps#description)
+- [Set-Disk](https://learn.microsoft.com/en-us/powershell/module/storage/set-disk?view=windowsserver2022-ps#description)
+- [List of All Storage Cmdlets](https://learn.microsoft.com/en-us/powershell/module/storage/?view=windowsserver2022-ps)
+
 Additional documentation for this section:
 
 - [Microsoft Docs: Capture and Apply the System and Recovery Partitions](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/capture-and-apply-windows-system-and-recovery-partitions?view=windows-11)
@@ -3191,7 +3234,25 @@ Additional documentation for this section:
 - `diskmgmt.mmc`
 
 
-### Mount and Unmount Volumes and Drives
+### Mount and Unmount Volumes and Drives (GUI)
+
+The [default external storage removal policy](https://learn.microsoft.com/en-us/windows/client-management/client-tools/change-default-removal-policy-external-storage-media) in recent versions of Windows (since Windows 10 1809) is **Quick removal**.
+
+
+See: `diskmgmt.msc` > Right-Click the Disk number, select `Properties` > Policies Tab
+
+- **Quick removal**: You can remove the device without using the "Safely Remove Hardware" process
+- **Better performance**: Improved system resource usage, data is cached but you will need to use "Safely Remove Hardware" to avoid data loss
+
+Set a Drive to Offline:
+
+- Also in the `diskmgmt.msc` window, Right-Click the Disk number
+- Select `Offline` to take the drive offline
+- This unmounts the drive, and prevents accidental writes or access
+- You can also use [`Set-Drive`](https://learn.microsoft.com/en-us/powershell/module/storage/set-disk?view=windowsserver2022-ps#example-2) to take a disk offline or make it read-only
+
+
+### Mount and Unmount Volumes and Drives (CLI)
 
 This is functionally the equivalent of using `diskmgmt.mmc` in any of the following ways:
 
