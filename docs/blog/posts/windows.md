@@ -13,7 +13,7 @@ categories:
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
-*Updated on 2024/06/03.*
+*Updated on 2024/06/16.*
 
 <!-- more -->
 
@@ -1183,14 +1183,16 @@ Get-NetNat | where { $_.Name -eq "CustomNATNetwork" } | Remove-NetNat
 Get-VMSwitch | where { $_.SwitchName -eq "CustomNATSwitch" | Remove-VMSwitch
 ```
 
-If you want to be able to reach VM's on this switch from the host, you'll need to enable forwarding, as mentioned above in the section titled [WSL: Communicating with Hyper-V](#wsl-communicating-with-hyper-v). Just remember, the Windows host is likely filtering `ping` packets. Try `ssh`, [`Test-NetConnection`](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2022-ps), [`nmap`](https://nmap.org/), or [`naabu`](https://github.com/projectdiscovery/naabu) to verify connectivity.
+If you want to be able to reach VM's on this switch from the host or WSL, you'll need to enable forwarding, as mentioned above in the section titled [WSL: Communicating with Hyper-V](#wsl-communicating-with-hyper-v). Just remember, the Windows host is likely filtering `ping` packets. Try `ssh`, [`Test-NetConnection`](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2022-ps), [`nmap`](https://nmap.org/), or [`naabu`](https://github.com/projectdiscovery/naabu) to verify connectivity.
 
 ```powershell
 # Apply
 Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (CustomNATSwitch)'} | Set-NetIPInterface -Forwarding Enabled
+Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (WSL (Hyper-V firewall))'} | Set-NetIPInterface -Forwarding Enabled
 
 # Remove
 Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (CustomNATSwitch)'} | Set-NetIPInterface -Forwarding Disabled
+Get-NetIPInterface | where {$_.InterfaceAlias -eq 'vEthernet (WSL (Hyper-V firewall))'} | Set-NetIPInterface -Forwarding Disabled
 ```
 
 **Use case**: a router VM like pfSense or Ubuntu Server with static "WAN" IP can be assigned and use this custom NAT switch.
