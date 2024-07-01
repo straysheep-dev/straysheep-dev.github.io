@@ -7,8 +7,14 @@ repo_name: straysheep-dev.github.io
 theme:
   name: material
 
-  icon:
-    logo: material/sheep
+#  icon:
+#    logo: material/sheep
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+
+  font:
+    text: Roboto
+    code: Roboto Mono
 
   palette:
     # Palette toggle for light mode
@@ -56,6 +62,9 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 extra:
   social:

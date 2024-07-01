@@ -23,3 +23,7 @@ Copyright (c) 2023-2024 straysheep-dev
 
 - [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
 - [MIT License](https://github.com/squidfunk/mkdocs-material?tab=MIT-1-ov-file)
+
+[The straysheep-dev icon was built from the Material Design Icons](https://github.com/Templarian/MaterialDesign/blob/master/svg/sheep.svg).
+
+- [Pictogrammers Free License](https://github.com/Templarian/MaterialDesign/tree/master?tab=License-1-ov-file)
