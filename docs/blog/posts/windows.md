@@ -7,13 +7,15 @@ categories:
   - administration
   - guide
   - home-lab
+  - powershell
+  - active-directory
 ---
 
-# windows
+# Windows
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
-*Updated on 2024/06/16.*
+*Updated on 2024/07/01.*
 
 <!-- more -->
 
@@ -407,11 +409,20 @@ Some things to keep in mind:
 - Windows Sandbox has no firewall rules, any listening services on all interfaces will be reachable by other VPN clients if the VPN is untrusted
 - DNS should be forwarded over Wireguard unless you're configuring an alternative way to do DNS in the `.wsb` file / sandbox
 
-Tailscale works similarly, and also has a "latest" executable installer for convenience:
+Tailscale works similarly, and also has a "latest" msi installer for convenience, just specify amd64 or arm64:
 
 ```powershell
+# Packages: https://pkgs.tailscale.com/stable/#windows
+# Install options: https://tailscale.com/kb/1189/install-windows-msi?q=windows
 $progressPreference = 'silentlyContinue'
-cd $env:TEMP; iwr https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe -OutFile tailscale-setup-latest.exe; .\tailscale-setup-latest.exe
+$arch = 'amd64'
+cd $env:TEMP; iwr https://pkgs.tailscale.com/stable/tailscale-setup-latest-$arch.msi -OutFile tailscale-setup-latest-$arch.msi;
+
+# Install
+Start-Process -FilePath msiexec -ArgumentList "/quiet /i tailscale-setup-latest-$arch.msi"
+
+# Uninstall
+Start-Process -FilePath msiexec -ArgumentList "/quiet /x tailscale-setup-latest-$arch.msi"
 ```
 
 Walk through the installer, when finished authenticate to a tailnet using PowerShell with:
@@ -2176,7 +2187,7 @@ Update Group Policy via cmd.exe:
 gpupdate
 ```
 
-## Filesystem Permissions
+## Filesystem
 
 How to do the equivalent of `chmod` operations in Windows.
 
@@ -2214,7 +2225,8 @@ Reset to default permissions:
 icacls.exe .\ExampleDir\ /reset
 ```
 
-### Folder Permissions
+
+**Folder Permissions**
 
 Grant read-only access to a **folder** for user alice:
 
@@ -2261,7 +2273,7 @@ C:\Tools Everyone:(OI)(CI)(RX)
 ```
 
 
-### File Permissions
+**File Permissions**
 
 Grant read-only access to a **file** for user alice. This does not require `(CI)(OI)`:
 
@@ -2297,26 +2309,352 @@ administrators_authorized_keys NT AUTHORITY\SYSTEM:(F)
                                BUILTIN\Administrators:(F)
 ```
 
-### Set-Acl
 
-Take the ACL data of one filesystem object and apply it to another
+### .NET Access Control Methods
+
+This section breaks down using the PowerShell `Set/Get-Acl` cmdlets and the .NET methods underpinning them. The idea is to mirror what `takeown.exe` and `icacls.exe` or `chmod` plus `chown` can do, in an easy to understand way.
+
+Take the ACL data of one filesystem object and apply it to another with the following:
 
 ```powershell
-$NewAcl = Get-Acl -Path C:\Users\Administrator\Documents
-Set-Acl -Path C:\Tools -AclObject $NewAcl
+$SourceObject = "C:\Users\Administrator\Documents"
+$NewAcl = Get-Acl -Path $SourceObject
+$DestObject = "C:\Tools"
+Set-Acl -Path $DestObject -AclObject $NewAcl
 ```
 
-To use this like `icacls.exe` we'll need to reference these examples:
+To use this like `icacls.exe` or `chmod` we'll need to reference some examples:
 
 - [`Set-Acl`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-acl?view=powershell-7.3)
-- [`SetAccessRuleProtection` Parameters](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setaccessruleprotection?view=net-7.0)
-- [`AddAccessRule`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.addaccessrule?view=net-7.0)
 - [`FileSystemAccessRule($identity, $fileSystemRights, $type)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemaccessrule.-ctor?view=net-7.0#system-security-accesscontrol-filesystemaccessrule-ctor(system-security-principal-identityreference-system-security-accesscontrol-filesystemrights-system-security-accesscontrol-accesscontroltype))
-- [`FileSystemRights` Fields](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemrights?view=net-7.0#fields)
 
-Looking at the three arguments to `FileSystemAccessRule($identity, $fileSystemRights, $type)`, shows how we can start to write the code block.
+First, to learn the namespace / class path to access .NET classes, see the top **Definition** section of each class in the documentation:
 
-Aside from the list of fields for `$fileSystemRights`, [`$identity`](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.identityreference?view=net-7.0) is a reference to a user account and [`$type`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.accesscontroltype?view=net-7.0) is either `Allow` (0) or `Deny` (1).
+> FileSecurity Class
+>
+> Namespace: System.Security.AccessControl
+
+Access it with: `New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList ...<SNIP>`
+
+*Remember: Methods apply actions, where classes define the objects or "things" to work with through actions, roughly speaking.*
+
+Looking at the [five parameters](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemaccessrule.-ctor?view=net-8.0#system-security-accesscontrol-filesystemaccessrule-ctor(system-security-principal-identityreference-system-security-accesscontrol-filesystemrights-system-security-accesscontrol-inheritanceflags-system-security-accesscontrol-propagationflags-system-security-accesscontrol-accesscontroltype)) to `FileSystemAccessRule($identity, $fileSystemRights, $inheritanceFlags, $propagationFlags, $type)`, shows how we can start to write the code block.
+
+
+**$identity**
+
+[`$identity`](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.identityreference?view=net-7.0) is a reference to a user account through the [NTAccount class](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.ntaccount?view=net-7.0), built with either a `$userAccount` string, or both a `$domainName` and `$userAccount` string.
+
+
+**$fileSystemRights**
+
+For the [fields available to `$fileSystemRights`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemrights?view=net-8.0#definition), these include but aren't limited to:
+
+- FullControl
+- Read
+- Write
+- Modify
+- Synchronize
+- Traverse
+
+You can specify more than one `$fileSystemRights` with a comma separated list. So we can create a FileSystemAccessRule construct like this:
+
+```powershell
+$AccessRule = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"ReadAndExecute,Modify","Allow"
+```
+
+*For the sake of readability, many examples below use one per line.*
+
+
+**$inheritanceFlags, $propagationFlags**
+
+[`$inheritanceFlags`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.inheritanceflags?view=net-8.0) and [`$propagationFlags`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.propagationflags?view=net-8.0) define how existing child objects are modified based on the parent ACL.
+
+- `$inheritanceFlags` of `"ContainerInherit,ObjectInherit"` is the same as `"(CI)(OI)"` from icacls.exe, meaning the changes are recursive and persistent
+- `$propagationFlags` should be set to `"None"` if the "root" object removed existing inheritance from its parent object and has its own ACL's protected
+
+
+**$type**
+
+[`$type`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.accesscontroltype?view=net-7.0) is either `Allow` (0) or `Deny` (1).
+
+
+**Inheritance**
+
+Of all the [methods under the object security class](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity?view=net-8.0#methods), [`SetAccessRuleProtection`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setaccessruleprotection?view=net-8.0#system-security-accesscontrol-objectsecurity-setaccessruleprotection(system-boolean-system-boolean)) appears to deal directly with inheritance. Inheritance complicates locking down ACL's in some cases. This is a way to work with that.
+
+
+**Essential Methods**
+
+Now for reference, lets list all the relevant methods under the `FileSystemSecurity` and `ObjectSecurity` class in a way that's more readable and understandable.
+
+- [`SetAccessRule($rule)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.setaccessrule?view=net-7.0) Where `$rule` is an ACL object built from `FileSystemAccessRule()` to apply
+- [`RemoveAccessRule($rule)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.removeaccessrule?view=net-7.0) Where `$rule` is an ACL object built from `FileSystemAccessRule()` to remove
+- [`PurgeAccessRules($identity)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.purgeaccessrules?view=net-7.0) Which purges all of `$identity`'s access to an object
+- [`SetOwner($identity)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setowner?view=net-7.0) Sets the owner to `$identity`
+- [`SetGroup($identity)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setgroup?view=net-7.0) Sets the group to `$identity`
+- [`SetAccessRuleProtection($true, $false)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setaccessruleprotection?view=net-8.0) Protects our defined rules from inheritance, and removes existing inheritance
+- [`NTAccount($domainName, $accountName)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.ntaccount.-ctor?view=net-8.0) Is how you construct an `$identity` object, `$domainName` is optional
+
+Finally, when do you use Set/Add/Remove/Purge?
+
+- Use `SetAccessRule()` to overwrite, and replace a specifc `$identity`'s ACL for an object
+- Use `AddAccessRule()` to build on an `$identity`'s existing ACL for an object, like "set" the first rule, then "add" additional rules
+- Use `RemoveAccessRule()` to remove a `$rule` from an `$identity`'s ACL, like take away FullControl, but leave all other existing rules
+- Use `PurgeAccessRules()` to completely remove any **defined** `$rule`s for an `$identity`, **this does not prevent access via inheritance**
+
+Next, some practical examples of how to use these. Each of them is copy / paste ready to use, just change the top variables.
+
+
+**Reset ACL to Default Inheritance**
+
+- This effectively wipes any modifications
+- Meaning the filesystem object will default to the ACL's it's going to inherit based on where it exists in the filesystem
+- This uses the [first constructor example](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesecurity.-ctor?view=net-8.0#system-security-accesscontrol-filesecurity-ctor) in the [FileSecurity class](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesecurity?view=net-8.0#constructors) to create an empty FileSecurity object, and apply it to the `$FilePath`
+
+```powershell
+$FilePath = "test.txt"
+$EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Change Ownership**
+
+- Gives "User2" ownership of `$FilePath`
+- Just change the value of `$UserAccount` to any user to change ownership
+- Builds a `System.Security.Principal.NTAccount` object for `$identity`
+- Uses [`SetOwner($identity)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setowner?view=net-7.0)
+
+```powershell
+$FilePath = "test.txt"
+$UserAccount = "User2"
+$NewAcl = Get-Acl -Path $FilePath
+$NewOwner = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList $UserAccount
+$NewAcl.SetOwner($NewOwner)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Set Access**
+
+- This *adds* User2 to the ACL, with the FullControl right over `$FilePath`
+- In this case User2 had no *previous* ACL rules defined or access to `$FilePath`
+- Uses [`SetAccessRule($rule)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.setaccessrule?view=net-7.0)
+
+```powershell
+$FilePath = "test.txt"
+$UserName = "User2"
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"FullControl","Allow"
+$NewAcl.SetAccessRule($AccessRule)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Add Access**
+
+- If an `$identity` alread has a defined ACL for the object, add another `$fileSystemRights` rule definition to it
+- Similar to `SetAccessRule()`, but appends the rule to existing access
+- Uses [`AddAccessRule($rule)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.addaccessrule?view=net-8.0)
+
+You could also use this in addition to `SetAccessRule()` when building specific rules for an `$identity` even when creating new rules. Otherwise each invocation of `SetAccessRule()` overwrites the previous list for the same `$identity`. The example below demonstrates this.
+
+```powershell
+$FilePath = "C:\Tools"
+$UserName = "User2"
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"ReadAndExecute","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"CreateFiles","Allow"
+$AccessRule3 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"CreateDirectories","Allow"
+$AccessRule4 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"Synchronize","Allow"
+$NewAcl.SetAccessRule($AccessRule1)
+$NewAcl.AddAccessRule($AccessRule2)
+$NewAcl.AddAccessRule($AccessRule3)
+$NewAcl.AddAccessRule($AccessRule4)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Remove Access**
+
+- Same as `AddAccessRule($rule)`, only it removes an existing `$fileSystemRights` rule definition
+- This can be one rule, or any number of rules defined for any `$identity`
+
+```powershell
+$FilePath = "C:\Tools"
+$UserName = "User2"
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"AppendData","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"CreateFiles","Allow"
+$NewAcl.RemoveAccessRule($AccessRule1)
+$NewAcl.RemoveAccessRule($AccessRule2)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Purge Access / Remove All**
+
+- This revokes User2's defined ACL's to the file. **User2 may still access the file through inheritance, however**.
+- Uses [`PurgeAccessRules($identity)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.purgeaccessrules?view=net-7.0)
+- [`RemoveAccessRuleAll($rule)`](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemsecurity.removeaccessruleall?view=net-8.0) appears to do the same thing, just specify one existing rule and all will be wiped for that `$identity`
+
+```powershell
+$FilePath = "test.txt"
+$UserAccount = "User2"
+$NewAcl = Get-Acl -Path $FilePath
+$RemoveAccount = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList $UserAccount
+$NewAcl.PurgeAccessRules($RemoveAccount)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Admin RWX, Users RX**
+
+This is effectively the `/usr/bin` permissions of 755 where only elevated accounts can modify content, but everyone can read and execute it.
+
+- Resets the ACL for the path **recursively**, and applies the 0755 style permissions to it
+- The new ACL must be applied to all existing files recursively
+- Just because an Administrator makes a directory does NOT mean standard users cannot modify it
+- You must disable inheritance, and set explicit permissions for such folders
+- Owner  : BUILTIN\Administrators
+- Access : BUILTIN\Administrators Allow  FullControl
+- Access : NT AUTHORITY\SYSTEM Allow  FullControl
+- Access : Everyone Allow  ReadAndExecute, Synchronize
+
+```powershell
+$FilePath = "C:\Tools"
+$UserName = "BUILTIN\Administrators"
+# Reset the ACL
+$EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
+foreach ($item in (gci -Recurse -Force $FilePath)) {
+	Set-Acl -Path $FilePath -AclObject $EmptyAcl
+}
+# Construct the new ACL
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"FullControl","ContainerInherit,ObjectInherit","None","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "NT AUTHORITY\SYSTEM","FullControl","ContainerInherit,ObjectInherit","None","Allow"
+$AccessRule3 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "Everyone","ReadAndExecute,Synchronize","ContainerInherit,ObjectInherit","None","Allow"
+$NewOwner = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList "$UserName"
+$NewAcl.SetAccessRule($AccessRule1)
+$NewAcl.SetAccessRule($AccessRule2)
+$NewAcl.SetAccessRule($AccessRule3)
+$NewAcl.SetAccessRuleProtection($true, $false)
+$NewAcl.SetOwner($NewOwner)
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
+foreach ($item in (gci -Recurse -Force $FilePath)) {
+	Set-Acl -Path $FilePath -AclObject $NewAcl
+}
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Admin Only**
+
+Creates a file / folder permission structure where only Admins can traverse and modify the content.
+
+- Like before, you must apply the constructed ACL object to all existing files recursively
+
+```powershell
+$FilePath = "C:\Tools"
+$UserName = "BUILTIN\Administrators"
+# Reset the ACL recursively
+$EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
+Set-Acl -Path $FilePath -AclObject $NewAcl
+foreach ($item in (gci -Recurse -Force $FilePath)) {
+	Set-Acl -Path $FilePath -AclObject $EmptyAcl
+}
+# Construct the new ACL, apply it recursively
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"FullControl","ContainerInherit,ObjectInherit","None","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "NT AUTHORITY\SYSTEM","FullControl","ContainerInherit,ObjectInherit","None","Allow"
+$NewOwner = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList "$UserName"
+$NewAcl.SetAccessRule($AccessRule1)
+$NewAcl.SetAccessRule($AccessRule2)
+$NewAcl.SetAccessRuleProtection($true, $false)
+$NewAcl.SetOwner($NewOwner)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+foreach ($item in (gci -Recurse -Force $FilePath)) {
+	Set-Acl -Path $FilePath -AclObject $NewAcl
+}
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Set User's authorized_keys Permissions**
+
+Three PowerShell utilities exist in the PowerShell/openssh-portable repo addressing this issue:
+
+- [OpenSSHUtils.psm1](https://github.com/PowerShell/openssh-portable/blob/latestw_all/contrib/win32/openssh/OpenSSHUtils.psm1)
+- [FixHostFilePermissions.ps1](https://github.com/PowerShell/openssh-portable/blob/latestw_all/contrib/win32/openssh/FixHostFilePermissions.ps1)
+- [FixUserFilePermissions.ps1](https://github.com/PowerShell/openssh-portable/blob/latestw_all/contrib/win32/openssh/FixUserFilePermissions.ps1)
+
+This is a simplified version of what those achieve, to help you understand how to do this yourself.
+
+- Wipes out all existing ACLs and removes inheritance
+- Allows `$env:USERNAME` (and NT AUTHORITY\SYSTEM + BUILTIN\Administrators) FullControl over `authorized_keys`
+
+```powershell
+$UserName = $env:USERNAME # Replace this with a defined user
+$FilePath = "C:\Users\$UserName\.ssh\authorized_keys"
+# Reset the ACL
+$EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
+# Construct the new ACL
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList $UserName,"FullControl","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "NT AUTHORITY\SYSTEM","FullControl","Allow"
+$AccessRule3 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "BUILTIN\Administrators","FullControl","Allow"
+$NewOwner = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList "$UserName"
+$NewAcl.SetAccessRule($AccessRule1)
+$NewAcl.SetAccessRule($AccessRule2)
+$NewAcl.SetAccessRule($AccessRule3)
+$NewAcl.SetAccessRuleProtection($true, $false)
+$NewAcl.SetOwner($NewOwner)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+**Set administrators_authorized_keys Permissions**
+
+Same as the authorized_keys file permissions for a standard user, except NT AUTHORITY\SYSTEM and BUILTIN\Administrators are the only `$identity`s that can access the file.
+
+```powershell
+$FilePath = "C:\ProgramData\ssh\administrators_authorized_keys"
+# Reset the ACL
+$EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
+# Construct the new ACL
+$NewAcl = Get-Acl -Path $FilePath
+$AccessRule1 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "NT AUTHORITY\SYSTEM","FullControl","Allow"
+$AccessRule2 = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule -ArgumentList "BUILTIN\Administrators","FullControl","Allow"
+$NewOwner = New-Object -TypeName System.Security.Principal.NTAccount -ArgumentList "BUILTIN\Administrators"
+$NewAcl.SetAccessRule($AccessRule1)
+$NewAcl.SetAccessRule($AccessRule2)
+$NewAcl.SetAccessRuleProtection($true, $false)
+$NewAcl.SetOwner($NewOwner)
+Set-Acl -Path $FilePath -AclObject $NewAcl
+Get-Acl -Path $FilePath | fl
+```
+
+
+### .NET Access Audit Methods
+
+Much like ACL's, we can build and apply audit rules via PowerShell in a similar way.
+
+See the `SetAuditRule($rule)` method.
+
+```powershell
+# TO DO
+```
 
 
 ### SMB
