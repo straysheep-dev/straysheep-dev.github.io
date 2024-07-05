@@ -15,7 +15,7 @@ categories:
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
-*Updated on 2024/07/01.*
+*Updated on 2024/07/04.*
 
 <!-- more -->
 
@@ -573,6 +573,13 @@ For use with a hardware security key (covered below):
 WSL1 can natively "see" and use *some* USB devices.
 
 WSL2 can traverse external USB storage devices mounted as filesystems to the host. However passing through a Yubikey or another USB device has various challenges and solutions. We'll use the documented `usbipd` method first.
+
+
+#### Troubleshooting
+
+**USB Detached (During Sleep)**
+
+If a USB device is "visible" to WSL, but is no longer actually being passed through by the host, run `wsl.exe --shutdown` to preserve as many open terminal tabs as possible before reconnecting the device. Each tab will allow you to enter `Ctrl+d` to close the tab or `[Enter]` to restart the session. This doesn't always work out but is a great way to avoid losing your terminal history or tabs.
 
 
 #### USBIPD
@@ -2548,7 +2555,7 @@ $NewAcl.SetAccessRule($AccessRule2)
 $NewAcl.SetAccessRule($AccessRule3)
 $NewAcl.SetAccessRuleProtection($true, $false)
 $NewAcl.SetOwner($NewOwner)
-Set-Acl -Path $FilePath -AclObject $EmptyAcl
+Set-Acl -Path $FilePath -AclObject $NewAcl
 foreach ($item in (gci -Recurse -Force $FilePath)) {
 	Set-Acl -Path $FilePath -AclObject $NewAcl
 }
@@ -2567,7 +2574,7 @@ $FilePath = "C:\Tools"
 $UserName = "BUILTIN\Administrators"
 # Reset the ACL recursively
 $EmptyAcl = New-Object -TypeName System.Security.AccessControl.FileSecurity -ArgumentList $null
-Set-Acl -Path $FilePath -AclObject $NewAcl
+Set-Acl -Path $FilePath -AclObject $EmptyAcl
 foreach ($item in (gci -Recurse -Force $FilePath)) {
 	Set-Acl -Path $FilePath -AclObject $EmptyAcl
 }
