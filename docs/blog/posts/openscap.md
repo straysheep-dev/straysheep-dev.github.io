@@ -17,9 +17,50 @@ categories:
 
 Install OpenSCAP, pull compliance profiles from GitHub/ComplianceAsCode, debug policies with Ansible's `-C` and `-D` options, apply, test, and maintain policies with Ansible tags.
 
-*Updated on 2024/06/02.*
+*Updated on 2024/07/10.*
 
 <!-- more -->
+
+## Quickstart Demo
+
+!!! tip "Start Here"
+
+    If you want to dive in before reading, follow these steps.
+
+Run `./download-content.sh` to pull the latest OpenSCAP policy release from GitHub.
+
+![](../media/openscap-ansible/openscap_ansible_1.png)
+
+It will automatically `unzip` policy files matching the current OS. To specify another OS, use `-u <os-name>`.
+
+![](../media/openscap-ansible/openscap_ansible_2.png)
+
+You can list all available policy files with `-l`.
+
+![](../media/openscap-ansible/openscap_ansible_3.png)
+
+The wrapper script is written to interpret posix-extended regex. Combine rules from multiple policies like this.
+
+![](../media/openscap-ansible/openscap_ansible_4.png)
+
+Comment out any rules in the tags-*.txt files you don't want to apply, or find break the deployment.
+
+![](../media/openscap-ansible/openscap_ansible_5.png)
+
+!!! example "Why Ansible?"
+
+    Running `./apply-tags.sh` with the `-d|--diff` options will run Ansible with `--check --diff`, showing you the changes without making them, and failing if a change cannot be made correctly. This is the strength of this approach. With states maintained as tags you can more easily isolate and debug what could have broken a system, especially if you're testing tags in groups.
+
+The wrapper script has built in `-h|--help` information. You can pass it all the arguments you will usually need to either test a policy on the localhost, or use an inventory + vault.
+
+![](../media/openscap-ansible/openscap_ansible_6.png)
+
+When the script executes a playbook, the raw command with all of the tags listed will be printed to your screen. This is copy / paste-able to repeat manually if necessary.
+
+![](../media/openscap-ansible/openscap_ansible_7.png)
+
+There are also folders in the same directory of premade tag sets that will apply as many rules as possible without breaking a system, exceptions being `aide` and `auditd` rules. The reason being these rules often endlessly loop, need tuned to your environment, or break the deployment. Use the [`aide`](https://github.com/straysheep-dev/ansible-configs/tree/main/aide) and [`install_auditd`](https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd) roles instead.
+
 
 ## Intro
 
