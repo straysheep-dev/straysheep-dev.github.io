@@ -66,6 +66,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tilde
+  - footnotes
 
 extra:
   social:
