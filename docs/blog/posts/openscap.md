@@ -25,7 +25,16 @@ Install OpenSCAP, pull compliance profiles from GitHub/ComplianceAsCode, debug p
 
 !!! tip "Start Here"
 
-    If you want to dive in before reading, follow these steps.
+    If you want to dive in before reading the details, clone the latest [ansible-configs](https://github.com/straysheep-dev/ansible-configs):
+
+    ```bash
+    mkdir ~/src
+    cd ~/src
+    git clone https://github.com/straysheep-dev/ansible-configs
+    cd ansible-configs/inventory_openscap_utils
+    ```
+
+    and follow the steps below.
 
 Run `./download-content.sh` to pull the latest OpenSCAP policy release from GitHub.
 
