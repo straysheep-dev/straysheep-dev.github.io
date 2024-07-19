@@ -1,6 +1,7 @@
 ---
 draft: false
-date: 2024-07-19
+date:
+  created: 2024-07-19
 categories:
   - how-to
   - administration
@@ -9,6 +10,7 @@ categories:
   - powershell
   - automation
   - compliance
+description: Use PowerSTIG to automate STIG compliance and document changes.
 ---
 
 # Get Started with PowerSTIG

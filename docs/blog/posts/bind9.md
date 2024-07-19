@@ -1,6 +1,7 @@
 ---
 draft: false
-date: 2024-07-19
+date:
+  created: 2024-07-19
 categories:
   - how-to
   - administration
@@ -13,6 +14,7 @@ categories:
   - chroot
   - apparmor
   - linux
+description: How to install, maintain, and run a BIND9 DNS server.
 ---
 
 # BIND9 DNS
