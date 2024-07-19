@@ -17,7 +17,7 @@ categories:
 
 # BIND9 DNS
 
-How to install, maintain, and run a BIND9 DNS server; `named`. Covers building from source, configuring, hardening, and DNS over TLS as well as DNSSEC.
+How to install, maintain, and run a BIND9 DNS server (`named`). Covers building from source, configuring, hardening, and DNS over TLS as well as DNSSEC.
 
 *Updated on 2024/07/19.*
 
@@ -751,7 +751,7 @@ Hardening the bind9 / `named` process itself (meaning outside of its runtime con
 
 ### AppArmor
 
-On Debian-based systems (Ubuntu) bind9 ships [an apparmor policy](https://git.launchpad.net/ubuntu/+source/bind9/tree/debian/extras/apparmor.d/usr.sbin.named?h=ubuntu/jammy-devel) that's enabled by default.
+On Debian-based systems (Ubuntu) bind9 ships [an AppArmor policy](https://git.launchpad.net/ubuntu/+source/bind9/tree/debian/extras/apparmor.d/usr.sbin.named?h=ubuntu/jammy-devel) that's enabled by default.
 
 You could obtain this policy from the debian source package.
 
