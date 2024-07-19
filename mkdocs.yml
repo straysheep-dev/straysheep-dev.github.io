@@ -39,6 +39,7 @@ theme:
     - navigation.tabs
     - navigation.sections
 #    - navigation.expand
+    - navigation.top
     - toc.integrate
 #    - toc.follow
     - search.suggest
@@ -53,6 +54,7 @@ plugins:
       categories: false
       blog_dir: blog
   - search
+  - social
 
 markdown_extensions:
   - attr_list

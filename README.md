@@ -11,7 +11,7 @@ mkdir ~/src
 mkdir ~/venv
 python3 -m venv ~/venv
 source ~/venv/bin/activate
-python3 -m pip install mkdocs-material
+python3 -m pip install "mkdocs-material[imaging]"
 cd ~/src; git clone https://github.com/straysheep-dev/straysheep-dev.github.io
 cd ~/src/straysheep-dev.github.io/
 mkdocs serve
