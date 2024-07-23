@@ -150,7 +150,7 @@ hide:
         - Debug policies with Ansible's `-C` and `-D` options
         - Apply, test, and maintain policies with Ansible tags.
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](/blog/2024/05/29/openscap-practical-usage/)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/openscap.md)
 
     - :simple-linux:{ .lg .middle } __Linux Utils__
 
@@ -194,7 +194,7 @@ hide:
         - GUI and CLI quirks
         - External storage and ZFS
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](/blog/2024/05/02/pfsense-administration/)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/pfsense.md)
 
     - :material-package-variant-plus:{ .lg .middle } __Deploy auditd__
 
@@ -337,7 +337,7 @@ hide:
         - Network interface information
         - Working directory
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](/blog/2024/05/29/custom-shell-profiles/)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/custom-shell-profiles.md)
 
     </div>
 
@@ -349,7 +349,7 @@ hide:
 
     This site was created as a better way to document, maintain, and share notes with demonstrations or visual components, cross-platform.
 
-    The [blog](blog/) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
+    The [blog](blog/index.md) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
 
     Using [mkdocs](https://squidfunk.github.io/mkdocs-material/) to build this makes it both a searchable "database" with no backend, and an archive with everything in chronological order.
 
