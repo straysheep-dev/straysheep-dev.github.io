@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-08
+date:
+  created: 2024-05-08
+  updated: 2024-07-23
 categories:
   - windows
   - how-to
@@ -15,7 +17,7 @@ categories:
 
 Various configuration settings and notes for Microsoft Windows operating systems.
 
-*Updated on 2024/07/04.*
+*Updated on 2024/07/23.*
 
 <!-- more -->
 
@@ -77,7 +79,7 @@ Restore-Computer -RestorePoint 1
 
 The restore process can take several minutes, even when reverting a single change to the registry. Generally it takes about 3-4 minutes for local test VM's.
 
-### Applying a Baseline
+### LGPO.exe
 
 See the tools available in the [Microsoft Security Compliance Toolkit](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 
@@ -96,6 +98,162 @@ For example the you might apply the [Security Baselines](https://docs.microsoft.
 Deploy and test these configurations in a temporary or virtual environment first, either a VM (local or cloud) or enabled the [Windows Sandbox](https://techcommunity.microsoft.com/t5/windows-kernel-internals-blog/windows-sandbox/ba-p/301849) feature.
 
 Windows Sandbox is a temporary, and (depending on your `.wsb` configuration) fully isolated environment that can be started very quickly from either launching the application as you would any other, or by running a `.wsb` [configuration file](https://github.com/MicrosoftDocs/windows-itpro-docs/blob/public/windows/security/threat-protection/windows-sandbox/windows-sandbox-configure-using-wsb-file.md).
+
+
+### PowerSTIG
+
+*This is covered in more detail under [Getting Started with PowerSTIG](../posts/powerstig.md).*
+
+Install [PowerSTIG](https://github.com/microsoft/PowerStig) from the PSGallery on your "controller" node.
+
+```powershell
+Install-Module PowerSTIG -Scope CurrentUser
+
+(Get-Module PowerStig -ListAvailable).RequiredModules | % {
+   $PSItem | Install-Module -Force
+}
+```
+
+You'll find everything in the following paths:
+
+```powershell
+# PowerSTIG Base Path
+C:\Users\Administrator\Documents\WindowsPowerShell\Modules\PowerSTIG
+
+# Raw STIG XML Data, where 4.22.0 is this PowerSTIG version
+C:\Users\Administrator\Documents\WindowsPowerShell\Modules\PowerSTIG\4.22.0\StigData\Processed
+```
+
+Under `StigData\Processed` you'll find each policy has two related files:
+
+- `WindowsServer-2022-MS-1.5.org.default.xml`: Commented options, where there's no one default value. Copy this file to a central location
+- `WindowsServer-2022-MS-1.5.xml`: The rest of the rules in the policy with default values
+
+Create a working directory with a dedicated folder for each policy you want to use.
+
+```powershell
+# List all unique policies
+$PowerStigVersion = (Get-Module PowerStig -ListAvailable).Version.ToString()
+$StigDataPath = "C:\Users\Administrator\Documents\WindowsPowerShell\Modules\PowerSTIG\$PowerStigVersion\StigData\Processed\"
+#(gci -Path $StigDataPath | Split-Path -Leaf).Replace(".xml","").Replace(".org.default","") | sort -Unique
+
+# Create a folder for WindowsServer-2022-MS-1.5, WindowsDefender-All-2.4, WindowsFirewall-All-2.2
+$PolicyFileList = @("WindowsServer-2022-MS-1.5","WindowsServer-2022-DC-1.5","WindowsDefender-All-2.4","WindowsFirewall-All-2.2")
+foreach ($PolicyFile in $PolicyFileList) {
+	$DevPath = "C:\Tools\PowerSTIGDev\$PolicyFile"
+	New-Item -Type Directory -Path $DevPath 2>$nul
+	Copy-Item $StigDataPath$PolicyFile.org.default.xml -Destination $DevPath
+}
+```
+
+Configure each node for WinRM with the following. ***This will open the machine to external connections with a firewall rule***.
+
+```powershell
+# Set basic winrm settings
+winrm quickconfig
+
+# Get the name of the public profile
+Get-NetConnectionProfile
+
+# Update the InterfaceAlias parameter with the name of the profile from above
+Set-NetConnectionProfile -InterfaceAlias 'Ethernet' -NetworkCategory Private
+
+# Update the WSMAN MaxEnvelopeSizekb
+Set-Item -Path WSMan:\localhost\MaxEnvelopeSizekb -Value 8192
+```
+
+[PowerSTIG 4.10.0 and later has the abiltiy to create a backup reference point based on a STIG profile to revert to](https://github.com/Microsoft/PowerStig/wiki/Backup-and-Revert).
+
+Create the backup.
+
+```powershell
+$DevPath = "C:\Tools\PowerSTIGDev"
+$Policy = "WindowsServer-2022-DC-1.5"
+Backup-StigSettings -BackupLocation $DevPath\$Policy  -StigName $Policy
+```
+
+Revert the system's state.
+
+```powershell
+$Policy = "WindowsServer-2022-DC-1.5"
+Restore-StigSettings -StigName $Policy
+```
+
+Compile the MOF file, using a separate PowerShell script for each policy file. This script essentially holds and documents the modifications, and exceptions to the policy.
+
+This is for the `WindowsServer-2022-MS-1.5` policy, so write this script to `C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\WindowsServer-2022-MS-1.5.ps1` and execute it.
+
+```powershell
+<#
+    Use embedded STIG data while skipping rules and inject exception data.
+    Example for baselining WindowsServer 2022 that isn't a DC.
+#>
+
+configuration Example
+{
+    param
+    (
+        [parameter()]
+        [string]
+        $NodeName = 'localhost'
+    )
+
+    Import-DscResource -ModuleName PowerStig
+
+    Node $NodeName
+    {
+        WindowsServer BaseLine
+        {
+            OsVersion   = '2022'
+            OsRole      = 'MS'
+            StigVersion = '1.5'
+            # Domain and Forest don't need specified if you're already domain joined, unless you're scanning cross-forest
+            #DomainName  = 'sample.test'
+            #ForestName  = 'sample.test'
+            #Exception   = @{'V-1075'= @{'ValueData'='1'} }
+            # Rules '254442-4' Involve DoD certificates which we won't have access to
+            # Rule 'V-254254.c' breaks on WindowsServer 2022: https://github.com/microsoft/PowerStig/issues/1360#issuecomment-2176146847
+            # Rule 'V-254439' denies interactive logon for Enterprise Admins,Domain Admins,Local account,Guests this can interfere when testing
+            SkipRule = @('V-254442','V-254443','V-254444','V-254254.c','V-254439')
+            OrgSettings = "C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\WindowsServer-2022-MS-1.5.org.default.xml"
+        }
+    }
+}
+
+Example -OutputPath C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5
+```
+
+Audit a machine using a policy.
+
+```powershell
+# Local mof file
+$audit = Test-DscConfiguration -ComputerName localhost -ReferenceConfiguration C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\localhost.mof
+# Shared mof file, must be scripted and automated or done interactively from client
+$audit = Test-DscConfiguration -ComputerName localhost -ReferenceConfiguration \\dc01.domain.internal\PowerSTIGDev\WindowsClient-11-1.6\localhost.mof
+
+# View compliant settings
+$audit.ResourcesInDesiredState | Out-GridView
+
+# View non-compliant settings
+$audit.ResourcesNotInDesiredState | Out-GridView
+
+# Save results
+$audit.ResourcesInDesiredState | Out-File -FilePath C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\ResourcesInDesiredState.log -Encoding ASCII
+$audit.ResourcesNotInDesiredState | Out-File -FilePath C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\ResourcesNotInDesiredState.log -Encoding ASCII
+```
+
+Apply a policy; What can be confusing is `-Path` requires a path to where the `.mof` file lives, not a full path of the `.mof` file.
+
+```powershell
+Start-DscConfiguration -ComputerName localhost -Path C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5 -Wait -Verbose
+```
+
+One way to test this across an AD forest, is using a logon script to have systems retrieve the correct MOF file based on `(Get-ComputerInfo).OsProductType`.
+
+However, this is much better handled through an organized Group Policy. For instance if you have all of your DNS servers grouped together, then create a GPO linked to only that OU to execute PowerSTIG's DNS profile. In this case you don't need any script logic, the machines just need access to the correct MOF / PowerSTIG files.
+
+No matter how you do this, each endpoint **must** have PowerSTIG and all dependancies installed locally, and is executing the MOF file against it's own localhost. There technically isn't an Ansible-style approach to provision endpoints from a central node without copying everything to each remote.
+
 
 ## Active Directory
 
@@ -1201,7 +1359,7 @@ Get-NetNat | where { $_.Name -eq "CustomNATNetwork" } | Remove-NetNat
 Get-VMSwitch | where { $_.SwitchName -eq "CustomNATSwitch" | Remove-VMSwitch
 ```
 
-If you want to be able to reach VM's on this switch from the host or WSL, you'll need to enable forwarding, as mentioned above in the section titled [WSL: Communicating with Hyper-V](#wsl-communicating-with-hyper-v). Just remember, the Windows host is likely filtering `ping` packets. Try `ssh`, [`Test-NetConnection`](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2022-ps), [`nmap`](https://nmap.org/), or [`naabu`](https://github.com/projectdiscovery/naabu) to verify connectivity.
+If you want to be able to reach VM's on this switch from the host or WSL, you'll need to enable forwarding, as mentioned above in the section titled [Communicating with Hyper-V](#communicating-with-hyper-v). Just remember, the Windows host is likely filtering `ping` packets. Try `ssh`, [`Test-NetConnection`](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=windowsserver2022-ps), [`nmap`](https://nmap.org/), or [`naabu`](https://github.com/projectdiscovery/naabu) to verify connectivity.
 
 ```powershell
 # Apply
@@ -1686,6 +1844,34 @@ PS C:\> Stop-Process -Name spoolsv
 ```
 
 In the above case, a meterpreter session had migrated to the `spoolsv.exe` process and was port forwarding traffic on tcp/8080.
+
+
+### DNS
+
+**DNS on Windows 11 Clients**
+
+You can configure DNS over HTTPS for *all* interfaces with the following.
+
+- "Settings" > "Network & internet"
+- Choose "Wi-Fi" or "Ethernet", depending on your current connection
+- Choose "Hardware properties" (you can also select the active network connection and under DNS settings choose `Change DNS settings for all networks`)
+- Choose "Edit" under the block with "DNS server assignment"
+- IPv4 > On
+- Preferred DNS (can be Quad9 or Cloudflare, Windows has these templates built in now)
+- DNS over HTTPS > On (automatic template)
+- This will autofill the URL for DoH connections
+- Ensure "Fallback to plaintext" > Off
+
+When finished, you'll see `(Encrypted)` next to each DNS server entry.
+
+You can fill out 2 IPv4 and 2 IPv6 DNS settings, and Windows will enforce this DNS configuration for every Wi-Fi or Ethernet network you connect to.
+
+For an Active Directory client, you'll need at least *one* of the primary DNS servers to point to a domain-joined DNS server, with the fallback DNS being one of Cloudflare's or Quad9's public servers.
+
+
+**DNS on Windows Server**
+
+[The Quad9 documentation demonstrates the steps required to configure Windows DNS Server for DNS forwarding](https://docs.quad9.net/Setup_Guides/DNS_Forwarders/Windows_Server/). You could replicate those steps for Google (`8.8.8.8`) and Cloudflare (`1.1.1.1`).
 
 
 ### Firewall Rules
