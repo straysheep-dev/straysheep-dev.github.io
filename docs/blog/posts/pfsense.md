@@ -311,7 +311,7 @@ The following lists three popular publicly available DNS resolvers that support 
 | `2001:4860:4860::8888` |   dns.google                |
 | `2001:4860:4860::8844` |   dns.google                |
 
-![pfsense-dns-config-001](/blog/media/pfsense/pfsense-dns-config-001.png)
+![pfsense-dns-config-001](../media/pfsense/pfsense-dns-config-001.png)
 
 This is what `/var/unbound/unbound.conf` may look like with DNS over TLS forwarding enabled:
 
@@ -1014,7 +1014,7 @@ https://datatracker.ietf.org/doc/html/rfc3330#section-3
 
 Example of RFC 3330 as an alias:
 
-![pfsense-rfc3330-aliases](/blog/media/pfsense/pfsense-rfc3330-aliases.png)
+![pfsense-rfc3330-aliases](../media/pfsense/pfsense-rfc3330-aliases.png)
 
 Correctly configured routing devices should **NOT** forward fe80:: / link-scoped unicast traffic by default, meaning that local traffic should only happen locally. It allows your edge device to talk to the ISP's gateway device, but the ISP's gateway device will not be able to to talk to your internal machines on fe80::, however if you have a globally routable IPv6 address, the address and that interface it's bound to **are** *globally routable*.
 
@@ -1042,7 +1042,7 @@ FLOATING
           will not leave the WAN interface.
 ```
 
-![pfsense-fw-rules-floating](/blog/media/pfsense/pfsense-fw-rules-floating.png)
+![pfsense-fw-rules-floating](../media/pfsense/pfsense-fw-rules-floating.png)
 
 ---
 
@@ -1056,7 +1056,7 @@ WAN
       routing capability back out through the WAN using the vpn's dns server + firewall)
 ```
 
-![pfsense-fw-rules-wan-001](/blog/media/pfsense/pfsense-fw-rules-wan-001.png)
+![pfsense-fw-rules-wan-001](../media/pfsense/pfsense-fw-rules-wan-001.png)
 
 ---
 
@@ -1068,7 +1068,7 @@ LAN / Management Interface
       entirely offline, which is ultimately optional but recommended.
 ```
 
-![pfsense-fw-rules-lan-mgmt](/blog/media/pfsense/pfsense-fw-rules-lan-mgmt.png)
+![pfsense-fw-rules-lan-mgmt](../media/pfsense/pfsense-fw-rules-lan-mgmt.png)
 
 ---
 
@@ -1111,7 +1111,7 @@ So far it only effects inbound traffic, which is fine if ssh access from the WAN
     * OPTx Net -> Any tcp/udp (allow all outbound routing of tpc/udp traffic)
 ```
 
-![pfsense-fw-rules-egress-001](/blog/media/pfsense/pfsense-fw-rules-egress-001.png)
+![pfsense-fw-rules-egress-001](../media/pfsense/pfsense-fw-rules-egress-001.png)
 
 #### Alternate OPTx (Strict egress)
 
@@ -1138,7 +1138,7 @@ So far it only effects inbound traffic, which is fine if ssh access from the WAN
 **NOTE**: Rejecting `ANY -> ANY` will still allow Zeek to capture this traffic on the defined `SPAN` port if the analysis network interface is a member of the `BRIDGEx` interface. It will also still permit hosts to receive a DHCP lease from the pfSense firewall, be reachable with ping from the pfSense firewall, and for hosts to commnuicate with eachother internally, but no traffic can enter or leave this network. Rejecting `ANY -> ANY` is not truly necessary, for example simply not having any rules will achieve a similar outcome. The difference is this rule is defined, and any outbound connections will be closed immediately instead of left to time out.
 
 
-![pfsense-fw-rules-analysis-subnet](/blog/media/pfsense/pfsense-fw-rules-analysis-subnet.png)
+![pfsense-fw-rules-analysis-subnet](../media/pfsense/pfsense-fw-rules-analysis-subnet.png)
 
 ## pfSense as a Lab VM
 
@@ -1165,7 +1165,7 @@ This example will you give you a general purpose lab VM with the following isola
 - OPT3 / analysis network (no routing, no inbound, no outbound)
 - [Optional] SPAN0 / port mirroring network interface
 
-![pfsense-interfaces-001](/blog/media/pfsense/pfsense-interfaces-001.png)
+![pfsense-interfaces-001](../media/pfsense/pfsense-interfaces-001.png)
 
 On VMWare Workstation, under `VM > Settings > Hardware` you'll want to have 6 network adaptors:
 
@@ -1178,9 +1178,9 @@ On VMWare Workstation, under `VM > Settings > Hardware` you'll want to have 6 ne
 | Network Adapater 5 | LAN Segment         | LAN Segment 4, this will appear as OPT3 under interfaces, your analysis (offline) network              |
 | Network Adapater 6 | LAN Segment         | LAN Segment 5, this will appear as OPT4 under interfaces, you'll want to assign this as your SPAN port |
 
-![vmware-pfsense-network-devices-001](/blog/media/pfsense/vmware-pfsense-network-devices-001.png)
+![vmware-pfsense-network-devices-001](../media/pfsense/vmware-pfsense-network-devices-001.png)
 
-![vmware-pfsense-network-devices-002](/blog/media/pfsense/vmware-pfsense-network-devices-002.png)
+![vmware-pfsense-network-devices-002](../media/pfsense/vmware-pfsense-network-devices-002.png)
 
 On VirtualBox, we are limited to 4 total network interfaces per VM.
 
@@ -1274,7 +1274,7 @@ Then you can test internal and outbound connectivity from your analysis workstat
 
 You should receive a **Request timed out.** response and see **(100% loss)** in your command output like below:
 
-![pfsense-analysis-subnet-isolation-001](/blog/media/pfsense/pfsense-analysis-subnet-isolation-001.png)
+![pfsense-analysis-subnet-isolation-001](../media/pfsense/pfsense-analysis-subnet-isolation-001.png)
 
 To be exhaustive, ensure DNS cannot be resolved:
 
@@ -1294,7 +1294,7 @@ All of these should fail / timeout, like the example above.
 
 Next, you can check to see if the firewall itself can in fact reach internal hosts - it should never need to do this but it's one direction you can check to ensure for example DHCP leases can be sent out.
 
-![pfsense-analysis-subnet-isolation-002](/blog/media/pfsense/pfsense-analysis-subnet-isolation-002.png)
+![pfsense-analysis-subnet-isolation-002](../media/pfsense/pfsense-analysis-subnet-isolation-002.png)
 
 Last and most important, you'll want to check from another internal host that internal machines can talk to eachother, but again not anything else:
 
@@ -1302,7 +1302,7 @@ Last and most important, you'll want to check from another internal host that in
 - The gateway is ping'd again at `172.20.133.1` to ensure it doesn't respond
 - The gateway is also checked with `nmap` to ensure the web interface is unreachable.
 
-![pfsense-analysis-subnet-isolation-003](/blog/media/pfsense/pfsense-analysis-subnet-isolation-003.png)
+![pfsense-analysis-subnet-isolation-003](../media/pfsense/pfsense-analysis-subnet-isolation-003.png)
 
 From here you're ready to test or analyze malware as far as the network configuration goes. Remember to also disable Drag & Drop + Copy & Paste and take a snapshot before detonation.
 
@@ -1509,7 +1509,7 @@ What you'll need:
 - Block Bogon Networks
 - Save
 
-![pfsense-span-interface](/blog/media/pfsense/pfsense-span-interface.png)
+![pfsense-span-interface](../media/pfsense/pfsense-span-interface.png)
 
 
 **NOTE**: this is best handled on a switch, not the router (pfSense in this case) itself. However for a small office / home office / lab use case, this is fine, and also what this guide will follow.
@@ -1523,7 +1523,7 @@ You do not need a free interface before doing this, the BRIDGEx interface is a p
 
 Selecting the interfaces:
 
-![pfsense-bridge0-interface-002](/blog/media/pfsense/pfsense-bridge0-interface-002.png)
+![pfsense-bridge0-interface-002](../media/pfsense/pfsense-bridge0-interface-002.png)
 
 **NOTE**: on VMware Workstation for Linux, this operation may stall here, or for example if you run tcpdump, or bring up a bridged or promiscuous interface. Switch over to your pfSense VM tab and see if there is a prompt regarding enabling promiscuous mode on the virtual network interfaces you selected. Select OK to acknowledge the prompt - this is normal and will not prevent pfSense from monitoring these virtual interfaces.
 
@@ -1533,7 +1533,7 @@ Selecting the interfaces:
 
 Here's what BRDIGE0 should look like under `Interfaces > Bridges`:
 
-![pfsense-bridge0-interface-001](/blog/media/pfsense/pfsense-bridge0-interface-001.png)
+![pfsense-bridge0-interface-001](../media/pfsense/pfsense-bridge0-interface-001.png)
 
 Next:
 
@@ -1568,11 +1568,11 @@ net.link.bridge.pfil_bridge 	Packet filter on the bridge interface 	0
 
 Bridge interface firewall rules:
 
-![pfsense-fw-rules-bridge0](/blog/media/pfsense/pfsense-fw-rules-bridge0.png)
+![pfsense-fw-rules-bridge0](../media/pfsense/pfsense-fw-rules-bridge0.png)
 
 SPAN interface firewall rules:
 
-![pfsense-fw-rules-span0](/blog/media/pfsense/pfsense-fw-rules-span0.png)
+![pfsense-fw-rules-span0](../media/pfsense/pfsense-fw-rules-span0.png)
 
 The next steps will be easier to 'see' if you spin up a Live OS to connect to one of the LAN segments and generate some traffic. A Live OS is suggested due to the low resource and configuration requirements while you're testing and configuring Zeek.
 
@@ -1582,7 +1582,7 @@ When you're ready, back on pfSense follow either the SSH or GUI instructions:
 - [SSH]: SSH into the firewall, and ensure the management user can run commands with sudo
 - Run `ifconfig` to identify the `emX` device with the description of `SPAN0` (or what you named it).
 
-![pfsense-span-port-001](/blog/media/pfsense/pfsense-span-port-001.png)
+![pfsense-span-port-001](../media/pfsense/pfsense-span-port-001.png)
 
 - [GUI]: Go to `Diagnostics > Packet Capture`, select `SPANx` for the `Interface`, `Port` of `53` and then click `Start`
 - [GUI]: After a minute or two passes, or you've manually generated some traffic (`dig @1.1.1.1 ubuntu.com` or `nslookup microsoft.com 9.9.9.9`) `Stop` the packet capture.
@@ -1590,7 +1590,7 @@ When you're ready, back on pfSense follow either the SSH or GUI instructions:
 
 **TO DO**: See what changes are required to run `tcpdump` with -Z <user> to drop privileges.
 
-![pfsense-span-port-001](/blog/media/pfsense/pfsense-span-port-002.png)
+![pfsense-span-port-001](../media/pfsense/pfsense-span-port-002.png)
 
 - If you have devices on the network you should see traffic, and it should be under their assinged IP address on the network, which is exactly what we want.
 - **NOTE**: This will capture traffic that does not pass (is dropped / rejected), for example if you have a subnet dedicated to malware analysis. This will capture or 'see' all of the DNS requests being made by all of the hosts on that subnet, even though no traffic is routed out of that network - if the packet hits the firewall, it can see it.
@@ -1645,9 +1645,9 @@ One great feature of Zeek on pfSense is the real time inspection of all your bri
 
 Go to `Services > Zeek NSM > Real Time Inspection` and select a Log file to view, and the Max lines to show at one time. With this you can view all data being captured live, for a quick visual inspection.
 
-![pfsense-zeek-real-time-inspection](/blog/media/pfsense/pfsense-zeek-real-time-inspection.png)
+![pfsense-zeek-real-time-inspection](../media/pfsense/pfsense-zeek-real-time-inspection.png)
 
-See [Zeek Network Security Monitor (NSM)](#zeek-network-security-monitor-nsm) below for more details.
+See [Zeek Network Security Monitor (NSM)](#package-zeek-network-security-monitor-nsm) below for more details.
 
 ---
 
