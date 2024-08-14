@@ -138,7 +138,7 @@ When in doubt, factory reset the device, restart your PC, and then attempt a new
 
 *⚠️ TO DO: This section is still under construction, check back later! ⚠️*
 
-The Pi 4B can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbain live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.
+The Pi 4B can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbian live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.
 
 !!! warning "Wireless Card Limitations"
 
