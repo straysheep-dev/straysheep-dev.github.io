@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-07
+date:
+  created: 2024-05-07
+  updated: 2024-08-13
 categories:
   - openwrt
   - how-to
@@ -15,6 +17,8 @@ categories:
 
 A quick reference for general setup and usage.
 
+*Updated on 2024/08/13.*
+
 <!-- more -->
 
 *This file is originally from [straysheep-dev/linux-configs](https://github.com/straysheep-dev/linux-configs/tree/main/openwrt).*
@@ -22,7 +26,9 @@ A quick reference for general setup and usage.
 ## References
 
 - Essentials
+	* <https://firmware-selector.openwrt.org/>
     * <https://openwrt.org/toh/ubiquiti/unifiac>
+	* <https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi>
     * <https://openwrt.org/docs/guide-user/security/signatures>
     * <https://openwrt.org/docs/guide-user/installation/ar71xx.to.ath79>
     * <https://openwrt.org/docs/guide-user/installation/sysupgrade.cli>
@@ -41,6 +47,10 @@ A quick reference for general setup and usage.
 - Downloading
     * <https://downloads.openwrt.org/releases/>
     * `https://downloads.openwrt.org/releases/<version>/targets/<target>/<type>`
+
+- Flashing
+	* [etcher](https://github.com/balena-io/etcher/releases)
+	* [rufus](https://github.com/pbatard/rufus/releases)
 
 - Virtualization
     * <https://openwrt.org/docs/guide-user/virtualization/vmware>
@@ -122,6 +132,86 @@ nmap -n -Pn -sT -p22 -e ethX 192.168.1.0/24 --open
 From here continue to watch the output from `tcpdump`, see what the device is doing and adjust accordingly
 
 When in doubt, factory reset the device, restart your PC, and then attempt a new connection.
+
+
+## Installing OpenWrt on a Raspberry Pi 4B:
+
+*⚠️ TO DO: This section is still under construction, check back later! ⚠️*
+
+The Pi 4B can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbain live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.
+
+!!! warning "Wireless Card Limitations"
+
+	In some cases (like the Raspbery Pi 4B) the built in wireless card is limited to broadcasting only a single ESSID. **This is likely a case of OpenWrt not having the necessary driver installed by default**. If you boot into Ubuntu or Kali you may be able to configure numerous ESSID's in `hostapd`. These OS's have other drivers available to install that support different functionality of the card that OpenWrt may not have available without adding it via `opkg`. This will need reviewed.
+
+	Generally, it's recommended to leverage an external wireless card. This section will be updated once this has been tested.
+
+!!! warning "[The Country Code Issue](https://forum.openwrt.org/t/cannot-use-channels-12-and-13-on-raspberry-pi-3-in-ap-config/3707/14)"
+
+	**This may be innacurrate, in my tests the ESSID limitations prevented any real diagnosis of this, as with a single ESSID I was able to see it, and connect to it. This suggests the default driver in OpenWrt prevents multiple ESSID's from being assigned to a single radio, instead of this being a country code issue**.
+
+	To get OpenWrt's WiFi working on a Raspberry Pi, you need to boot into a Raspbian OS environment to set the country code. According to numerous posts on the OpenWrt forum, Raspbian writes this to a special non volatile place in memory, that 1) persists, and 2) OpenWrt cannot write to.
+
+	Before starting, flash a copy of Raspbian onto the USB drive, boot into a live environment, set the country code, and then proceed.
+
+	- [Raspbian OS Download Links](https://www.raspberrypi.com/software/operating-systems/)
+	- [Download Archive (with .sig and .sha256 files)](https://downloads.raspberrypi.com/)
+
+	Once you choose which image download you want (e.g. "Raspberry Pi OS (64-bit)") follow the `Archive` link beneath where you see "Download" and "Download Torrent" to find snapshots by date. Each folder contains a `.sig` and `.sha256` file for integrity checking. **Keep in mind the `.sig` actually verifies the compressed `.img.xz` file, NOT the `.sha256` file**.
+
+	```bash
+	gpg --verify 2024-07-04-raspios-bookworm-arm64.img.xz.sig 2024-07-04-raspios-bookworm-arm64.img.xz
+	sha256sum -c 2024-07-04-raspios-bookworm-arm64.img.xz.sha256 --ignore-missing
+	```
+
+	Use [etcher](https://github.com/balena-io/etcher/releases) or [rufus](https://github.com/pbatard/rufus/releases) to flash the img.xz file to the USB drive. Fix the country code with:
+
+	```bash
+	sudo raspi-config
+	# Navigate to localisation options
+	# Choose "L4 WLAN Country" to set the country code
+	# See: https://www.raspberrypi.com/documentation/computers/configuration.html#wlan-country
+	#
+	# You should also update the bootloader while you're here
+	# Advanced > Bootloader Version > Latest
+	# sudo reboot
+	# See: https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspi-config
+	```
+
+	Poweroff the Pi, preparing next to flash the USB with OpenWrt and proceed with the remaining steps.
+
+**Flash / Install**
+
+- Browse to <https://firmware-selector.openwrt.org/>
+- Type the name of your device, e.g. "Raspberry Pi 4B"
+- Use the folder icon to navigate to the download server where the signatures and checksums are hosted
+- Download the `imagename-factory.img.gz`, the `sha256sums`, and the gpg signed `sha256sums.asc` files
+- Balena (on Windows) can easily flash the `.img.gz` file to a USB drive (you can also use `dd` from a *nix host)
+- Mount the USB filesystem after flashing (disconnect / reconnect the USB device on Windows)
+- Modify the `cmdline.txt` in the root of the USB drive to have `root=/dev/sdaX` where `X` relates to the USB port on the Pi
+	- Top USB port is `sda1`
+	- Bottom USB port is `sda2`
+	- See [this commit](https://github.com/openwrt/openwrt/commit/fe0081eecf43bfd92ac68aa0f3ce7165aaddb4f2#diff-0608b1462f1950762f22af24d20dc7ec4a81b102dce5c810635d41c700ddaba8) for details
+
+Example `cmdline.txt`:
+
+```txt
+console=serial0,115200 console=tty1 root=/dev/sda2 rootfstype=squashfs,ext4 rootwait
+```
+
+**Connect**
+
+- If you have an external display attached, after a successful boot press `[Enter]` for a root shell
+- You can also connect an external laptop via LAN / ethernet cable, and browse to or `ssh root@192.168.1.1`
+- By default, OpenWrt does not expose itself over WLAN (WiFi) until it's configured
+
+**Migrate Config**
+
+A primary use case is migrating your OpenWrt config to a new device. If the target device is different hardware from the source device, you will need to do some manual editing.
+
+- The hardware for each `radioX` under `/etc/config/wireless` will not match your existing configs
+- It's best to copy and paste items from `/etc/config/*` into the new install from a shell, reviewing and making adjustments as necessary
+- This way you can determine what will work or not, before running a `reboot`
 
 
 ## Installing OpenWrt on a UniFi AP:
@@ -642,7 +732,6 @@ uci add_list dhcp.@dnsmasq[0].server="10.0.2.105"
 uci commit dhcp
 /etc/init.d/dnsmasq restart
 ```
----
 
 The `/etc/config/network` example at:
 
