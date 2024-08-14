@@ -16,9 +16,9 @@ categories:
 
 # Proxmox
 
-Get started with Proxmox. Installation considerations, networking, disk encryption options, and migrating existing virutal machines.
+Get started with Proxmox. Installation considerations, networking, disk encryption options, and migrating existing virtual machines.
 
-Everything's presented in a useful order to follow if you're used to Hyper-V, VMware, or VirtualBox and want to jump in by moving to a Proxmox server.
+Everything's presented in a useful order to follow if you're used to Hyper-V, VMware Workstation, or VirtualBox and want to jump in by moving to a Proxmox server.
 
 What's most interesting about Proxmox is the Web UI gives you full console and GUI (yes, GUI desktop) access to your VM's through either noVNC or SPICE, *even via a smart phone*.
 
@@ -79,7 +79,7 @@ You can browse directly to your Proxmox machine's `https://<IP>:8006` or use SSH
 
     - The Yubikey is required to SSH into Proxmox
     - SSH Windows:8006 > WSL:8006
-    - SSH WSL:8006 (with Yubikey) > JumpHost:<SSH-PORT> > Proxmox:8006
+    - SSH WSL:8006 (with Yubikey) > JumpHost:SSH-PORT > Proxmox:8006
     - Now point your Windows browser to https://127.0.0.1:8006
     - It will forward to WSL which uses a jump host to forward again to proxmox's localhost:8006
 
@@ -110,7 +110,7 @@ First, add 2FA/MFA to your root login. This can be a software token saved to you
 
 ### 📦 Package Repositories
 
-Next, if you have a valid enterprise subscription key, you're good to go. If not, disable the enterprise reps and enable the pve-no-subscription repo.
+Next, if you have a valid enterprise subscription key, you're good to go. If not, disable the enterprise repos and enable the pve-no-subscription repo.
 
 - 🌐 [Proxmox VE Enterprise / No-Subscription Repository](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_package_repositories)
 
@@ -435,7 +435,7 @@ This is the equivalent of creating a virtual NIC (not to be confused with a VLAN
 
 - Under Datacenter, select your proxmox-ve hostname > System > Network > Create
 - Name it, check `[x]` autostart, create
-- Now click "Apply Conifguration" at the top, so your new `vmbrX` shows as "Active: Yes"
+- Now click "Apply Configuration" at the top, so your new `vmbrX` shows as "Active: Yes"
 
 Now when creating the VM:
 
