@@ -305,7 +305,7 @@ tailscale_authkey: "<tskey-auth-abcdef0123456789abcdef0123456789>"
 Run the playbook.
 
 ```bash
-echo "Enter Vault Password"; read vault_pass; export ANSIBLE_VAULT_PASSWORD=$vault_pass
+echo "Enter Vault Password"; read -s vault_pass; export ANSIBLE_VAULT_PASSWORD=$vault_pass
 # paste your vault password, hit enter
 
 ansible-playbook -i inventory/inventory.ini -e "@auth.yml" --vault-pass-file <(cat <<<$ANSIBLE_VAULT_PASSWORD) -v ./playbook.yml
@@ -317,7 +317,7 @@ If everything succeeded, poweroff the machine and take a checkpoint. Otherwise r
 
 ---
 
-**⚙️ Applying the State**
+**⚙️ Applying the SCAP Content**
 
 SSH back in, this time `cd ~/src/ansible-configs/inventory_openscap_utils`.
 
@@ -1147,7 +1147,7 @@ touch /var/log/audit/tmp_directory1/malware.py
 
 ### Data Visualization
 
-On the left of the events are all of the fields avaialble to search. Clicking on one reveals these are being tracked and graphed.
+On the left of the events are all of the fields available to search. Clicking on one reveals these are being tracked and graphed.
 
 To see a graph of *all* logs based on keys, click `Visualize` (and delete any DQL query from the serch bar) to see all logs sorted by keys.
 
@@ -1225,7 +1225,7 @@ The structure of an embed is `{"embed": [data]}`, where in our case `data` is a 
 - We can reuse the list of `msg['fields']` by changing the keys (`'title':` becomes `'name':`, also add a key for `'inline':`)
 - Finally update the object sent to the return value to be `{'embeds': [msg]}` instead of `{'attachments': [msg]}`
 
-[Knowing the avaialble fields in an embed](https://discord.com/developers/docs/resources/channel#embed-object-embed-structure), we can update any other variables to match what Discord is expecting.
+[Knowing the available fields in an embed](https://discord.com/developers/docs/resources/channel#embed-object-embed-structure), we can update any other variables to match what Discord is expecting.
 
 The start of our msg object will look like this:
 
@@ -1606,7 +1606,7 @@ Components to maintain and when:
 !!! info "**Logging Configs**"
 
     - sysmon config.xml: You can start with the recommended config.xml file and do well. Over time you may want to start tailoring your own.
-    - audtid.rules: Make sure every rule has a `key` value, the SocFortress decoder and rules will let you search in Wazuh based on the full_log as well as the auditd key
+    - auditd.rules: Make sure every rule has a `key` value, the SocFortress decoder and rules will let you search in Wazuh based on the full_log as well as the auditd key
 
 
 !!! info "**wazuh-manager ossec.conf**"
