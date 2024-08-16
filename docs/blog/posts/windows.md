@@ -275,8 +275,17 @@ You do not need to enable and install every feature to start working with AD. So
 To install via the GUI, search for "RSAT" then select the features you want to install:
 - Settings > Apps > Optional Features > View Features > Search "RSAT"
 
-To install via the CLI, first get a list of all available features then install the features you want by name:
+To install via `Get-WindowsFeature` (newer):
+
 ```powershell
+Get-WindowsFeature -Name RSAT*
+Install-WindowsFeature -Name RSAT -IncludeManagementTools
+Install-WindowsFeature -Name "RSAT","AD-Domain-Services" -IncludeManagementTools
+```
+
+To install via `DISM` (older):
+
+```cmd
 DISM /online /get-capabilities
 DISM /online /add-capability /capabilityname:<capability-name>
 DISM /online /add-capability /capabilityname:Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0
@@ -731,6 +740,22 @@ For use with a hardware security key (covered below):
 WSL1 can natively "see" and use *some* USB devices.
 
 WSL2 can traverse external USB storage devices mounted as filesystems to the host. However passing through a Yubikey or another USB device has various challenges and solutions. We'll use the documented `usbipd` method first.
+
+
+#### Traverse External Storage
+
+There are a few unique requirements to browse an external storage device (USB storage) from WSL, so for example you can effectively use `rsync` to backup files on Windows.
+
+!!! tip "WSL Instances are Separate for Each User"
+
+    This mainly comes from the fact that only a Windows Administrator session can "see" external hardware like this, and if you run as a normal user (meaning UAC prompts you for a separate admin user's password for elevation) your normal user's WSL session is entirely separate from an Administrator's WSL session. Think of them as two separate VM's.
+
+- You must start `wsl.exe` in some way, (PowerShell, cmd.exe, Windows Terminal) as an Administrator
+- You do (and should) not be root in wsl, it just needs started from an Administrator shell on Windows
+- Browse external storage with `cd /mnt/<drive-letter>`
+- If you just formatted a drive, from the Administrator shell run `wsl.exe --shutdown` then start a new session
+    - This will allow you to "see" the newly formatted drive
+    - This will *not* disrupt WSL sessions of your normal user account
 
 
 #### Troubleshooting
@@ -1551,9 +1576,13 @@ The Windows Package Manager
 
 ### Install
 
-Winget appears to be available by default on Windows 11 now. But it's not available by default in Windows Sandbox instances.
+Winget appears to be available by default on Windows 11 now. But it's not available by default in Windows Sandbox instances or Windows Server.
 
 [Install the latest version of Winget in Windows Sandbox (or anywhere programmatically)](https://learn.microsoft.com/en-us/windows/package-manager/winget/#install-winget-on-windows-sandbox):
+
+!!! note "If the Install Fails"
+
+    Be sure to check the link above for the latest URI paths if any component was updated since writing this, otherwise the install may fail.
 
 ```powershell
 $progressPreference = 'silentlyContinue'
@@ -1569,9 +1598,46 @@ Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 > If you would like a preview or different version of the Package Manager, go to https://github.com/microsoft/winget-cli/releases. Copy the URL of the version you would prefer and update the above Uri.
 
 
+!!! tip "Installing on Windows Server"
+
+    If installing winget on an evaluation copy of Windows Server, you will need to download the msixbundle file and license xml file from GitHub's release page. Otherwise you'll get a license error.
+
+    See [issue #700](https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714).
+
+    ```powershell
+    # Download the msixbundle and xml license file from the latest releases.
+    # https://github.com/microsoft/winget-cli/releases
+    # Use Add-AppxProvisionedPackage to use the -LicensePath argument.
+    Add-AppxProvisionedPackage -Online -PackagePath .\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -LicensePath .\08d8788d59cf47ed9bf42c31e31f8efa_License1.xml -Verbose
+    ```
+
+    To pull the latest release and install it automatically:
+
+    ```powershell
+    $progressPreference = 'silentlyContinue'
+    $url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+    $response = Invoke-RestMethod -Uri "$url"
+	# You need to use ConvertTo-Json to "see" the full structure and obtain the path
+    #$response_json = $response | ConvertTo-Json
+    foreach ($link in $response.assets.browser_download_url) {
+        $basename = $link | Split-Path -leaf
+        Write-Host "Downloading $basename..."
+        iwr -Uri $link -Out $basename
+        # Get the necessary files as variables
+        if ($basename -imatch "msixbundle") {
+            $msixbundle_file = $basename
+        }
+        elseif ($basename -imatch "License1.xml") {
+            $license_file = $basename
+        }
+    }
+    # Now with all files downloaded, install the msixbundle
+    Add-AppxProvisionedPackage -Online -PackagePath $msixbundle_file -LicensePath $license_file -Verbose
+    ```
+
 ### Installing Git
 
-- https://git-scm.com/download/win
+- [git-scm.com/download/win](https://git-scm.com/download/win)
 
 ```powershell
 winget show --id Git.Git
@@ -1581,7 +1647,7 @@ winget install --id Git.Git -e --source winget
 
 ### Installing Open SSH Beta
 
-- https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH
+- [github.com/PowerShell/Win32-OpenSSH](https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH)
 
 The beta version of OpenSSH is part of the PowerShell project and often contains additional (essential) features missing from the stable version.
 
@@ -1592,9 +1658,18 @@ winget uninstall "openssh beta"
 ```
 
 
+### Installing Windows Terminal
+
+- [github.com/microsoft/terminal](https://github.com/microsoft/terminal?tab=readme-ov-file#via-windows-package-manager-cli-aka-winget)
+
+```powershell
+winget install --id Microsoft.WindowsTerminal -e
+```
+
+
 ### Install USBIPD
 
-- https://github.com/dorssel/usbipd-win
+- [github.com/dorssel/usbipd-win](https://github.com/dorssel/usbipd-win)
 
 This project is being developed to allow TCP/IP passthrough of USB devices to WSL2 and Hyper-V VM's on Windows.
 
