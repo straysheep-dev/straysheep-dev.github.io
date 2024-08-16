@@ -167,26 +167,6 @@ Restart-Service sshd
 ```
 
 
-## Backup and Revert
-
-[PowerSTIG 4.10.0 and later has the ability to create a backup reference point based on a STIG profile you'll be applying, so it knows what to revert to](https://github.com/Microsoft/PowerStig/wiki/Backup-and-Revert).
-
-Create the backup.
-
-```powershell
-$DevPath = "C:\Tools\PowerSTIGDev"
-$Policy = "WindowsServer-2022-DC-1.5"
-Backup-StigSettings -BackupLocation $DevPath\$Policy  -StigName $Policy
-```
-
-Revert the system's state.
-
-```powershell
-$Policy = "WindowsServer-2022-DC-1.5"
-Restore-StigSettings -StigName $Policy
-```
-
-
 ## Compile MOF
 
 To compile and maintain MOF-based ([Managed Object Format](https://learn.microsoft.com/en-us/windows/win32/wmisdk/managed-object-format--mof-)) resources, [use a PowerShell script module](https://learn.microsoft.com/en-us/powershell/dsc/how-tos/resources/authoring/mof-based?view=dsc-2.0#writing-the-script-module). This script module was created from one of the examples for [WindowsServer](https://github.com/Microsoft/PowerStig/wiki/WindowsServer) under the wiki's [Composite Resources](https://github.com/Microsoft/PowerStig/wiki/CompositeResources).
@@ -260,6 +240,32 @@ Mode                 LastWriteTime         Length Name
 -a----         7/13/2024  11:46 PM         312314 localhost.mof
 -a----         7/13/2024  11:30 PM           5775 WindowsServer-2022-MS-1.5.org.default.xml
 -a----         7/13/2024  11:46 PM            812 WindowsServer2022-MS-1.5.ps1
+```
+
+
+## Backup and Revert
+
+After you compile the MOF file, [PowerSTIG 4.10.0 and later has the ability to create a backup reference point based on a STIG profile you'll be applying, so it knows what to revert to](https://github.com/Microsoft/PowerStig/wiki/Backup-and-Revert).
+
+!!! warning "Test Reverts"
+
+    While writing this guide, PowerSTIG did not always completely undo its changes. Be sure to review all of this in a test environment first.
+
+Create the backup.
+
+```powershell
+$DevPath = "C:\Tools\PowerSTIGDev"
+$Policy = "WindowsServer-2022-DC-1.5"
+Backup-StigSettings -BackupLocation $DevPath\$Policy  -StigName $Policy'.xml'
+```
+
+This creates a `.csv` backup file under the `$DevPath$Policy` path.
+
+Revert the system's state.
+
+```powershell
+$Policy = "WindowsServer-2022-DC-1.5"
+Restore-StigSettings -StigName $Policy'.xml' $DevPath$Policy\PowerSTIG_backup_WindowsServer-2022-DC-1.5.xml_08_16_2024_01_02_03.csv
 ```
 
 
