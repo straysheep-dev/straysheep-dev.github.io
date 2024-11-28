@@ -226,6 +226,8 @@ sdd                            8:48   0   1.8T  0 disk
 └─sdd1                         8:49   0   1.8T  0 part
 ```
 
+**Unlock an Encrypted Disk**
+
 Unlock and mount the LUKS partition. You can make up any name for a storage ID, just stick to alphanumeric characters and hyphens `-`. **Remember, you would only `mkdir` and `mount` a filesystem if you're using it as a filesystem. VM's benefit from lvm-thin data pools for more efficency than a filesystem**.
 
 !!! note "Naming the Storage ID"
@@ -237,7 +239,8 @@ Unlock and mount the LUKS partition. You can make up any name for a storage ID, 
     Since this is the third disk, we'll call it `luks3-lvm` to stick to a similar naming convention.
 
 ```bash
-# cryptsetup open --type luks /dev/sddX <storage-id>
+# Example: cryptsetup open --type luks /dev/sddX <storage-id>
+# This is all you need if the encrypted partition is acting as a storage pool for VMs
 cryptsetup open --type luks /dev/sdd1 luks3-lvm
 
 # If this will be a filesystem and NOT an lvm-thin storage pool
