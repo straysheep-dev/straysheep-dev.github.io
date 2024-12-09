@@ -102,7 +102,7 @@ graph LR
 
 ## Tailscale Authkey
 
-If you don't know what an authkey is, it allows you to authenticate a device to a Tailnet programmatically, without the browser involved. See the [official documentation](https://tailscale.com/kb/1085/auth-keys), or [Tailnet Access](../wazuh-all-your-things-with-tailscale/#tailnet-access) for steps to generate an authkey.
+If you don't know what an authkey is, it allows you to authenticate a device to a Tailnet programmatically, without the browser involved. See the [official documentation](https://tailscale.com/kb/1085/auth-keys), or [Tailnet Access](../posts/wazuh-tailscale.md#tailnet-access) for steps to generate an authkey.
 
 The resulting string looks like `tskey-auth-1234567890-ABCDEF1234567890ABCDEF1234567890`
 

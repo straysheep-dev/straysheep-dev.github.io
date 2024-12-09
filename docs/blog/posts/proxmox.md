@@ -446,3 +446,47 @@ Now when creating the VM:
 - Add two, the WAN side can be the default `vmbr0`, the LAN side is your new `vmbrX` with either `intel E1000` or `virtIO`
 - One will receive DHCP / access to the outside world over the Proxmox virtual brdige
 - The other will remain purely virtual (for example pfSense could then provide DHCP to that NIC)
+
+
+### 💾 Disk Passthrough
+
+Say you've installed Proxmox on an existing server or workstation, either as the primary OS or next to an existing OS. You can mount any of the internal drives to VM's without any special modifications to Proxmox's kernel or boot parameters (tested on PVE-8.3.0).
+
+!!! note "PCIe Passthrough?"
+
+    This does *not* cover PCIe passthrough, see [this video](https://www.youtube.com/watch?v=_hOBAGKLQkI) for details on passing through entire storage controllers and GPUs.
+
+    This type of hardware passthrough *does* require modifications to the kernel and reboots. It will have its own section in this guide after testing.
+
+The commands below are summarized from this article, on [how to pass through a physical disk to a virtual machine](https://pve.proxmox.com/wiki/Passthrough_Physical_Disk_to_Virtual_Machine_(VM)). This can be done while the VM is live, and without rebooting the VM or Proxmox.
+
+In summary, first obtain the MODEL (e.g. ata-ST1000DM001-1ABCDEF) plus the SERIAL string (e.g. Z1A2B3C4) of all disks:
+
+```bash
+lsblk -o +MODEL,SERIAL,WWN
+```
+
+If you're looking for a specific disk, you'll have to recognize it by MODEL name, or if they're all the same, you may have to mount each one and review what's on it.
+
+Together those strings create a full path to the disk itself. Find the full path under `/dev/disk/by-id/` by searching for the SERIAL string.
+
+```bash
+ls -l /dev/disk/by-id | grep Z1A2B3C4
+```
+
+Hot-plug the disk as a new SCSI device to the VM.
+
+```bash
+# Existing SCSI disks are listed as scsi0, scsi1, etc. Add this as a new disk
+# to <vm-id>. Use the full path to the disk like below.
+qm set <vm-id> --scsi<int> /dev/disk/by-id/<model>_<serial>
+
+# Example:
+qm set 105 --scsi2 /dev/disk/by-id/ata-ST1000DM001-1ABCDEF_Z1A2B3C4
+```
+
+Hot-unplug or remove the disk.
+
+```bash
+qm unlink 105 --idlist scsi2
+```
