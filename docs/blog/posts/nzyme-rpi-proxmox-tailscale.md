@@ -556,6 +556,55 @@ channels_6g = [<list-of-channels>]
 After making these adjustments, `sudo systemctl restart nzyme-tap` should result in a successful run.
 
 
+## Bluetooth Monitoring
+
+Follow the documentation [here](https://docs.nzyme.org/bluetooth/). You're obtaining your bluetooth interface information with `hciconfig` similar to `ifconfig`. Ensure any bluetooth interfaces you want monitoring have their own block in `/etc/nzyme/nzyme-tap.conf`, same as each wireless interface.
+
+```conf
+# Example
+<SNIP>
+[bluetooth_interfaces.hci0]
+active = true
+bt_classic_enabled = true
+bt_le_enabled = true
+discovery_period_seconds = 30
+dbus_method_call_timeout_seconds = 2
+<SNIP>
+```
+
+!!! tip "Bluetooth still isn't working?"
+
+	You'll need to enable the bluetooth subsystem in three places for it to work: on the node itself at the system level, at the organization level, and at the tenant level.
+
+	If you search the nzyme Discord for help with enabling bluetooth monitoring, for example you've set the appropriate changes in `/etc/nzyme/nzyme-tap.conf` (above) and still see something like the following in the journalctl or systemctl status logs:
+
+	```bash
+	[ERROR][2024-12-06 01:02:03][bluetooth::tables::bluetooth_table] Could not submit Bluetooth devices report: ...
+	```
+
+	...you'll find this post from the nzyme founder:
+
+	> You have to enable it for the organization first and then it should  be possible to enable it for the tenant as well
+
+To enable bluetooth for the Node at the system level:
+
+- System > Subsystems
+- Here you'll see a subsystem settings pane where you can enable bluetooth
+
+To enable bluetooth at the Organization level:
+
+- System > Authentication > Your-Organization-Name (Often "Default Organization")
+- Choose "Edit Organization" on the top right
+- Here you'll see a subsystem settings pane where you can enable bluetooth
+
+To enable bluetooth at the Tenant level:
+
+- System > Authentication > Your-Organization-Name (Often "Default Organization")
+- Under "Tenants" click on your Tenant (Often "Default Tenant")
+- Choose "Edit Tenant" on the top right
+- Here you'll see a subsystem settings pane where you can enable bluetooth
+
+
 ## Going Forward
 
 !!! warning "Under Construction"
