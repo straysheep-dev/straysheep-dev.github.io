@@ -38,6 +38,7 @@ theme:
     - navigation.path
     - navigation.tabs
     - navigation.sections
+    - navigation.indexes
 #    - navigation.expand
     - navigation.top
     - toc.integrate
@@ -50,9 +51,10 @@ theme:
 plugins:
   - blog:
       blog_toc: true
+      #archive: false
       archive_toc: true
       categories: false
-      blog_dir: blog
+      pagination_per_page: 100
   - search
   - social
 
@@ -78,6 +80,30 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/straysheep-dev
+
+# https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=nav#section-index-pages
+nav:
+  - Main: index.md
+  - License: license.md
+  - Blog:
+    - blog/index.md
+    - Post: blog/posts/aide.md
+    - Post: blog/posts/art-x-uac.md
+    - Post: blog/posts/bind9.md
+    - Post: blog/posts/bitwarden.md
+    - Post: blog/posts/check-auditd-demo.md
+    - Post: blog/posts/custom-shell-profiles.md
+    - Post: blog/posts/flatpak.md
+    - Post: blog/posts/nzyme-rpi-proxmox-tailscale.md
+    - Post: blog/posts/openscap.md
+    - Post: blog/posts/openwrt.md
+    - Post: blog/posts/pfsense.md
+    - Post: blog/posts/powerstig.md
+    - Post: blog/posts/proxmox.md
+    - Post: blog/posts/snap.md
+    - Post: blog/posts/wazuh-tailscale.md
+    - Post: blog/posts/windows.md
+
 
 
 copyright: Copyright &copy; 2023-2024 straysheep-dev

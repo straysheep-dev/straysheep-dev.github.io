@@ -1,9 +1,25 @@
 ---
 
+title: License
 hide:
   - navigation
 
 ---
+
+<!--
+You can use HTML in MD pages to modify them.
+https://github.com/squidfunk/mkdocs-material/discussions/2893
+https://developer.mozilla.org/en-US/docs/Web/CSS/:first-of-type
+https://developer.mozilla.org/en-US/docs/Web/CSS/display
+-->
+
+<style>
+h1:first-of-type {
+    display: none;
+}
+</style>
+
+# License
 
 ## [Creative Commons Attribution-NonCommercial 4.0 International Public License](https://creativecommons.org/licenses/by-nc/4.0/)  :fontawesome-brands-creative-commons::fontawesome-brands-creative-commons-by::fontawesome-brands-creative-commons-nc: (CC BY-NC 4.0)
 
