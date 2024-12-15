@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-05-07
-  updated: 2024-08-13
+  updated: 2024-12-14
 categories:
   - openwrt
   - how-to
@@ -15,9 +15,15 @@ categories:
 
 # OpenWrt
 
-A quick reference for general setup and usage.
+This guide includes details for installing and running OpenWrt on UniFi AP's as well as Raspberry Pis and even as a virtual machine.
 
-*Updated on 2024/08/13.*
+Because it's so flexible in its deployment, there are examples for different use cases included. For instance Tailscale can be leveraged for easy remote administration from anywhere including your mobile device thanks to the Web UI if that's important to you. Generally this guide approaches OpenWrt as a way to provide WiFi to networks where pfSense (or another upstream device) is the primary firewall router.
+
+!!! tip ""
+
+	There's a detailed list of reference links at the top to keep in mind as you read through, and each step tries to include useful copy-and-paste ready commands for operations you may need to repeat every time you go through the process being described.
+
+*Updated on 2024/12/14.*
 
 <!-- more -->
 
@@ -27,6 +33,7 @@ A quick reference for general setup and usage.
 
 - Essentials
 	* <https://firmware-selector.openwrt.org/>
+	* <https://openwrt.org/advisory/start> (Security advisories)
     * <https://openwrt.org/toh/ubiquiti/unifiac>
 	* <https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi>
     * <https://openwrt.org/docs/guide-user/security/signatures>
@@ -90,9 +97,10 @@ A quick reference for general setup and usage.
 
 Connect to the device at OpenWrt's default: `ssh -p 22 root@192.168.1.1`
 
-   1) Note that you'll likely need to reconfigure your machine's network interface to be an ip address on 192.168.1.0/24 using `ifconfig` or `ip`
+   1) Note that you'll likely need to **manually** reconfigure your machine's network interface to be an ip address on 192.168.1.0/24 using a GUI, `ifconfig` or `ip`
    2) Use `sudo systemctl restart network-manager.service`
-   3) On Windows, you will need to reboot unless a future update permits reconfiguring of a live network interface
+   3) On Windows, you can do this via the network configuration GUI
+   4) You can still use your host's existing WiFi connection for internet while working on the OpenWrt device via ethernet
 
 ## Troubleshoot Connecting
 
@@ -131,26 +139,22 @@ nmap -n -Pn -sT -p22 -e ethX 192.168.1.0/24 --open
 ```
 From here continue to watch the output from `tcpdump`, see what the device is doing and adjust accordingly
 
-When in doubt, factory reset the device, restart your PC, and then attempt a new connection.
+When in doubt, factory reset the device, restart your PC, and then attempt a new connection by manually assigning your host's ethernet connection an IP in the 192.168.1.x/24 range, and trying to `ssh root@192.168.1.1`.
 
 
 ## Installing OpenWrt on a Raspberry Pi 4B:
 
-*⚠️ TO DO: This section is still under construction, check back later! ⚠️*
+*⚠️ This section is still under construction, check back later! ⚠️*
 
-The Pi 4B can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbian live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.
+The Pi 4B (and assumably later models) can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbian live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.
 
 !!! warning "Wireless Card Limitations"
 
-	In some cases (like the Raspbery Pi 4B) the built in wireless card is limited to broadcasting only a single ESSID. **This is likely a case of OpenWrt not having the necessary driver installed by default**. If you boot into Ubuntu or Kali you may be able to configure numerous ESSID's in `hostapd`. These OS's have other drivers available to install that support different functionality of the card that OpenWrt may not have available without adding it via `opkg`. This will need reviewed.
-
-	Generally, it's recommended to leverage an external wireless card. This section will be updated once this has been tested.
+	Virtual AP functionality, or creating multiple ESSIDS tied to the same wireless radio, can be limited depending on 1) if the card supports it, and 2) if OpenWrt has a kernel driver that can use the functionality.
 
 !!! warning "[The Country Code Issue](https://forum.openwrt.org/t/cannot-use-channels-12-and-13-on-raspberry-pi-3-in-ap-config/3707/14)"
 
-	**This may be innacurrate, in my tests the ESSID limitations prevented any real diagnosis of this, as with a single ESSID I was able to see it, and connect to it. This suggests the default driver in OpenWrt prevents multiple ESSID's from being assigned to a single radio, instead of this being a country code issue**.
-
-	To get OpenWrt's WiFi working on a Raspberry Pi, you need to boot into a Raspbian OS environment to set the country code. According to numerous posts on the OpenWrt forum, Raspbian writes this to a special non volatile place in memory, that 1) persists, and 2) OpenWrt cannot write to.
+	To get OpenWrt's WiFi working on a Raspberry Pi, you *may* need to boot into a Raspbian OS environment to set the country code. According to numerous posts on the OpenWrt forum, Raspbian writes this to a special non volatile place in memory, that 1) persists, and 2) OpenWrt cannot write to.
 
 	Before starting, flash a copy of Raspbian onto the USB drive, boot into a live environment, set the country code, and then proceed.
 
@@ -164,7 +168,7 @@ The Pi 4B can boot from a USB device. If you're using an SD card some of these s
 	sha256sum -c 2024-07-04-raspios-bookworm-arm64.img.xz.sha256 --ignore-missing
 	```
 
-	Use [etcher](https://github.com/balena-io/etcher/releases) or [rufus](https://github.com/pbatard/rufus/releases) to flash the img.xz file to the USB drive. Fix the country code with:
+	Use [Raspberry Pi Imager](), [etcher](https://github.com/balena-io/etcher/releases), or [rufus](https://github.com/pbatard/rufus/releases) to flash the img.xz file to the USB drive. Fix the country code with:
 
 	```bash
 	sudo raspi-config
@@ -193,19 +197,97 @@ The Pi 4B can boot from a USB device. If you're using an SD card some of these s
 	- Bottom USB port is `sda2`
 	- See [this commit](https://github.com/openwrt/openwrt/commit/fe0081eecf43bfd92ac68aa0f3ce7165aaddb4f2#diff-0608b1462f1950762f22af24d20dc7ec4a81b102dce5c810635d41c700ddaba8) for details
 
-Example `cmdline.txt`:
+!!! tip "Example `cmdline.txt`"
 
-```txt
-console=serial0,115200 console=tty1 root=/dev/sda2 rootfstype=squashfs,ext4 rootwait
-```
+	```txt
+	console=serial0,115200 console=tty1 root=/dev/sda2 rootfstype=squashfs,ext4 rootwait
+	```
 
-**Connect**
+**Connect (to Pi)**
 
 - If you have an external display attached, after a successful boot press `[Enter]` for a root shell
-- You can also connect an external laptop via LAN / ethernet cable, and browse to or `ssh root@192.168.1.1`
+- You can also connect an external laptop via LAN / ethernet cable, and browse to or `ssh -L 127.0.0.1:8080:127.0.0.1:80 root@192.168.1.1`
 - By default, OpenWrt does not expose itself over WLAN (WiFi) until it's configured
 
-**Migrate Config**
+**Connect (Pi to Network)**
+
+Now you'll need to connect the Pi itself to the internet somehow, to install necessary packages.
+
+**Option 1: Use the built-in Ethernet**
+
+If you have a keyboard and monitor attached to the Pi, or can reach the Pi over SSH from the same network, you can of course connect the Pi via an ethernet cable.
+
+**Option 2: Use the built-in WiFi**
+
+!!! note "Credits & Thanks"
+
+	Thanks to Network Chuck's video on setting up a Raspberry Pi as a travel VPN router. See the video instructions [here](https://youtu.be/jlHWnKVpygw?si=-dRyVsBEtA8sHcp4&t=1091).
+
+	This section was built from the setup steps demonstrated in the video.
+
+	Credit to [this OpenWrt forum post](https://forum.openwrt.org/t/installing-drivers-for-alfa-awus036acm/159288) on pointing to the correct drivers for the ALFA AWUS036ACM card.
+
+- Change root's password with `passwd`, save it to your credential manager
+- Set the web interface to only listen on 127.0.0.1 and ::1 in `/etc/config/uhttpd`
+- Create a `wwan` device in `/etc/config/network` with only DHCP set
+
+	```txt
+	config interface 'wwan'
+	        option proto 'dhcp'
+	```
+
+- Delete the existing AP config under `/etc/config/wireless` (we're not ready to be an AP yet)
+- Also under `/etc/config/wireless`, change `option disabled '1'` to `option disabled '0'` for the only device
+- Save, then enter `uci commit wireless; wifi`
+- Now you can connect to an existing wireless network as if this were a laptop or any other device
+	- Via GUI (see [Network Chuck's video](https://youtu.be/jlHWnKVpygw?si=-dRyVsBEtA8sHcp4&t=1091) referenced above.)
+	- Via `/etc/config/wireless` (see the text config directly below)
+
+
+```txt
+config wifi-device 'radio0'
+        option type 'mac80211'
+        option path 'platform/soc/your/unique/device/path/here'
+        option channel '36'
+        option band '5g'
+        option htmode 'VHT80'
+        option disabled '0'
+        option country 'US'
+        option cell_density '0'
+
+config wifi-iface 'wifinet0'
+        option device 'radio0'
+        option mode 'sta'
+        option network 'wwan'
+        option ssid 'YOUR-ESSID'
+        option encryption 'psk2'
+        option key '<your-wifi-password>'
+```
+
+Now you can `ping 1.1.1.1` and `google.com`. At this point, reboot and make sure you can ssh back in, and everything works.
+
+Once you're logged back in, run `opkg update` (OpenWrt's `apt update` equivalent), then install the following packages for external / USB wireless card support.
+
+```sh
+opkg update
+opkg install nano usbutils kmod-usb2 kmod-usb-core kmod-usb-ohci kmod-usb-uhci kmod-rt2800-lib kmod-rt2800-usb kmod-rt2x00-lib kmod-rt2x00-usb
+
+# Initially the mt7x kernel modules weren't visible in opkg, run another update if that's the case
+opkg update
+opkg install kmod-mt76-usb kmod-mt76x2u
+```
+
+You do not *need* to reboot here, the device will be visible in the output of `ip link | grep DOWN`.
+
+Do the same as the first wireless card, and delete the default wifi config from `/etc/config/wireless` or the GUI, save, then scan the local area using the new card. You should see results, proving the card works.
+
+
+**Migrate an Existing Config**
+
+!!! warning "Wireless Card Limitations"
+
+	Virtual AP functionality, or creating multiple ESSIDS tied to the same wireless radio, can be limited depending on 1) if the card supports it, and 2) if OpenWrt has a kernel driver that can use the functionality.
+
 
 A primary use case is migrating your OpenWrt config to a new device. If the target device is different hardware from the source device, you will need to do some manual editing.
 
@@ -606,6 +688,38 @@ opkg info nmap-full
 # install packages
 opkg install nmap-full netcat tcpdump nano wireguard-tools kmod-wireguard git python3 scapy tmux audit
 ```
+
+
+### Remote Management
+
+**Tailscale on OpenWrt**
+
+Tailscale is available in the default OpenWrt package repos.
+
+```sh
+opkg update
+opkg install tailscale
+```
+
+Configure the ACLs to allow the necessary devices access to the web UI securely over Tailscale.
+
+
+**SSH Tunnel via Tailscale**
+
+If your device doesn't have room to install `tailscale` using `opkg`, you can use a jump box with Tailscale running to create an SSH tunnel to the web UI.
+
+- First create a passphrase-protected SSH key that will live on the jump box with `ssh-keygen -t ed25519`
+- Add the public key to `/etc/dropbear/authorized_keys` on OpenWrt
+- Ensure inbound SSH connections are allowed to OpenWrt
+- From the jump box: `ssh -f -N -i ~/.ssh/my-openwrt-key -L <tailscale0-ip>:8081:127.0.0.1:80 root@<openwrt-ip>`
+- You can of course use any VPN, not just Tailscale here
+
+This will open a tunnel in the background, allowing you to reach the OpenWrt device from the jump box via `<tailscale0-ip>:8081`. Some additional points:
+
+- `-f -N` tell SSH to run in the background without executing commands
+- This will need executed again each time the SSH connection breaks (OpenWrt or jump box reboots)
+- The risk here is giving the jump box access to the AP, though this may be acceptible in most cases
+
 
 ## Logging
 
