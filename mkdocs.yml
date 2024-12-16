@@ -94,6 +94,7 @@ nav:
     - Post: blog/posts/check-auditd-demo.md
     - Post: blog/posts/custom-shell-profiles.md
     - Post: blog/posts/flatpak.md
+    - Post: blog/posts/kvm.md
     - Post: blog/posts/nzyme-rpi-proxmox-tailscale.md
     - Post: blog/posts/openscap.md
     - Post: blog/posts/openwrt.md
