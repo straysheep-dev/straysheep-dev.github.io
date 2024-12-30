@@ -490,3 +490,19 @@ Hot-unplug or remove the disk.
 ```bash
 qm unlink 105 --idlist scsi2
 ```
+
+
+## Troubleshooting
+
+*This section details issues and how to resolve them.*
+
+
+### UEFI Causes Boot Failure
+
+Typically in Unix-like distros where UEFI is supported but Secure Boot is not, you must interrupt the boot process and turn off Secure Boot.
+
+- During boot, when you see the Proxmox splash screen, hit `Esc`
+- Select `Device Manager`
+- Select `Secure Boot Configuration`
+- Uncheck `Attempt SecureBoot` with the `Space` bar
+- Back out to the main UEFI menu and select `Continue`
