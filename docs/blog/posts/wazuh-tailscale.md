@@ -401,13 +401,114 @@ tailnet_ip=$(ip addr show tailscale0 | grep -oP "\b100(\.(\d){1,3}){3}\b")
 sudo ufw allow in on tailscale0 to $tailnet_ip proto tcp port 1515,1514,55000 comment wazuh
 ```
 
+!!! quote "[Wazuh Docs: Large Scale Deployment](https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html)"
+
+    If you are deploying Wazuh in a large environment, with a high number of servers or endpoints, keep in mind that this deployment might be easier using automation tools such as [Puppet](https://documentation.wazuh.com/current/deployment-options/deploying-with-puppet/index.html), [Chef](https://github.com/wazuh/wazuh-chef), SCCM, or [Ansible](https://documentation.wazuh.com/current/deployment-options/deploying-with-ansible/installation-guide.html).
+
 ---
 
 ### Agent Authentication
 
-*⚠️ TO DO: This section is still under construction, check back later! ⚠️*
+!!! abstract "Verifying Wazuh Connections"
 
-[Wazuh User Manual: Agent Enrollment Security Options](https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/security-options/index.html)
+    This section details steps you can use to lock down connections to and from your Wazuh instance. You may want to do this for a few reasons.
+
+    1. Prevent a rogue Wazuh server from intercepting data from endpoints
+    2. Prevent rogue endpoints from sending data into your Wazuh instance.
+
+    An adversary-controlled Wazuh server having full visibility into an endpoint is less than ideal for a number of reasons, and of these two points is likely the easier to achieve in a real world scenario where there's no authentication.
+
+    Rogue endpoints enrolling would ideally have little effect on your Wazuh instance, unless a known exploit is available for one of the backend server components, and this exploit can be leveraged by an agent sending crafted data to the data ingestors. You're already using Wazuh to detect and respond to emerging threats, so a malicious endpoint is baked-in to the potential threat model. Practically this would only be used in a more targeted scenario.
+
+There are effectively three options. The [Wazuh User Manual: Agent Enrollment Security Options](https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/security-options/index.html) page details all of these.
+
+#### 🔑 Password Auth
+
+*This method requires using a password during the enrollment process to ensure that Wazuh agents enrolled in the Wazuh manager are authenticated.*
+
+- [Instructions](https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/security-options/using-password-authentication.html)
+- It's recommended to use the same password across all nodes in a multi-node deployment
+- Agents and managers will no longer communicate without the password set on both ends
+- This will break exisitng connections to your manager
+- Configure the manager to expect password auth
+- Configure each agent to use the password during deployment or by adding the `authd.pass` file later
+
+Generally, if you want to get your Wazuh instance protected with minimal work, this is the way to go. Not only does it prevent unauthorized agents from enrolling, but a rogue server would need to know the password the agent requests when during enrollment. In other words, both the server and agents are protected.
+
+This output is from the agent's side when providing an enrollment password on the agent, for a Wazuh server that does not require a password to authenticate.
+
+```bash
+root@bind9-node:~# tail -F /var/ossec/logs/ossec.log
+2025/01/01 11:22:33 wazuh-agentd: INFO: Requesting a key from server: 10.0.0.20
+2025/01/01 11:22:33 wazuh-agentd: INFO: Using agent name as: bind9-node
+2025/01/01 11:22:33 wazuh-agentd: INFO: Waiting for server reply
+2025/01/01 11:22:33 wazuh-agentd: ERROR: Invalid request for new agent (from manager)
+2025/01/01 11:22:33 wazuh-agentd: ERROR: Unable to add agent (from manager)
+```
+
+These steps enforce password auth on the server:
+
+```bash
+sudo su -
+echo "Enter an enrollment password:"; read -s wazuh_auth_pass
+sed -E -i 's/<use_password>.*<\/use_password>/<use_password>yes<\/use_password>/' /var/ossec/etc/ossec.conf
+echo "$wazuh_auth_pass" > /var/ossec/etc/authd.pass
+chmod 640 /var/ossec/etc/authd.pass
+chown root:wazuh /var/ossec/etc/authd.pass
+systemctl restart wazuh-manager
+```
+
+These steps configure an agent to use password auth:
+
+=== "Linux/Unix"
+
+    ```bash
+    sudo su -
+    WAZUH_MANAGER="<server-ip-or-fqdn>" WAZUH_REGISTRATION_PASSWORD="<password>" apt-get install wazuh-agent
+    # Installing the agent with these env variables will make the necessary configurations
+    # for password auth to occur.
+
+    # If you have existing agents, you will need to deploy the password
+    # to each of them:
+    sudo su -
+    echo "<password>" > /var/ossec/etc/authd.pass
+    chmod 640 /var/ossec/etc/authd.pass
+    chown root:wazuh /var/ossec/etc/authd.pass
+    systemctl restart wazuh-agent.service
+    ```
+
+=== "Windows"
+
+    ```powershell
+    .\wazuh-agent-4.9.2-1.msi /q WAZUH_MANAGER="<server-ip-or-fqdn>" WAZUH_REGISTRATION_PASSWORD="<password>"
+    Restart-Service -Name wazuh
+    # Installing the agent with these env variables will make the necessary configuraitons
+    # for password auth to occur.
+
+    # If you have existing agents, you will need to deploy the password
+    # to each of them:
+    # 32-bit
+    echo "<password>" > "C:\Program Files\ossec-agent\authd.pass"
+    # 64-bit
+    echo "<password>" > "C:\Program Files (x86)\ossec-agent\authd.pass"
+    # Restart the agent
+    Restart-Service -Name wazuh
+    ```
+
+
+#### 🎫 Agent Verification
+
+!!! quote ""
+
+    *This method uses SSL certificates to verify that a Wazuh agent is authorized to enroll in the Wazuh manager.*
+
+
+#### 🎫 Manager Verification
+
+!!! quote ""
+
+    *This method uses SSL certificates to verify the identity of the Wazuh manager before a Wazuh agent sends the enrollment request.*
+
 
 ---
 
@@ -444,7 +545,9 @@ managed_group:
 
 ---
 
-### Shell Script
+### Shell Scripting
+
+#### 📦 Deploy a Single Node
 
 [There's a shell script that will deploy the SIEM on a single node](https://documentation.wazuh.com/current/quickstart.html).
 
@@ -455,17 +558,10 @@ curl -sO https://packages.wazuh.com/4.8/wazuh-install.sh && sudo bash ./wazuh-in
 
 ![](../media/wazuh-tailscale/wazuh_tailscale_wazuh_installer_script.png)
 
-[Deploy agents with a few lines as well](https://documentation.wazuh.com/current/quickstart.html#next-steps).
 
-**Linux**
+#### 📦 Deploy Agents
 
-```bash
-curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | sudo gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && sudo chmod 644 /usr/share/keyrings/wazuh.gpg
-echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | sudo tee -a /etc/apt/sources.list.d/wazuh.list
-sudo su -
-apt-get update
-WAZUH_MANAGER="10.0.0.2" WAZUH_REGISTRATION_PASSWORD="<password>" apt-get install wazuh-agent
-```
+[Deploy agents with a few lines](https://documentation.wazuh.com/current/quickstart.html#next-steps).
 
 !!! note "Wazuh's Public Key"
 
@@ -479,28 +575,39 @@ WAZUH_MANAGER="10.0.0.2" WAZUH_REGISTRATION_PASSWORD="<password>" apt-get instal
             Key fingerprint = 7C74 8627 7A6A 9681 DF3F  3D8A 417F 3D5A 664F AB32
     ```
 
-**Windows**
+=== "Linux"
 
-```powershell
-cd $env:TEMP
-iwr -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.8.0-1.msi -OutFile wazuh-agent.msi
-Start-Process msiexec '/quiet /i wazuh-agent.msi WAZUH_MANAGER="<manager-tailnet-ip>" WAZUH_REGISTRATION_PASSWORD="<password>"'
-```
+    ```bash
+    curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | sudo gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && sudo chmod 644 /usr/share/keyrings/wazuh.gpg
+    echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | sudo tee -a /etc/apt/sources.list.d/wazuh.list
+    sudo apt-get update
+    # Change to root
+    sudo su -
+    WAZUH_MANAGER="<server-ip-or-fqdn>" WAZUH_REGISTRATION_PASSWORD="<password>" apt-get install wazuh-agent
+    ```
+
+=== "Windows"
+
+    ```powershell
+    cd $env:TEMP
+    iwr -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.8.0-1.msi -OutFile wazuh-agent.msi
+    Start-Process msiexec '/quiet /i wazuh-agent.msi WAZUH_MANAGER="<server-ip-or-fqdn>" WAZUH_REGISTRATION_PASSWORD="<password>"'
+    ```
 
 !!! tip "Deploy agents as root / admin"
 
     `sudo su -` or run from an administrator powershell session when using the `WAZUH_MANAGER="<ip>" apt-get install wazuh-agent` otherwise the environment variable isn't read correctly.
 
-If this happens, manually add your manager's tailnet IP in `/var/ossec/etc/ossec.conf` or `C:\Program Files (x86)\ossec-agent\ossec.conf` **on the endpoint**:
+    If this happens, manually add your manager's tailnet IP in `/var/ossec/etc/ossec.conf` or `C:\Program Files (x86)\ossec-agent\ossec.conf` **on the endpoint**:
 
-![](../media/wazuh-tailscale/wazuh_tailscale_wazuh-agent.png)
+    ![](../media/wazuh-tailscale/wazuh_tailscale_wazuh-agent.png)
 
 ---
 
 
 ### Ansible
 
-There's also an ansible repo with similar options, for a distributed cluster or a single node:
+The Ansible repo allows for a distributed cluster or a single node / agent deployment. **This guide recommends using Ansible to help you automate your infrastructure and endpoint enrollment. Create your own roles or plays for custom configurations.**
 
 - 🌐 [wazuh-ansible](https://github.com/wazuh/wazuh-ansible)
 - 🌐 [You'll want to use the latest release's tag](https://github.com/wazuh/wazuh-ansible/releases/latest)
@@ -556,7 +663,7 @@ Primary key fingerprint: 9684 79A1 AFF9 27E3 7D1A  566B B569 0EEE BB95 2194
     In all cases you'll need to place trust primarily into the project (which your're already doing by using it) and GitHub's infrastructure. This is an overly paranoid take on verifying integrity, but something to consider when an EDR / SIEM has complete access to your infrastructure. If you'd rather use Wazuh's apt / dnf installation options, they rely on the Wazuh signing key which has a known fingerprint of `0DCF CA55 47B1 9D2A 6099  5060 96B3 EE5F 2911 1145`. Use this fingerprint to cross reference it against [the GPG key from Wazuh.com](https://packages.wazuh.com/key/GPG-KEY-WAZUH) and [keyserver.ubuntu.com](https://keyserver.ubuntu.com/pks/lookup?search=0DCF+CA55+47B1+9D2A+6099++5060+96B3+EE5F+2911+1145&fingerprint=on&op=index)
 
 
-**📦 Deploy a Single Node**
+#### 📦 Deploy a Single Node
 
 `cd` into the project folder and create a new inventory file.
 
@@ -598,7 +705,7 @@ ansible-playbook -i inventory.ini -b -v ./wazuh-single.yml
 
 ---
 
-**📦 Deploy Agents**
+#### 📦 Deploy Agents
 
 !!! info "Tailnet connections"
 
