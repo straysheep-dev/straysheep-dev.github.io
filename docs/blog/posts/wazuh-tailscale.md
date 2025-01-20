@@ -43,7 +43,7 @@ This guide shows you how to get a Wazuh instance running over Tailscale on both 
 
 [Create a Tailscale account](https://login.tailscale.com/start) if you already don't have one ([it's free for up to 3 users and 100 devices](https://tailscale.com/pricing)).
 
-**🏷️ Defining ACLs and Tags**
+### 🏷️ Defining ACLs and Tags
 
 This allows agents to communicate with ports on the manager node(s), but nothing else in your tailnet, not even other endpoints.
 
@@ -73,7 +73,7 @@ This allows agents to communicate with ports on the manager node(s), but nothing
 *Be sure your Wazuh nodes ingesting data also have their firewalls open on tcp/1515 tcp/1514 tcp/55000 **for their tailnet interface only**.*
 
 
-**🏷️ Tagging Devices**
+### 🏷️ Tagging Devices
 
 This can be done when generating an authkey, or once a device is already in your tailnet.
 

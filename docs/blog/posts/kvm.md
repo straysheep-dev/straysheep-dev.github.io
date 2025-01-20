@@ -49,6 +49,18 @@ sudo usermod -aG libvirtd $USER
 ```
 
 
+### Paths
+
+| Path | Description |
+| --- | ---
+| `/etc/libvirt/qemu` | VM XML configs |
+| `/var/lib/libvirt/images` | VM disks |
+| `/var/lib/libvirt/qemu/nvram` | EFI Vars |
+| `/var/lib/libvirt/qemu/snapshot/<vm-name>/<snapshot-name>.xml` | Snapshot XML configs |
+| `/etc/libvirt/qemu/networks/` | Network configurations |
+| `/etc/libvirt/nwfilter/` | Network filtering configurations |
+
+
 ### Commands
 
 `virsh` allows you to automate and control virtual machine behavior from the CLI.
@@ -81,6 +93,19 @@ sudo usermod -aG libvirtd $USER
 | `virsh net-dhcp-leases <network-name>` | List all current DHCP leases on `<network-name>` if it's managed via virt-manager / dnsmasq |
 | `virsh domiflist <vm-name>` | List all network interfaces attached to `<vm-name>` |
 | `virsh domifaddr <vm-name> [--source agent|arp|lease]` | Get IP information from `<vm-name>`, optionally using one of three methods |
+| `virsh net-dumpxml <network>` | Output the virtual network information as an XML dump to stdout. |
+| `virsh net-create <network> [--validate]` | Create a transient (temporary) virtual network from an XML file and instantiate (start) the network. |
+| `virsh net-define <network> [--validate]` | Define an inactive persistent virtual network or modify an existing persistent one from the XML file. |
+| `virsh net-undefine <network>` | Undefine the configuration for a persistent network. If the network is active, make it transient. |
+| `virsh net-edit <network>` | Edit the XML configuration file for a network. |
+| `virsh net-list [--all]` | Returns the list of active networks. |
+| `virsh net-start <network>` | Start a (previously defined) inactive network. |
+| `virsh net-destroy <network>` | Destroy (stop) a given transient or persistent virtual network specified by its name or UUID. This takes effect immediately. |
+| `virsh nwfilter-define <filter> [--validate]` | Define or update a network filter from an XML file |
+| `virsh nwfilter-undefine <filter>` | Undefine a network filter |
+| `virsh nwfilter-dumpxml <filter>` | Network filter information in XML |
+| `virsh nwfilter-list` | List network filters |
+| `virsh nwfilter-edit <filter>` | Edit XML configuration for a network filter |
 
 
 ### Networking
@@ -135,6 +160,109 @@ sudo virsh net-autostart default
 sudo virsh net-list --all
 systemctl status libvirtd
 ```
+
+
+#### Filtering Network Traffic
+
+!!! abstract "nwfilter vs Host Firewall"
+
+    Instead of using a host utility like `iptables` or `ufw` to manage virtual machine network filtering, it's better to use libvirt's built-in `nwfilter` directly to ensure rules are being applied to machines correctly. This is most useful when VM's are either bridged, or NAT'd without a router / firewall in front of them.
+
+- [libvirt.org/firewall](https://libvirt.org/firewall.html#the-network-filter-driver)
+- [libvirt.org/formatnwfilter](https://libvirt.org/formatnwfilter.html)
+- [`nwfilter` CLI](https://libvirt.org/formatnwfilter.html#command-line-tools)
+- [RedHat: Apply Network Filtering](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-virtual_networking-applying_network_filtering)
+
+There are a number of pre-built example rules. According to the documentation:
+
+!!! quote ""
+
+    They are all stored in `/etc/libvirt/nwfilter`, but don't edit the files there directly. Use `virsh nwfilter-define` to update them. This ensures the guests have their iptables/ebtables rules recreated.
+
+To apply nwfilter rules, we need to:
+
+- Create the XML file, defaults are under `/etc/libvirt/nwfilter/<rule-name>.xml`
+- Define the new file as a rule with `virsh nwfilter-define`
+- Add a `<filterref/>` reference to this rule in a VM's network configuration XML
+- Verify the rules are working
+
+---
+
+##### Example: Block Tailnet Access
+
+This is useful if for example your host has access to Tailnet resources that an untrusted guest VM should not be able to reach.
+
+Create a custom rule by referencing [the custom rule examples](https://libvirt.org/formatnwfilter.html#writing-your-own-filters). We can build one that uses the existing `clean-traffic` filter as a base reference, and adds a "drop" rule to all outbound traffic destined for `100.64.0.0/10` to prevent VM's from accessing Tailnet endpoints they shouldn't be able to see.
+
+```bash
+sudo nano /etc/libvirt/nwfilter/no-tailnet-traffic.xml
+```
+
+!!! tip "Generate a UUID"
+
+    In Linux you can create a UUID using a proc path. Credit to [rpinz](https://github.com/rpinz) for this:
+
+    ```bash
+    cat /proc/sys/kernel/random/uuid
+    dc48344d-99fa-42c2-8db8-4eeaea0116f6
+    ```
+
+The priority values are left as the defaults described in the documentation.
+
+```xml
+<filter name='no-tailnet-traffic' chain='ipv4' priority='-700'>
+  <uuid>dc48344d-99fa-42c2-8db8-4eeaea0116f6</uuid>
+  <!-- Reference the clean traffic filter to prevent
+       MAC, IP and ARP spoofing. By not providing
+       and IP address parameter, libvirt will detect the
+       IP address the VM is using.
+
+       https://libvirt.org/formatnwfilter.html#writing-your-own-filters
+  -->
+  <filterref filter='clean-traffic'/>
+
+  <!-- Drop all outbound traffic to the CGNAT ranges, or
+       100.64.0.0/10, which is also used in Tailnets.
+       This prevents VM's from talking to endpoints that
+       hosts can reach over Tailnets.
+
+       By referencing the clean-traffic filter above, the
+       rule is dynamically obtaining each VM's $IP address
+       when this filter applies. That's why a srcipaddr and
+       srcipmask aren't used here.
+
+       Since CGNAT ranges are exclusively IPv4, this only
+       applies to the <ip/> protocol in libvirt's nwfilter.
+
+       https://libvirt.org/formatnwfilter.html#reserved-variables
+  -->
+  <rule action='drop' direction='out' priority='500'>
+    <ip dstipaddr='100.64.0.0' dstipmask='255.192.0.0'/>
+  </rule>
+</filter>
+```
+
+!!! tip "Nested Filter References"
+
+    As you can probably tell from the example, you can build rules by referencing other rules, that reference other rules, and so on.
+
+Save it, then define it as a new `nwfilter` rule. `--validate` ensures there are no syntax issues.
+
+```bash
+sudo virsh nwfilter-define /etc/libvirt/nwfilter/no-tailnet-traffic.xml --validate
+```
+
+Add the following into the `<interface/>` block within a guest VM's NIC XML data.
+
+```xml
+  <filterref filter='no-tailnet-traffic'/>
+```
+
+Reboot the VM if necessary and verify that the rules are working.
+
+!!! note "Adding Filters to Networks"
+
+    Initially adding a `<filterref/>` block to a network such as the `default` network was tried. It appears these rules must be applied per-machine. Until a way is found to apply this globally per-network, assume this is true.
 
 
 ## SPICE
