@@ -40,6 +40,7 @@ theme:
     - navigation.sections
     - navigation.indexes
 #    - navigation.expand
+    - navigation.path
     - navigation.top
     - toc.integrate
 #    - toc.follow
@@ -87,11 +88,13 @@ nav:
   - License: license.md
   - Blog:
     - blog/index.md
+    - Post: blog/posts/resources.md
     - Post: blog/posts/aide.md
     - Post: blog/posts/art-x-uac.md
     - Post: blog/posts/bind9.md
     - Post: blog/posts/bitwarden.md
     - Post: blog/posts/check-auditd-demo.md
+    - Post: blog/posts/cicd.md
     - Post: blog/posts/custom-shell-profiles.md
     - Post: blog/posts/flatpak.md
     - Post: blog/posts/kvm.md
@@ -102,6 +105,7 @@ nav:
     - Post: blog/posts/pfsense.md
     - Post: blog/posts/powerstig.md
     - Post: blog/posts/proxmox.md
+    - Post: blog/posts/rsync.md
     - Post: blog/posts/snap.md
     - Post: blog/posts/wazuh-tailscale.md
     - Post: blog/posts/windows.md

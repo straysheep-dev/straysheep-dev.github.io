@@ -14,6 +14,38 @@ Notes related to the [bitwarden password manager](https://bitwarden.com/).
 
 <!-- more -->
 
+
+## bitwarden SSH
+
+[Bitwarden now has its own SSH agent](https://bitwarden.com/help/ssh-agent/#configure-bitwarden-ssh-agent). To enable it, go to File > Settings > Enable SSH agent.
+
+!!! note "flatpak"
+
+	The flatpak version **does not** have SSH agent support at the time of updating this post.
+
+You can import existing SSH private keys, or even generate new ED25519 SSH keys.
+
+This does not have to interfere with your existing configuration. For example, [configure_gnupg](https://github.com/straysheep-dev/ansible-configs/tree/main/configure_gnupg) still writes the block below to the `~/.bashrc` file. However, the commands to use bitwarden's SSH agent are included in the comments so that:
+
+- You can copy and paste them into a single terminal pane to leverage per-session
+- You can easily comment out the gpg line and replace it to use bitwarden by default
+
+The configuration block is here for reference.
+
+```conf
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+
+# You can alternatively use Bitwarden's SSH agent, either temporarily per-session by copy and pasting
+# one of the lines below into your terminal, or here in bashrc by commenting out the gpg SSH_AUTH_SOCK.
+# File > Settings > Enable SSH agent
+# https://bitwarden.com/help/ssh-agent/#configure-bitwarden-ssh-agent
+#export SSH_AUTH_SOCK=/home/$USER/.bitwarden-ssh-agent.sock
+#export SSH_AUTH_SOCK=/home/$USER/snap/bitwarden/current/.bitwarden-ssh-agent.sock
+```
+
+
 ## bitwarden CLI
 
 <https://bitwarden.com/help/cli/>
@@ -28,7 +60,7 @@ bw lock
 bw logout
 ```
 
-## Programmatically work with attachments
+### Programmatically work with attachments
 
 Without a way to do this from any of the GUI based clients, this will help you work with large numbers of attachments.
 
