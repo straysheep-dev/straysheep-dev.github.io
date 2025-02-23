@@ -578,8 +578,27 @@ This includes general network information as well as network-focused tools.
 
 ### Wireless
 
-⚠️ TO DO ⚠️
+??? example "WiFiChallengeLab-docker"
 
+	This is one of the most useful resources to learning nearly all wireless recon and attack paths in a safe and isolated environment. Deployment options include:
+
+	- Pull the VM from Vagrant or GitHub releases
+	- Alternatively install and run the entire lab through docker on a VM or host you have
+
+	My preference is to configure a Kali Linux VM as I would to prepare it for wireless testing, and run the lab via docker on top of it. Your VM will have virtual wireless cards added through the 80211_hwsim kernel module. You can use these to interact with the containerized AP's as if they were "real".
+
+	> Docker version of WiFiChallenge Lab with modifications in the challenges and improved stability. Ubuntu virtual machine with virtualized networks and clients to perform WiFi attacks on OPN, WPA2, WPA3 and Enterprise networks.
+
+	- <https://github.com/r4ulcl/WiFiChallengeLab-docker>
+
+
+??? example "Wifi-Forge"
+
+	Virtual wireless pentesting lab from BHIS.
+
+	> Wi-Fi Forge provides a safe and legal environment for learning WiFi hacking. Based on the open source Mininet-Wifi, this project automatically sets up the networks and tools needed to run a variety of WiFi exploitation labs, removing the need for the overhead and hardware normally required to perform these attacks.
+
+	- <https://github.com/blackhillsinfosec/Wifi-Forge>
 
 ### Cloud
 
@@ -595,18 +614,60 @@ This includes general network information as well as network-focused tools.
 
 All things standards, configuration, compliance, and policy related.
 
+??? abstract "OpenSCAP"
+
+	> Security automation content in SCAP, Bash, Ansible, and other formats.
+
+	These resources primarily focus on Unix-like operating systems. Windows support is no longer maintained as of the time of writing this.
+
+	- <https://github.com/ComplianceAsCode/content> (bash and ansible deployment)
+	- <https://www.open-scap.org/security-policies/choosing-policy/> (list of policies)
+
 ??? abstract "STIG"
 
-	⚠️ TO DO ⚠️
+	> Security Technical Implementation Guides (STIGs) by The United States Department of Defense specify how government computers must be configured and managed.
+
+	- <https://public.cyber.mil/stigs/>
+
+	The majority of the STIG policies (for Unix-like machines and browsers) can be viewed online through OpenSCAP's project page, and can be deployed through bash or Ansible using the ComplianceAsCode GitHub release files.
+
+	- <https://www.open-scap.org/>
+	- <https://www.open-scap.org/security-policies/choosing-policy/>
+	- <https://github.com/ComplianceAsCode/content/releases>
 
 ??? abstract "CIS Benchmarks"
 
-	⚠️ TO DO ⚠️
+	> The CIS Benchmarks are prescriptive configuration recommendations for more than 25+ vendor product families. They represent the consensus-based effort of cybersecurity experts globally to help you protect your systems against threats more confidently.
+
+	- <https://www.cisecurity.org/cis-benchmarks>
+
+	The majority of the CIS policies (for Unix-like machines and browsers) can be viewed online through OpenSCAP's project page, and can be deployed through bash or Ansible using the ComplianceAsCode GitHub release files.
+
+	- <https://www.open-scap.org/>
+	- <https://www.open-scap.org/security-policies/choosing-policy/>
+	- <https://github.com/ComplianceAsCode/content/releases>
 
 ??? abstract "Microsoft Baselines"
 
-	⚠️ TO DO ⚠️
+	The download center link has all of the baselining tools available, including LGPO.exe and the PolicyAnalyzer.
 
+	The idea with the .PolicyRules files is they are configurations that are pre-made by Microsoft and ready to be installed using LGPO.exe
+
+	You can do all of this manually with PowerShell, and you will ultimately want to familiarize yourself with the descriptions of each setting should you run into any issues, but this will save a ton of time in getting things up and running.
+
+	Use PolicyAnalyzer.exe to view the `*.PolicyRules` files, compare them to other `*.PolicyRules` files, or even your current system settings.
+
+	The remaining files are the raw policies for each "thing", including Windows 10 and 11 endpoints, Windows Server, Microsoft Edge, and M365 apps. When applied they create a hardened environment from a security perspective while maintaining functionality.
+
+	- [windows-security-baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines)
+	- [Microsoft Download Center: Security Baselines](https://www.microsoft.com/download/details.aspx?id=55319)
+
+
+??? question "audit-inspector (Windows)"
+
+	> Audit Inspector is a binary tool written in Rust for Windows audit configuration and auditing.
+
+	- <https://github.com/blackhillsinfosec/audit-inspector>
 
 ## Exploit Development
 
