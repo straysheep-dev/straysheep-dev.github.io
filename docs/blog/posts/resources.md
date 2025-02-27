@@ -40,6 +40,14 @@ Information, compiled for easy reference.
 	- <https://ghostty.org/>
 	- <https://github.com/ghostty-org/ghostty>
 
+??? question "unfurl"
+
+	> Unfurl takes a URL and expands ("unfurls") it into a directed graph, extracting every bit of information from the URL and exposing the obscured. It does this by breaking up a URL into components, extracting as much information as it can from each piece, and presenting it all visually.
+
+	Discovered in [this SANS diary](https://isc.sans.edu/forums/diary/Unfurl%20v2025.02%20released/31716/). This tool has both a local web interface and a command line option for viewing the data returned.
+
+	- <https://github.com/obsidianforensics/unfurl>
+
 
 ## Note Taking
 
@@ -497,6 +505,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.usb.org/defined-class-codes>
 
 
+??? info "FCCID"
+
+	FCC documentation and searchable databases.
+
+	- <https://www.fcc.gov/oet/ea/fccid>
+	- <https://fccid.io>
+
+
 ## Information Security
 
 ⚠️ TO DO ⚠️
@@ -602,7 +618,11 @@ This includes general network information as well as network-focused tools.
 
 ### Cloud
 
-⚠️ TO DO ⚠️
+??? danger "MSFTRecon"
+
+	> MSFTRecon is a reconnaissance tool designed for red teamers and security professionals to map Microsoft 365 and Azure tenant infrastructure. It performs comprehensive enumeration without requiring authentication, helping identify potential security misconfigurations and attack vectors.
+
+	- <https://github.com/Arcanum-Sec/msftrecon>
 
 
 ### ICS & OT
@@ -613,6 +633,22 @@ This includes general network information as well as network-focused tools.
 ## GRC
 
 All things standards, configuration, compliance, and policy related.
+
+??? danger "MITRE ATT&CK"
+
+	> MITRE ATT&CK is a globally-accessible knowledge base of adversary tactics and techniques based on real-world observations.
+
+	- <https://attack.mitre.org/>
+	- <https://github.com/mitre/cti>
+	- <https://attack.mitre.org/resources/working-with-attack/> (the "learn more" sections have complete download lists of the frameworks as xlsx)
+	- <https://attack.mitre.org/docs/enterprise-attack-v9.0/enterprise-attack-v9.0-techniques.xlsx>
+
+??? abstract "MITRE CWE"
+
+	> A community developed list of software and hardware weaknesses that can become vulnerabilities.
+
+	- <https://cwe.mitre.org/index.html>
+	- <https://cwe.mitre.org/top25/archive/2021/2021_cwe_top25.html> (great historical reference)
 
 ??? abstract "OpenSCAP"
 
@@ -669,6 +705,7 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://github.com/blackhillsinfosec/audit-inspector>
 
+
 ## Exploit Development
 
 ⚠️ TO DO ⚠️
@@ -681,14 +718,19 @@ All things standards, configuration, compliance, and policy related.
 
 ## Malware Analysis
 
+??? bug "DidierStevensSuite"
+
+	Numerous, essential, forensics and analysis tools.
+
+	- <https://github.com/DidierStevens/DidierStevensSuite>
+	- <https://github.com/DidierStevens/Beta>
+
 ??? bug "Qu1cksc0pe"
 
 	An all-in-one malware analysis tool, excellent for triage. Originally discovered on [this SANS diary](https://isc.sans.edu/diary/29984). The diary post has an alternate docker file available to use.
 
 	- <https://github.com/CYB3RMX/Qu1cksc0pe>
 	- <https://isc.sans.edu/diary/29984>
-
-
 
 ??? bug "MalAPI"
 
@@ -792,12 +834,167 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/halpomeranz/lmg>
 
 
-## Threat Intel
+## OSINT
 
-⚠️ TO DO ⚠️
+??? question "Shodan"
+
+	A search engine for devices.
+
+	- <https://www.shodan.io/>
+
+??? info "crt.sh"
+
+	Certificate search.
+
+	> Enter an Identity (Domain Name, Organization Name, etc), a Certificate Fingerprint (SHA-1 or SHA-256) or a crt.sh ID.
+
+	- <https://crt.sh>
+	- <https://github.com/crtsh>
+
+
+### Vulnerability Research
+
+Sources used when attempting to triage and produce a proof-of-concept exploit or demonstrate risk.
+
+??? example "NIST / NVD"
+
+	National Institute of Standards and Technology.
+
+	- <https://www.nist.gov/>
+	- <https://csrc.nist.gov/Topics/technologies/software-firmware/bios>
+
+	The NVD (National Vulnerability Database) is a resource for researching vulnerabilities.
+
+	- <https://nvd.nist.gov/>
+
+??? success "CISA / KEV"
+
+	Cybersecurity & Infrastructure Security Agency. Follow the KEV (known-exploited-vulnerabilities-catalog).
+
+	- <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>
+	- <https://www.cisa.gov/publication/cyber-essentials-toolkits>
+
+??? abstract "CVE.ORG"
+
+	> Identify, define, and catalog publicly disclosed cybersecurity vulnerabilities.
+
+	- <https://www.cve.org/>
+	- <https://cve.mitre.org/> (old site)
+
+??? bug "Exploit-DB"
+
+	`searchsploit` (<https://www.kali.org/tools/exploitdb/>) might have different results than the online exploit-db database.
+
+	> The Exploit Database is a CVE compliant archive of public exploits and corresponding vulnerable software, developed for use by penetration testers and vulnerability researchers. Our aim is to serve the most comprehensive collection of exploits gathered through direct submissions, mailing lists, as well as other public sources, and present them in a freely-available and easy-to-navigate database. The Exploit Database is a repository for exploits and proof-of-concepts rather than advisories, making it a valuable resource for those who need actionable data right away.
+
+	- <https://www.exploit-db.com/>
+
+??? danger "GitHub Advisory Database"
+
+	> Security vulnerability database inclusive of CVEs and GitHub originated security advisories from the world of open source software.
+
+	- <https://github.com/advisories>
+
+??? danger "Google Project Zero"
+
+	Zero day and exploit research.
+
+	- <https://googleprojectzero.blogspot.com/>
+
+??? danger "snyk.io (Vulnerability Database)"
+
+	- <https://security.snyk.io>
+
+??? danger "wpscan (Vulnerability Database)"
+
+	- <https://wpscan.com/wordpresses/>
+	- <https://wpscan.com/themes>
+	- <https://wpscan.com/plugins>
+
+??? danger "Vulners (nmap NSE script)"
+
+	>  For each available CPE the script prints out known vulns (links to the correspondent info) and correspondent CVSS scores.
+
+	- <https://nmap.org/nsedoc/scripts/vulners.html>
+
+
+### Malware Research
+
+??? bug "VirusTotal"
+
+	The ultimate resource for malware information, connections, and behavior.
+
+	The VT API has a 500 requests per day, 4 per minute limit.
+
+	- <https://www.virustotal.com/>
+
+??? bug "abuse.ch"
+
+	> Independent, community-driven cyber threat intelligence.
+
+	- <https://abuse.ch/>
+	- <https://bazaar.abuse.ch/> (live malware samples)
+	- <https://urlhaus.abuse.ch/>
+
+??? bug "ANY.RUN"
+
+	Cloud-based live malware analysis.
+
+	- <https://app.any.run/>
+
+??? question "URLScan"
+
+	Third-party URL scanning.
+
+	> urlscan.io is a free service to scan and analyse websites. When a URL is submitted to urlscan.io, an automated process will browse to the URL like a regular user and record the activity that this page navigation creates. This includes the domains and IPs contacted, the resources (JavaScript, CSS, etc) requested from those domains, as well as additional information about the page itself. urlscan.io will take a screenshot of the page, record the DOM content, JavaScript global variables, cookies created by the page, and a myriad of other observations. If the site is targeting the users one of the more than 900 brands tracked by urlscan.io, it will be highlighted as potentially malicious in the scan results.
+	>
+	> urlscan.io itself is a free service, but we also offer commercial products for heavy users and organisations that need additional insight.
+
+	- <https://urlscan.io>
+
+??? danger "GREYNOISE"
+
+	> GreyNoise empowers your security team to work on the most urgent and critical threats without being overwhelmed by noisy, low-priority alerts. We provide real-time, verifiable threat intelligence powered by a global network of proprietary sensors.
+
+	The API has a 50 searches per week limit.
+
+	- <https://viz.greynoise.io/>
+    - <https://docs.greynoise.io/docs/using-the-greynoise-community-api>
+
+??? bug "vxunderground"
+
+	A collection of malware samples, code, and research.
+
+    - <https://github.com/vxunderground/MalwareSourceCode>
+	- <https://github.com/vxunderground/ThreatIntelligenceDiscordBot>
+
+??? bug "theZoo"
+
+	> theZoo is a project created to make the possibility of malware analysis open and available to the public.
+
+	- <https://github.com/ytisf/theZoo>
+
+??? bug "Joe Security / JoeSandbox"
+
+	- <https://github.com/joesecurity>
+    - <https://www.joesecurity.org/>
+
+??? bug "PhishTank"
+
+	> PhishTank is a collaborative clearing house for data and information about phishing on the Internet. Also, PhishTank provides an open API for developers and researchers to integrate anti-phishing data into their applications at no charge.
+
+	- <https://www.phishtank.com>
+	- <https://www.phishtank.com/faq.php>
 
 
 ## Threat Hunting
+
+??? abstract "Pivot Atlas"
+
+	A visualization of paths in threat intelligence.
+
+	- <https://gopivot.ing/>
+	- <https://github.com/korniko98/pivot-atlas>
 
 ??? bug "YARA"
 
@@ -836,7 +1033,6 @@ All things standards, configuration, compliance, and policy related.
 	- <https://docs.velociraptor.app/>
 	- <https://github.com/Velocidex/velociraptor>
 
-
 ??? danger "OSQuery"
 
 	- <https://github.com/osquery/osquery>
@@ -856,7 +1052,6 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/SigmaHQ/sigma>
 	- <https://github.com/SigmaHQ/sigma/tree/master/rules/windows/builtin>
 
-
 ??? example "Canary Tokens"
 
 	Active defense alerts using secrets, commands, documents, files and more.
@@ -864,6 +1059,32 @@ All things standards, configuration, compliance, and policy related.
 	- <https://canarytokens.org/generate#>
 	- <https://blog.thinkst.com/p/canarytokensorg-quick-free-detection.html>
 	- <https://notes.huskyhacks.dev/notes/content-creators-i-will-teach-you-cyber-jiu-jitsu>
+
+??? bug "iVerify"
+
+	Discovered on [Schneier's blog post: Detecting Pegasus Infections](https://www.schneier.com/blog/archives/2024/12/detecting-pegasus-infections.html).
+
+	It's able to do this through diagnostic data and system information without needing (or being able) to read any data from applications or files.
+
+	- <https://iverify.io/products/basic>
+	- <https://iverify.io/blog/engineering-threat-hunting-for-ios-and-android>
+	- <https://iverify.io/frequently-asked-questions>
+
+??? danger "MISP (Malware Information Sharing Platform)"
+
+	> MISP Project - Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing.
+
+	- <https://github.com/MISP>
+
+??? danger "The Hive Project (IR Platform)"
+
+	An open source IR platform.
+
+	> One Case Management Platform for all SOCs, CERTs & CSIRTs
+
+	- <https://github.com/TheHive-Project>
+	- <https://strangebee.com/>
+	- <https://thehive-project.org/> (old url)
 
 
 ## Blogs & Authors
@@ -943,3 +1164,23 @@ All things standards, configuration, compliance, and policy related.
 	AKA Paul's Security Weekly.
 
 	- <https://securityweekly.com/>
+
+??? quote "SANS"
+
+	The [ISC Daily StormCast](https://isc.sans.edu/podcast.html) is a great way to digest daily news with links to tools and sources.
+
+	- <https://isc.sans.edu/>
+
+??? quote "NSA"
+
+	National Security Agency.
+
+	- <https://www.nsa.gov/news-features/>
+	- <https://github.com/nsacyber/>
+	- <https://github.com/nsacyber/Hardware-and-Firmware-Security-Guidance>
+
+??? quote "Schneier"
+
+	Bruce Schneier's security blog is a great way to digest daily news with links to research and sources.
+
+	- <https://www.schneier.com/>
