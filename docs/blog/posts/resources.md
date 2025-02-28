@@ -530,6 +530,13 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- Original Site (Wayback Machine): <https://web.archive.org/web/20211220050516/http://www.pentest-standard.org/index.php/Main_Page>
 
 
+??? abstract "HackTricks"
+
+	HackTricks is one of the largest resources of hacking knowledge. The original author also created [PEASS](https://github.com/peass-ng/PEASS-ng).
+
+	- <https://book.hacktricks.wiki/>
+	- <https://github.com/HackTricks-wiki/hacktricks>
+
 ### Network
 
 This includes general network information as well as network-focused tools.
@@ -582,6 +589,13 @@ This includes general network information as well as network-focused tools.
 	- <https://caido.io/>
 	- <https://github.com/caido>
 
+??? abstract "PayloadsAllTheThings"
+
+	A collection of payloads and techniques for application security / web application pentesting.
+
+	- <https://swisskyrepo.github.io/PayloadsAllTheThings/>
+	- <https://github.com/swisskyrepo/PayloadsAllTheThings>
+
 
 ### Active Directory
 
@@ -590,6 +604,13 @@ This includes general network information as well as network-focused tools.
 	One of the most robust resources to Active Directory security, hardening, pentesting, and information in general.
 
 	- <https://adsecurity.org/>
+
+??? abstract "InternalAllTheThings"
+
+	> Active Directory and internal pentest cheatsheets
+
+	- <https://swisskyrepo.github.io/InternalAllTheThings/>
+	- <https://github.com/swisskyrepo/InternalAllTheThings>
 
 
 ### Wireless
@@ -627,7 +648,12 @@ This includes general network information as well as network-focused tools.
 
 ### ICS & OT
 
-⚠️ TO DO ⚠️
+??? abstract "HardwareAllTheThings"
+
+	> Hardware/IOT Pentesting Wiki
+
+	- <https://swisskyrepo.github.io/HardwareAllTheThings/>
+	- <https://github.com/swisskyrepo/HardwareAllTheThings>
 
 
 ## GRC
