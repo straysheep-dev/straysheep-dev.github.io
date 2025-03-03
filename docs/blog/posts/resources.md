@@ -363,7 +363,24 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://gitlab.com/qemu-project/qemu>
 
 
-## Home Labs & Simulations
+## Labs & Simulations
+
+??? danger "Atomic Red Team"
+
+	[Invoke-AtomicReadTeam](https://github.com/redcanaryco/invoke-atomicredteam) is an execution framework in PowerShell to run [Atomic Tests](https://github.com/redcanaryco/atomic-red-team/wiki/Getting-Started#choose-a-test), which are adversary emulation tests mapped to MITRE ATT&CK.
+
+	- <https://github.com/redcanaryco/atomic-red-team>
+
+??? danger "PANIX (Persistence Against *NIX)"
+
+	> Customizable Linux Persistence Tool for Security Research and Detection Engineering.
+
+	- <https://github.com/Aegrah/PANIX>
+	- [Linux Detection Engineering - A Primer on Persistence Mechanisms](https://www.elastic.co/security-labs/primer-on-persistence-mechanisms)
+	- [Linux Detection Engineering - A Sequel on Persistence Mechanisms](https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms)
+	- [Linux Detection Engineering - A Continuation on Persistence Mechanisms](https://www.elastic.co/security-labs/continuation-on-persistence-mechanisms)
+	- [Linux Detection Engineering - Approaching the Summit on Persistence Mechanisms](https://www.elastic.co/security-labs/approaching-the-summit-on-persistence)
+	- [Linux Detection Engineering - The Grand Finale on Linux Persistence](https://www.elastic.co/security-labs/the-grand-finale-on-linux-persistence)
 
 ??? example "GOAD (Game of Active Directory)"
 
@@ -420,6 +437,59 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> A vulnerable Node.js demo application.
 
     - <https://github.com/snyk-labs/nodejs-goof>
+
+
+## DevOps
+
+
+### Ansible
+
+??? example "pfsensible"
+
+	Ansible modules for managing a pfSense firewall.
+
+	- <https://github.com/pfsensible/core>
+
+
+### HashiCorp
+
+!!! abstract "HashiCorp Utilities"
+
+	> Use infrastructure as code to build, deploy, and manage the infrastructure that underpins cloud applications.
+
+	Validate your installs with one of these public keys:
+
+	- [HashiCorp public keys](https://www.hashicorp.com/trust/security) `C874 011F 0AB4 0511 0D02 1055 3436 5D94 72D7 468F`
+	- [HashiCorp public keys on keybase.io](https://keybase.io/hashicorp) `C874 011F 0AB4 0511 0D02 1055 3436 5D94 72D7 468F`
+	- [HashiCorp apt gpg key](https://apt.releases.hashicorp.com/gpg) `798A EC65 4E5C 1542 8C8E 42EE AA16 FCBC A621 E701`
+	- [How to Verify a Hashicorp Binary](https://developer.hashicorp.com/well-architected-framework/operational-excellence/verify-hashicorp-binary)
+
+??? example "Packer"
+
+	> Packer is a tool that lets you create identical machine images for multiple platforms from a single source template. Packer can create golden images to use in image pipelines.
+
+	- <https://developer.hashicorp.com/packer>
+
+	Packer literally builds virtual machines images. Think of installing Kali or Windows from the ISO manually in VMware, Hyper-V, VirtualBox, QEMU, or anywhere else (supported by packer). Packer actually automates those steps, even down to the boot key presses so you can build and configure a VM with zero interaction. You can see this happen in real time if you aren't running packer in headless mode. The VM GUI window will open as if you were doing the install yourself, and you can watch it run.
+
+	To really utilize packer, you'll need to learn and implemenet (depending on the OS and technology available) cloud-init, autoinstall, preseed, or similar auto-provisioning mechanisms so you don't have to manually intervene.
+
+	You can also post-process the install with additional shell commands, scripts, Ansible playbooks, and more.
+
+	The resulting images can be imported into a hypervisor, sent to a cloud provider as the disk image for a cloud VM, or converted into a Vagrant box image.
+
+??? example "Vagrant"
+
+	> Vagrant is the command line utility for managing the lifecycle of virtual machines. Isolate dependencies and their configuration within a single disposable and consistent environment.
+
+	- <https://developer.hashicorp.com/vagrant>
+
+??? example "Terraform"
+
+	> Terraform is an infrastructure as code tool that lets you build, change, and version infrastructure safely and efficiently. This includes low-level components like compute instances, storage, and networking; and high-level components like DNS entries and SaaS features.
+
+	- <https://developer.hashicorp.com/terraform>
+
 
 
 ## Information Technology
@@ -515,7 +585,33 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## Information Security
 
-⚠️ TO DO ⚠️
+
+### DNS
+
+??? info "Cloudflare 1.1.1.1"
+
+	> 1.1.1.1 offers an encrypted service through DNS over HTTPS (DoH) or DNS over TLS (DoT) for increased security and privacy.
+
+	- <https://developers.cloudflare.com/dns/>
+	- <https://developers.cloudflare.com/1.1.1.1/>
+
+	To see if you're on 1.1.1.1, go to <https://one.one.one.one/help/>
+
+??? info "Quad9 9.9.9.9"
+
+	> An open DNS recursive service for free security and high privacy.
+
+	- <https://quad9.net/>
+
+	To see if you're on Quad9, to to <https://on.quad9.net/>.
+
+??? info "NextDNS"
+
+	NextDNS is essentially a web-based solution to give you full visibility and control over your DNS usage. There are both free and paid plans.
+
+	- <https://nextdns.io/>
+
+	To see if you're on NextDNS, go to <https://test.nextdns.io/>.
 
 ## Pentesting
 
@@ -636,6 +732,7 @@ This includes general network information as well as network-focused tools.
 	> Wi-Fi Forge provides a safe and legal environment for learning WiFi hacking. Based on the open source Mininet-Wifi, this project automatically sets up the networks and tools needed to run a variety of WiFi exploitation labs, removing the need for the overhead and hardware normally required to perform these attacks.
 
 	- <https://github.com/blackhillsinfosec/Wifi-Forge>
+
 
 ### Cloud
 
@@ -844,6 +941,24 @@ All things standards, configuration, compliance, and policy related.
 
 ## Forensics
 
+??? question "uac (Unix-like Artifacts Collector)"
+
+	> UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
+
+	- <https://github.com/tclahr/uac>
+
+	UAC is primarily an **evidence collection tool**. This isn't something like [linpeas](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS) that will alert you to possible leads as it's gathering evidence. It's a ton of output, and is a haystack in which you'd be trying to find a very small needle if you didn't already have an idea of what you're looking for. With this in mind, there are a few effective ideas on how to leverage this tool:
+
+	- Assume you're compromised, hit each endpoint with UAC and pull the resulting evidence back to your IR machine
+	- Investigate supsicious activity with system internals, using what you know while UAC runs
+	- Use [linpeas](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS) to assess endpoints, it's not just a hacking tool, it will find IOC's
+
+	If you have a possible lead or IOC, then your UAC evidence becomes invaluable. With the evidence back on your IR machine:
+
+	- You can of course dig into specific evidence based on your potential IOC's
+	- You could also use **[YARA](https://github.com/VirusTotal/yara)** to hit the entire UAC evidence folder for IOC's, which is incredibly fast
+
+
 ### Memory Acquisition
 
 ??? danger "avml (Acquire Volatile Memory for Linux)"
@@ -867,6 +982,15 @@ All things standards, configuration, compliance, and policy related.
 	A search engine for devices.
 
 	- <https://www.shodan.io/>
+
+??? info "Hurrican Electric"
+
+	> Hurricane Electric operates its own global IPv4 and IPv6 network and is considered the largest IPv6 backbone in the world as measured by number of networks connected.
+
+	There's also an iOS and Android application that provides a suite of [network tools](https://networktools.he.net/) on the go.
+
+	- [BGP Toolkit](https://bgp.he.net/) shows information about your connection.
+	- [Looking Glass](https://lg.he.net/) allows you to make network queries for for BGP, ping, and traceroute.
 
 ??? info "crt.sh"
 
@@ -920,6 +1044,22 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	> Security vulnerability database inclusive of CVEs and GitHub originated security advisories from the world of open source software.
 
 	- <https://github.com/advisories>
+
+??? info "Ubuntu Security Notices"
+
+	> Developers issue an Ubuntu Security Notice when a security issue is fixed in an official Ubuntu package.
+	>
+	> To report a security vulnerability in an Ubuntu package, please contact the Security Team.
+	>
+	> The Security Team also produces OVAL files for each Ubuntu release. These are an industry-standard machine-readable format dataset that contain details of all known security vulnerabilities and fixes relevant to the Ubuntu release, and can be used to determine whether a particular patch is appropriate. OVAL files can also be used to audit a system to check whether the latest security fixes have been applied.
+
+	- <https://ubuntu.com/security/notices>
+
+??? bug "Red Hat Bugzilla"
+
+	Here you can search the entirety of Red Hat's Bugzilla instance for security notices or fixes. This isn't limited to just RHEL, but any project tracked here. For example, set the "Product" to `Fedora` and "Summary contains all of the strings" to `CVE` and sort results by "Last Changed" to see the latest issues being addressed and their current state.
+
+	- <https://bugzilla.redhat.com/query.cgi?format=advanced>
 
 ??? danger "Google Project Zero"
 
@@ -1112,6 +1252,12 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://strangebee.com/>
 	- <https://thehive-project.org/> (old url)
 
+??? bug "Elastic Detection Rules"
+
+	> Detection Rules is the home for rules used by Elastic Security. This repository is used for the development, maintenance, testing, validation, and release of rules for Elastic Security's Detection Engine.
+
+	- <https://github.com/elastic/detection-rules/tree/main>
+
 
 ## Blogs & Authors
 
@@ -1210,3 +1356,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Bruce Schneier's security blog is a great way to digest daily news with links to research and sources.
 
 	- <https://www.schneier.com/>
+
+??? quote "Reversing Labs"
+
+	- [Malicious ML models discovered on Hugging Face platform](https://www.reversinglabs.com/blog/rl-identifies-malware-ml-model-hosted-on-hugging-face)
