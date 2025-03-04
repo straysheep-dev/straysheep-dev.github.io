@@ -48,6 +48,12 @@ Information, compiled for easy reference.
 
 	- <https://github.com/obsidianforensics/unfurl>
 
+??? example "bubbletea"
+
+	> The fun, functional and stateful way to build terminal apps. A Go framework based on The Elm Architecture. Bubble Tea is well-suited for simple and complex terminal applications, either inline, full-window, or a mix of both.
+
+	- <https://github.com/charmbracelet/bubbletea>
+
 
 ## Note Taking
 
@@ -303,6 +309,15 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.truenas.com/docs/>
 	- <https://www.truenas.com/download-truenas-scale/>
     - PGP Key: `C8D6 2DEF 767C 1DB0 DFF4 E6EC 358E AA91 12CF 7946`
+
+??? info "openmediavault"
+
+	> openmediavault is the next generation network attached storage (NAS) solution based on Debian Linux. It contains services like SSH, (S)FTP, SMB/CIFS, RSync and many more. Thanks to the modular design of the framework it can be enhanced via plugins. openmediavault is primarily designed to be used in home environments or small home offices, but is not limited to those scenarios. It is a simple and easy to use out-of-the-box solution that will allow everyone to install and administrate a Network Attached Storage without deeper knowledge.
+	>
+	> Note: openmediavault (like other NAS solutions) expects to have full, exclusive control over OS configuration and cannot be used within a container. Also, no graphical desktop user interface can be installed in parallel.
+
+	- <https://github.com/openmediavault/openmediavault>
+	- <https://docs.openmediavault.org/en/stable/installation/index.html>
 
 
 ## Hypervisors
@@ -599,7 +614,9 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ??? info "Quad9 9.9.9.9"
 
-	> An open DNS recursive service for free security and high privacy.
+	> Quad9 is a free service that replaces your default ISP or enterprise Domain Name Server (DNS) configuration.
+
+	Features include DNS over TLS, HTTPS, DNSSEC, threat blocking, and more.
 
 	- <https://quad9.net/>
 
@@ -692,6 +709,15 @@ This includes general network information as well as network-focused tools.
 	- <https://swisskyrepo.github.io/PayloadsAllTheThings/>
 	- <https://github.com/swisskyrepo/PayloadsAllTheThings>
 
+??? danger "JS-TAP"
+
+	> JavaScript payload and supporting software to be used as XSS payload or post exploitation implant to monitor users as they use the targeted application. Also includes a C2 for executing custom JavaScript payloads in clients, and a "mimic" feature that automatically generates custom payloads.
+
+	Trap Mode uses the [iframe trap technique](https://trustedsec.com/blog/persisting-xss-with-iframe-traps). Implant mode means you've embedded JS-TAP into a javascript file on the server after gaining access to the server.
+
+	- <https://github.com/hoodoer/JS-Tap>
+	- <https://trustedsec.com/blog/js-tap-weaponizing-javascript-for-red-teams>
+
 
 ### Active Directory
 
@@ -703,11 +729,16 @@ This includes general network information as well as network-focused tools.
 
 ??? abstract "InternalAllTheThings"
 
-	> Active Directory and internal pentest cheatsheets
+	> Active Directory and internal pentest cheatsheets.
 
 	- <https://swisskyrepo.github.io/InternalAllTheThings/>
 	- <https://github.com/swisskyrepo/InternalAllTheThings>
 
+??? danger "SharpLAPS"
+
+	> Retrieve LAPS password from LDAP.
+
+	- <https://github.com/swisskyrepo/SharpLAPS>
 
 ### Wireless
 
@@ -829,15 +860,19 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/blackhillsinfosec/audit-inspector>
 
 
-## Exploit Development
-
-⚠️ TO DO ⚠️
-
-
 ## Reverse Engineering
 
-⚠️ TO DO ⚠️
+??? bug "Ghidra"
 
+	> Ghidra is a software reverse engineering (SRE) framework.
+
+	- <https://github.com/NationalSecurityAgency/ghidra>
+
+??? bug "Ghidriff"
+
+	> Python Command-Line Ghidra Binary Diffing Engine.
+
+	- <https://github.com/clearbluejar/ghidriff>
 
 ## Malware Analysis
 
@@ -865,6 +900,15 @@ All things standards, configuration, compliance, and policy related.
 
 ## Firmware
 
+### Information
+
+??? abstract "DBX Update Process"
+
+    * <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
+
+
+### Projects
+
 ??? info "Coreboot"
 
     - <https://doc.coreboot.org/>
@@ -879,6 +923,13 @@ All things standards, configuration, compliance, and policy related.
 
     - <https://github.com/system76/firmware-open>
 	- [Secure Boot support was added in 2023-04-03](https://github.com/system76/firmware-open/blob/master/docs/uefi.md)
+
+??? info "LVFS"
+
+	Linux Vendor Firmware Service.
+
+	- <https://fwupd.org/>
+	- <https://github.com/fwupd/fwupd>
 
 ??? abstract "ChipSec"
 
@@ -911,20 +962,9 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://github.com/LongSoft/UEFITool>
 
-??? abstract "DBX Update Process"
-
-    * <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
-
 ??? info "UEFI Firmware Parser"
 
 	- <https://github.com/theopolis/uefi-firmware-parser>
-
-
-??? bug "BootHole"
-
-	This includes the vulnerability check for both bash and PowerShell.
-
-    - <https://github.com/eclypsium/BootHole>
 
 ??? abstract "Flashrom"
 
@@ -932,12 +972,21 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://github.com/flashrom/flashrom>
 
-??? info "LVFS"
 
-	Linux Vendor Firmware Service.
+### Attacks
 
-	- <https://fwupd.org/>
-	- <https://github.com/fwupd/fwupd>
+??? bug "BootHole"
+
+	This includes the vulnerability check for both bash and PowerShell.
+
+    - <https://github.com/eclypsium/BootHole>
+
+??? danger "baton drop (CVE-2022-21894)"
+
+	> Windows Boot Applications allow the truncatememory setting to remove blocks of memory containing "persistent" ranges of serialised data from the memory map, leading to Secure Boot bypass.
+
+	- <https://github.com/Wack0/CVE-2022-21894>
+
 
 ## Forensics
 
@@ -1257,6 +1306,33 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	> Detection Rules is the home for rules used by Elastic Security. This repository is used for the development, maintenance, testing, validation, and release of rules for Elastic Security's Detection Engine.
 
 	- <https://github.com/elastic/detection-rules/tree/main>
+
+
+## Threat Simulation
+
+### C2
+
+??? danger "Sliver"
+
+	> Sliver is an open source cross-platform adversary emulation/red team framework, it can be used by organizations of all sizes to perform security testing. Sliver's implants support C2 over Mutual TLS (mTLS), WireGuard, HTTP(S), and DNS and are dynamically compiled with per-binary asymmetric encryption keys.
+	>
+	> The server and client support MacOS, Windows, and Linux. Implants are supported on MacOS, Windows, and Linux (and possibly every Golang compiler target but we've not tested them all).
+
+	- <https://github.com/BishopFox/sliver>
+
+??? danger "Merlin"
+
+	>  Merlin is a cross-platform post-exploitation HTTP/2 Command & Control server and agent written in golang.
+
+	- <https://github.com/Ne0nd0g/merlin>
+
+??? danger "Mythic"
+
+	> A collaborative, multi-platform, red teaming framework.
+
+	- <https://github.com/its-a-feature/Mythic>
+
+### Evasion
 
 
 ## Blogs & Authors
