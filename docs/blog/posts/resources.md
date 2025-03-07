@@ -54,6 +54,36 @@ Information, compiled for easy reference.
 
 	- <https://github.com/charmbracelet/bubbletea>
 
+??? bug "Dangerzone"
+
+	> Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.
+	>
+	> Dangerzone works like this: You give it a document that you don't know if you can trust (for example, an email attachment). Inside of a sandbox, Dangerzone converts the document to a PDF (if it isn't already one), and then converts the PDF into raw pixel data: a huge list of RGB color values for each page. Then, outside of the sandbox, Dangerzone takes this pixel data and converts it back into a PDF.
+
+	- <https://github.com/freedomofpress/dangerzone>
+
+	List of features (from the README):
+
+	- Sandboxes don't have network access, so if a malicious document can compromise one, it can't phone home
+	- Sandboxes use gVisor, an application kernel written in Go, that implements a substantial portion of the Linux system call interface.
+	- Dangerzone can optionally OCR the safe PDFs it creates, so it will have a text layer again
+	- Dangerzone compresses the safe PDF to reduce file size
+	- After converting, Dangerzone lets you open the safe PDF in the PDF viewer of your choice, which allows you to open PDFs and office docs in Dangerzone by default so you never accidentally open a dangerous document
+
+??? question "magika"
+
+	> Magika is a novel AI powered file type detection tool that relies on the recent advance of deep learning to provide accurate detection. Under the hood, Magika employs a custom, highly optimized Keras model that only weighs about a few MBs, and enables precise file identification within milliseconds, even when running on a single CPU.
+
+	- <https://github.com/google/magika>
+
+??? info "Ladybird"
+
+	> Ladybird is a truly independent web browser, using a novel engine based on web standards.
+
+	Discovered by following [p0dalirius](https://github.com/p0dalirius?tab=stars), this appears to be focused on *nix and macOS desktop environments for it's first release in 2026 / 2027.
+
+	- <https://github.com/LadybirdBrowser/ladybird>
+
 
 ## Note Taking
 
@@ -632,7 +662,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## Pentesting
 
-??? abstract "PTES (Penetration Testing Execution Standard)"
+!!! abstract "PTES (Penetration Testing Execution Standard)"
 
 	The PTES is a standard first drafted in 2009. It's designed to provide both businesses and security service providers with a common language and scope for performing penetration testing. It's been referenced in a number of training courses and by those who helped create it over the years. [The FAQ provides additonal overview](https://github.com/OpenSBK/ptes/blob/main/faq.md).
 
@@ -673,6 +703,12 @@ This includes general network information as well as network-focused tools.
 	> TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes.
 
 	- <https://github.com/robertdavidgraham/masscan>
+
+??? question "SSH-Snake"
+
+	> SSH-Snake is a self-propagating, self-replicating, file-less script that automates the post-exploitation task of SSH private key and host discovery.
+
+	- <https://github.com/MegaManSec/SSH-Snake>
 
 
 ### Web Application
@@ -717,6 +753,37 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/hoodoer/JS-Tap>
 	- <https://trustedsec.com/blog/js-tap-weaponizing-javascript-for-red-teams>
+
+
+### Linux
+
+??? danger "GTFOBins"
+
+	> GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems.
+
+	- <https://gtfobins.github.io/>
+
+
+### Windows
+
+??? danger "LOLBAS"
+
+	> Living Off The Land Binaries, Scripts and Libraries
+
+	- <https://lolbas-project.github.io/#>
+
+??? danger "HijackLibs"
+
+	> This project aims to keep a record of publicly disclosed DLL Hijacking opportunities.
+	>
+	> You can find the web version of this repository on https://www.hijacklibs.net.
+
+	- <https://github.com/wietze/HijackLibs>
+
+
+### macOS
+
+	⚠️ TO DO ⚠️
 
 
 ### Active Directory
@@ -896,6 +963,16 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://malapi.io/>
 
+
+### Known Samples
+
+??? bug "xz-utils Backdoor"
+
+	> Malicious code was discovered in the upstream tarballs of xz, starting with version 5.6.0. Through a series of complex obfuscations, the liblzma build process extracts a prebuilt object file from a disguised test file existing in the source code, which is then used to modify specific functions in the liblzma code. This results in a modified liblzma library that can be used by any software linked against this library, intercepting and modifying the data interaction with this library.
+
+	- <https://nvd.nist.gov/vuln/detail/cve-2024-3094>
+	- <https://isc.sans.edu/diary/30802>
+	- <https://gist.github.com/smx-smx/a6112d54777845d389bd7126d6e9f504>
 
 
 ## Firmware
@@ -1436,3 +1513,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 ??? quote "Reversing Labs"
 
 	- [Malicious ML models discovered on Hugging Face platform](https://www.reversinglabs.com/blog/rl-identifies-malware-ml-model-hosted-on-hugging-face)
+
+??? quote "p0dalirius"
+
+	Security researcher and author of a number of very popular pentesting tools.
+
+	- <https://github.com/p0dalirius>
