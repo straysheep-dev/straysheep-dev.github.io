@@ -755,13 +755,19 @@ This includes general network information as well as network-focused tools.
 	- <https://trustedsec.com/blog/js-tap-weaponizing-javascript-for-red-teams>
 
 
-### Linux
+### Linux & Unix-like
 
 ??? danger "GTFOBins"
 
 	> GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems.
 
 	- <https://gtfobins.github.io/>
+
+??? danger "LOLESXi"
+
+	> LOLESXi features a comprehensive list of binaries/scripts natively available in VMware ESXi that adversaries have utilised in their operations. The information on this site is compiled from open-source threat research.
+
+	- <https://github.com/LOLESXi-Project/LOLESXi>
 
 
 ### Windows
@@ -771,6 +777,13 @@ This includes general network information as well as network-focused tools.
 	> Living Off The Land Binaries, Scripts and Libraries
 
 	- <https://lolbas-project.github.io/#>
+
+??? danger "LOLDrivers"
+
+	> An extensive and well-organized collection of vulnerable and malicious Windows drivers.
+
+	- <https://github.com/magicsword-io/LOLDrivers>
+	- <https://www.loldrivers.io/>
 
 ??? danger "HijackLibs"
 
