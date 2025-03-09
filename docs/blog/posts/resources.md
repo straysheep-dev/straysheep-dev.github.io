@@ -84,6 +84,12 @@ Information, compiled for easy reference.
 
 	- <https://github.com/LadybirdBrowser/ladybird>
 
+??? info "topgrade"
+
+	Discovered on [Paul's Security Weekly #864](https://securityweekly.com/psw-864). topgrade is a way to "upgrade all the things" on a Linux system. This includes apt/dnf, snap, flatpak, LVFS / firmware, and so on.
+
+	- <https://github.com/topgrade-rs/topgrade>
+
 
 ## Note Taking
 
@@ -660,7 +666,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	To see if you're on NextDNS, go to <https://test.nextdns.io/>.
 
-## Pentesting
+## Offense
 
 !!! abstract "PTES (Penetration Testing Execution Standard)"
 
@@ -753,6 +759,14 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/hoodoer/JS-Tap>
 	- <https://trustedsec.com/blog/js-tap-weaponizing-javascript-for-red-teams>
+
+??? quote "SquareX: Polymorphic Extensions"
+
+	Researchers demonstrate malicious browser extensions can effectively mimic and disable other browser extensions without really notifiying the user. The example in the demo video shows a proof-of-concept tool mimicking the user's password manager browser extension.
+
+	Discovered on [Security Weekly News #457](https://securityweekly.com/swn-457).
+
+	- <https://sqrx.com/polymorphic-extensions>
 
 
 ### Linux & Unix-like
@@ -862,6 +876,143 @@ This includes general network information as well as network-focused tools.
 
 	- <https://swisskyrepo.github.io/HardwareAllTheThings/>
 	- <https://github.com/swisskyrepo/HardwareAllTheThings>
+
+
+### C2
+
+??? danger "Sliver"
+
+	> Sliver is an open source cross-platform adversary emulation/red team framework, it can be used by organizations of all sizes to perform security testing. Sliver's implants support C2 over Mutual TLS (mTLS), WireGuard, HTTP(S), and DNS and are dynamically compiled with per-binary asymmetric encryption keys.
+	>
+	> The server and client support MacOS, Windows, and Linux. Implants are supported on MacOS, Windows, and Linux (and possibly every Golang compiler target but we've not tested them all).
+
+	- <https://github.com/BishopFox/sliver>
+
+??? danger "Merlin"
+
+	>  Merlin is a cross-platform post-exploitation HTTP/2 Command & Control server and agent written in golang.
+
+	- <https://github.com/Ne0nd0g/merlin>
+
+??? danger "Mythic"
+
+	> A collaborative, multi-platform, red teaming framework.
+
+	- <https://github.com/its-a-feature/Mythic>
+
+
+## Defense
+
+### Threat Hunting
+
+??? abstract "Pivot Atlas"
+
+	A visualization of paths in threat intelligence.
+
+	- <https://gopivot.ing/>
+	- <https://github.com/korniko98/pivot-atlas>
+
+??? bug "YARA"
+
+	Malware rule, pattern, and classification Language.
+
+	- <https://github.com/VirusTotal/yara>
+	- <https://yara.readthedocs.io/en/stable/>
+
+??? example "yarGen"
+
+	Programmatic YARA rule generation.
+
+	- <https://github.com/Neo23x0/yarGen>
+
+??? example "YARA-Rules Repository"
+
+	- <https://github.com/Yara-Rules/rules>
+
+??? bug "RITA"
+
+	- <https://github.com/activecm/rita>
+
+??? danger "ZEEK"
+
+	- <https://zeek.org/>
+
+??? danger "Suricata"
+
+	- <https://suricata.io/download/>
+	- <https://github.com/OISF/suricata>
+
+??? danger "Velociraptor"
+
+	Agent based incident response tool.
+
+	- <https://docs.velociraptor.app/>
+	- <https://github.com/Velocidex/velociraptor>
+
+??? danger "OSQuery"
+
+	- <https://github.com/osquery/osquery>
+
+??? danger "BeaKer"
+
+	- <https://github.com/activecm/BeaKer>
+
+??? bug "Raccine"
+
+	- <https://github.com/Neo23x0/Raccine>
+
+??? example "SIGMA"
+
+	General signature format for SIEM systems.
+
+	- <https://github.com/SigmaHQ/sigma>
+	- <https://github.com/SigmaHQ/sigma/tree/master/rules/windows/builtin>
+
+??? example "Canary Tokens"
+
+	Active defense alerts using secrets, commands, documents, files and more.
+
+	- <https://canarytokens.org/generate#>
+	- <https://blog.thinkst.com/p/canarytokensorg-quick-free-detection.html>
+	- <https://notes.huskyhacks.dev/notes/content-creators-i-will-teach-you-cyber-jiu-jitsu>
+
+??? bug "iVerify"
+
+	Discovered on [Schneier's blog post: Detecting Pegasus Infections](https://www.schneier.com/blog/archives/2024/12/detecting-pegasus-infections.html).
+
+	It's able to do this through diagnostic data and system information without needing (or being able) to read any data from applications or files.
+
+	- <https://iverify.io/products/basic>
+	- <https://iverify.io/blog/engineering-threat-hunting-for-ios-and-android>
+	- <https://iverify.io/frequently-asked-questions>
+
+??? danger "MISP (Malware Information Sharing Platform)"
+
+	> MISP Project - Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing.
+
+	- <https://github.com/MISP>
+
+??? danger "The Hive Project (IR Platform)"
+
+	An open source IR platform.
+
+	> One Case Management Platform for all SOCs, CERTs & CSIRTs
+
+	- <https://github.com/TheHive-Project>
+	- <https://strangebee.com/>
+	- <https://thehive-project.org/> (old url)
+
+??? bug "Elastic Detection Rules"
+
+	> Detection Rules is the home for rules used by Elastic Security. This repository is used for the development, maintenance, testing, validation, and release of rules for Elastic Security's Detection Engine.
+
+	- <https://github.com/elastic/detection-rules/tree/main>
+
+??? danger "SquareX (Browser Detection and Response)"
+
+	SquareX has done [a lot of interesting research](https://sqrx.com/research) into browser-based attacks. The browser is one of the most critical points of failure, and is still kind of esoteric when it comes to applying defenses. They plan to release research throughout 2025 that focuses on attack paths in browsers exploiting functionality that cannot be easily patched.
+
+	- <https://sqrx.com/>
 
 
 ## GRC
@@ -1292,139 +1443,6 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://www.phishtank.com/faq.php>
 
 
-## Threat Hunting
-
-??? abstract "Pivot Atlas"
-
-	A visualization of paths in threat intelligence.
-
-	- <https://gopivot.ing/>
-	- <https://github.com/korniko98/pivot-atlas>
-
-??? bug "YARA"
-
-	Malware rule, pattern, and classification Language.
-
-	- <https://github.com/VirusTotal/yara>
-	- <https://yara.readthedocs.io/en/stable/>
-
-??? example "yarGen"
-
-	Programmatic YARA rule generation.
-
-	- <https://github.com/Neo23x0/yarGen>
-
-??? example "YARA-Rules Repository"
-
-	- <https://github.com/Yara-Rules/rules>
-
-??? bug "RITA"
-
-	- <https://github.com/activecm/rita>
-
-??? danger "ZEEK"
-
-	- <https://zeek.org/>
-
-??? danger "Suricata"
-
-	- <https://suricata.io/download/>
-	- <https://github.com/OISF/suricata>
-
-??? danger "Velociraptor"
-
-	Agent based incident response tool.
-
-	- <https://docs.velociraptor.app/>
-	- <https://github.com/Velocidex/velociraptor>
-
-??? danger "OSQuery"
-
-	- <https://github.com/osquery/osquery>
-
-??? danger "BeaKer"
-
-	- <https://github.com/activecm/BeaKer>
-
-??? bug "Raccine"
-
-	- <https://github.com/Neo23x0/Raccine>
-
-??? example "SIGMA"
-
-	General signature format for SIEM systems.
-
-	- <https://github.com/SigmaHQ/sigma>
-	- <https://github.com/SigmaHQ/sigma/tree/master/rules/windows/builtin>
-
-??? example "Canary Tokens"
-
-	Active defense alerts using secrets, commands, documents, files and more.
-
-	- <https://canarytokens.org/generate#>
-	- <https://blog.thinkst.com/p/canarytokensorg-quick-free-detection.html>
-	- <https://notes.huskyhacks.dev/notes/content-creators-i-will-teach-you-cyber-jiu-jitsu>
-
-??? bug "iVerify"
-
-	Discovered on [Schneier's blog post: Detecting Pegasus Infections](https://www.schneier.com/blog/archives/2024/12/detecting-pegasus-infections.html).
-
-	It's able to do this through diagnostic data and system information without needing (or being able) to read any data from applications or files.
-
-	- <https://iverify.io/products/basic>
-	- <https://iverify.io/blog/engineering-threat-hunting-for-ios-and-android>
-	- <https://iverify.io/frequently-asked-questions>
-
-??? danger "MISP (Malware Information Sharing Platform)"
-
-	> MISP Project - Open Source Threat Intelligence Platform & Open Standards For Threat Information Sharing.
-
-	- <https://github.com/MISP>
-
-??? danger "The Hive Project (IR Platform)"
-
-	An open source IR platform.
-
-	> One Case Management Platform for all SOCs, CERTs & CSIRTs
-
-	- <https://github.com/TheHive-Project>
-	- <https://strangebee.com/>
-	- <https://thehive-project.org/> (old url)
-
-??? bug "Elastic Detection Rules"
-
-	> Detection Rules is the home for rules used by Elastic Security. This repository is used for the development, maintenance, testing, validation, and release of rules for Elastic Security's Detection Engine.
-
-	- <https://github.com/elastic/detection-rules/tree/main>
-
-
-## Threat Simulation
-
-### C2
-
-??? danger "Sliver"
-
-	> Sliver is an open source cross-platform adversary emulation/red team framework, it can be used by organizations of all sizes to perform security testing. Sliver's implants support C2 over Mutual TLS (mTLS), WireGuard, HTTP(S), and DNS and are dynamically compiled with per-binary asymmetric encryption keys.
-	>
-	> The server and client support MacOS, Windows, and Linux. Implants are supported on MacOS, Windows, and Linux (and possibly every Golang compiler target but we've not tested them all).
-
-	- <https://github.com/BishopFox/sliver>
-
-??? danger "Merlin"
-
-	>  Merlin is a cross-platform post-exploitation HTTP/2 Command & Control server and agent written in golang.
-
-	- <https://github.com/Ne0nd0g/merlin>
-
-??? danger "Mythic"
-
-	> A collaborative, multi-platform, red teaming framework.
-
-	- <https://github.com/its-a-feature/Mythic>
-
-### Evasion
-
-
 ## Blogs & Authors
 
 ??? quote "Daniel Miessler"
@@ -1532,3 +1550,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Security researcher and author of a number of very popular pentesting tools.
 
 	- <https://github.com/p0dalirius>
+
+??? quote "mobile-hacker"
+
+	Discovered on [Paul's Security Weekly #864](https://securityweekly.com/psw-864). mobile-hacker's tutorials have excellent DIY guides for on-the-go projects using Raspberry Pi's, Android, and more.
+
+	- [Portable Kali on Raspberry Pi with Touchscreen](https://www.mobile-hacker.com/2025/02/26/building-a-portable-kali-box-with-raspberry-pi-and-touchscreen/)
