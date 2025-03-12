@@ -868,6 +868,15 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/Arcanum-Sec/msftrecon>
 
 
+??? example "Cloud S.L.A.W"
+
+	Cloud Security Lab a Week is a free and high-quality cloud security training platform.
+
+	Discovered on [Unsupervised Learning NO. 471 ](https://newsletter.danielmiessler.com/p/ul-471).
+
+	- <https://slaw.securosis.com/>
+
+
 ### ICS & OT
 
 ??? abstract "HardwareAllTheThings"
