@@ -719,6 +719,22 @@ This includes general network information as well as network-focused tools.
 
 ### Web Application
 
+!!! abstract "OWASP Web Security Testing Guides"
+
+	>  The Web Security Testing Guide is a comprehensive Open Source guide to testing the security of web applications and web services.
+
+	- <https://github.com/OWASP/wstg>
+	- [WSTG Table of Contents](https://github.com/OWASP/wstg/tree/master/document)
+	- [WSTG Checklists](https://github.com/OWASP/wstg/tree/master/checklists)
+	- [OWASP Cheat Sheets](https://github.com/OWASP/CheatSheetSeries/tree/master/cheatsheets)
+
+??? abstract "PayloadsAllTheThings"
+
+	A collection of payloads and techniques for application security / web application pentesting.
+
+	- <https://swisskyrepo.github.io/PayloadsAllTheThings/>
+	- <https://github.com/swisskyrepo/PayloadsAllTheThings>
+
 ??? example "Burpsuite"
 
 	Web application security testing tool, has free and paid licenses.
@@ -743,13 +759,6 @@ This includes general network information as well as network-focused tools.
 
 	- <https://caido.io/>
 	- <https://github.com/caido>
-
-??? abstract "PayloadsAllTheThings"
-
-	A collection of payloads and techniques for application security / web application pentesting.
-
-	- <https://swisskyrepo.github.io/PayloadsAllTheThings/>
-	- <https://github.com/swisskyrepo/PayloadsAllTheThings>
 
 ??? danger "JS-TAP"
 
