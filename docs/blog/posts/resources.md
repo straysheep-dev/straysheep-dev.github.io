@@ -206,6 +206,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 'DF9B 9C49 EAA9 2984 3258  9D76 DA87 E80D 6294 BE9B'
 	```
 
+	To automate installs, Debian uses `preseed.cfg` files.
+
+	- [debian.org/DebianInstaller/Preseed](https://wiki.debian.org/DebianInstaller/Preseed)
+	- [debian.org example-preseed.txt Template](https://www.debian.org/releases/stable/example-preseed.txt)
+	- [debian.org/tasksel](https://wiki.debian.org/tasksel)
+
 ??? tip "Ubuntu"
 
 	Ubuntu is a Debian-base Linux distribution developed by Canonical.
@@ -258,6 +264,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     - <https://fedoraproject.org/security> (GPG Keys)
 	- <https://docs.fedoraproject.org>
     - <https://hub.docker.com/_/fedora>
+
+	To automate installs, Fedora uses [Kickstart files](https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/advanced/Kickstart_Installations/).
 
 ??? danger "Pentoo"
 

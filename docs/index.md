@@ -47,7 +47,7 @@ h1:first-of-type {
 
     :simple-tryhackme: [straysheep.dev](https://tryhackme.com/p/straysheep.dev)
 
-    :material-key: `9906 9EB1 2D40 9EA9 3BD1  E52E B09D 00AE C481 71E0`
+    :material-key: [straysheep-dev/public-keys](https://github.com/straysheep-dev/public-keys)
 
 </div>
 
