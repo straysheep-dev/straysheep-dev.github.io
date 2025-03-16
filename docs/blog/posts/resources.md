@@ -1131,6 +1131,28 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://github.com/clearbluejar/ghidriff>
 
+??? bug "GEF"
+
+	> GEF (pronounced "Jeff") is a set of commands for x86/64, ARM, MIPS, PowerPC and SPARC to assist exploit developers and reverse-engineers when using old school GDB. It provides additional features to GDB using the Python API to assist during the process of dynamic analysis and exploit development. Application developers will also benefit from it, as GEF lifts a great part of regular GDB obscurity, avoiding repeating traditional commands, or bringing out the relevant information from the debugging runtime.
+
+	- <https://github.com/hugsy/gef>
+
+	In addition to the easy install options in the GitHub README, you can also install GEF directly from GitHub by downloading the latest [gef.py](https://github.com/hugsy/gef/raw/refs/heads/main/gef.py) file to `$HOME/.gef.py`, and sourcing that file from `~/.gdbinit` like this:
+
+	```txt
+	# Installs GDB Enhanced Features (GEF)
+	source ~/.gef.py
+	```
+
+??? bug "Cutter"
+
+	> Cutter is a free and open-source reverse engineering platform powered by rizin. It aims at being an advanced and customizable reverse engineering platform while keeping the user experience in mind. Cutter is created by reverse engineers for reverse engineers.
+
+	Cutter is an excellent macOS, Linux and Windows binary disassembler + decompiler. The GitHub releases page has ready to use AppImages for 64-bit Linux.
+
+	- <https://github.com/rizinorg/cutter>
+
+
 ## Malware Analysis
 
 ??? bug "DidierStevensSuite"
