@@ -61,6 +61,24 @@ sudo usermod -aG libvirtd $USER
 | `/etc/libvirt/nwfilter/` | Network filtering configurations |
 
 
+### Permissions
+
+On Ubuntu 22.04 and higher, these are the default path permissions. Essentially `/var/lib/libvirt` itself and everything below should owned by `root:root` *except* for `/var/lib/libvirt/qemu` which is owned by `libvirt-qemu:kvm`.
+
+```
+drwxr-xr-x  2 root         root 4096 Mar 13  2025 .
+drwxr-xr-x  2 root         root 4096 Sep 10  2025 ..
+drwxr-x---  2 root         root 4096 Jul  5  2025 boot
+drwxr-xr-x  2 root         root 4096 Mar 13  2025 dnsmasq
+drwxr-x---  2 root         root 4096 Mar 13  2025 images
+drwxr-x---  2 libvirt-qemu kvm  4096 Mar 13  2025 qemu
+drwx------  2 root         root 4096 Jul  5  2025 sanlock
+drwxr-x---  2 root         root 4096 Mar 11  2025 swtpm
+```
+
+This is important to know if you want to store virtual machines in non-default paths.
+
+
 ### Commands
 
 `virsh` allows you to automate and control virtual machine behavior from the CLI.
@@ -420,6 +438,12 @@ Second launch, start the installed machine.
 kvm -no-reboot -m 2048 \
     -drive file=ubuntu.img,format=raw,cache=none,if=virtio
 ```
+
+
+#### Blank GUI
+
+This was discovered while [building Ubuntu desktop images with packer](https://github.com/straysheep-dev/packer-configs/tree/main/ubuntu-2204-desktop). On boot of a working disk image, sometimes you will just see a blank screen. Try hitting `Esc` a few times to cycle between the CLI view and the GUI view in the QEMU or virt-manager GUI window. This may reveal that the system is actually booting and functional, just waiting for you to login.
+
 
 #### Networking
 
