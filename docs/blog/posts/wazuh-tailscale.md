@@ -1730,6 +1730,59 @@ Components to maintain and when:
     - If you add a network IDS on the endpoint, tell the agent about it here as well
     - You can deploy this with a shell script or your own Ansible role as you learn what needs done on each endpoint in your environment
 
+
+---
+
+## Troubleshooting
+
+!!! bug "Wazuh dashboard server is not ready yet"
+
+    You may encounter this issue when trying to reach the web interface. Check `wazuh-indexer.service` first:
+
+    ```bash
+    $ systemctl status wazuh-indexer
+    × wazuh-indexer.service - wazuh-indexer
+        Loaded: loaded (/lib/systemd/system/wazuh-indexer.service; enabled; vendor preset: enabled)
+        Active: failed (Result: timeout) since Sat 2025-03-02 03:02:01 UTC; 1 days ago
+        Docs: https://documentation.wazuh.com
+    Main PID: 123 (code=exited, status=143)
+            CPU: 12.345s
+
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.bootstrap.OpenSearch.execute(OpenSearch.java:172)
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:104)
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.cli.Command.mainWithoutErrorHandling(Command.java:138)
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.cli.Command.main(Command.java:101)
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.bootstrap.OpenSearch.main(OpenSearch.java:138)
+    Mar 02 03:02:01 wazuh-server systemd-entrypoint[123]:         at org.opensearch.bootstrap.OpenSearch.main(OpenSearch.java:104)
+    Mar 02 03:02:01 wazuh-server systemd[1]: wazuh-indexer.service: start operation timed out. Terminating.
+    Mar 02 03:02:01 wazuh-server systemd[1]: wazuh-indexer.service: Failed with result 'timeout'.
+    Mar 02 03:02:01 wazuh-server systemd[1]: Failed to start wazuh-indexer.
+    Mar 02 03:02:01 wazuh-server systemd[1]: wazuh-indexer.service: Consumed 12.345s CPU time.
+    ```
+
+    If you get the error above, try restarting the indexer on its own. Often restarting the manager, or the entire server will not resolve this, likely due to the timeout issue where it's not initializing fast enough.
+
+    Next you could try restarting the `wazuh-dashboard.service`. Be patient, if you see the error below, wait a minute or two and try to refresh the page. This error will happen when the dashboard is starting up, but hasn't connected to the indexer just yet.
+
+    ```bash
+    $ systemctl status wazuh-dashboard
+    ● wazuh-dashboard.service - wazuh-dashboard
+        Loaded: loaded (/etc/systemd/system/wazuh-dashboard.service; enabled; vendor preset: enabled)
+        Active: active (running) since Tue 2025-03-02 01:00:00 UTC; 1min 23s ago
+    Main PID: 12345 (node)
+        Tasks: 11 (limit: 9348)
+        Memory: 183.2M
+            CPU: 12.345s
+        CGroup: /system.slice/wazuh-dashboard.service
+                └─12345 /usr/share/wazuh-dashboard/node/bin/node --no-warnings --max-http-header-size=65536 --unhandled-rejections=warn /usr/share/wazuh-dashboard/src/cli/dist
+
+    Mar 02 03:02:01 wazuh-server opensearch-dashboards[12345]: {"type":"log","@timestamp":"2025-03-02T01:00:00Z","tags":["error","opensearch","data"],"pid":12345,"message":"[search_phase_execution_exception]: all shards failed"}
+    Mar 02 03:02:01 wazuh-server opensearch-dashboards[12345]: {"type":"log","@timestamp":"2025-03-02T01:00:00Z","tags":["error","opensearch","data"],"pid":12345,"message":"[search_phase_execution_exception]: all shards failed"}
+    ```
+
+    After a couple minutes the dashboard webpage should finally load.
+
+
 ---
 
 ## Migrate to Proxmox
