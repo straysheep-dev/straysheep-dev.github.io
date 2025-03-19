@@ -853,6 +853,32 @@ This includes general network information as well as network-focused tools.
 
 ### Wireless
 
+??? abstract "WiFi Challenge Lab Walkthrough"
+
+	Think of this as "WirelessAllTheThings". This walkthrough will demonstrate a number of WiFi attacks, from recon and basic commands to operate wireless tools on Linux, to attacking OPN, WEP, WPA/2/3 and MGT enterprise networks.
+
+	- <https://r4ulcl.com/posts/walkthrough-wifichallenge-lab-2.0/>
+
+??? question "USB-WiFi Guide"
+
+	> The mission of this site is to provide educational information, reviews of USB WiFi adapters and links to specific adapters that are known to perform well with Linux ( see The Plug and Play List ).
+
+	- <https://github.com/morrownr/USB-WiFi>
+	- [Recommended Adapters for Kali Linux](https://github.com/morrownr/USB-WiFi/blob/main/home/Recommended_Adapters_for_Kali_Linux.md)
+
+	The cards using the mediatek/mt76 drivers appear to be the most supported as of early 2025.
+
+	When comparing available cards, note the AXML and AXM cards look the same but are different from the ACH and ACM cards in that they also have Bluetooth functionality built-in (which casues issues on Ubuntu in some cases). All 4 use the mediatek/mt76 drivers.
+
+??? example "rtl8812au"
+
+	These kernel drivers are no longer included in Kali by default, and these repos are where you'll need to obtain the source to compile and load them.
+
+	You'll run into this if you use some of the popular ALFA USB cards like the AWUS036ACH, or AWUS036ACS.
+
+	- <https://github.com/aircrack-ng/rtl8812au> (Deprecated)
+	- <https://github.com/lwfinger/rtw88> (Current)
+
 ??? example "WiFiChallengeLab-docker"
 
 	This is one of the most useful resources to learning nearly all wireless recon and attack paths in a safe and isolated environment. Deployment options include:
@@ -874,6 +900,12 @@ This includes general network information as well as network-focused tools.
 	> Wi-Fi Forge provides a safe and legal environment for learning WiFi hacking. Based on the open source Mininet-Wifi, this project automatically sets up the networks and tools needed to run a variety of WiFi exploitation labs, removing the need for the overhead and hardware normally required to perform these attacks.
 
 	- <https://github.com/blackhillsinfosec/Wifi-Forge>
+
+??? question "Rayhunter"
+
+	> Rust tool to detect cell site simulators on an orbic mobile hotspot.
+
+	- <https://github.com/EFForg/rayhunter>
 
 
 ### Cloud
