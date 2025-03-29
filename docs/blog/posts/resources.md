@@ -90,6 +90,31 @@ Information, compiled for easy reference.
 
 	- <https://github.com/topgrade-rs/topgrade>
 
+??? info "Terramaid"
+
+	> A utility for generating Mermaid diagrams from Terraform configurations.
+
+	- <https://github.com/RoseSecurity/Terramaid>
+
+
+??? abstract "FileCloud Community Edition"
+
+	The Community Edition is the free tier of the enterprise version, without certain enterprise features. It's geared towards home labs and personal use, while giving you expierence with the FileCloud platform.
+
+	Uniquely, FileCloud has an MSI installer for deployment on Windows servers / desktops, and allows you to mount folders as network drives.
+
+	Discovered on [NetworkChuck's video on Building your Own Cloud](https://www.youtube.com/watch?v=xBIowQ0WaR8).
+
+	- <https://ce.filecloud.com/>
+
+??? abstract "NextCloud"
+
+	A community driven, free and open source, self-hosted cloud solution.
+
+	Discovered on [Network Chuck's video on Building your Own Cloud](https://www.youtube.com/watch?v=xBIowQ0WaR8). The steps demonstrated for the docker install seem to be the easiest way to get setup in a lab environment that can move to "production" use for a home user.
+
+	- <https://github.com/nextcloud>
+
 
 ## Note Taking
 
@@ -462,12 +487,17 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://gitlab.com/badsectorlabs/ludus>
 
+??? example "Nuclei-Templates-Labs"
+
+	> A comprehensive collection of vulnerable environments paired with ready-to-use Nuclei templates for practical security testing and learning!
+
+	- <https://github.com/projectdiscovery/nuclei-templates-labs>
+
 ??? example "SamuraiWTF (Web Training Framework)"
 
 	This version of the project is expirimental only for now.
 
 	- <https://github.com/secureideas/samuraiwtf>
-
 
 ??? example "VulnServer"
 
@@ -496,6 +526,15 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> A vulnerable Node.js demo application.
 
     - <https://github.com/snyk-labs/nodejs-goof>
+
+
+## Hardware
+
+??? example "geerlingguy/mini-rack"
+
+	> Miniature rack builds, for portable or compact Homelabs.
+
+	- <https://github.com/geerlingguy/mini-rack>
 
 
 ## DevOps
@@ -824,6 +863,33 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/wietze/HijackLibs>
 
+??? danger "Bypassing Windows Defender Application Control (WDAC) with Loki C2"
+
+	> ...because I replaced the Teams /resources/app/ directory with Loki C2 Agent's code, the Electron-based Teams application now executes Loki C2 Agent's JavaScript inside the trusted Teams process.
+
+	- <https://securityintelligence.com/x-force/bypassing-windows-defender-application-control-loki-c2/>
+
+	Additional resources from the article:
+
+	- [Microsoft: Applications that can Bypass WDAC and How to Block Them](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/applications-that-can-bypass-appcontrol)
+	- [T1218.015: System Binary Proxy Execution: Electron Applications](https://attack.mitre.org/techniques/T1218/015/)
+	- <https://github.com/mttaggart/quasar>
+	- <https://taggart-tech.com/quasar-electron/>
+
+	To try and summarize this:
+
+	- WDAC is a security boundary to prevent executing untrusted software
+	- [LOLBAS](https://lolbas-project.github.io/) details these kinds of bypasses
+	- Electron applications are interesting targets
+		- They're the reverse of EXE / DLL's in that the Electron EXE exposes API's to .js files and .node modules
+		- Goal is to execute arbitrary JS and leverage existing Node modules through a trusted Electron application
+		- Electron apps can enforce integrity checking on JS scripts they execute which can help mitigate this vector
+	- Node modules have limitations, but can be stealthier
+		- Largely undocumented internal structures
+		- If you use a function of a signed Node module instead of PowerShell, you avoid spawning processes and being caught
+		- Execute everything in JS to remain stealthier
+	- The post uses the legacy version of Teams to achieve code execution and C2 deployment via JS
+
 
 ### macOS
 
@@ -907,6 +973,15 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/EFForg/rayhunter>
 
+??? tip "Chrome's Built-in Bluetooth Scanner"
+
+	Discoverd on [PSW #867](https://securityweekly.com/psw-867).
+
+	Access the interface via: `chrome://bluetooth-internals` to scan for nearby bluetooth devices.
+
+	- This works on most desktop versions of Chrome
+	- Does not appear to work on iOS
+
 
 ### Cloud
 
@@ -958,8 +1033,123 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/its-a-feature/Mythic>
 
+??? danger "TrevorC2"
+
+	> TrevorC2 is a legitimate website (browsable) that tunnels client/server communications for covert command execution. Written by: Dave Kennedy (@HackingDave) Website: <https://www.trustedsec.com>.
+	>
+	> TrevorC2 is a client/server model for masking command and control through a normally browsable website. Detection becomes much harder as time intervals are different and does not use POST requests for data exfil.
+
+	- <https://github.com/trustedsec/trevorc2>
+
 
 ## Defense
+
+### Linux
+
+??? tip "Kernel Lockdown Mode"
+
+	You can set the Linux kernel to lockdown mode by enabling Secure Boot, or by setting the mode manually in GRUB.
+
+	- <https://github.com/torvalds/linux/blob/master/security/lockdown/Kconfig>
+	- [manpages: kernel_lockdown](https://manpages.ubuntu.com/manpages/hirsute/man7/kernel_lockdown.7.html)
+
+	What this does:
+
+	- Modifications to the kernel at runtime will require a reboot
+	- Makes an attacker's job more difficult at gaining kernel level persistence or escaping the hypervisor. (Stops a number of known rootkits)
+	- Disabling Secure Boot at the UEFI level requires physical or serial console access for MOK in the firmware during the boot process
+
+	How this can be defeated:
+
+	- If signing scripts and keys are present on the system at the time of compromise
+	- Novel attack against the Linux kernel
+
+	How this can be detected:
+
+	- [Monitor and log root command execution with auditd](https://github.com/Neo23x0/auditd) or [Sysmon](https://github.com/Sysinternals/SysmonForLinux)
+	- Watch invokation of `/usr/src/linux-headers-$(uname -r)/scripts/sign-file` and `mokutil`
+	- If you did not schedule a shutdown or reboot that occured, you may have been compromised.
+
+
+	Kernel Command Line Parameters (full list)
+
+	- [kernel.org/admin-guide/kernel-parameters (txt)](https://www.kernel.org/doc/html/latest/_sources/admin-guide/kernel-parameters.rst.txt)
+	- [kernel.org/admin-guide/kernel-parameters (html)](https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html)
+
+	>         lockdown=       [SECURITY]
+	>                         { none | integrity | confidentiality }
+	>                         Enable the kernel lockdown feature. If set to
+	>                         integrity, kernel features that allow userland to
+	>                         modify the running kernel are disabled. If set to
+	>                         confidentiality, kernel features that allow userland
+	>                         to extract confidential information from the kernel
+	>                         are also disabled.
+
+
+	Configuring Lockdown Mode:
+
+	- `lockdown=integrity` is enabled by default on systems with UEFI Secure Boot
+	- **The recommended way of making persistent kernel-command-line modifications is via GRUB/GRUB2**
+	- This is done with `grub` (Debian/Ubuntu) or `grubby` (RHEL/Fedora) via the boot parameters.
+
+	Get the current lockdown setting:
+
+	```bash
+	cat /sys/kernel/security/lockdown
+	```
+
+	**Setting Lockdown Mode on Debian/Ubuntu or Fedora/RHEL**
+
+	```bash
+	sudo nano /etc/default/grub
+	```
+
+	Change `GRUB_CMDLINE_LINUX=""` to have `GRUB_CMDLINE_LINUX="lockdown=<mode>"` *appended* (if there are already other CMDLINE parameters).
+
+	Mode can be one of `none`, `integrity`, or `confidentiality`
+
+	EXAMPLE: `GRUB_CMDLINE_LINUX="lockdown=integrity"`
+
+	After making any changes:
+
+	```bash
+	# Debian / Ubuntu
+	sudo update-grub
+
+	# Fedora / RHEL
+	sudo grub2-mkconfig > /dev/null
+	```
+
+	**Setting Lockdown Mode on Raspberry Pi**
+
+	This file points to all of the boot parameters, typically in the same directory:
+
+	```txt
+	/boot/firmware/config.txt
+	```
+
+	To modify a kernel command line parameter as you would in /etc/default/grub:
+
+	```bash
+	sudo echo 'lockdown=confidentiality' >> /boot/firmware/nobtcmd.txt
+	```
+
+	**All Distros**
+
+	No matter which Linux distribution you're making these changes on, to complete the process you'll need to reboot.
+
+	```bash
+	# Reboot after making changes
+	sudo systemctl reboot
+	```
+
+	To verify the changes on reboot:
+
+	```bash
+	cat /sys/kernel/security/lockdown
+	none [integrity] confidentiality
+	```
+
 
 ### Threat Hunting
 
@@ -1071,6 +1261,15 @@ This includes general network information as well as network-focused tools.
 	SquareX has done [a lot of interesting research](https://sqrx.com/research) into browser-based attacks. The browser is one of the most critical points of failure, and is still kind of esoteric when it comes to applying defenses. They plan to release research throughout 2025 that focuses on attack paths in browsers exploiting functionality that cannot be easily patched.
 
 	- <https://sqrx.com/>
+
+??? example "rkchk"
+
+	> Rust Linux Kernel Module designed for LKM rootkit detection.
+
+	Discovered on [PSW #867](https://securityweekly.com/psw-867), this is a proof-of-concept kernel module to detect other LKM-based rootkits. The README has a list of LKM rootkits it has been tested against.
+
+	- <https://github.com/thalium/rkchk>
+	- <https://blog.thalium.re/posts/linux-kernel-rust-module-for-rootkit-detection/>
 
 
 ## GRC
@@ -1294,7 +1493,7 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/flashrom/flashrom>
 
 
-### Attacks
+### Vulnerabilities
 
 ??? bug "BootHole"
 
@@ -1307,6 +1506,27 @@ All things standards, configuration, compliance, and policy related.
 	> Windows Boot Applications allow the truncatememory setting to remove blocks of memory containing "persistent" ranges of serialised data from the memory map, leading to Secure Boot bypass.
 
 	- <https://github.com/Wack0/CVE-2022-21894>
+
+??? bug "LogoFAIL"
+
+	> The Binarly REsearch team investigates vulnerable image parsing components across the entire UEFI firmware ecosystem and finds all major device manufacturers are impacted on both x86 and ARM-based devices.
+	>
+	> This attack vector can give an attacker an advantage in bypassing most endpoint security solutions and delivering a stealth firmware bootkit that will persist in an ESP partition or firmware capsule with a modified logo image.
+
+	- <https://www.binarly.io/blog/the-far-reaching-consequences-of-logofail>
+
+??? bug "GRUB Unpatched for 15 Months in Major Distros"
+
+	Discovered on [PSW #867](https://securityweekly.com/psw-867), GRUB has been vulnerable to UEFI / boot-level attacks for 15+ months, and none of the major distros have integrated the patches as of March in 2025.
+
+	- [Phoronix Post by Michael Larabel](https://www.phoronix.com/news/GRUB2-73-Patches-Security-2025)
+	- [GRUB2 Mailing List Thread Detailing the 73 Patches](https://lists.gnu.org/archive/html/grub-devel/2025-02/msg00024.html)
+
+	A few points based on the show notes and the article:
+
+	- If Microsoft doesn't update the DBX or SBAT to prevent loading these versions of GRUB, you can use a vulnerable version of GRUB via USB boot to bypass Secure Boot
+	- This potentially allows USB-based boot attacks to bypass GPG signed boot, GRUB passwords, and possibly full disk encryption
+	- Also includes a vulnerability similar to [LogoFAIL](https://www.binarly.io/blog/the-far-reaching-consequences-of-logofail), exploiting image parsers
 
 
 ## Forensics
