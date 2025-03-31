@@ -423,7 +423,7 @@ Create a virtual disk.
 truncate -s 10G ubuntu.img
 ```
 
-First launch, walk through the installer.
+First launch, walk through the installer (minimal, BIOS):
 
 ```bash
 kvm -no-reboot -m 2048 \
@@ -437,6 +437,26 @@ Second launch, start the installed machine.
 ```bash
 kvm -no-reboot -m 2048 \
     -drive file=ubuntu.img,format=raw,cache=none,if=virtio
+```
+
+Alternatively if you want to launch an ISO using EFI boot:
+
+```bash
+# Copy an EFI vars template file to write to
+cp /usr/share/OVMF/OVMF_VARS_4M.fd .
+
+# Boot the machine pointing to the EFI ROM and your writable vars file
+kvm -no-reboot -m 4096 -smp 4 \
+    -cpu host \
+    -machine q35,smm=on,accel=kvm:hvf:whpx:tcg \
+    -global driver=cfi.pflash01,property=secure,value=on \
+    -device virtio-net-pci,netdev=net0 \
+    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -drive file=ubuntu.img,format=raw,cache=none,if=virtio \
+    -cdrom ~/path/to/ubuntu-<version-number>-live-server-amd64.iso \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.secboot.fd \
+    -drive if=pflash,format=raw,file=efivars.fd
 ```
 
 
