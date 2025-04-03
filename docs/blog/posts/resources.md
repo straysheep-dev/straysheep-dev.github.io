@@ -292,10 +292,28 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	To automate installs, Fedora uses [Kickstart files](https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/advanced/Kickstart_Installations/).
 
+??? info "Rocky"
+
+	> Rocky Linux is an open-source enterprise operating system designed to be 100% bug-for-bug compatible with Red Hat Enterprise Linux. Rocky Linux is under intensive development by the community.
+
+	- <https://rockylinux.org/>
+	- <https://docs.rockylinux.org/> (The documentation is very straight forward and easy to understand, if you're learning Fedora or RHEL start here)
+
+	Brief history about Rocky Linux:
+
+	> On December 8, 2020, Red Hat announced that they would discontinue development of CentOS, which has been a production-ready downstream version of Red Hat Enterprise Linux, in favor of a newer upstream development variant of that operating system known as "CentOS Stream". In response, the original founder of CentOS, Gregory Kurtzer, announced via a comment on the CentOS website that he would again start a project to achieve the original goals of CentOS. Its name was chosen as a tribute to early CentOS co-founder Rocky McGaugh. By December 12, the code repository of Rocky Linux had become the top-trending repository on GitHub.
+
+	**Verifying Signatures**
+
+	Interestingly the way to verify the ISO hashes is through this git repo, where the commits of the hashes are signed. This is because Keykeeper (part of the peridot build system) does not sign arbitrary files or artifacts outside of the build system. So rather than having a CHECKSUMS and a detached CHECKSUMS.sig, hashes are commited here by the maintainers.
+
+	- <https://rockylinux.org/resources/gpg-key-info>
+	- <https://github.com/rocky-linux/checksums>
+	- [GPG Key Fingerprints](https://github.com/rocky-linux/checksums/blob/main/keys/fingerprints)
+
 ??? danger "Pentoo"
 
 	- <https://pentoo.ch/>
-
 
 ??? danger "Parrot"
 
@@ -539,6 +557,27 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## DevOps
 
+??? example "debos"
+
+	> debos is a tool to make the creation of various Debian-based OS images simpler. While most other tools focus on specific use-cases, debos is designed to be a toolchain making common actions trivial while providing enough rope to do whatever tweaking which might be required behind the scenes.
+	>
+	> debos expects a YAML file as input and runs the actions listed in the file sequentially. These actions should be self-contained and independent of each other.
+
+	Discovered in the [Kali Linux build-scripts repo for kali-vm](https://gitlab.com/kalilinux/build-scripts/kali-vm/-/tree/main?ref_type=heads#kali-vm-image-builder).
+
+	- <https://github.com/go-debos/debos>
+
+??? example "pulumi"
+
+	> Pulumi Infrastructure as Code is the easiest way to build and deploy infrastructure, of any architecture and on any cloud, using programming languages that you already know and love. Code and ship infrastructure faster with your favorite languages and tools, and embed IaC anywhere with Automation API.
+	>
+	> Simply write code in your favorite language and Pulumi automatically provisions and manages your resources on AWS, Azure, Google Cloud Platform, Kubernetes, and 120+ providers using an infrastructure-as-code approach. Skip the YAML, and use standard language features like loops, functions, classes, and package management that you already know and love.
+
+	Suggested by [yroc92](https://github.com/yroc92) for infrastructure-as-code workflows.
+
+	- <https://github.com/pulumi/pulumi>
+	- <https://www.pulumi.com/docs/>
+
 
 ### Ansible
 
@@ -587,7 +626,6 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> Terraform is an infrastructure as code tool that lets you build, change, and version infrastructure safely and efficiently. This includes low-level components like compute instances, storage, and networking; and high-level components like DNS entries and SaaS features.
 
 	- <https://developer.hashicorp.com/terraform>
-
 
 
 ## Information Technology
@@ -1631,6 +1669,24 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	- <https://www.cve.org/>
 	- <https://cve.mitre.org/> (old site)
+	- <https://github.com/CVEProject/cvelistV5> (CVE cache of the official CVE List in CVE JSON 5 format)
+
+??? question "CVEMap"
+
+	> Navigate the Common Vulnerabilities and Exposures (CVE) jungle with ease using CVEMAP, a command-line interface (CLI) tool designed to provide a structured and easily navigable interface to various vulnerability databases.
+	>
+	> CVEMap CLI is built on top of the CVEMap API that requires API Token from ProjectDiscovery Cloud Platform that can be configured using environment variable named PDCP_API_KEY or using interactive -auth option.
+
+	- <https://github.com/projectdiscovery/cvemap>
+
+	References within the README:
+
+	- **[National Vulnerability Database (NVD)](https://nvd.nist.gov/developers)**: Comprehensive CVE vulnerability data.
+	- **[Known Exploited Vulnerabilities Catalog (KEV)](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)**: Exploited vulnerabilities catalog.
+	- **[Exploit Prediction Scoring System (EPSS)](https://www.first.org/epss/data_stats)**: Exploit prediction scores.
+	- **[HackerOne](https://hackerone.com/hacktivity/cve_discovery)**: CVE discoveries disclosure.
+	- **[Nuclei Templates](https://github.com/projectdiscovery/nuclei-templates)**: Vulnerability validation templates.
+	- **[Trickest CVE](https://github.com/trickest/cve) / [PoC-in-GitHub](https://github.com/nomi-sec/PoC-in-GitHub/)** GitHub Repository: Vulnerability PoCs references.
 
 ??? bug "Exploit-DB"
 
@@ -1752,6 +1808,42 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	- <https://www.phishtank.com>
 	- <https://www.phishtank.com/faq.php>
+
+
+## Artificial Intelligence
+
+??? example "Google Gemini"
+
+	Google's AI model (previously known as Bard). As of March 2025 it ranks the highest of any model for coding.
+
+	- <https://gemini.google.com>
+	- [Gemini Apps Privacy Hub](https://support.google.com/gemini/answer/13594961)
+
+	If you don't want your input and output to be used for training or human review, you can turn off Gemini Apps Activity. This does not delete past data. As with any AI assume any inputs or outputs may become public or used for training.
+
+	Gemini is usable within Google Workspace. According to their policy it will not share or train on input or output of emails, documents, or otherwise unless you decide to allow that.
+
+	Other interesting features include:
+
+	- NotebookLM: Process text, PDFs, Google Docs, websites, and more into summaries that include a podcast-like audio conversation about the content
+
+??? example "OpenAI"
+
+	Possibly the most popular general-use AI. It's capable of text and audio conversation, coding, image and video generation and editing. There's also web search, deep research, and scheduled tasks.
+
+	- <https://openai.com/>
+	- <https://chatgpt.com/>
+	- <https://sora.com/>
+
+	If you don't want your input and output to be used for training or shared to the explore feed in Sora, you can turn this off in the settings of both ChatGPT and Sora, where they're on by default. As with any AI assume any inputs or outputs may become public or used for training.
+
+??? example "Cloudflare: AI Labyrinth"
+
+	> ...we decided to use a new offensive tool in the bot creator's toolset that we haven't really seen used defensively: AI-generated content. When we detect unauthorized crawling, rather than blocking the request, we will link to a series of AI-generated pages that are convincing enough to entice a crawler to traverse them. But while real looking, this content is not actually the content of the site we are protecting, so the crawler wastes time and resources.
+	>
+	> As an added benefit, AI Labyrinth also acts as a next-generation honeypot. No real human would go four links deep into a maze of AI-generated nonsense. Any visitor that does is very likely to be a bot, so this gives us a brand-new tool to identify and fingerprint bad bots, which we add to our list of known bad actors. Here's how we do it...
+
+	- <https://blog.cloudflare.com/ai-labyrinth/>
 
 
 ## Blogs & Authors
