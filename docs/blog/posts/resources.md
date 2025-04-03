@@ -115,6 +115,16 @@ Information, compiled for easy reference.
 
 	- <https://github.com/nextcloud>
 
+??? info "opkssh"
+
+	Discovered on the [SANS ISC Daily Stormcast, Monday March 31st episode in 2025](https://isc.sans.edu/podcastdetail/9386).
+
+	> opkssh is a tool which enables ssh to be used with OpenID Connect allowing SSH access management via identities like alice@example.com instead of long-lived SSH keys. It does not replace ssh, but rather generates ssh public keys that contain PK Tokens and configures sshd to verify the PK Token in the ssh public key. These PK Tokens contain standard OpenID Connect ID Tokens. This protocol builds on the OpenPubkey which adds user public keys to OpenID Connect without breaking compatibility with existing OpenID Provider.
+	>
+	> Currently opkssh is compatible with Google, Microsoft/Azure and Gitlab OpenID Providers (OP). If you have a gmail, microsoft or a gitlab account you can ssh with that account.
+
+	- <https://github.com/openpubkey/opkssh>
+
 
 ## Note Taking
 
@@ -1410,6 +1420,14 @@ All things standards, configuration, compliance, and policy related.
 	> Python Command-Line Ghidra Binary Diffing Engine.
 
 	- <https://github.com/clearbluejar/ghidriff>
+
+??? bug "GhidraMCP"
+
+	> ghidraMCP is an Model Context Protocol server for allowing LLMs to autonomously reverse engineer applications. It exposes numerous tools from core Ghidra functionality to MCP clients.
+
+	See the videos in the README for a demo and install steps.
+
+	- <https://github.com/LaurieWired/GhidraMCP>
 
 ??? bug "GEF"
 
