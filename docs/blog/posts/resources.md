@@ -1706,6 +1706,15 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- **[Nuclei Templates](https://github.com/projectdiscovery/nuclei-templates)**: Vulnerability validation templates.
 	- **[Trickest CVE](https://github.com/trickest/cve) / [PoC-in-GitHub](https://github.com/nomi-sec/PoC-in-GitHub/)** GitHub Repository: Vulnerability PoCs references.
 
+??? bug "Google OSV (Open Source Vulnerabilities)"
+
+	> An open, precise, and distributed approach to producing and consuming vulnerability information for open source.
+
+	OSV is a project and service developed by Google. All advisories in this database use the OpenSSF OSV format, which was developed in collaboration with open source communities.
+
+	- <https://osv.dev/>
+	- <https://google.github.io/osv.dev/>
+
 ??? bug "Exploit-DB"
 
 	`searchsploit` (<https://www.kali.org/tools/exploitdb/>) might have different results than the online exploit-db database.
@@ -1828,6 +1837,72 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://www.phishtank.com/faq.php>
 
 
+## Cryptocurrency
+
+??? info "Trezor Wallet"
+
+	Trezor is a physical hardware wallet for cryptocurrency. These devices also have other functionality, such as U2F, FIDO, and WebAuth.
+
+	- <https://trezor.io/>
+	- <https://docs.trezor.io/>
+
+	The easiest way to use a Trezor hardware wallet is through the Trezor Suite. Download the Trezor suite AppImage (recommended) and check the signatures:
+
+	- <https://github.com/trezor/trezor-suite/releases>
+	- Trezor [signing key via trezor.io](https://trezor.io/security/satoshilabs-2021-signing-key.asc)
+	- Trezor [signing key on the Ubuntu Keyserver](https://keyserver.ubuntu.com/pks/lookup?search=EB483B26B078A4AA1B6F425EE21B6950A2ECB65C&fingerprint=on&op=index)
+
+	```
+	pub   rsa4096/0xE21B6950A2ECB65C 2021-01-04 [SC]
+		Key fingerprint = EB48 3B26 B078 A4AA 1B6F  425E E21B 6950 A2EC B65C
+	uid                             SatoshiLabs 2021 Signing Key
+	```
+
+	Or access the web version here:
+
+	- <https://suite.trezor.io/web>
+	- Chrome (web-USB or `trezord`) or Firefox only
+	- `trezord` is a local daemon that was required when only the web version existed
+
+	Install udev rules for the hardware wallet's usb connection: [51-trezor.rules](https://github.com/trezor/trezor-suite/blob/develop/packages/suite-data/files/bin/udev/51-trezor.rules)
+
+	```bash
+	sudo cp 51-trezor.rules /etc/udev/rules.d/
+	sudo udevadm control --reload
+	```
+
+	For reference, Yubico's udev rules with Trezor are here: [70-u2f.rules](https://github.com/Yubico/libu2f-host/blob/master/70-u2f.rules)
+
+	Next, you'll likely need to install the previous FUSE binaries.
+
+	- <https://github.com/appimage/appimagekit/wiki/fuse>
+
+	```bash
+	sudo add-apt-repository universe
+
+	# 24.04 and later
+	sudo apt install libfuse2t64
+
+	# 22.04 and earlier
+	sudo apt install fuse libfuse2
+
+	sudo modprobe fuse
+	sudo groupadd fuse
+
+	user="$(whoami)"
+	sudo usermod -a -G fuse $user
+
+	sudo systemctl reboot
+	```
+
+	If you have usbguard running, when updating the Trezor wallet's firmware, you'll need to "add" it again in the policy list. When the device reboots into bootloader mode for updates, its characteristics change. To usbguard this is a different device.
+
+	```bash
+	usbguard list-devices
+	sudo usbguard allow-device <id> -p
+	```
+
+
 ## Artificial Intelligence
 
 ??? example "Google Gemini"
@@ -1844,6 +1919,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Other interesting features include:
 
 	- NotebookLM: Process text, PDFs, Google Docs, websites, and more into summaries that include a podcast-like audio conversation about the content
+	- [Sec-Gemini](https://security.googleblog.com/2025/04/google-launches-sec-gemini-v1-new.html) is built to augment SOC workflows with Mandiant and OSV data
 
 ??? example "OpenAI"
 
