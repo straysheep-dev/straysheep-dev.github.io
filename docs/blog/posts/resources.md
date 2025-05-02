@@ -588,6 +588,38 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/pulumi/pulumi>
 	- <https://www.pulumi.com/docs/>
 
+??? example "Answer Files (Unattend.xml)"
+
+	> Answer files (or Unattend files) can be used to modify Windows settings in your images during Setup. You can also create settings that trigger scripts in your images that run after the first user creates their account and picks their default language.
+	>
+	> Windows Setup will automatically search for answer files in certain locations, or you can specify an unattend file to use by using the `/unattend:<file.xml>` option when running Windows Setup (setup.exe).
+
+	- [Microsoft: Automate Windows Setup](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/automate-windows-setup?view=windows-11)
+
+	This is a series of useful resources for automated or unattended Windows provisioning.
+
+	- <https://github.com/StefanScherer/packer-windows>
+	- <https://github.com/rgl/windows-vagrant>
+	- <https://schneegans.de/windows/unattend-generator/>
+	- <https://github.com/cschneegans/unattend-generator/>
+	- [Microsoft: Create your own Answer file](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/update-windows-settings-and-scripts-create-your-own-answer-file-sxs?view=windows-11)
+	- [Microsoft: Unattended Windows Setup Reference](https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/)
+	- [Microsoft: Answer File Search Order](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-automation-overview?view=windows-11#implicit-answer-file-search-order)
+	- [Microsoft: setup.exe /unattend](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-command-line-options?view=windows-11#unatten)
+	- [Microsoft: Disk Configuration XML](https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-setup-diskconfiguration-disk-modifypartitions-modifypartition-typeid#xml-example)
+		- [Microsoft: How to Configure UEFI/GPT-based Disks (Manually)](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-8.1-and-8/hh824839(v=win.10))
+		- [Microsoft: How to Configure UEFI/GPT-based Disks (Autounattend.xml)](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-8.1-and-8/hh825702(v=win.10))
+		- [Microsoft: How to Configure BIOS/MBR-based Disks](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-8.1-and-8/hh825146(v=win.10))
+
+??? example "Windows unattend.xml Generator"
+
+	This is both a .NET library and website that can be used to generate customized `unattend.xml` files to provision Windows machines. Playing around with the settings is a great way to see how these files can be built, especially if you compare them to the files found in [StefanScherer/packer-windows](https://github.com/StefanScherer/packer-windows).
+
+	Suggested by [rpinz](https://github.com/rpinz) as a way to pick up Windows automation faster.
+
+	- <https://github.com/cschneegans/unattend-generator>
+	- <https://schneegans.de/windows/unattend-generator/>
+
 
 ### Ansible
 
@@ -886,6 +918,14 @@ This includes general network information as well as network-focused tools.
 	> LOLESXi features a comprehensive list of binaries/scripts natively available in VMware ESXi that adversaries have utilised in their operations. The information on this site is compiled from open-source threat research.
 
 	- <https://github.com/LOLESXi-Project/LOLESXi>
+
+??? bug "Curing"
+
+	> Curing is a POC of a rootkit that uses io_uring to perform different tasks without using any syscalls.
+
+	Discovered on [Schneier's blog](https://www.schneier.com/blog/archives/2025/04/new-linux-rootkit.html).
+
+	- <https://github.com/armosec/curing>
 
 
 ### Windows
