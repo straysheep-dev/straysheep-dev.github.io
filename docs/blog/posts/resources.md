@@ -1945,6 +1945,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 ## Artificial Intelligence
 
+
+### Tools
+
 ??? example "Google Gemini"
 
 	Google's AI model (previously known as Bard). As of March 2025 it ranks the highest of any model for coding.
@@ -1978,6 +1981,17 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	> As an added benefit, AI Labyrinth also acts as a next-generation honeypot. No real human would go four links deep into a maze of AI-generated nonsense. Any visitor that does is very likely to be a bot, so this gives us a brand-new tool to identify and fingerprint bad bots, which we add to our list of known bad actors. Here's how we do it...
 
 	- <https://blog.cloudflare.com/ai-labyrinth/>
+
+
+### Attacks
+
+??? danger "The Policy Puppetry Attack"
+
+	> The attacks in this blog leverage the Policy Puppetry Attack, a novel prompt attack technique created by HiddenLayer researchers. By reformulating prompts to look like one of a few types of policy files, such as XML, INI, or JSON, an LLM can be tricked into subverting alignments or instructions. As a result, attackers can easily bypass system prompts and any safety alignments trained into the models. Instructions do not need to be in any particular policy language. However, the prompt must be written in a way that the target LLM can interpret as policy. To further improve the attack's strength, extra sections that control output format and/or override specific instructions given to the LLM in its system prompt can be added.
+
+	- <https://hiddenlayer.com/innovation-hub/novel-universal-bypass-for-all-major-llms/>
+
+	Discovered on <https://securityweekly.com/swn-471>.
 
 
 ## Blogs & Authors
@@ -2093,3 +2107,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Discovered on [Paul's Security Weekly #864](https://securityweekly.com/psw-864). mobile-hacker's tutorials have excellent DIY guides for on-the-go projects using Raspberry Pi's, Android, and more.
 
 	- [Portable Kali on Raspberry Pi with Touchscreen](https://www.mobile-hacker.com/2025/02/26/building-a-portable-kali-box-with-raspberry-pi-and-touchscreen/)
+
+??? quote "AI for Humans"
+
+	Randomly discovered while looking for shows to cover AI news. This is a comedy show that packs a lot of the weekly news into an hour with links to tools and examples.
+
+	- <https://www.aiforhumans.show/>
