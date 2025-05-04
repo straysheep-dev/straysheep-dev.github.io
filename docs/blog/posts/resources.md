@@ -1948,6 +1948,47 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 ### Tools
 
+??? example "ollama"
+
+	> Get up and running with Llama 3.3, DeepSeek-R1, Phi-4, Gemma 3, Mistral Small 3.1 and other large language models.
+
+	- <https://github.com/ollama/ollama>
+	- <https://ollama.com/>
+	- [Documentation](https://github.com/ollama/ollama/tree/main/docs)
+
+	ollama was showcased in [Keeping Things Local - Making Your Own Private LLM w/ Bronwen Aker](https://www.youtube.com/watch?v=DbzkJRl_xnk). It's incredibly easy to get started, and have a local LLM running without a ton of resources.
+
+	Think of ollama as a CLI frontend with access to a repo of vetted LLM's. This is different from Hugging Face, which is not a frontend, but is more like GitHub (the wild west).
+
+	Essentially, you can download and run models, customize them fairly quickly and easily using files similar to [Daniel Miessler's fabric patterns](https://github.com/danielmiessler/fabric/tree/main/patterns), and through RAG (retrieval-augmented generation) contextualize them around a local set of files or data.
+
+	All of this was learned from Bronwen's presentation.
+
+??? quote "Keeping Things Local - Making Your Own Private LLM w/ Bronwen Aker"
+
+	- <https://www.youtube.com/watch?v=DbzkJRl_xnk>
+	- [Slides](https://www.blackhillsinfosec.com/wp-content/uploads/2025/04/SLIDES_Keeping-Things-Local-BHIS-webcast-2025.04.03.pdf)
+
+	This is a full walkthrough of how to do this yourself, put together by Bronwen over at [BHIS](https://www.blackhillsinfosec.com/blog/). It's straight forward and easy to understand if you're looking to get started with local LLM's.
+
+	- ollama is essentially a frontend to interface with and retrieve vetted LLM's
+	- Hugging Face is more like GitHub, and not every model is vetted, however official models from trusted sources are available there as well
+	- The resoure requirements aren't high, WSL can run these too since Windows passes the GPU through
+	- It's easy to customize a model
+	- RAG (retrieval-augmented generation) is the process of referencing documents and data without re-training a model (which is expensive and hard)
+
+??? example "fabric"
+
+	> fabric is an open-source framework for augmenting humans using AI. It provides a modular framework for solving specific problems using a crowdsourced set of AI prompts that can be used anywhere.
+
+	- <https://github.com/danielmiessler/fabric>
+	- [Patterns](https://github.com/danielmiessler/fabric/tree/main/patterns)
+
+	The pattern files are raw markdown that provide context to each query you make.
+
+	The [Keeping Things Local - Making Your Own Private LLM w/ Bronwen Aker](https://www.youtube.com/watch?v=DbzkJRl_xnk) demo was a reminder of this. It works not only with external API-based services, but also local LLM's.
+
+
 ??? example "Google Gemini"
 
 	Google's AI model (previously known as Bard). As of March 2025 it ranks the highest of any model for coding.
