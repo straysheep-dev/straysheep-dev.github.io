@@ -198,17 +198,26 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.kali.org/downloads/>
 	- <https://www.kali.org/docs/introduction/download-images-securely/>
     - For older images of kali: <https://old.kali.org/>
+	- [A New Kali Linux Archive Signing Key](https://www.kali.org/blog/new-kali-archive-signing-key/)
 
 	Obtaining the Kali Linux GPG public key and verifying signatures:
 
 	```bash
 	wget -q -O - https://archive.kali.org/archive-key.asc | gpg --import
-	gpg --keyserver hkps://keyserver.ubuntu.com --recv-key 44C6513A8E4FB3D30875F758ED444FF07D8D0BF6
+	gpg --keyserver hkps://keyserver.ubuntu.com --recv-key 827C8569F2518CC677FECA1AED65462EC8D5E4C5
 	wget -q https://cdimage.kali.org/current/SHA256SUMS{.gpg,}
 	gpg --verify SHA256SUMS.gpg SHA256SUMS
 	```
 
-    GPG Key File: [0xED444FF07D8D0BF6](https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x44c6513a8e4fb3d30875f758ed444ff07d8d0bf6)
+	Current GPG Key File: [0xED65462EC8D5E4C5](https://keyserver.ubuntu.com/pks/lookup?search=827C8569F2518CC677FECA1AED65462EC8D5E4C5&fingerprint=on&op=index)
+
+	```bash
+	pub   rsa4096/ED65462EC8D5E4C5 2025-04-17 [SC] [expires: 2028-04-17]
+		Key fingerprint = 827C 8569 F251 8CC6 77FE  CA1A ED65 462E C8D5 E4C5
+	uid                 [ unknown] Kali Linux Archive Automatic Signing Key (2025) <devel@kali.org>
+	```
+
+    (Previous) GPG Key File: [0xED444FF07D8D0BF6](https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x44c6513a8e4fb3d30875f758ed444ff07d8d0bf6)
 
     ```bash
     pub   rsa4096/0xED444FF07D8D0BF6 2012-03-05 [SC] [expires: 2027-02-04]
@@ -977,6 +986,64 @@ This includes general network information as well as network-focused tools.
 		- If you use a function of a signed Node module instead of PowerShell, you avoid spawning processes and being caught
 		- Execute everything in JS to remain stealthier
 	- The post uses the legacy version of Teams to achieve code execution and C2 deployment via JS
+
+??? danger "Bolthole"
+
+	> A proof-of-concept ClickOnce payload for Red Teams to establish initial access in authorized penetration tests.
+
+	- <https://github.com/rvrsh3ll/Bolthole>
+	- [Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss)
+
+	This is another BHIS tool presentation, this time by Steve Borosh. To try and summarize:
+
+	- Use Azure WebApps to deliver the payload through a ClickOnce dialogue, on a "trusted" domain
+	- This is the same style of prompt you get when opening application links in the browser
+	- Effectiveness depends on the ruse / social engineering / circumstance
+	- The app is a signed ssh / sshd package in .NET
+	- It's designed and embedded with the key material to connect back to your own server
+	- The connection does not allow command execution
+	- The connecting user has no shell `sudo useradd -m -s /usr/sbin/nologin clientnameuser`
+	- The attacker gains a full SOCKS proxy through the endpoint
+	- This may not look entirely malicious to some tools
+
+	How to detect this:
+
+	- Look at networked processes on endpoints
+	- Inspecting protocols on ALL ports
+	- Inspecting code signatures on binaries
+	- Preventing execution of unauthorized applications
+
+??? danger "CarbonCopy"
+
+	> A tool which creates a spoofed certificate of any online website and signs an Executable for AV Evasion. Works for both Windows and Linux.
+
+	- <https://github.com/paranoidninja/CarbonCopy>
+
+	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
+
+??? danger "SigThief"
+
+	> Stealing Signatures and Making One Invalid Signature at a Time.
+
+	- <https://github.com/secretsquirrel/SigThief>
+
+	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
+
+??? danger "LazySign"
+
+	> Create fake certs for binaries using windows binaries and the power of bat files.
+
+	- <https://github.com/jfmaes/LazySign>
+
+	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
+
+??? danger "Limelighter"
+
+	> A tool which creates a spoof code signing certificates and sign binaries and DLL files to help evade EDR products and avoid MSS and sock scruitney. LimeLighter can also use valid code signing certificates to sign files. Limelighter can use a fully qualified domain name such as `acme.com`.
+
+	- <https://github.com/Tylous/Limelighter>
+
+	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
 
 
 ### macOS
