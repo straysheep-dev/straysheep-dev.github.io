@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2019-07-15
+  updated: 2025-05-24
 categories:
   - links
   - resources
@@ -190,6 +191,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Windows Developer Evaluation VM](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
 	- [Windows 7/8/10 Legacy VM](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
+??? example "ReactOS"
+
+	> ReactOS is an Open Source effort to develop a quality operating system that is compatible with applications and drivers written for the Microsoft Windows NT family of operating systems (NT4, 2000, XP, 2003, Vista, 7).
+	>
+	> The ReactOS project, although currently focused on Windows Server 2003 compatibility, is always keeping an eye toward compatibility with Windows Vista and future Windows NT releases.
+	>
+	> The code of ReactOS is licensed under GNU GPL 2.0.
+
+	- <https://github.com/reactos/reactos>
+
 ??? danger "Kali Linux"
 
 	The most robust pentesting Linux distribution. Includes tools for offense, purple teaming, defense, and forensics.
@@ -243,6 +254,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.debian.org/CD/verify>
 	- <https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/>
     - For older images of Debian: <https://cdimage.debian.org/mirror/cdimage/archive/>
+	- [Package Search](https://www.debian.org/distrib/packages)
 
 	GPG Key:
 
@@ -266,6 +278,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     - <https://cloud-images.ubuntu.com/> (vagrant and cloud provider images)
 	- <https://ubuntu.com/download/raspberry-pi>
 	- <https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi>
+	- [Package Search](https://packages.ubuntu.com/)
 
     GPG Key File: [0xD94AA3F0EFE21092](https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x843938df228d22f7b3742bc0d94aa3f0efe21092)
 
@@ -629,6 +642,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/cschneegans/unattend-generator>
 	- <https://schneegans.de/windows/unattend-generator/>
 
+??? example "Git Submodules"
+
+	Submodules allow you to integrate a separate project into another using git. The project included as a submodule becomes version pinned to the commit at the point-in-time it was integrated. It's effectively a nested git repo within what becomes your "superproject", and can be pulled + updated to stay in sync with the submodule's repo. This is easy to do and helps you avoid duplicating work by reusing existing code.
+
+	- <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
 
 ### Ansible
 
@@ -814,6 +832,28 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- Original Site: <http://www.pentest-standard.org/index.php>
 	- Original Site (Wayback Machine): <https://web.archive.org/web/20211220050516/http://www.pentest-standard.org/index.php/Main_Page>
 
+!!! quote "Unified Entity Context"
+
+	[Unified Entity Context: The AI Stack Everyone is Building Without Realizing It](https://www.youtube.com/watch?v=IHUqk90ch7I)
+
+	This was discussed as one piece of another episode of Unsupervised Learning by Daniel Miessler. The gist of the episode is AI with a complete context of information, which includes accuracy, understanding of stale or historical information, having access to current information, organizational goals, and more, leads to a world where decision making and understanding isn't splintered and siloed by front ends, platforms, or databases. It's effectively central to an organization with RBAC handled through identity. While all data "lives" in a central location, this removal of silos and handling of access maintains security while improving decision making and understanding by those interacting with the data.
+
+	The highlight though is **the approach to a security assessment** that was discussed.
+
+	Ask these questions to each "layer" of an organization, starting with the C-suite:
+
+	- What is the core function of the business?
+	- What are the company's goals?
+	- Where is input and output data flowing?
+
+	Use the answers to build a visual map, to illustrate what the company really looks like:
+
+	- Data flow and storage
+	- Vendors
+	- Who is accessing what
+	- What should and should not be in this map
+
+	This creates the context or foundation for you to begin any assessment by revealing areas to focus on you would otherwise not know about without this context.
 
 ??? abstract "HackTricks"
 
@@ -1210,6 +1250,84 @@ This includes general network information as well as network-focused tools.
 
 ## Defense
 
+### Security Platforms
+
+!!! abstract "Why Platforms?"
+
+	This sections covers what I would call "Security Platforms". This is intentionally generic, and meant to be a catch-all for the security "things" out there that are not a single-purpose tool, framework, or a solution specific to any system.
+
+	This section may be broken down later, but for now it includes everything from XDR, SIEM, and AppSec solutions to vulnerability scanners and monitoring platforms.
+
+??? example "wazuh"
+
+	wazuh is a fully open source XDR and SIEM. It's very easy to setup and use, supporting deployment on a number of endpoints. Anything it can't deploy an agent on can ship logs to a central log server that can be ingested later by wazuh.
+
+	- <https://wazuh.com/>
+	- <https://github.com/wazuh>
+
+	Overview:
+
+	- SIEM / Log analysis
+	- EDR
+	- File integrity monitoring
+	- Vulnerability detection
+	- Configuration assessment
+
+	One drawback to wazuh is that the agent is a regular system process and not a kernel-level process. Ideally you would be catching something before it reaches the kernel and evades detection, but this is what some may consider its weakness compared to other XDR solutions.
+
+??? example "Secuity Onion"
+
+	- <https://github.com/Security-Onion-Solutions>
+
+??? question "runZero"
+
+	runZero is an asset discovery and attack surface management platform designed to work without agents or authentication. There's a [community edition](https://www.runzero.com/platform/community-edition/) with full features available for up to 100 IPs, which is free for personal / lab use.
+
+	Founded by HD Moore (creator of Metasploit), this has come up on the PSW family of shows on various occassions for its ability to accurately fingerprint devices.
+
+	- <https://www.runzero.com/>
+	- <https://github.com/runZeroInc>
+
+??? question "Nessus"
+
+	Nessus is possibly the most well known vulnerability scanner. Any pentesting course is likely to introduce Nessus as a method of assessing targets via a network scan.
+
+	See my [notes on Nessus](../posts/nessus.md).
+
+	- <https://www.tenable.com/products/nessus>
+
+??? question "Sandfly Security"
+
+	Sandfly is an agentless Linux EDR and IR platform, doing everything via SSH. Their blog has a number of interesting examples and resources on Linux threat detection.
+
+	- <https://sandflysecurity.com/>
+	- <https://sandflysecurity.com/blog>
+
+??? example "ntop"
+
+	- <https://github.com/ntop/ntopng>
+
+??? example "BLUESPAWN"
+
+	- <https://github.com/ION28/BLUESPAWN>
+
+??? example "OpenEDR"
+
+	- <https://github.com/ComodoSecurity/openedr>
+
+??? example "LimaCharlie"
+
+	- <https://limacharlie.io/>
+
+### Windows
+
+??? question "audit-inspector (Windows)"
+
+	> Audit Inspector is a binary tool written in Rust for Windows audit configuration and auditing.
+
+	- <https://github.com/blackhillsinfosec/audit-inspector>
+
+
 ### Linux
 
 ??? tip "Kernel Lockdown Mode"
@@ -1314,6 +1432,16 @@ This includes general network information as well as network-focused tools.
 	```bash
 	cat /sys/kernel/security/lockdown
 	none [integrity] confidentiality
+	```
+
+??? "CPU Vulnerabilities & Mitigations"
+
+	This was originally discovered on the Ubuntu Security Podcast / Ubuntu blog. The original source will need to be linked and added if it can be tracked down.
+
+	Running this command will enumerate all existing mitigiations, issues, or otherwise, affecting the current CPU. This can be run from both a guest VM or the host machine.
+
+	```bash
+	head -n-0 /sys/devices/system/cpu/vulnerabilities/*
 	```
 
 
@@ -1506,12 +1634,9 @@ All things standards, configuration, compliance, and policy related.
 	- [windows-security-baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines)
 	- [Microsoft Download Center: Security Baselines](https://www.microsoft.com/download/details.aspx?id=55319)
 
+??? abstract "Software Bill of Materials (SBOM)"
 
-??? question "audit-inspector (Windows)"
-
-	> Audit Inspector is a binary tool written in Rust for Windows audit configuration and auditing.
-
-	- <https://github.com/blackhillsinfosec/audit-inspector>
+	⚠️ TO DO ⚠️
 
 
 ## Reverse Engineering
@@ -1591,8 +1716,44 @@ All things standards, configuration, compliance, and policy related.
 	- <https://isc.sans.edu/diary/30802>
 	- <https://gist.github.com/smx-smx/a6112d54777845d389bd7126d6e9f504>
 
+??? bug "Unicode Steganography & Google Calendar C2"
+
+	[NPM Attack Leveraging Unicode Steganography and Google Calendar C2](https://www.veracode.com/resources/sophisticated-npm-attack-leveraging-unicode-steganography-and-google-calendar-c2/)
+
+	Check the screenshot of the hexdump, the many dots following the `|` character are the obfuscated glyphs carrying the base64 data in their low byte. This is only a small piece of this research, but the invisible unicode characters are likely the most interesting part.
+
+	The research does the best job of unwinding this, but essentially:
+
+	- A .js file had a decode()-to-eval() happening on (what seems like) a single `|` character, which makes no sense at first glance
+	- The [Variation Selectors Supplement](https://en.wikipedia.org/wiki/Variation_Selectors_Supplement) range (U+E0100 to U+E01EF) was used to hide base64 data
+	- This provides 240 possible characters, base64 only requires 64 characters `[A-Za-z0-9+/]` with `=` for padding
+	- These characters have no "glyph", and are therefore *invisible*
+	- The key here is `xx` in `U+E01xx`, which remember the available range is U+E0100 to U+E01EF, offered enough space and variation to store valid base64 data
+	- This is only "visible" by hexdumping the .js file
+
+	**Demo**
+
+	The easiest way to visualize this is using the [`chr()`](https://docs.python.org/3/library/functions.html#chr) function in python:
+
+	```python3
+	# Prints the copyright symbol
+	print(chr(0x00A9))
+
+	# Prints one of these invisible glyphs
+	print(chr(0xE0100))
+	```
+
+	**Detection**
+
+	- Line length
+	- Hexdump
+	- Changing `eval()` to `console.log()`
+
+	Despite how awesome this technique is, it eventually has to decode itself to plaintext to execute. This will likely appear in some type of log or network capture.
+
 
 ## Firmware
+
 
 ### Information
 
@@ -1764,6 +1925,20 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://crt.sh>
 	- <https://github.com/crtsh>
+
+??? question "ipinfo.io"
+
+	IP address data, this site was originally discovered in TCM's ethical hacking course videos on YouTube as a way to get your current IP address, and lookup other IP addresses. Their GitHub has a CLI utility to use with the API. See their [pricing](https://ipinfo.io/pricing) for usage details and example data, from the free tier up to enterprise.
+
+	- <https://ipinfo.io/>
+	- <https://ipinfo.io/what-is-my-ip>
+	- <https://github.com/ipinfo>
+
+	The easiest way to interact with the service is via their website with `curl` to check your IP. This does not require auth or any subscription to check.
+
+	```bash
+	curl https://ipinfo.io/json
+	```
 
 
 ### Vulnerability Research
