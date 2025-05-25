@@ -99,6 +99,7 @@ nav:
     - Post: blog/posts/flatpak.md
     - Post: blog/posts/kvm.md
     - Post: blog/posts/linting.md
+    - Post: blog/posts/nessus.md
     - Post: blog/posts/network-commands.md
     - Post: blog/posts/nzyme-rpi-proxmox-tailscale.md
     - Post: blog/posts/openscap.md
