@@ -1296,6 +1296,21 @@ This includes general network information as well as network-focused tools.
 
 	- <https://www.tenable.com/products/nessus>
 
+??? question "OpenVAS"
+
+	OpenVAS is the [only remaining open-source fork](https://greenbone.github.io/docs/latest/history.html) of the original Nessus vulnerability scanner before it went closed-source back in 2005.
+
+	> All [release files](https://github.com/greenbone/openvas/releases) are signed with the [Greenbone Community Feed integrity key](https://community.greenbone.net/t/gcf-managing-the-digital-signatures/101). This gpg key can be downloaded at https://www.greenbone.net/GBCommunitySigningKey.asc and the fingerprint is `8AE4 BE42 9B60 A59B 311C  2E73 9823 FAA6 0ED1 E580`.
+
+	- <https://github.com/greenbone/openvas-scanner>
+	- <https://greenbone.github.io/docs/latest/>
+
+	OpenVAS is available in Kali as the `gvm` package.
+
+	- <https://greenbone.github.io/docs/latest/22.4/kali/index.html>
+	- <https://www.kali.org/blog/configuring-and-tuning-openvas-in-kali-linux/>
+	- <https://www.kali.org/tools/gvm/>
+
 ??? question "Sandfly Security"
 
 	Sandfly is an agentless Linux EDR and IR platform, doing everything via SSH. Their blog has a number of interesting examples and resources on Linux threat detection.
