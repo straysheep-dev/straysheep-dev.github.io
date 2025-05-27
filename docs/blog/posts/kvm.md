@@ -38,6 +38,8 @@ KVM is a type 1 hypervisor technology built into the Linux kernel, using compone
 
 *Virt-Manager is a GUI application. Think of Virt-Manager as an equivlent to Hyper-V, VMware Workstation, or VirtualBox.*
 
+- <https://virt-manager.org/>
+- <https://github.com/virt-manager/virt-manager>
 
 ### Install
 
