@@ -1034,3 +1034,16 @@ Test-Connection -ComputerName example.com -Port 443
 
 ---
 
+
+## chisel
+
+⚠️ TO DO ⚠️
+
+---
+
+
+## proxychains
+
+⚠️ TO DO ⚠️
+
+---
