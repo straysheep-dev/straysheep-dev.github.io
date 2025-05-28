@@ -181,7 +181,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## :material-desktop-tower: Operating Systems
 
-??? info "Windows"
+??? info ":fontawesome-brands-windows: Windows"
 
 	Each of the ISOs and disk images are openly available to download, both for evaluation and to enter a product key during install for produciton use.
 
@@ -191,7 +191,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Windows Developer Evaluation VM](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
 	- [Windows 7/8/10 Legacy VM](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
-??? example "ReactOS"
+??? example ":simple-reactos: ReactOS"
 
 	> ReactOS is an Open Source effort to develop a quality operating system that is compatible with applications and drivers written for the Microsoft Windows NT family of operating systems (NT4, 2000, XP, 2003, Vista, 7).
 	>
@@ -201,7 +201,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/reactos/reactos>
 
-??? danger "Kali Linux"
+??? danger ":simple-kalilinux: Kali Linux"
 
 	The most robust pentesting Linux distribution. Includes tools for offense, purple teaming, defense, and forensics.
 
@@ -237,14 +237,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     sub   rsa4096/0xA8373E18FC0D0DCB 2012-03-05 [E] [expires: 2027-02-04]
     ```
 
-??? bug "REMnux"
+??? bug ":simple-ubuntu: REMnux"
 
 	A Linux toolkit for malware analysts. [Lenny Zeltser](https://zeltser.com/) is [one of the maintainers](https://remnux.org/#people).
 
 	- <https://remnux.org/>
 
 
-??? abstract "Debian"
+??? abstract ":simple-debian: Debian"
 
 	Debian is one of the "main" operating system families of Linux.
 
@@ -268,7 +268,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [debian.org example-preseed.txt Template](https://www.debian.org/releases/stable/example-preseed.txt)
 	- [debian.org/tasksel](https://wiki.debian.org/tasksel)
 
-??? tip "Ubuntu"
+??? tip ":simple-ubuntu: Ubuntu"
 
 	Ubuntu is a Debian-base Linux distribution developed by Canonical.
 
@@ -288,7 +288,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     uid   Ubuntu CD Image Automatic Signing Key (2012) <cdimage@ubuntu.com>
     ```
 
-??? tip "Raspberry Pi OS"
+??? tip ":simple-raspberrypi: Raspberry Pi OS"
 
 	> Raspberry Pi needs an operating system to work. This is it. Raspberry Pi OS (previously called Raspbian) is our official supported operating system.
 
@@ -302,7 +302,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     - <https://github.com/raspberrypi>
     - <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines
 
-??? abstract "RHEL (Red Hat Enterprise Linux)"
+??? abstract ":simple-redhat: RHEL (Red Hat Enterprise Linux)"
 
 	> Red Hat Enterprise Linux is an enterprise Linux operating system. It is oriented toward enterprise and commercial users, is certified for many hardware and cloud platforms, and is supported by Red Hat via various subscription options. Compared to Fedora, Red Hat Enterprise Linux emphasizes stability and enterprise-readiness over the latest technologies or rapid releases. More information about Red Hat offerings can be found at [Red Hat's web site](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux).
 	>
@@ -311,7 +311,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.redhat.com>
 	- <https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux>
 
-??? tip "Fedora"
+??? tip ":simple-fedora: Fedora"
 
 	> Fedora is developed by the Fedora Project and sponsored by Red Hat. It follows its own release schedule, with a new version approximately every six months. Fedora provides a modern Linux operating system utilizing many of the latest technologies. It is free for all users and supported via the Fedora community.
 	>
@@ -324,7 +324,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	To automate installs, Fedora uses [Kickstart files](https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/advanced/Kickstart_Installations/).
 
-??? info "Rocky"
+??? info ":simple-rockylinux: Rocky"
 
 	> Rocky Linux is an open-source enterprise operating system designed to be 100% bug-for-bug compatible with Red Hat Enterprise Linux. Rocky Linux is under intensive development by the community.
 
@@ -343,11 +343,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/rocky-linux/checksums>
 	- [GPG Key Fingerprints](https://github.com/rocky-linux/checksums/blob/main/keys/fingerprints)
 
-??? danger "Pentoo"
+??? danger ":simple-gentoo: Pentoo"
 
 	- <https://pentoo.ch/>
 
-??? danger "Parrot"
+??? danger ":simple-parrotsecurity: Parrot"
 
 	> Parrot Security (ParrotOS, Parrot) is a Free and Open source GNU/Linux distribution based on Debian Stable designed for security experts, developers and privacy aware people.
 	>
@@ -359,23 +359,23 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://www.parrotsec.org/>
 
-??? tip "Arch Linux"
+??? tip ":simple-archlinux: Arch Linux"
 
 	- <https://archlinux.org/>
 	- <https://archlinux.org/download/>
 
-??? info "OpenBSD"
+??? info ":simple-openbsd: OpenBSD"
 
 	- <https://www.openbsd.org/>
     - <https://www.openbsd.org/faq/faq4.html#Download>
 
-??? info "FreeBSD"
+??? info ":simple-freebsd: FreeBSD"
 
 	- <https://www.freebsd.org/where/>
     - <https://docs.freebsd.org/en/articles/pgpkeys/>
 	- <https://docs.freebsd.org/pgpkeys/pgpkeys.txt>
 
-??? tip "pfSense"
+??? tip ":simple-pfsense: pfSense"
 
 	pfSense is an excellent choice for both, a home *and* lab router-firewall to begin learning with and protect your real network.
 
@@ -384,7 +384,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.pfsense.org/download/>
 	- <https://github.com/pfsense/>
 
-??? example "OpenWRT"
+??? example ":simple-openwrt: OpenWRT"
 
 	Tracking latest stable release notes
 
@@ -406,12 +406,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 		- sha256sums
 		- sha256sums.asc
 
-??? tip "Ubiquiti"
+??? tip ":simple-ubiquiti: Ubiquiti"
 
 	- <https://www.ui.com/download/>
 	- <https://dl.ui.com/unifi/firmware/U7PG2/3.7.58.6385/BZ.qca956x.v3.7.58.6385.170508.0957.bin> (UniFi AP AC Lite firmware v3.7.58)
 
-??? tip "VyOS"
+??? tip ":simple-debian: VyOS"
 
 	> VyOS is a fully open-source Linux-based OS for network devices. It focuses on enterprise, service provider, and network geek audiences.
 
@@ -421,15 +421,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://vyos.net/get/nightly-builds/> (this details verifying the signatures with minisign)
 		- <https://github.com/vyos/vyos-nightly-build/blob/main/minisign.pub>
 	- <https://github.com/vyos/vyos-nightly-build/releases>
+	- [VyOS History](https://docs.vyos.io/en/sagitta/introducing/history.html)
 
-??? info "TrueNAS SCALE"
+??? info ":simple-truenas: TrueNAS SCALE"
 
 	- <https://github.com/truenas>
 	- <https://www.truenas.com/docs/>
 	- <https://www.truenas.com/download-truenas-scale/>
     - PGP Key: `C8D6 2DEF 767C 1DB0 DFF4 E6EC 358E AA91 12CF 7946`
 
-??? info "openmediavault"
+??? info ":simple-openmediavault: openmediavault"
 
 	> openmediavault is the next generation network attached storage (NAS) solution based on Debian Linux. It contains services like SSH, (S)FTP, SMB/CIFS, RSync and many more. Thanks to the modular design of the framework it can be enhanced via plugins. openmediavault is primarily designed to be used in home environments or small home offices, but is not limited to those scenarios. It is a simple and easy to use out-of-the-box solution that will allow everyone to install and administrate a Network Attached Storage without deeper knowledge.
 	>
@@ -712,7 +713,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://developer.hashicorp.com/terraform>
 
 
-## Information Technology
+## :material-information-variant-circle: Information Technology
 
 ??? tip "RFC"
 
