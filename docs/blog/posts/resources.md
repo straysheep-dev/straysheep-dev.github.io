@@ -21,7 +21,7 @@ Information, compiled for easy reference.
 <!-- more -->
 
 
-## Utilities
+## :material-toolbox: Utilities
 
 ??? info "rustdesk"
 
@@ -127,7 +127,7 @@ Information, compiled for easy reference.
 	- <https://github.com/openpubkey/opkssh>
 
 
-## Note Taking
+## :material-note-text: Note Taking
 
 The best advice I've heard about note taking is 1) it should work for you, and 2) it should export to a common format like Markdown so you can move to another notes platform easily. This can be multiple apps, or just one. It's whatever works best for you and the goals you have.
 
@@ -179,7 +179,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- License: GPL-3.0
 
 
-## Operating Systems
+## :material-desktop-tower: Operating Systems
 
 ??? info "Windows"
 
@@ -439,7 +439,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://docs.openmediavault.org/en/stable/installation/index.html>
 
 
-## Hypervisors
+## :material-server-network: Hypervisors
 
 ??? example "Proxmox"
 
@@ -497,7 +497,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://gitlab.com/qemu-project/qemu>
 
 
-## Labs & Simulations
+## :octicons-beaker-16: Labs & Simulations
 
 ??? danger "Atomic Red Team"
 
@@ -578,7 +578,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     - <https://github.com/snyk-labs/nodejs-goof>
 
 
-## Hardware
+## :fontawesome-solid-gear: Hardware
 
 ??? example "geerlingguy/mini-rack"
 
@@ -587,7 +587,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/geerlingguy/mini-rack>
 
 
-## DevOps
+## :fontawesome-solid-code: DevOps
 
 ??? example "debos"
 
@@ -648,7 +648,22 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
 
-### Ansible
+### :material-ansible: Ansible
+
+!!! abstract "Ansible"
+
+	Most of my Ansible notes are a part of the README over at my [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs) repo.
+
+	With that said, the most general and useful notes or links can be found here.
+
+	- [Ansible GitHub](https://github.com/ansible/ansible)
+	- [Installing `ansible`](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
+	- [Installing `anisble-lint`](https://ansible.readthedocs.io/projects/lint/installing/)
+	- [`ansible-lint` Rules](https://ansible.readthedocs.io/projects/lint/rules/)
+	- [Molecule](https://ansible.readthedocs.io/projects/molecule/) (discovered by reviewing [geerlingguy's ansible-role-docker ci.yml file](https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml))
+	- [Ansible-Galaxy](https://galaxy.ansible.com/ui/) (This is the suggested way to share and run roles, though you ***can*** run them using local paths)
+	- [Ansible-Galaxy User Guide](https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide.html#servers)
+	- [Create Ansible Roles or Collections](https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html#role-init)
 
 ??? example "pfsensible"
 
@@ -657,7 +672,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/pfsensible/core>
 
 
-### HashiCorp
+### :simple-hashicorp: HashiCorp
 
 !!! abstract "HashiCorp Utilities"
 
