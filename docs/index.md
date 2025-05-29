@@ -41,6 +41,8 @@ h1:first-of-type {
 
     :material-gitlab: [https://gitlab.com/straysheep-dev](https://gitlab.com/straysheep-dev)
 
+    :simple-ansible: [straysheep_dev](https://galaxy.ansible.com/ui/standalone/namespaces/22091/)
+
     :fontawesome-brands-discord: straysheep_dev
 
     :simple-hackthebox: straysheepdev
