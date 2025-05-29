@@ -643,11 +643,34 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/cschneegans/unattend-generator>
 	- <https://schneegans.de/windows/unattend-generator/>
 
+
+### :simple-git: Git
+
 ??? example "Git Submodules"
 
 	Submodules allow you to integrate a separate project into another using git. The project included as a submodule becomes version pinned to the commit at the point-in-time it was integrated. It's effectively a nested git repo within what becomes your "superproject", and can be pulled + updated to stay in sync with the submodule's repo. This is easy to do and helps you avoid duplicating work by reusing existing code.
 
 	- <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
+
+
+### :simple-github: GitHub
+
+??? example ":octicons-terminal-16: gh cli"
+
+	> `gh` is GitHub on the command line. It brings pull requests, issues, and other GitHub concepts to the terminal next to where you are already working with git and your code.
+
+	- <https://github.com/cli/cli>
+	- GPG Key File:
+		- [0x23F3D4EA75716059](https://keyserver.ubuntu.com/pks/lookup?search=2C61+0620+1985+B60E+6C7A++C873+23F3+D4EA+7571+6059&fingerprint=on&op=index)
+		- <https://cli.github.com/packages/githubcli-archive-keyring.gpg>
+
+	```txt
+	pub   rsa4096/0x23F3D4EA75716059 2022-09-06 [SC] [expires: 2026-09-05]
+		Key fingerprint = 2C61 0620 1985 B60E 6C7A  C873 23F3 D4EA 7571 6059
+	uid                             GitHub CLI <opensource+cli@github.com>
+	sub   rsa4096/0xE5FAF19590714157 2022-09-06 [E] [expires: 2026-09-05]
+	```
+
 
 ### :material-ansible: Ansible
 
@@ -662,9 +685,18 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Installing `anisble-lint`](https://ansible.readthedocs.io/projects/lint/installing/)
 	- [`ansible-lint` Rules](https://ansible.readthedocs.io/projects/lint/rules/)
 	- [Molecule](https://ansible.readthedocs.io/projects/molecule/) (discovered by reviewing [geerlingguy's ansible-role-docker ci.yml file](https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml))
-	- [Ansible-Galaxy](https://galaxy.ansible.com/ui/) (This is the suggested way to share and run roles, though you ***can*** run them using local paths)
-	- [Ansible-Galaxy User Guide](https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide.html#servers)
+
+??? example "Ansible-Galaxy"
+
+	This is the suggested way to share and run roles or collecitons. Though you ***can*** run them using local paths, you're meant to reference them using a fully-qualified-name (FQN in Ansible terms).
+
+	- [Ansible-Galaxy](https://galaxy.ansible.com/ui/)
+	- [Ansible-Galaxy User Guide (`ansible-galaxy`)](https://docs.ansible.com/ansible/devel/galaxy/user_guide.html)
+	- [Ansible-Galaxy User Guide (Platform and API)](https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide.html#servers)
 	- [Create Ansible Roles or Collections](https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html#role-init)
+	- [Role Naming Conventions](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections_structure.html#roles-directory)
+	-
+
 
 ??? example "pfsensible"
 
