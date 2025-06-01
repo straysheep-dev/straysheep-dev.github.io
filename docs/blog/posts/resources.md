@@ -733,7 +733,6 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Installing `ansible`](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
 	- [Installing `anisble-lint`](https://ansible.readthedocs.io/projects/lint/installing/)
 	- [`ansible-lint` Rules](https://ansible.readthedocs.io/projects/lint/rules/)
-	- [Molecule](https://ansible.readthedocs.io/projects/molecule/) (discovered by reviewing [geerlingguy's ansible-role-docker ci.yml file](https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml))
 
 ??? example "Ansible-Galaxy"
 
@@ -761,12 +760,31 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	The above command will add (import) a role from your GitHub, to your own Ansible-Galaxy namespace, so that others can download and install it directly from the `ansible-galaxy` command.
 
+??? example "Molecule"
+
+	> Molecule aids in the development and testing of Ansible content: collections, playbooks and roles.
+
+	Discovered by reviewing [geerlingguy's ansible-role-docker ci.yml file](https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml).
+
+	- <https://github.com/ansible/molecule>
+	- <https://ansible.readthedocs.io/projects/molecule/>
 
 ??? example "pfsensible"
 
 	Ansible modules for managing a pfSense firewall.
 
 	- <https://github.com/pfsensible/core>
+
+
+#### :simple-docker: Docker
+
+??? example "setup-docker-action"
+
+	> GitHub Action to set up (download and install) Docker CE. Works on Linux, macOS and Windows.
+	>
+	> This action is useful if you want to pin against a specific Docker version or set up a custom daemon configuration or if Docker is not available on your runner. If you're using GitHub-hosted runners on Linux or Windows, Docker is already up and running, so it might not be necessary to use this action.
+
+	- <https://github.com/docker/setup-docker-action>
 
 
 ### :simple-hashicorp: HashiCorp
