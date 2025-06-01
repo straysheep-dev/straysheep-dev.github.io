@@ -590,6 +590,30 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## :fontawesome-solid-code: DevOps
 
+!!! abstract "Open Source Licensing"
+
+	If you need to choose a license, or learn more about one, these are the best resources to start with:
+
+	- [choosealicense.com](https://choosealicense.com/appendix/) (created by GitHub)
+	- [GitHub Docs: Licensing a Repo](https://docs.github.com/articles/licensing-a-repository)
+	- [Open Source Guide: Choosing a License](https://opensource.guide/legal/#which-open-source-license-is-appropriate-for-my-project) (recommended by GitHub)
+	- [SPDX License ID List](https://spdx.org/licenses/) (found via [licensee](https://github.com/licensee/licensee))
+	- [Open Community and Resource Hub for Open Source Managers and OSPO Practitioners](https://github.com/todogroup) (found via [licensee](https://github.com/licensee/licensee))
+
+	**licensee**
+
+	GitHub uses [licensee](https://github.com/licensee/licensee) to detect a repo license. [This page](https://github.com/licensee/licensee/blob/master/docs/what-we-look-at.md) details what licensee looks at to determine the repo license.
+
+	**SPDX License Identifiers**
+
+	The [SPDX license guidance](https://spdx.dev/learn/handling-license-info/) is the easiest way to note what license(s) each file falls under in your project.
+
+	> In each file in your project, just add a single line in the following format, tailored to your license(s) and the comment style for that file's language:
+	>
+	> - `// SPDX-License-Identifier: MIT`
+	> - `/* SPDX-License-Identifier: MIT OR Apache-2.0 */`
+	> - `# SPDX-License-Identifier: GPL-2.0-or-later`
+
 ??? example "debos"
 
 	> debos is a tool to make the creation of various Debian-based OS images simpler. While most other tools focus on specific use-cases, debos is designed to be a toolchain making common actions trivial while providing enough rope to do whatever tweaking which might be required behind the scenes.
@@ -695,7 +719,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Ansible-Galaxy User Guide (Platform and API)](https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide.html#servers)
 	- [Create Ansible Roles or Collections](https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html#role-init)
 	- [Role Naming Conventions](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections_structure.html#roles-directory)
-	-
+
+
+	When creating roles that will be published, you'll need to fill out the `meta.yml` details:
+
+	- [Role Meta: Supported Platforms (GH Issue: 52)](https://github.com/ansible/galaxy/issues/52)
+	- [Role Meta: Supported Platforms (`ansible-lint` schema)](https://github.com/ansible/ansible-lint/blob/main/src/ansiblelint/schemas/meta.json)
 
 
 ??? example "pfsensible"
