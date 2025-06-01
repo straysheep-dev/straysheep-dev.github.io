@@ -676,6 +676,31 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
 
+	To add a submodule to a repo:
+
+	```bash
+	# <submodule-name> can be specified as an option, if you want to change it
+	# Otherwise the repo name is used by default
+	git submodule add <repo-url> [<submodule-name>]
+	```
+
+	This creates the following `.gitmodules` file in the root of your repo:
+
+	```yaml
+	[submodule "<submodule-name>"]
+        path = <submodule-name>
+        url = <repo-url>
+	```
+
+	You can manually edit and revise these files.
+
+	> There is a `foreach` submodule command to run some arbitrary command in each submodule. This can be really helpful if you have a number of submodules in the same project.
+
+	```bash
+	# Update all submodules in a repo
+	git submodule foreach 'git pull'
+	```
+
 
 ### :simple-github: GitHub
 
@@ -712,7 +737,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ??? example "Ansible-Galaxy"
 
-	This is the suggested way to share and run roles or collecitons. Though you ***can*** run them using local paths, you're meant to reference them using a fully-qualified-name (FQN in Ansible terms).
+	This is the suggested way to share and run roles or collections. Though you ***can*** run them using local paths, you're meant to reference them using a fully-qualified-name (FQN in Ansible terms).
 
 	- [Ansible-Galaxy](https://galaxy.ansible.com/ui/)
 	- [Ansible-Galaxy User Guide (`ansible-galaxy`)](https://docs.ansible.com/ansible/devel/galaxy/user_guide.html)
@@ -725,6 +750,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- [Role Meta: Supported Platforms (GH Issue: 52)](https://github.com/ansible/galaxy/issues/52)
 	- [Role Meta: Supported Platforms (`ansible-lint` schema)](https://github.com/ansible/ansible-lint/blob/main/src/ansiblelint/schemas/meta.json)
+
+	The documentation (at the time of writing) suggested making an `~/.ansible.cfg` to target the beta galaxy_ng server, however this is no longer working (in other words, the galaxy_ng server is no longer in beta and is now the default). It seems the best way to do this is by providing your API key on the command line, through an environment variable:
+
+	```bash
+	echo "Enter Galaxy API Token"; read -r -s ansible_galaxy_token; export ANSIBLE_GALAXY_TOKEN=$ansible_galaxy_token
+	# [type or paste your key, it won't echo or show up in your bash history]
+	ansible-galaxy role import -vvv --token $ANSIBLE_GALAXY_TOKEN <github-username> <ansible-role-my_repo>
+	```
+
+	The above command will add (import) a role from your GitHub, to your own Ansible-Galaxy namespace, so that others can download and install it directly from the `ansible-galaxy` command.
 
 
 ??? example "pfsensible"
