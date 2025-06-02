@@ -786,6 +786,13 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/docker/setup-docker-action>
 
+??? example "Docker SDK for Python"
+
+	> A Python library for the Docker Engine API. It lets you do anything the docker command does, but from within Python apps - run containers, manage containers, manage Swarms, etc.
+
+	- <https://github.com/docker/docker-py>
+	- [Ansible for Devops: Molecule Examples](https://github.com/geerlingguy/ansible-for-devops/tree/master/molecule)
+
 
 ### :simple-hashicorp: HashiCorp
 
