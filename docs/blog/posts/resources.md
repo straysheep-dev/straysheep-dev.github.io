@@ -769,6 +769,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/ansible/molecule>
 	- <https://ansible.readthedocs.io/projects/molecule/>
 
+??? example "Ansible for DevOps"
+
+	> This repository contains Ansible examples developed to support different sections of Ansible for DevOps, a book on Ansible by Jeff Geerling.
+	>
+	> Many examples use Vagrant, VirtualBox, and Ansible to boot and configure VMs on your local workstation.
+	>
+	> Not all playbooks follow all of Ansible's best practices, as they illustrate particular Ansible features in an instructive manner.
+
+	- <https://github.com/geerlingguy/ansible-for-devops>
+
 ??? example "pfsensible"
 
 	Ansible modules for managing a pfSense firewall.
@@ -957,7 +967,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	To see if you're on NextDNS, go to <https://test.nextdns.io/>.
 
-## Offense
+## :material-sword-cross: Offense
 
 !!! abstract "PTES (Penetration Testing Execution Standard)"
 
@@ -1385,7 +1395,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/trustedsec/trevorc2>
 
 
-## Defense
+## :material-shield: Defense
 
 ### Security Platforms
 
@@ -1470,6 +1480,7 @@ This includes general network information as well as network-focused tools.
 ??? example "LimaCharlie"
 
 	- <https://limacharlie.io/>
+
 
 ### Windows
 
@@ -1606,9 +1617,40 @@ This includes general network information as well as network-focused tools.
 	- <https://gopivot.ing/>
 	- <https://github.com/korniko98/pivot-atlas>
 
+??? abstract "LOLRMM"
+
+	> Welcome to LOLRMM (Living Off the Land Remote Monitoring and Management), a community-driven project that provides a curated list of Remote Monitoring and Management (RMM) tools that could potentially be abused by threat actors. Our mission is to assist security professionals in staying informed about these tools and their potential for misuse, providing the community a catalog of these tools which can be used for threat hunting, detection and prevention policy creations.
+
+	- <https://lolrmm.io/>
+	- <https://github.com/magicsword-io/LOLRMM>
+
+??? question "pspy"
+
+	`pspy` is potentially the most useful application for examining system activity in real time. Because of this, it's as much a threat hunting tool as it is a threat.
+
+	Static and linked binaries are available to download from the GitHub release page.
+
+	- <https://github.com/DominicBreuker/pspy>
+
+	```bash
+	## pspy - version: v1.2.0 - Commit SHA: 9c63e5d6c58f7bcdc235db663f5e3fe1c33b8855
+
+	curl -LfO 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy32'
+	7cd8fd2386a30ebd1992cc595cc1513632eea4e7f92cdcaee8bcf29a3cff6258  pspy32
+
+	curl -LfO 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy32s'
+	0265a9d906801366210d62bef00aec389d872f4051308f47e42035062d972859  pspy32s
+
+	curl -LfO 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64'
+	f7f14aa19295598717e4f3186a4002f94c54e28ec43994bd8de42caf79894bdb  pspy64
+
+	curl -LfO 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s'
+	c769c23f8b225a2750768be9030b0d0f35778b7dff4359fa805f8be9acc6047f  pspy64s
+	```
+
 ??? bug "YARA"
 
-	Malware rule, pattern, and classification Language.
+	Malware rule, pattern, and classification Language. Yara can take a pattern or rule file, and look at other files or processes either on a live system, or offline. This includes disk images or memory dumps, text dumps of strings, and more.
 
 	- <https://github.com/VirusTotal/yara>
 	- <https://yara.readthedocs.io/en/stable/>
@@ -1642,6 +1684,18 @@ This includes general network information as well as network-focused tools.
 
 	- <https://docs.velociraptor.app/>
 	- <https://github.com/Velocidex/velociraptor>
+
+??? danger "Chainsaw"
+
+	> Chainsaw provides a powerful first-response capability to quickly identify threats within Windows forensic artefacts such as Event Logs and the MFT file. Chainsaw offers a generic and fast method of searching through event logs for keywords, and by identifying threats using built-in support for Sigma detection rules, and via custom Chainsaw detection rules.
+
+	- <https://github.com/countercept/chainsaw>
+
+??? danger "Hayabusa"
+
+	> Hayabusa is a sigma-based threat hunting and fast forensics timeline generator for Windows event logs.
+
+	- <https://github.com/Yamato-Security/hayabusa>
 
 ??? danger "OSQuery"
 
@@ -1909,9 +1963,15 @@ All things standards, configuration, compliance, and policy related.
 
 ### Information
 
+??? abstract "bootloaders.io"
+
+	> bootloaders.io is a curated list of known malicious bootloaders for various operating systems. The project aims to assist security professionals in staying informed and mitigating potential threats associated with bootloaders.
+
+	- <https://github.com/magicsword-io/bootloaders>
+
 ??? abstract "DBX Update Process"
 
-    * <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
+    - <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
 
 
 ### Projects
