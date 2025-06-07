@@ -95,6 +95,7 @@ nav:
     - Post: blog/posts/bitwarden.md
     - Post: blog/posts/check-auditd-demo.md
     - Post: blog/posts/cicd.md
+    - Post: blog/posts/clipboard-snooping.md
     - Post: blog/posts/custom-shell-profiles.md
     - Post: blog/posts/flatpak.md
     - Post: blog/posts/kvm.md
