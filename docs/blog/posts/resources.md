@@ -151,6 +151,30 @@ Information, compiled for easy reference.
 
 	Rufus also has [extensive documentation on its security model](https://github.com/pbatard/rufus/wiki/Security), from how it does what it does, to verifying signatures and how this works in Windows world, in a way that is useful and meaningful to a user. The concepts are not exclusive to Rufus.
 
+??? example "etl2pcapng"
+
+	> This tool enables you to view ndiscap and pktmon packet captures with Wireshark. Due to performance problems with the other popular packet capture method (WinPcap, which was included with older versions of Wireshark), these inbox tools should be preferred.
+
+	- <https://github.com/microsoft/etl2pcapng>
+
+	Here's how you can use this, taken from the README:
+
+	> "pktmon" is implemented as an integral part of the Windows operating system. It's capable of capturing packets in many components of the operating system, giving full visibility into the life of the packet as it traverses the system. A capture can be collected with:
+	>
+	> ```cmd
+	> pktmon start --capture
+	> <repro>
+	> pktmon stop
+	> ```
+	>
+	> "ndiscap" which is implemented as an ETW trace provider. A capture can be collected with:
+	>
+	> ```cmd
+	> netsh trace start capture=yes report=disabled
+	> <repro>
+	> netsh trace stop
+	> ```
+
 
 ## :material-note-text: Note Taking
 
@@ -1755,9 +1779,16 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/activecm/rita>
 
-??? danger "ZEEK"
+??? danger "Zeek"
+
+	> Zeek is a powerful network analysis framework that is much different from the typical IDS you may know.
 
 	- <https://zeek.org/>
+	- <https://github.com/zeek/zeek>
+
+	Zeek is the tool you'll want to use to create the necessary logs to ingest with RITA for network threat hunting. Zeek itself doesn't need to be running on every endpoint, you can simply write and log packet captures of network activity using something like `netsh`, `pktmon`, `tshark` or `tcpdump` to be sent to a central logging server where Zeek can transform those captures into Zeek logs.
+
+	If you're using the built-in Windows `netsh` and `pktmon` tools, you'll likely need to convert the capture files into pcaps with [etl2pcapng](https://github.com/microsoft/etl2pcapng).
 
 ??? danger "Suricata"
 
