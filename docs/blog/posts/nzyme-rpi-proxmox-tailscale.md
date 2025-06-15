@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-12-01
-  updated: 2024-12-01
+  updated: 2025-06-15
 categories:
   - nzyme
   - raspberry-pi
@@ -15,7 +15,7 @@ categories:
   - tailscale
 ---
 
-# nzyme x [Raspberry Pi, Proxmox, Tailscale]
+# :material-wifi-alert: nzyme x [:simple-raspberrypi: Raspberry Pi + :simple-proxmox: Proxmox + :simple-tailscale: Tailscale]
 
 This guide walks through deploying [nzyme](https://github.com/nzymedefense/nzyme) on a Raspberry Pi (4B or 5) leveraging autoconfiguration tools available on each system. For Raspberry Pi OS this includes writing additional files into the bootfs and rootfs partitions. For Ubuntu server images cloud-init or Ansible could be used.
 

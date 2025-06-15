@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2025-04-18
+  updated: 2025-06-15
 categories:
   - how-to
   - networking
@@ -12,7 +13,7 @@ categories:
   - reference
 ---
 
-# Network Commands
+# :material-console-network: Network Commands
 
 This post is meant to be a single point of reference for all of the random ways of interacting with and diagnosing network(s) from a machine.
 

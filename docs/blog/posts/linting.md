@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2024-12-28
+  updated: 2025-06-15
 categories:
   - how-to
   - automation
@@ -11,7 +12,7 @@ categories:
   - lint
 ---
 
-# Linting Code
+# :material-code-tags-check: Linting Code
 
 Linting is running documented checks to statically analyze code for common mistakes and errors.
 

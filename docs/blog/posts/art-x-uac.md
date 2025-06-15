@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-07-12
+date:
+  created: 2024-07-12
+  updated: 2025-06-15
 categories:
   - how-to
   - dfir
@@ -14,11 +16,9 @@ categories:
   - threat-hunting
 ---
 
-# Atomic Red Team x Unix Artifacts Collector
+# :octicons-beaker-16: Atomic Red Team x Unix Artifacts Collector
 
 An overview of spinning up a test environment, and extracting evidence from any unix-like endpoint. This is mostly for personal reference, as it's just pointing to all the existing (and vast) documentation in a sequence that's useful for me -- and hopefully for you as well.
-
-*Updated on 2024/07/12.*
 
 <!-- more -->
 

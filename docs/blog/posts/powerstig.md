@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2024-07-19
+  updated: 2025-06-15
 categories:
   - how-to
   - administration
@@ -13,11 +14,9 @@ categories:
 description: Use PowerSTIG to automate STIG compliance and document changes.
 ---
 
-# Get Started with PowerSTIG
+# :material-powershell: Get Started with PowerSTIG
 
 Use PowerSTIG to automate STIG compliance across a number of  items like WindowsServer, IIS, Adobe, Chrome, RHEL, Ubuntu, Vsphere, SqlServer, and more, while maintaining documentation of the state as a PowerShell configuration file. This is similar to my approach of [using Ansible tags to maintain and combine machine states](https://github.com/straysheep-dev/ansible-configs/tree/main/inventory_openscap_utils).
-
-*Updated on 2024/07/15.*
 
 <!-- more -->
 

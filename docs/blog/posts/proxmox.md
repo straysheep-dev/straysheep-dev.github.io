@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2024-08-13
+  updated: 2025-06-15
 categories:
   - how-to
   - automation
@@ -14,7 +15,7 @@ categories:
   - qemu
 ---
 
-# Proxmox
+# :simple-proxmox: Proxmox
 
 Get started with Proxmox. Installation considerations, networking, disk encryption options, and migrating existing virtual machines.
 

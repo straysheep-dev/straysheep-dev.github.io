@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2022-08-29
-  updated: 2025-05-24
+  updated: 2025-06-15
 categories:
   - vulnerability
   - platform
@@ -11,7 +11,7 @@ categories:
   - nessus
 ---
 
-# Nessus
+# :material-magnify-scan: Nessus
 
 !!! abstract "What does this post cover?"
 

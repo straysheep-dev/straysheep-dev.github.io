@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-15
+date:
+  created: 2024-05-15
+  updated: 2025-06-15
 categories:
   - check-auditd
   - auditd
@@ -13,7 +15,7 @@ categories:
   - scripting
 ---
 
-# Triage auditd logs with check-auditd
+# :material-file-tree: Triage auditd logs with check-auditd
 
 *Recently updated to mirror and support `ausearch` arguments. This post showcases those changes and how the tool works.*
 

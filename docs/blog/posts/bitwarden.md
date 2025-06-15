@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-02
+date:
+  created: 2024-05-02
+  updated: 2025-06-15
 categories:
   - bitwarden
   - how-to
@@ -8,7 +10,7 @@ categories:
   - cli
 ---
 
-# bitwarden
+# :simple-bitwarden: bitwarden
 
 Notes related to the [bitwarden password manager](https://bitwarden.com/).
 

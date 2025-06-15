@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-07
+date:
+  created: 2024-05-07
+  updated: 2025-06-15
 categories:
   - flatpak
   - guide
@@ -8,13 +10,14 @@ categories:
   - cli
 ---
 
-# flatpak
+# :simple-flatpak: flatpak
 
-Overview of using and configuring flatpak.
+An overview of using and configuring flatpak. Flatpak is a packaging system for unix-like machines, and also a security sandboxing system.
 
 <!-- more -->
 
 *This file is originally from [straysheep-dev/linux-configs](https://github.com/straysheep-dev/linux-configs/tree/main/flatpak).*
+
 
 ## References
 

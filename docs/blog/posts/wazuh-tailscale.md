@@ -17,7 +17,7 @@ categories:
   - ansible
 ---
 
-# Wazuh all your things with Tailscale
+# :material-server-security: Wazuh all your things with Tailscale
 
 This guide shows you how to get a Wazuh instance running over Tailscale on both Windows and Linux, using Sysmon(+forLinux), auditd, and all the tweaks you'll want to get started. This is ideal for a low resource, low budget, or lab scenario. You could eventually migrate this Wazuh data to a distributed cluster (proxmox), or real hardware if you grow with it.
 

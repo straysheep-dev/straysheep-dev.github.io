@@ -10,7 +10,7 @@ categories:
   - administration
 ---
 
-# pfSense administration
+# :simple-pfsense: pfSense administration
 
 A quick reference for pfSense administration.
 
@@ -29,7 +29,7 @@ Many of the initial steps are the same as the pfSense documents, but with less o
 - FreeBSD Handbook - Get started with the CLI using this as a reference.
 	* <https://docs.freebsd.org/en/books/handbook/basics/>
 	* <https://www.freebsd.org/copyright/freebsd-doc-license/>
-	
+
 - Lawrence Systems - Channel covering all things networking. Many pfSense examples were adapted directly from there.
 	* <https://www.youtube.com/user/TheTecknowledge/videos>
 	* <https://creativecommons.org/licenses/by/3.0/>
@@ -51,7 +51,7 @@ pfSense installer images:
 **Be sure to verify the sha256sum of the installer file**
 
 ```bash
-user@device:/home/user/Downloads$ sha256sum -c ./pfSense-CE-2.6.0-RELEASE-amd64.iso.gz.sha256 
+user@device:/home/user/Downloads$ sha256sum -c ./pfSense-CE-2.6.0-RELEASE-amd64.iso.gz.sha256
 pfSense-CE-2.6.0-RELEASE-amd64.iso.gz: OK
 ```
 
@@ -186,7 +186,7 @@ All defaults during the install steps are fine. It's recommended to use the ZFS 
 	* Select `< YES >` then press [Enter]
 	* Skip spawning a shell unless you need to
 	* Press [Enter] here with `< Reboot >` selected
-	
+
 At this point you will be at the welcome menu for the console.
 
 Optionally Press 8 to drop into a shell and make changes immediately.
@@ -227,7 +227,7 @@ To find the serial USB device and connect via the serial console:
 - `find /dev -name "*ttyUSB*" -ls 2>/dev/null`
 - `sudo screen /dev/ttyUSB0 115200`
 
-To quit the serial console `screen` terminal: 
+To quit the serial console `screen` terminal:
 
 - `CTRL+SHIFT+A`; then press `\`
 
@@ -295,7 +295,7 @@ Under `System > General Setup > DNS Server Settings`
 #### DNS: Servers
 
 The following lists three popular publicly available DNS resolvers that support DNS over TLS forwarded queries:
-	
+
 | IP Address             | Hostname for TLS validation |
 | ---------------------- | --------------------------- |
 | `1.1.1.1`              |   cloudflare-dns.com        |
@@ -568,26 +568,26 @@ Run the `adduser` utility with root privileges to be walked through the followin
 
 ```bash
 [2.6.0-RELEASE][user2@pfSense.home.arpa]/home/user2: sudo adduser
-Username: user4 
+Username: user4
 Full name: Fourth User
-Uid (Leave empty for default): 
+Uid (Leave empty for default):
 Login group [user4]: nobody
 Login group is nobody. Invite user4 into other groups? []: admins
-Login class [default]: 
+Login class [default]:
 Shell (sh csh tcsh ssh_tunnel_shell scponly scponlyc git-shell bash rbash nologin) [sh]: tcsh
-Home directory [/home/user4]: 
+Home directory [/home/user4]:
 Home directory permissions (Leave empty for default): 750
-Use password-based authentication? [yes]: 
-Use an empty password? (yes/no) [no]: 
-Use a random password? (yes/no) [no]: 
-Enter password: 
-Enter password again: 
-Lock out the account after creation? [no]: 
+Use password-based authentication? [yes]:
+Use an empty password? (yes/no) [no]:
+Use a random password? (yes/no) [no]:
+Enter password:
+Enter password again:
+Lock out the account after creation? [no]:
 Username   : user4
 Password   : *****
 Full Name  : Fourth User
 Uid        : 2004
-Class      : 
+Class      :
 Groups     : nobody admins
 Home       : /home/user4
 Home Mode  : 750
@@ -883,7 +883,7 @@ Upgrade Release Notes (for v2.4.5, but applies generally):
 Important guidance included with every Release Note:
 
 > **Take a backup of the firewall configuration before applying any update.**
-> 
+>
 > **Do not update packages before upgrading! Either remove all packages or do not update packages before running the upgrade.**
 
 ### Upgrading to a new release
@@ -913,7 +913,7 @@ Generally if obtaining the latest update fails, try the following:
 <https://docs.netgate.com/pfsense/en/latest/troubleshooting/upgrades.html#upgrade-not-offered-library-errors>
 
 > Refresh the repository configuration and upgrade script by running the following commands from the console or shell:
-> 
+>
 > ```bash
 > pkg-static clean -ay; pkg-static install -fy pkg pfSense-repo pfSense-upgrade
 > ```
@@ -1036,7 +1036,7 @@ Firewall rules and examples.
 
 ```
 FLOATING
-    * [Optional] Reject outbound RFC1918/3330 traffic over the WAN 
+    * [Optional] Reject outbound RFC1918/3330 traffic over the WAN
     * <https://docs.netgate.com/pfsense/en/latest/recipes/rfc1918-egress.html#steps-to-block-rfc-1918-traffic-from-leaving-the-wan-interface>
     NOTE: This covers the use case of routing over a VPN, if the VPN goes down private network taffic
           will not leave the WAN interface.
@@ -1064,7 +1064,7 @@ WAN
 LAN / Management Interface
     * Anti-Lockout Rule | Allow to specific management ports on this interface (ie; 22, 443 only, etc)
     * [Optional] Allow to other internal interfaces for management from this one subnet
-    * Disable the 'default allow outbound' rules here to keep this management interface 
+    * Disable the 'default allow outbound' rules here to keep this management interface
       entirely offline, which is ultimately optional but recommended.
 ```
 
@@ -1312,7 +1312,7 @@ Anytime you need to retreive new samples, or update an analysis workstation, sim
 
 ## NAT
 
-Outbound NAT Mode: 
+Outbound NAT Mode:
 `Automatic` is fine in most cases
 `Manual` can be used to enforce subnets to use specific routes (ie; vpn killswitch, traffic shaping)
 
@@ -1458,7 +1458,7 @@ VLAN group  VLAN tag    Members      Description
 0           1           1,5          Default System VLAN
 1           120         2,5t         LAN2 VLAN
 2           130         3,5t         LAN3 VLAN
-3           140         4,5t         LAN4 VLAN 
+3           140         4,5t         LAN4 VLAN
 ```
 
 5 remains untagged on the default system VLAN group.
@@ -1679,7 +1679,7 @@ Cisco's explaination of unmanaged, smart, and managed switches is a good startin
 
 - [x] Forward / Reverse Display
 
-Log Rotation Size (bytes): 
+Log Rotation Size (bytes):
 
 ```
 	Default: 512000 (500 KiB)
@@ -1960,7 +1960,7 @@ Audit currently installed packages for known vulnerabilities:
 
 ```bash
 sudo pkg audit -F
-Fetching vuln.xml.xz: 100%  941 KiB 963.5kB/s    00:01    
+Fetching vuln.xml.xz: 100%  941 KiB 963.5kB/s    00:01
 openvpn-2.5.4_1 is vulnerable:
   openvpn -- Potential authentication by-pass with multiple deferred authentication plug-ins
   CVE: CVE-2022-0547
@@ -2082,36 +2082,36 @@ cp /usr/local/share/zeek/site/local.zeek.sample /usr/local/share/zeek/site/local
 **Running Zeek Unprivileged**
 
 **TO DO**: Provide an example of how to do this.
-	
+
 Excerpt from the installer:
 
 > ```
 > The rc.d script now honors the zeek_user rc.d variable.  To run as
 > a user other than root (the default) you need to make a few changes.
 > For example to run as the user zeek, add this to /etc/rc.conf:
-> 
+>
 >     zeek_enable="YES"
 >     zeek_user="zeek"
-> 
+>
 > Add this to /etc/devfs.conf:
-> 
+>
 >     own     bpf     root:bpf
 >     perm    bpf     0660
-> 
+>
 > And add zeek to the bpf group:
-> 
+>
 >     bpf:*:81:zeek
-> 
+>
 > and restart the devfs service:
-> 
+>
 >     service devfs restart
-> 
+>
 > or reboot.
-> 
+>
 > If the interface defined in node.cfg is configured for NIC checksum
 > offloading (the default when this feature is supported by the
 > hardware) you will want to set ignore_checksums in site/local.zeek:
-> 
+>
 >     redef ignore_checksums = T;
 > ```
 

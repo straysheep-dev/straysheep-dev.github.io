@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-07
+date:
+  created: 2024-05-07
+  updated: 2025-06-15
 categories:
   - snap
   - guide
@@ -8,7 +10,7 @@ categories:
   - cli
 ---
 
-# snap
+# :simple-snapcraft: snap
 
 Notes related to the [snap package manager](https://snapcraft.io/about).
 

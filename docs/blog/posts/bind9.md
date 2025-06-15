@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-07-19
-  updated: 2024-07-23
+  updated: 2025-06-15
 categories:
   - how-to
   - administration
@@ -18,11 +18,9 @@ categories:
 description: How to install, maintain, and run a BIND9 DNS server.
 ---
 
-# BIND9 DNS
+# :material-dns: BIND9 DNS
 
 How to install, maintain, and run a BIND9 DNS server (`named`). Covers building from source, configuring, hardening, and DNS over TLS as well as DNSSEC.
-
-*Updated on 2024/07/23.*
 
 <!-- more -->
 

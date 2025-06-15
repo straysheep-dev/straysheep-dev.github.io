@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-05-07
-  updated: 2024-12-14
+  updated: 2025-06-15
 categories:
   - openwrt
   - how-to
@@ -13,7 +13,7 @@ categories:
   - administration
 ---
 
-# OpenWrt
+# :simple-openwrt: OpenWrt
 
 This guide includes details for installing and running OpenWrt on UniFi AP's as well as Raspberry Pis and even as a virtual machine.
 
@@ -22,8 +22,6 @@ Because it's so flexible in its deployment, there are examples for different use
 !!! tip ""
 
 	There's a detailed list of reference links at the top to keep in mind as you read through, and each step tries to include useful copy-and-paste ready commands for operations you may need to repeat every time you go through the process being described.
-
-*Updated on 2024/12/14.*
 
 <!-- more -->
 

@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2025-01-20
+  updated: 2025-06-15
 categories:
   - how-to
   - automation
@@ -11,7 +12,7 @@ categories:
   - lint
 ---
 
-# CI/CD
+# :fontawesome-solid-gears: CI/CD
 
 !!! abstract "Continuous Integration, Continuous Deployment"
 

@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-05-08
-  updated: 2024-07-23
+  updated: 2025-06-15
 categories:
   - windows
   - how-to
@@ -13,11 +13,9 @@ categories:
   - active-directory
 ---
 
-# Windows
+# :material-microsoft-windows: Windows
 
 Various configuration settings and notes for Microsoft Windows operating systems.
-
-*Updated on 2024/07/23.*
 
 <!-- more -->
 

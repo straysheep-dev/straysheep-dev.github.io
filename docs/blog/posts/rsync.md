@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2025-02-22
+date:
+  created: 2025-02-22
+  updated: 2025-06-15
 categories:
   - rsync
   - how-to
@@ -10,7 +12,7 @@ categories:
   - unix
 ---
 
-# rsync
+# :material-sync-circle: rsync
 
 The fast, versatile, remote (and local) file-copying tool. It operates using deltas and by looking at properties to only update parts of files that have changed, making it incredibly efficient and invaluable as a part of a regular or scheduled backup operation. I have used this tool to ensure local, remote, and external copies of directories are in sync, or to identify what has changed.
 

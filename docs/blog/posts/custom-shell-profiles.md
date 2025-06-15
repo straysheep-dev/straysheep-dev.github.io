@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-29
+date:
+  created: 2024-05-29
+  updated: 2025-06-15
 categories:
   - shell
   - cli
@@ -12,7 +14,7 @@ categories:
 ---
 
 
-# Custom Shell Profiles
+# :octicons-terminal-16: Custom Shell Profiles
 
 Working with and customizing shell profiles.
 

@@ -1,6 +1,8 @@
 ---
 draft: false
-date: 2024-05-15
+date:
+  created: 2024-05-15
+  updated: 2025-06-15
 categories:
   - aide
   - how-to
@@ -13,7 +15,7 @@ categories:
   - compliance
 ---
 
-# AIDE (Advanced Intrusion Detection Environment)
+# :octicons-alert-16: AIDE (Advanced Intrusion Detection Environment)
 
 How to set up `aide` for filesystem integrity monitoring and do basic tuning of the configuration.
 

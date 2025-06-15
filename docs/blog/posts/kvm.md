@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-12-08
-  updated: 2024-12-15
+  updated: 2025-06-15
 categories:
   - kvm
   - qemu
@@ -15,7 +15,7 @@ categories:
   - libvirt
 ---
 
-# KVM (Kernel-based Virtual Machine)
+# :simple-qemu: KVM (Kernel-based Virtual Machine)
 
 KVM is a type 1 hypervisor technology built into the Linux kernel, using components like QEMU, libvirt, and virt-manager to orchestrate virtual machines. This reference aims to cover everything you'd need to have a basic understanding of KVM and QEMU, how to use `virt-manager`, networking configuration options, and the various components such as SPICE.
 
