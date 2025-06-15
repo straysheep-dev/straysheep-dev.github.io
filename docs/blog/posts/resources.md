@@ -1005,6 +1005,18 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	To see if you're on NextDNS, go to <https://test.nextdns.io/>.
 
+??? info "DNS4EU"
+
+	> Supported by the European Union Agency for Cybersecurity (ENISA), the European Union's DNS4EU secure-infrastructure project provides a protective, privacy-compliant, and resilient DNS service to strengthen digital sovereignty and security for EU citizens, governments, and critical infrastructure.
+
+	Discovered on the [SANS ISC Stormcast from Tuesday, June 10th, 2025](https://isc.sans.edu/podcastdetail/9486).
+
+	- <https://www.joindns4.eu/>
+	- [Resolver Configuration Information](https://www.joindns4.eu/for-public#resolver-options)
+
+	Currently there's no browser-based diagnostic endpoint dedicated to verifying you're using their resolvers like Cloudflare or Quad9 have.
+
+
 ## :material-sword-cross: Offense
 
 !!! abstract "PTES (Penetration Testing Execution Standard)"
