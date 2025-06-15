@@ -126,6 +126,31 @@ Information, compiled for easy reference.
 
 	- <https://github.com/openpubkey/opkssh>
 
+??? info "Etcher"
+
+	> Etcher is a powerful OS image flasher built with web technologies to ensure flashing an SDCard or USB drive is a pleasant and safe experience. It protects you from accidentally writing to your hard-drives, ensures every byte of data was written correctly, and much more. It can also directly flash Raspberry Pi devices that support USB device boot mode.
+
+	Etcher is one of the two go-to GUI-based imaging utilities for creating bootable media (the other being Rufus), with Etcher's main difference from Rufus being that it works across Windows macOS and Linux.
+
+	- <https://github.com/balena-io/etcher>
+
+	Supported OS's:
+
+    - Linux; most distros; Intel 64-bit.
+    - Windows 10 and later; Intel 64-bit.
+    - macOS 10.13 (High Sierra) and later; both Intel and Apple Silicon.
+
+
+??? info "Rufus"
+
+	> Rufus is a utility that helps format and create bootable USB flash drives.
+
+	Rufus is possibly the best imaging utility if you're on Windows, allowing you to not only flash external media with any image file you have available, but with the options to customize Windows images during the process. All features are [listed in the README](https://github.com/pbatard/rufus#features).
+
+	- <https://github.com/pbatard/rufus>
+
+	Rufus also has [extensive documentation on its security model](https://github.com/pbatard/rufus/wiki/Security), from how it does what it does, to verifying signatures and how this works in Windows world, in a way that is useful and meaningful to a user. The concepts are not exclusive to Rufus.
+
 
 ## :material-note-text: Note Taking
 
