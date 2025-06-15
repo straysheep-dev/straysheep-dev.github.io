@@ -1117,7 +1117,18 @@ This includes general network information as well as network-focused tools.
 
 ### Web Application
 
-!!! abstract "OWASP Web Security Testing Guides"
+!!! abstract ":simple-owasp: OWASP Top 10"
+
+	> The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications.
+	>
+	> Globally recognized by developers as the first step towards more secure coding.
+	>
+	> Companies should adopt this document and start the process of ensuring that their web applications minimize these risks. Using the OWASP Top 10 is perhaps the most effective first step towards changing the software development culture within your organization into one that produces more secure code.
+
+	- <https://owasp.org/www-project-top-ten/>
+	- <https://github.com/OWASP/www-project-top-ten/blob/master/index.md>
+
+!!! abstract ":simple-owasp: OWASP Web Security Testing Guides"
 
 	>  The Web Security Testing Guide is a comprehensive Open Source guide to testing the security of web applications and web services.
 
@@ -1133,13 +1144,13 @@ This includes general network information as well as network-focused tools.
 	- <https://swisskyrepo.github.io/PayloadsAllTheThings/>
 	- <https://github.com/swisskyrepo/PayloadsAllTheThings>
 
-??? example "Burpsuite"
+??? example ":simple-burpsuite: Burpsuite"
 
 	Web application security testing tool, has free and paid licenses.
 
 	- <https://portswigger.net/burp>
 
-??? danger "ZAProxy"
+??? danger ":simple-zap: ZAProxy"
 
 	Open source and free alternative to Burpsuite maintained by OWASP.
 
@@ -2473,6 +2484,14 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 
 ## Artificial Intelligence
+
+!!! abstract "OWASP AI Exchange"
+
+	The OWASP AI Exchange is a collection of projects related to AI privacy and security. The testing resources are similar to the OWASP Top 10, but for AI.
+
+	- <https://owaspai.org/>
+	- <https://github.com/OWASP/www-project-ai-security-and-privacy-guide>
+	- [AI Security Testing](https://owaspai.org/docs/5_testing/)
 
 
 ### Tools
