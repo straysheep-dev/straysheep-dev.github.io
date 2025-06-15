@@ -91,13 +91,13 @@ h1:first-of-type {
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/terraform-configs)
 
-    - :simple-vagrant:{ .lg .middle } __Vagrant Configs__
+    - :simple-packer:{ .lg .middle } __Packer Configs__
 
         ---
 
-        Various notes and configurations for Vagrant
+        Packer templates to build preconfigured machines.
 
-        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/vagrant-configs)
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/packer-configs)
 
     - :material-bell-ring:{ .lg .middle } __Alert Service__
 
