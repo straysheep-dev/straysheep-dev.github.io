@@ -1022,10 +1022,10 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://fccid.io>
 
 
-## Information Security
+## :material-security: Information Security
 
 
-### DNS
+### :material-dns: DNS
 
 ??? info "Cloudflare 1.1.1.1"
 
@@ -1108,7 +1108,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://book.hacktricks.wiki/>
 	- <https://github.com/HackTricks-wiki/hacktricks>
 
-### Network
+### :material-network: Network
 
 This includes general network information as well as network-focused tools.
 
@@ -1139,7 +1139,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/MegaManSec/SSH-Snake>
 
 
-### Web Application
+### :material-application-brackets: Web Application
 
 !!! abstract ":simple-owasp: OWASP Top 10"
 
@@ -1211,7 +1211,7 @@ This includes general network information as well as network-focused tools.
 	- <https://sqrx.com/polymorphic-extensions>
 
 
-### Linux & Unix-like
+### :simple-linux: Linux & Unix-like
 
 ??? danger "GTFOBins"
 
@@ -1234,7 +1234,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/armosec/curing>
 
 
-### Windows
+### :material-microsoft-windows: Windows
 
 ??? danger "LOLBAS"
 
@@ -1343,12 +1343,12 @@ This includes general network information as well as network-focused tools.
 	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
 
 
-### macOS
+### :simple-apple: macOS
 
 	⚠️ TO DO ⚠️
 
 
-### Active Directory
+### :material-microsoft-windows: Active Directory
 
 ??? info "adsecurity.org"
 
@@ -1369,7 +1369,7 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/swisskyrepo/SharpLAPS>
 
-### Wireless
+### :material-wifi: Wireless
 
 ??? abstract "WiFi Challenge Lab Walkthrough"
 
@@ -1435,7 +1435,7 @@ This includes general network information as well as network-focused tools.
 	- Does not appear to work on iOS
 
 
-### Cloud
+### :material-cloud-cog-outline: Cloud
 
 ??? danger "MSFTRecon"
 
@@ -1464,7 +1464,7 @@ This includes general network information as well as network-focused tools.
 	- <https://slaw.securosis.com/>
 
 
-### ICS & OT
+### :material-power-plug-battery-outline: ICS & OT
 
 ??? abstract "HardwareAllTheThings"
 
@@ -1474,7 +1474,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/swisskyrepo/HardwareAllTheThings>
 
 
-### C2
+### :material-lan-connect: C2
 
 ??? danger "Sliver"
 
@@ -1505,9 +1505,9 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/trustedsec/trevorc2>
 
 
-## :material-shield: Defense
+## :material-security: Defense
 
-### Security Platforms
+### :material-server-security: Security Platforms
 
 !!! abstract "Why Platforms?"
 
@@ -1592,7 +1592,7 @@ This includes general network information as well as network-focused tools.
 	- <https://limacharlie.io/>
 
 
-### Windows
+### :material-microsoft-windows: Windows
 
 ??? question "audit-inspector (Windows)"
 
@@ -1601,7 +1601,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/blackhillsinfosec/audit-inspector>
 
 
-### Linux
+### :simple-linux: Linux
 
 ??? tip "Kernel Lockdown Mode"
 
@@ -1718,7 +1718,7 @@ This includes general network information as well as network-focused tools.
 	```
 
 
-### Threat Hunting
+### :material-magnify-scan: Threat Hunting
 
 ??? abstract "Pivot Atlas"
 
@@ -1913,7 +1913,7 @@ This includes general network information as well as network-focused tools.
 	- <https://blog.thalium.re/posts/linux-kernel-rust-module-for-rootkit-detection/>
 
 
-## GRC
+## :fontawesome-regular-rectangle-list: GRC
 
 All things standards, configuration, compliance, and policy related.
 
@@ -1986,7 +1986,7 @@ All things standards, configuration, compliance, and policy related.
 	⚠️ TO DO ⚠️
 
 
-## Reverse Engineering
+## :material-debug-step-over: Reverse Engineering
 
 ??? bug "Ghidra"
 
@@ -2030,7 +2030,7 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/rizinorg/cutter>
 
 
-## Malware Analysis
+## :material-shield-bug-outline: Malware Analysis
 
 ??? bug "DidierStevensSuite"
 
@@ -2053,7 +2053,7 @@ All things standards, configuration, compliance, and policy related.
 	- <https://malapi.io/>
 
 
-### Known Samples
+### :material-bug-check: Known Samples
 
 ??? bug "xz-utils Backdoor"
 
@@ -2099,10 +2099,10 @@ All things standards, configuration, compliance, and policy related.
 	Despite how awesome this technique is, it eventually has to decode itself to plaintext to execute. This will likely appear in some type of log or network capture.
 
 
-## Firmware
+## :octicons-cpu-16: Firmware
 
 
-### Information
+### :octicons-info-16: Information
 
 ??? abstract "bootloaders.io"
 
@@ -2115,7 +2115,7 @@ All things standards, configuration, compliance, and policy related.
     - <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
 
 
-### Projects
+### :octicons-gear-24: Projects
 
 ??? info "Coreboot"
 
@@ -2181,7 +2181,7 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/flashrom/flashrom>
 
 
-### Vulnerabilities
+### :material-bug-check: Vulnerabilities
 
 ??? bug "BootHole"
 
@@ -2217,7 +2217,7 @@ All things standards, configuration, compliance, and policy related.
 	- Also includes a vulnerability similar to [LogoFAIL](https://www.binarly.io/blog/the-far-reaching-consequences-of-logofail), exploiting image parsers
 
 
-## Forensics
+## :material-magnify: Forensics
 
 ??? question "uac (Unix-like Artifacts Collector)"
 
@@ -2237,7 +2237,7 @@ All things standards, configuration, compliance, and policy related.
 	- You could also use **[YARA](https://github.com/VirusTotal/yara)** to hit the entire UAC evidence folder for IOC's, which is incredibly fast
 
 
-### Memory Acquisition
+### :material-memory-arrow-down: Memory Acquisition
 
 ??? danger "avml (Acquire Volatile Memory for Linux)"
 
@@ -2253,7 +2253,7 @@ All things standards, configuration, compliance, and policy related.
 	- <https://github.com/halpomeranz/lmg>
 
 
-## OSINT
+## :material-search-web: OSINT
 
 ??? question "Shodan"
 
@@ -2294,7 +2294,7 @@ All things standards, configuration, compliance, and policy related.
 	```
 
 
-### Vulnerability Research
+### :octicons-file-code-24: Vulnerability Research
 
 Sources used when attempting to triage and produce a proof-of-concept exploit or demonstrate risk.
 
@@ -2403,7 +2403,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://nmap.org/nsedoc/scripts/vulners.html>
 
 
-### Malware Research
+### :material-bug: Malware Research
 
 ??? bug "VirusTotal"
 
@@ -2472,7 +2472,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://www.phishtank.com/faq.php>
 
 
-## Cryptocurrency
+## :material-wallet: Cryptocurrency
 
 ??? info "Trezor Wallet"
 
@@ -2538,7 +2538,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	```
 
 
-## Artificial Intelligence
+## :material-robot: Artificial Intelligence
 
 !!! abstract "OWASP AI Exchange"
 
@@ -2549,7 +2549,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- [AI Security Testing](https://owaspai.org/docs/5_testing/)
 
 
-### Tools
+### :octicons-tools-16: Tools
 
 ??? example "ollama"
 
@@ -2627,7 +2627,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://blog.cloudflare.com/ai-labyrinth/>
 
 
-### Attacks
+### :material-lightning-bolt-circle: Attacks
 
 ??? danger "The Policy Puppetry Attack"
 
@@ -2638,7 +2638,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Discovered on <https://securityweekly.com/swn-471>.
 
 
-## Blogs & Authors
+## :fontawesome-solid-book-atlas: Blogs & Authors
 
 ??? quote "Daniel Miessler"
 
