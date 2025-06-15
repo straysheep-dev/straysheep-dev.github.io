@@ -1777,7 +1777,31 @@ This includes general network information as well as network-focused tools.
 
 ??? bug "RITA"
 
+	> Real Intelligence Threat Analytics (RITA) is a framework for detecting command and control communication through network traffic analysis.
+
 	- <https://github.com/activecm/rita>
+
+	RITA is possibly the ultimate open-source network threat hunting tool. Using Zeek logs, it can determine:
+
+    > - Beaconing Detection: Search for signs of beaconing behavior in and out of your network
+    > - Long Connection Detection: Easily see connections that have communicated for long periods of time
+    > - DNS Tunneling Detection: Search for signs of DNS based covert channels
+    > - Threat Intel Feed Checking: Query threat intel feeds to search for suspicious domains and hosts
+
+	The deployment method has changed since they have moved to using Ansible. It can be dropped onto the local system with:
+
+	```bash
+	./install_rita.sh "localhost"
+	```
+
+	Or one-or-more remote systems by passing a comma-separated list of endpoints to the installer like this:
+
+	```bash
+	./install_rita.sh "root@<ip_1>,<ip_2>,myhost.internal"
+	```
+
+	A RITA "server" can ingest Zeek logs into multiple data sets, either on a recurring / rolling basis as part of a crontask or as needed into unique data sets. This means you can continue to add to specific data sets and perform analysis of specific networks over time.
+
 
 ??? danger "Zeek"
 
