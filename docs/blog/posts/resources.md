@@ -1816,6 +1816,8 @@ This includes general network information as well as network-focused tools.
 
 ??? danger "Suricata"
 
+	> Suricata is a network Intrusion Detection System, Intrusion Prevention System and Network Security Monitoring engine developed by the OISF and the Suricata community.
+
 	- <https://suricata.io/download/>
 	- <https://github.com/OISF/suricata>
 
