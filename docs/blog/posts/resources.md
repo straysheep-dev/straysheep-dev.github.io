@@ -302,6 +302,44 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     - <https://github.com/raspberrypi>
     - <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines
 
+	```txt
+	pub   rsa2048/0x8738CD6B956F460C 2017-04-10 [SC] [expires: 2031-04-07]
+		Key fingerprint = 54C3 DD61 0D9D 1B4A F82A  3775 8738 CD6B 956F 460C
+	uid                   [ unknown] Raspberry Pi Downloads Signing Key
+	sub   rsa2048/0x287C051D4228C4CE 2017-04-10 [E] [expires: 2031-04-07]
+	```
+
+	**rpi-imager**
+
+	The Rapsberry Pi Imager is similar to [etcher](https://github.com/balena-io/etcher) or [rufus](https://github.com/pbatard/rufus), in that it allows you to both, write the Raspberry Pi OS to an external device while simultaneously configuring it.
+
+	- <https://downloads.raspberrypi.org/imager/>
+	- <https://github.com/raspberrypi/rpi-imager>
+
+	On Linux there's an AppImage binary available if you prefer installing something under a `local/` path instead of using `dpkg`. Regardless, each binary comes with a signature file. You can use the Raspberry Pi public key (above) to verify the file integrity.
+
+	```bash
+	# Obtain the signing key
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys '54C3 DD61 0D9D 1B4A F82A 3775 8738 CD6B 956F 460C'
+
+	# Set the version information using GitHub's API to obtain the latest release tag version
+	gh_release_info="$(curl -Lf 'https://api.github.com/repos/raspberrypi/rpi-imager/releases/latest')"
+	latest_version="$(echo "$gh_release_info" | jq -r '.tag_name' | sed 's/^v//')"
+
+	# Download from https://downloads.raspberrypi.org/imager/
+	cd ~/Downloads
+	curl -LfO "https://downloads.raspberrypi.org/imager/imager_${latest_version}_amd64.AppImage"
+	curl -LfO "https://downloads.raspberrypi.org/imager/imager_${latest_version}_amd64.AppImage.sig"
+
+	# Verify the signature
+	gpg --verify imager_${latest_version}_amd64.AppImage.sig imager_${latest_version}_amd64.AppImage
+
+	# Install the AppImage locally without apt or dpkg
+	sudo cp ./imager_${latest_version}_amd64.AppImage /usr/local/bin/rpi-imager
+	sudo chmod +x /usr/local/bin/rpi-imager
+	rpi-imager
+	```
+
 ??? abstract ":simple-redhat: RHEL (Red Hat Enterprise Linux)"
 
 	> Red Hat Enterprise Linux is an enterprise Linux operating system. It is oriented toward enterprise and commercial users, is certified for many hardware and cloud platforms, and is supported by Red Hat via various subscription options. Compared to Fedora, Red Hat Enterprise Linux emphasizes stability and enterprise-readiness over the latest technologies or rapid releases. More information about Red Hat offerings can be found at [Red Hat's web site](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux).
