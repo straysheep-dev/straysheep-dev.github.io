@@ -159,9 +159,14 @@ However you write the  image to the external storage device, you'll want to brow
 
 ## Raspberry Pi OS
 
+After writing the image file to external media, you'll see two partitions:
+
+- `bootfs/`
+- `rootfs/`
+
 Raspbery Pi OS has no Debian style preseed.cfg or cloud-init system built in by default. Although there are projects out there and ways to do this, we'll take the most straight forward *and* universal approach, giving us the initial access we need to do really anything we'd want for any use case.
 
-It's worth noting the `rpi-imager` utility can configure all of the following. Lets assume you want to stick with a built in tool like `dd`, or another utility for some reason. No matter how you write the RaspiOS image to disk, these steps will work (as of November 2024 / Bookworm).
+It's worth noting the [`rpi-imager`](https://github.com/raspberrypi/rpi-imager) utility can configure all of the following. Lets assume you want to stick with a built in tool like `dd`, or another utility for some reason. No matter how you write the RaspiOS image to disk, these steps will work (as of November 2024 / Bookworm).
 
 !!! note "Auto-connect to WiFi?"
 
@@ -189,12 +194,32 @@ openssl passwd -6
 echo `pi:<password-hash>` | tee `bootfs/userconf.txt`
 ```
 
-`/rootfs/home/pi` is the path of the default "pi" user.
+!!! tip "$HOME Path"
 
-- Here you can actually drop scripts or files you'd like to have available, they become owned by `pi:pi`
-- Write the [Tailscale installer.sh](https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh) file here
-- Also write a key.txt file containing your Tailscale authkey, so you don't have to type it
-- Create `/home/pi/.ssh/authorized_keys` with your public key
+	`/rootfs/home/pi` is the path of the default "pi" user.
+
+	Here you can drop scripts or files you'd like to have available, **they become owned by `pi:pi`**
+
+Write the [Tailscale installer.sh](https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh) file here.
+
+```bash
+cd ./rootfs/home/pi
+curl -Lf https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh > tailscale-installer.sh
+```
+
+Also write a key.txt file containing your Tailscale authkey, so you don't have to type it.
+
+```bash
+# Paste your tailscale authkey here for script use later
+nano ./rootfs/home/pi/key.txt
+```
+
+Create `/home/pi/.ssh/authorized_keys` with your public key.
+
+```bash
+mkdir -p ./rootfs/home/pi/.ssh
+nano ./rootfs/home/pi/.ssh/authorized_keys
+```
 
 Now move the USB over to the Raspberry Pi device and power it on.
 
@@ -266,6 +291,14 @@ addr-gen-mode=default
 method=auto
 
 [proxy]
+```
+
+You can generate a UUID with:
+
+```bash
+uuidgen
+# or
+cat /proc/sys/kernel/random/uuid
 ```
 
 !!! note "What is wlan0?"
