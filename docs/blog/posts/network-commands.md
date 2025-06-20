@@ -90,7 +90,7 @@ ping 1.1.1.1
 ping fe80::abcd:ef01:2345:1234%enp1s0
 ```
 
-```cmd
+```batch
 ping.exe /t 192.168.1.1
 ```
 
@@ -100,7 +100,7 @@ Set a maximum number of ping packets to send:
 ping -c 4 example.com
 ```
 
-```cmd
+```batch
 ping.exe /n 4 example.com
 ```
 
@@ -124,7 +124,7 @@ dig @1.1.1.1 google.com -t AAAA +tls +short
 
 Request reverse name resolution (Windows only):
 
-```cmd
+```batch
 ping.exe /a 1.1.1.1
 ```
 
@@ -136,7 +136,7 @@ Set the TTL of a ping packet:
 ping -t 128 example.com
 ```
 
-```cmd
+```batch
 ping.exe /i 128 example.com
 ```
 
@@ -152,7 +152,7 @@ Set the interval between packets sent (in seconds):
 ping -i 5 example.com
 ```
 
-```cmd
+```batch
 ping.exe /i 5 example.com
 ```
 
@@ -162,7 +162,7 @@ Set the packet size (in bytes), default=64, 8 for the ICMP header + 56:
 ping -s 1337 example.com
 ```
 
-```cmd
+```batch
 ping.exe /l 1337 example.com
 ```
 
@@ -291,13 +291,13 @@ traceroute example.com
 
 Trace the path to a host:
 
-```cmd
+```batch
 tracert www.microsoft.com
 ```
 
 Do not attempt name resolution:
 
-```cmd
+```batch
 tracert /d www.microsoft.com
 ```
 
@@ -483,6 +483,13 @@ For the expression syntax, see `man pcap-filter`.
 
 ---
 
+
+## pktmon
+
+⚠️ TO DO ⚠️
+
+---
+
 ## ipconfig
 
 !!! note "ipconfig"
@@ -499,13 +506,13 @@ For the expression syntax, see `man pcap-filter`.
 
 Display all TCP/IP configuration information for all adapters:
 
-```cmd
+```batch
 ipconfig /all
 ```
 
 Release and renew a DHCP lease, either per-adapter or globally:
 
-```cmd
+```batch
 ipconfig /release [<adapter>]
 ipconfig /release6 [<adapter>]
 ipconfig /renew [<adapter>]
@@ -514,13 +521,13 @@ ipconfig /renew6 [<adapter>]
 
 List the contents of the DNS resolver cache:
 
-```cmd
+```batch
 ipconfig /displaydns
 ```
 
 Flush DNS resolver cache:
 
-```cmd
+```batch
 ipconfig /flushdns
 ```
 
@@ -537,19 +544,48 @@ ipconfig /flushdns
 
 ## netstat
 
-⚠️ TO DO ⚠️
+!!! note "Network Statistics"
+
+	> Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships.
+
+	- <https://en.wikipedia.org/wiki/Netstat>
+	- [windows-commands/netstat](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat)
+
+
+**Installation :material-package-variant-plus:**
+
+!!! tip ""
+
+	`netstat` no longer installed on Ubuntu by default, and has been replaced with `ss`.
+
+```bash
+# Ubuntu
+sudo apt install -y net-tools
+```
+
+**Practical Usage :material-wrench-cog-outline:**
+
+Show all TCP/UDP connections, their associated processes, do not resolve IPs, include IPv4 and IPv6.
 
 ```bash
 # Linux
 sudo netstat -antup
+sudo netstat -anp -A inet,inet6
 
 # BSD
 TO DO
+
+# Windows
+netstat.exe -a[b]no
 ```
 
-```cmd
-netstat.exe -abno
+Show fully qualified domain names and port names (Windows only):
+
+```batch
+netstat.exe -f
 ```
+
+⚠️ TO DO ⚠️
 
 ---
 
@@ -564,10 +600,10 @@ netstat.exe -abno
 
 **Practical Usage :material-wrench-cog-outline:**
 
-Display all "inet" (IPv4/6) network connections regardless of state, and the related process.
+Display all "inet" (IPv4/6) network connections regardless of state, and the related process, optionally sort by connection state
 
 ```bash
-sudo ss -anp -A inet | less -S
+sudo ss -anp -A inet [| sort -k 2 ]| less -S
 ```
 
 !!! tip "Other socket tables"
@@ -585,6 +621,78 @@ sudo ss -anp -A inet | less -S
 ---
 
 
+## sockstat
+
+!!! note "Socket Statistics"
+
+	>  The sockstat command lists open Internet	or Unix	domain sockets.
+
+	- <https://man.freebsd.org/cgi/man.cgi?sockstat(1)>
+
+**Practical Usage :material-wrench-cog-outline:**
+
+`sockstat` is often found on [pfSense](https://docs.netgate.com/pfsense/en/latest/monitoring/status/sockets.html). This example shows how to enumerate all connections related to the web interface, for exmaple, if hunting webshells:
+
+```sh
+sockstat [-4|-6] | grep nginx
+```
+
+Taken from the FreeBSD manual:
+
+> Show information for sockets using either TCP or UDP, if neither, the local nor the foreign addresses are in the loopback network:
+>
+> ```sh
+> sockstat -L -P tcp,udp
+> ```
+
+---
+
+
+## lsof
+
+!!! note "List Open Files"
+
+	`lsof` is a command listing open files and the processes opening them.
+
+	- <https://en.wikipedia.org/wiki/Lsof>
+
+	The manual references file [00QUICKSTART](https://github.com/lsof-org/lsof/blob/master/00QUICKSTART) for additional examples. This file has since moved to:
+
+	- [GitHub: lsof docs](https://github.com/lsof-org/lsof/tree/master/docs)
+
+**Installation :material-package-variant-plus:**
+
+```bash
+# Debian / Ubuntu
+sudo apt install lsof
+
+# RHEL / CentOS
+sudo yum install lsof
+
+# Arch
+sudo pacman -Syu lsof
+
+# NixOS
+nix-env -i lsof
+```
+
+**Practical Usage :material-wrench-cog-outline:**
+
+List all files on the filesystem with a network connection, do not convert ports to service names or IPs to hostnames:
+
+```bash
+sudo lsof -i -n -P
+```
+
+!!! quote "strandjs/IntroLabs"
+
+	This tool was showcased in the [Linux CLI](https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/Tools/IntroClass/LinuxCLI/LinuxCLI.md) section of the [SOC Core Skills](https://www.antisyphontraining.com/course/soc-core-skills-with-john-strand/) course by John Strand.
+
+`lsof` has a robust [tutorial](https://github.com/lsof-org/lsof/blob/master/docs/tutorial.md) that demonstrates many capabilities one-by-one.
+
+---
+
+
 ## route
 
 ⚠️ TO DO ⚠️
@@ -595,9 +703,81 @@ sudo ss -anp -A inet | less -S
 
 ## netsh
 
-Regarding packet captures with native Windows tools, see: <https://github.com/microsoft/etl2pcapng>
+!!! note "The Windows Network Shell Utility"
+
+	> Netsh is a command-line scripting utility that allows you to display or modify the network configuration of a computer that is currently running. Netsh commands can be run by typing commands at the netsh prompt and they can be used in batch files or scripts. Remote computers and the local computer can be configured by using netsh commands.
+
+	- [Netsh Command Reference](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc754516(v=ws.10))
+	- [Netsh Trace Commands](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/dd878517(v=ws.10))
+	- To convert etl capture files to pcaps, see: <https://github.com/microsoft/etl2pcapng>
+
+**Practical Usage :material-wrench-cog-outline:**
+
+`netsh` itself has numerous subcommands. This section will grow over time as more are added.
 
 ⚠️ TO DO ⚠️
+
+
+**Trace :material-download-network:**
+
+The command reference pages have a number of examples somewhat scattered throughout the entire page, and they leave off `netsh trace` when demonstrating usage which can be hard to see if you're not looking for it.
+
+The easiest way to see options available per-subcommand:
+
+```batch
+netsh trace /?
+netsh trace <cmd> /?
+```
+
+!!! quote ""
+
+	Credit to these examples for demonstrating further usage:
+
+	- [Microsoft Answers: Netsh Trace to Capture Packets Only](https://learn.microsoft.com/en-us/answers/questions/401846/netsh-trace-packet-capture-only)
+	- [etl2pcapng README](https://github.com/microsoft/etl2pcapng?tab=readme-ov-file#about)
+	- [Microsoft Docs: Files Rendered by Trace](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#using-the-files-rendered-by-trace)
+
+Start a capture, they will run as a process in the background:
+
+```batch
+netsh trace start capture=yes report=disabled tracefile=.\NetTrace.etl maxsize=16384
+```
+
+View the status of a running capture
+
+```batch
+netsh trace show status
+```
+
+Stop a trace:
+
+```batch
+netsh trace stop
+```
+
+Event tracing can be also used across reboots with **`persistent=yes`**:
+
+```batch
+netsh trace start capture=yes report=disabled persistent=yes tracefile=.\NetTrace.etl maxsize=16384
+```
+
+Convert to pcap format:
+
+```batch
+etl2pcapng.exe .\NetTrace.etl .\NetTrace.pcapng
+```
+
+Use [filters](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#using-filters-to-limit-etl-trace-file-details), see all available with **`netsh trace show CaptureFilterHelp`**:
+
+```batch
+netsh trace start capture=yes report=disabled Ethernet.Type=IPv6 IPv6.Address=fe80::1234:5678:abcd\%8 tracefile=.\NetTrace.etl maxsize=16384
+```
+
+Use a [scenario](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#identifying-scenarios) for troubleshooting:
+
+```batch
+netsh trace start capture=yes report=disabled scenario=VPNServer tracefile=.\NetTrace.etl
+```
 
 ---
 
@@ -990,6 +1170,21 @@ Test-Connection -ComputerName example.com -Port 443
 !!! tip ""
 
 	On Linux, PowerShell may only have `Test-Connection`, which functions the same way but only returns `True` or `False`:
+
+
+### Get-Net[TCP|UDP]Connection
+
+These blocks emulate the behavior of what you might see when using `netstat` or `ss` on Linux, but on Windows using PowerShell. These examples were first covered in the SANS Diary "[Netstat, but Better and in PowerShell](https://isc.sans.edu/diary/Netstat+but+Better+and+in+PowerShell/30532/)". All SANS blog content falls under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/):
+
+> TCP connections, show connection time in seconds, sort by state:
+> ```powershell
+> Get-NetTCPConnection | select LocalAddress,LocalPort,RemoteAddress,RemotePort,State,@{Name="LifetimeSec";Expression={((Get-Date)-$_.CreationTime).seconds}},OwningProcess,@{Name="Process";Expression={ (Get-Process -Id $_.OwningProcess).ProcessName } }| Sort State | ft -auto
+> ```
+>
+> UDP connections, show connection time in seconds, sort by port:
+> ```powershell
+> Get-NetUDPEndpoint | select LocalAddress,LocalPort,@{Name="LifetimeSec";Expression={((Get-Date)-$_.CreationTime).seconds}},OwningProcess,@{Name="Process";Expression={ (Get-Process -Id $_.OwningProcess).ProcessName } }| Sort LocalPort | ft -auto
+> ```
 
 ---
 
