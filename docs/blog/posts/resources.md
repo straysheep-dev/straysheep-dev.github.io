@@ -227,6 +227,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/giuspen/cherrytree>
 	- License: GPL-3.0
 
+**Tips**
+
+??? info "Markdown Syntax Highlighting"
+
+	- [GitHub: Basic Writing and Formatting](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+	- [GitHub: Creating and Highlighting Codeblocks](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks#syntax-highlighting)
+	- [github-linguist: Supported Languages](https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml)
+
 
 ## :material-desktop-tower: Operating Systems
 
@@ -929,6 +937,26 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> Terraform is an infrastructure as code tool that lets you build, change, and version infrastructure safely and efficiently. This includes low-level components like compute instances, storage, and networking; and high-level components like DNS entries and SaaS features.
 
 	- <https://developer.hashicorp.com/terraform>
+
+
+### :fontawesome-brands-golang: Go
+
+!!! abstract "Project source and install instructions"
+
+	> Go is an open source project developed by a team at Google and many contributors from the open source community. Go is distributed under a BSD-style license.
+
+	Taken from the README:
+
+	> Official binary distributions are available at <https://go.dev/dl/>.
+	>
+	> After downloading a binary release, visit <https://go.dev/doc/install> for installation instructions.
+	>
+	> Our canonical Git repository is located at <https://go.googlesource.com/go>.
+	> There is a mirror of the repository at <https://github.com/golang/go>.
+
+	Additionally, note that <https://golang.org/> is the older domain before it was updated to go.dev.
+
+	The [frequently asked questions page](https://go.dev/doc/faq) has information on why Go was made, the goals of the project, and some history.
 
 
 ## :material-information-variant-circle: Information Technology
