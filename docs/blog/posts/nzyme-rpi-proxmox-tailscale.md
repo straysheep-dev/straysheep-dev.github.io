@@ -168,6 +168,16 @@ Raspbery Pi OS has no Debian style preseed.cfg or cloud-init system built in by 
 
 It's worth noting the [`rpi-imager`](https://github.com/raspberrypi/rpi-imager) utility can configure all of the following. Lets assume you want to stick with a built in tool like `dd`, or another utility for some reason. No matter how you write the RaspiOS image to disk, these steps will work (as of November 2024 / Bookworm).
 
+!!! tip "rpi-imager Command Line Output"
+
+	If you're curious what the rpi-imager utility is doing, when you run the AppImage via bash it will print the customization it's doing to stdout. It may look like the following three lines, where the `firstrun.sh` script is a very long block of shell commands you can visualize in VSCode or `vim` doing a find-replace for `\n` newlines.
+
+	- Custom config.txt entries: ""
+	- Custom cmdline.txt entries: " cfg80211.ieee80211_regdom=GB"
+	- Custom firstrun.sh: `<shell-scripting>`
+
+	If you do choose to write the image with `rpi-imager`, choose to leave the USB mounted after imaging so you can write the tailscale installer and authkey text file to the home directory.
+
 !!! note "Auto-connect to WiFi?"
 
 	[/bootfs/wpa_supplicant.conf](https://www.raspberrypi.com/documentation/computers/configuration.html#connect-to-a-wireless-network-2) no longer works as of Debian Bookworm (see the link)
