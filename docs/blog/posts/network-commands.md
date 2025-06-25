@@ -1151,6 +1151,34 @@ nmcli connection up "$CONN_NAME"
 
 ---
 
+
+## iptables
+
+⚠️ TO DO ⚠️
+
+---
+
+
+## nftables
+
+⚠️ TO DO ⚠️
+
+---
+
+
+## ufw
+
+⚠️ TO DO ⚠️
+
+---
+
+
+## firewall-cmd
+
+⚠️ TO DO ⚠️
+
+---
+
 ## PowerShell
 
 Networking commands available to PowerShell, including both Windows and Linux versions.

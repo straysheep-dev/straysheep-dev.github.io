@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 date:
   created: 2025-06-15
   updated: 2025-06-23
@@ -17,32 +17,35 @@ Creating static binaries easily, repeatably, and on your own.
 
 <!-- more -->
 
-Each section was origionally part of other notes taken over the last few years. Eventually static builds came up again, recently with [pspy](https://github.com/DominicBreuker/pspy), just to understand golang better. This is an effort to centralize all of these notes for public reference.
+Each section was originally part of other notes taken over the last few years. Initially these were put together to build static binaries when competing in a live cyber attack-defense event, where systems are already assumed to be compromised in some way. Bringing your own static binaries along with [uac](https://github.com/tclahr/uac) is a really effective IR technique.
+
+Eventually static builds came up again, recently with [pspy](https://github.com/DominicBreuker/pspy), just to understand golang and using Docker to build software. This is an effort to centralize all of these notes for public reference.
 
 !!! question "Why?"
 
-    The first time ever using [naabu](https://github.com/projectdiscovery/naabu) and seeing how it could work after being moved to other systems, was what prompted taking the notes in this post. It's also a great way to learn more about reviewing and modifying code.
+    The first time ever using [naabu](https://github.com/projectdiscovery/naabu) and seeing how it could work after being moved to other systems, was what prompted creating the notes in this post. It's also a great way to learn more about reviewing and modifying code.
 
-    **1)** Binaries linked to shared libraries will often only run on the system(s) they were compiled on. Static binaries bake in those dependencies and have a level of portability to them.
-
-    **2)** Static binaries of common tools are often most useful for pivoting, where you have shell access to a system and you need the capability to do something locally without compiling anything on the target.
-
-    **3)** Customization and signature evasion
-
-    **4)** Compiling for other architectures and systems
-
-    **5)** Most importantly, to trust the tool. Pull the source directly from the Linux repositories which already have to be trusted to some degree. Almost none of those projects release static binaries by default, and this is easier than reverse engineering existing unofficial binaries from third-parties.
+    1. Binaries linked to shared libraries will often only run on the system(s) they were compiled on. Static binaries bake in those dependencies and have a level of portability to them.
+    2. Static binaries of common tools are often most useful for pivoting, where you have shell access to a system and you need the capability to do something local to that machine without the ability to compile anything on it.
+    3. Customization and signature evasion
+    4. Compiling for other architectures and systems
+    5. Most importantly, to trust the tool. For some tools, you can pull the source directly from the Linux repositories which already have to be trusted to some degree. Almost none of those projects release static binaries by default, and this is easier than reverse engineering existing unofficial binaries from third-parties if any exist.
 
 ## :octicons-play-16: Getting Started
 
+!!! warning "Work in Progress"
+
+    The notes in this post as of right now are close to their original state, and need to be updated to use musl and Docker in the build process.
+
 These resources are necessary starting points to succeed here.
 
-- [Docker](https://docs.docker.com/)
+- [musl-libc](https://musl.libc.org/)
 - [andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 - [How to compile a static binary](https://stackoverflow.com/questions/983515/how-to-statically-link-a-complex-program#983604)
+- [Docker](https://docs.docker.com/)
 - [Kali Linux Source Repos](https://www.kali.org/docs/general-use/kali-linux-sources-list-repositories/#source-repositories)
 
-The [andrew-d/static-binaries](https://github.com/andrew-d/static-binaries) repository has a great approach that's fairly easy to understand and learn from. Familiarity with docker, CICD, and devops in general also helps; a lot of modern projects will include a dockerfile among other build tools to help you compile things from source. Part of the purpose of this post is to help unwind and determine how these are working, to modify and use them, and ultimately build our own.
+The [andrew-d/static-binaries](https://github.com/andrew-d/static-binaries) repository has a great approach that's fairly easy to understand and learn from. Familiarity with docker, CICD, and devops in general also helps; a lot of modern projects will include a [dockerfile](https://docs.docker.com/reference/dockerfile/) among other build tools to help you compile things from source. Part of the purpose of this post is to help unwind and determine how these are working, to modify and use them, and ultimately build our own.
 
 **Using makefiles :material-wrench-cog-outline:**
 
@@ -56,7 +59,19 @@ make clean  # Revert project directory to state before running make, great if yo
 
 !!! tip "Handling Compile Errors"
 
-    When handling errors note which header file, or library, is causing the error(s) and if it requires different dependancies or if something specific in the configuration of the build needs changed.
+    When handling errors note:
+
+    - Which header file, or library, is causing the error(s)
+    - Does it require different dependancies
+    - Does something specific in the configuration of the build need to be changed
+
+**musl-libc :material-wrench-cog-outline:**
+
+!!! note "What uses musl?"
+
+    In addition to the andrew-d/static-binaries project, [threathunters-io/laurel](https://github.com/threathunters-io/laurel) also uses musl to build static binaries for laurel.
+
+⚠️ TO DO ⚠️
 
 
 ## :simple-openssl: openssl
@@ -79,8 +94,8 @@ These are the main resources we'll need for reference to build OpenSSL:
 - [openssl-library.org](https://openssl-library.org/) / [github.com/openssl/openssl](https://github.com/openssl/openssl)
 - [Compilation Options](https://wiki.openssl.org/index.php/Compilation_and_Installation#Configure_Options)
 - [andrew-d/static-binaries Example for Compiling nmap](https://github.com/andrew-d/static-binaries/blob/master/nmap/build.sh)
-- [PGP Signing Key Information](https://openssl-library.org/source/)
-- [PGP Signing Keys](https://openssl-library.org/source/pubkeys.asc)
+- [OpenSSL PGP Signing Key Information](https://openssl-library.org/source/)
+- [OpenSSL PGP Signing Keys](https://openssl-library.org/source/pubkeys.asc)
 
 !!! note "Where to download from?"
 
@@ -150,7 +165,7 @@ wget "https://nmap.org/dist/nmap-${nmap_version}.tar.bz2"
 wget "https://nmap.org/dist/sigs/nmap-${nmap_version}.tar.bz2.asc"
 wget "https://nmap.org/dist/sigs/nmap-${nmap_version}.tar.bz2.digest.txt"
 
-# If you don't already have nmap's signing key, you'll see the abbreviated signature you can use to obtain it with
+# If you don't already have nmap's signing key, you'll see the abbreviated signature you can use to obtain it
 # Check these places to verify the signature fingerprint:
 # https://nmap.org/book/install.html#inst-integrity
 # https://svn.nmap.org/nmap/docs/nmap_gpgkeys.txt
@@ -176,6 +191,19 @@ gpg --print-md sha256 "nmap-${nmap_version}.tar.bz2"
 
 *This may not work, try obtaining nmap from nmap.org if it fails.*
 
+!!! tip "Instructions in Kali"
+
+    Interestingly, as of Kali in 2025 and possibly earlier, you'll get a message for some packages when downloading the source code via `apt`:
+
+    ```bash
+    $ apt source nmap
+    NOTICE: 'nmap' packaging is maintained in the 'Git' version control system at:
+    https://gitlab.com/kalilinux/packages/nmap.git
+    Please use:
+    git clone https://gitlab.com/kalilinux/packages/nmap.git
+    to retrieve the latest (possibly unreleased) updates to the package.
+    ```
+
 ```bash
 # Add the source repo in Kali, adjust this based on the Linux distro
 echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list
@@ -195,7 +223,7 @@ cat "nmap_${nmap_version}+dfsg1-1kali1.dsc" # Take the signature for the archive
 sha256sum nmap_<version>.tar.xz | grep <sha256sum>
 ```
 
-Prepare and compile nmap, you may need to run `./configure` twice how it's shown below:
+Prepare and compile nmap:
 
 ```bash
 # If you obtained it from apt:
@@ -209,8 +237,7 @@ cd "nmap-${nmap_version}"
 sed -i -e 's/shared\: /shared\: #/' libpcap/Makefile
 
 ./configure --help # See the configuration options
-./configure # Here you may need to include "--with-liblua=included" if you're getting "nse_main.h error: 'lua_State' has not been declared"
-./configure LDFLAGS=-static --with-liblua=included --with-openssl=../${openssl_version} --with-pcap=linux --without-ndiff --without-zenmap --withou-nmap-update
+./configure LDFLAGS=-static --with-liblua=included --with-openssl=../openssl-${openssl_version} --with-pcap=linux --without-ndiff --without-zenmap --withou-nmap-update
 make -j4
 ```
 
@@ -225,7 +252,7 @@ make clean
 
 - [Debian Package](https://packages.debian.org/bookworm/socat)
 - [Kali Linux Source Repos](https://www.kali.org/docs/general-use/kali-linux-sources-list-repositories/#source-repositories)
-- [Static Binary Build](https://stackoverflow.com/questions/983515/how-to-statically-link-a-complex-program#983604)
+- [How to compile a static binary](https://stackoverflow.com/questions/983515/how-to-statically-link-a-complex-program#983604)
 
 Add the Kali source repo:
 
@@ -270,5 +297,15 @@ After some errors and warnings, you'll have a static `socat` binary for transfer
 
 - [github.com/DominicBreuker/pspy](https://github.com/DominicBreuker/pspy)
 - [kali.org/tools/pspy](https://www.kali.org/tools/pspy/)
+
+⚠️ TO DO ⚠️
+
+
+## :fontawesome-solid-bug-slash: yara
+
+⚠️ TO DO ⚠️
+
+
+## :octicons-terminal-16: busybox
 
 ⚠️ TO DO ⚠️
