@@ -295,8 +295,59 @@ After some errors and warnings, you'll have a static `socat` binary for transfer
 
 ## :fontawesome-solid-magnifying-glass-chart: pspy
 
+!!! quote ""
+
+    pspy is a command line tool designed to snoop on processes without need for root permissions. It allows you to see commands run by other users, cron jobs, etc. as they execute. Great for enumeration of Linux systems in CTFs. Also great to demonstrate your colleagues why passing secrets as arguments on the command line is a bad idea.
+
+    The tool gathers the info from procfs scans. Inotify watchers placed on selected parts of the file system trigger these scans to catch short-lived processes.
+
 - [github.com/DominicBreuker/pspy](https://github.com/DominicBreuker/pspy)
 - [kali.org/tools/pspy](https://www.kali.org/tools/pspy/)
+- [gitlab.com/kalilinux/pspy](https://gitlab.com/kalilinux/packages/pspy)
+
+Go uses [go.mod to version-pin dependencies](https://go.dev/doc/modules/gomod-ref). The [go.sum file is the cryptographic signature of each dependency, which is also mirrored in a global signature database hosted by Google](https://go.dev/ref/mod#checksum-database). This should help with understanding how dependencies can be verified.
+
+The [build instructions in the README](https://github.com/DominicBreuker/pspy/blob/master/README.md#build) don't seem to be current, as there is no `build-buid-image` in the Makefile. Instead, [line 44 is what builds the "build" container, and it's commented out](https://github.com/DominicBreuker/pspy/blob/f9e6a1590a4312b9faa093d8dc84e19567977a6d/Makefile#L44). We can change the variables to work with bash, and create the build container:
+
+```bash
+# Clone the Kali fork, or the upstream source on GitHub if you prefer
+git clone git@github.com:DominicBreuker/pspy.git pspy-github
+git clone git@gitlab.com:kalilinux/packages/pspy.git pspy-gitlab
+cd pspy-gitlab/
+
+# Build the build image, you have to run this manually, it's commented out in the Makefile
+BUILD_IMAGE='local/pspy-build:latest'
+BUILD_DOCKERFILE="docker/Dockerfile.build"
+docker build -f "$BUILD_DOCKERFILE" -t "$BUILD_IMAGE" .
+
+# Build all 4 binaries
+make build
+```
+
+Now if we want to [build binaries to work on arm](https://github.com/DominicBreuker/pspy/issues/23), it's very easy to do so by duplicating one of the build sections, and setting `GOARCH=arm64` or `GOARM=5 GOARCH=arm`.
+
+!!! tip "Go and ARM"
+
+    <https://go.dev/wiki/GoArm>
+
+    > Go is fully supported on Linux and Darwin. Any Go program that you can compile for x86/x86_64 should work on Arm. Besides Linux and Darwin, Go is also experimentally supported on FreeBSD, OpenBSD and NetBSD.
+
+With that in mind, here's a section that was copied to swap out amd64 for arm64, while also renaming the output file to `bin/pspy64a`:
+
+```make
+docker run -it \
+            --rm \
+            -v $(PROJECT_DIR):/go/src/github.com/dominicbreuker/pspy \
+            -w "/go/src/github.com/dominicbreuker/pspy" \
+            --env CGO_ENABLED=0 \
+            --env GOOS=linux \
+            --env GOARCH=arm64 \
+            $(BUILD_IMAGE) /bin/sh -c "go build -a -ldflags '-s -w -X main.version=${VERSION} -X main.commit=${BUILD_SHA} -extldflags \"-static\"' -o bin/pspy64a main.go"
+```
+
+Add this to the Makefile, and run `make build` to compile a static arm64 binary in addition to the others.
+
+
 
 ⚠️ TO DO ⚠️
 
