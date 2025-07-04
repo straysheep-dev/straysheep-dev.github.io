@@ -345,6 +345,34 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     uid   Ubuntu CD Image Automatic Signing Key (2012) <cdimage@ubuntu.com>
     ```
 
+	**Ubuntu Pro and ESM (Extended Security Maintenance)**
+
+	[Ubuntu Pro](https://documentation.ubuntu.com/pro/) is free for personal use, and for up to 5 devices. It provides access to [STIG and CIS configuraton automation and auditing](https://documentation.ubuntu.com/security/docs/compliance/), [live-patching the kernel without a need to reboot](https://documentation.ubuntu.com/security/docs/scripts/features/#kernel-livepatches), and [extended security maintenance](https://documentation.ubuntu.com/security/docs/security-updates/esm/) on older distros and packages.
+
+	Something to be aware of is [the ESM repos are pinned with a slightly higher priority; `510`](https://documentation.ubuntu.com/security/docs/security-updates/esm/#repository-pinning). If you're installing a tool from a third-party repo that also exists in the ESM repo, like the GitHub CLI tool (`gh`), you may find the ESM version gets installed by default. You'll need to set a higher priority for these packages if you want to use a third-party apt repo instead.
+
+	**Open Kernel NVIDA Drivers & Wayland**
+
+	- [github.com/NVIDIA/open-gpu-kernel-modules](https://github.com/NVIDIA/open-gpu-kernel-modules)
+
+	[In 2022 NVIDIA moved to GPL/MIT open-sourced kernel drivers on Linux](https://developer.nvidia.com/blog/nvidia-releases-open-source-gpu-kernel-modules/). This is important to note if you're ever experiencing performance issues with the fully proprietary drivers. For example, one issue recently encountered was moving to Wayland on a host with an NVIDIA GPU. The performance was very rough compared to X11, which led to a few questions.
+
+	NOTE: ChatGPT o3 put together an initial set of suggestions and ideas to resolve performance issues with Wayland on an Ubuntu desktop running an NVIDIA GPU. Something that stood out was trying the open-kernel drivers for NVIDIA. The following references stemmed from this conversation:
+
+	- [NVIDIA Developer Forum Post: Wayland vs X11 Performance](https://forums.developer.nvidia.com/t/wayland-information-for-r555-beta-release/214275)
+	- [NVIDIA Linux Driver 560.28.03 Release Details: Prefer Open-kernel by Default](https://www.nvidia.com/en-us/drivers/details/230225/)
+	- [Ubuntu 24.10 Release Notes: Wayland is the Default for NVIDIA GPUs](https://discourse.ubuntu.com/t/oracular-oriole-release-notes/44878)
+		- [Some NVIDIA desktops perform worse in Wayland sessions than Xorg (LP#2081140)](https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-560/+bug/2081140)
+	- [github.com/NVIDIA/open-gpu-kernel-modules/issues?q=Wayland](https://github.com/NVIDIA/open-gpu-kernel-modules/issues?q=Wayland)
+
+	Ultimately the order of operations for debugging performance issues on NVIDIA desktops seems to be this;
+
+	- Update your system and Kernel
+	- Update your NVIDIA drivers to the latest tested open kernel modules
+	- Confirm the performance issues are only present on Wayland and not Xorg
+	- Review Ubuntu and NVIDIA driver release notes for any warnings
+	- Review the NVIDIA open-gpu-kernel-modules repo for any issues or warnings
+
 ??? tip ":simple-raspberrypi: Raspberry Pi OS"
 
 	> Raspberry Pi needs an operating system to work. This is it. Raspberry Pi OS (previously called Raspbian) is our official supported operating system.
