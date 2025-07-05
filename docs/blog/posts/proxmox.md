@@ -174,16 +174,187 @@ modprobe nfnetlink_queue
 
 ### ⌨️ Users
 
-To see all system users:
+To see all system users: Datacenter > Permissions > Users
 
-Datacenter > Permissions > Users
+User details for the PVE realm are defined on the filesystem under `/etc/pve/user.cfg` (note that passwords are under `/etc/pve/priv/shadow.cfg`).
 
-User details are defined on the filesystem under `/etc/pve/user.cfg` (note that passwords are under `/etc/pve/priv/shadow.cfg`).
+Users in the PAM realm are still stored under `/etc/passwd`,`shadow` and the usual system paths.
 
 - 🌐 [Proxmox VE User Management](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_users)
 - 🌐 [Proxmox VE User Management: Examples](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples)
 
+
+### 📇 Groups
+
+To see, create, and modify groups: Datacenter > Permissions > Groups
+
+These are effectively user defined, based on what your needs are. Groups are a way to tie multiple users to one or more permission sets.
+
+- 🌐 [Proxmox VE Groups](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_groups)
+
+Proxmox has a built-in set of permission "roles" that you can get started with. These are covered [below](#permissions).
+
+
+### 📚 Realms
+
+Proxmox understands two authentication "realms", which are "pve" and "pam".
+
+!!! tip "PVE & PAM Realms are Two Separate Things"
+
+	- **PVE**: Authentication and permissions tied directly to Proxmox-specific functionality (GUI/API)
+		- A user created in the PVE realm doesn't necessarily have direct Linux shell access outside of the Proxmox GUI/API
+	- **PAM**: Authentication to, and controlled by, the underlying OS (for shell or SSH access)
+		- PAM can still be used as an auth realm via the GUI
+		- In other words, a PAM account can be expanded to have GUI/API access, but a PVE account must have a separate PAM account for shell access
+
+!!! note "Testing User Access"
+
+	You can try and verify how this works by creating users however you'd like, and seeing what level of access they have to the UI, API, and console / SSH, one step at a time. This is the best way to visualize and understand what's required and what the authentication mechanisms expect.
+
+!!! example "Users and Realms Examples"
+
+	- A user created in the web UI, under the PAM realm, doesn't have a shell account automatically; you must create this
+	- There isn't even a way to set a password like this either; the expectation is the user account already exists on the OS underneath
+	- A user created via a utility like `useradd` from the shell, does not automatically have an account in the web UI
+	- In this case, create your user with `useradd`, then create them in the web UI tied to the PAM realm, and you can login to the web UI with that user
+	- Similarly you must create a shell account for a web UI user that you'd like to have shell access, say a unique admin account
+	- Users can even have the `Sys.Console` permission in Proxmox, but won't be able to use the shell or SSH unless they know a valid login to the OS underneath
+
+**Example Continued :material-wrench-cog-outline:**
+
+Here we're using the Proxmox utility `pveum user add` to create a user in the Proxmox "side" of the system, but tie their authenticaiton to PAM:
+
+```bas
+root@pve:~# pveversion
+pve-manager/8.4.1/2a5fa54a8503f96d (running kernel: 6.8.12-11-pve)
+root@pve:~#
+root@pve:~# pveum user add testuser@pam
+root@pve:~#
+root@pve:~# pveum user list
+┌──────────────┬─────────────────────────────────┬────────────────┬────────┬────────┬───────────┬────────┬──────┬──────────┬────────────┬──────────────────┬──
+│ userid       │ comment                         │ email          │ enable │ expire │ firstname │ groups │ keys │ lastname │ realm-type │ tfa-locked-until │ t
+╞══════════════╪═════════════════════════════════╪════════════════╪════════╪════════╪═══════════╪════════╪══════╪══════════╪════════════╪══════════════════╪══
+│ admin@pve    │ Standard administrative user.   │                │ 1      │      0 │           │        │      │          │ pve        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ builder@pam  │ User to build packer templates. │                │ 0      │      0 │           │        │      │          │ pam        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ root@pam     │                                 │ root@localhost │ 1      │      0 │           │        │      │          │ pam        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ testuser@pam │                                 │                │ 1      │      0 │           │        │      │          │ pam        │                  │
+└──────────────┴─────────────────────────────────┴────────────────┴────────┴────────┴───────────┴────────┴──────┴──────────┴────────────┴──────────────────┴──
+root@pve:~#
+```
+
+We can see even though we created this user in Proxmox, they don't really exist (yet):
+
+```bash
+root@pve:~# su testuser
+su: user testuser does not exist or the user entry does not contain all the required fields
+root@pve:~#
+root@pve:~#
+root@pve:~# pveum passwd testuser@pam
+Enter new password: ************************************
+Retype new password: ************************************
+change password failed: user 'testuser' does not exist
+```
+
+Once they've been added to the underlying OS, we can both, run as this user via a shell, AND login to Proxmox's web UI or API with them since it's aware of, and accepting, their authentication through PAM:
+
+```bash
+root@pve:~# useradd -m -s /bin/bash testuser
+root@pve:~# passwd testuser
+root@pve:~#
+root@pve:~# su testuser
+testuser@pve:/root$ cd ~
+testuser@pve:~$ pwd
+/home/testuser
+testuser@pve:~$ id
+uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+```
+
+!!! note "Setting Passwords"
+
+	Interestingly, both `passwd user` and `pveum passwd user@pam` can manage a shell user's login password, once they exist under PAM.
+
+Finally, you'll need to scope each user their permissions, either individually, or by giving permissions to a group and tying user(s) to groups, which is the recommended way to manage permissions at scale.
+
+
+### 🪪 Permissions
+
+See, create, and modify permission assignments: Datacenter > Permissions
+
+- 🌐 [Proxmox VE Permission Management: List of Permissions](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_permission_management)
+
+That link lists out all predefined permission sets and what they do. The most useful if you're just getting started:
+
+- `Administrator`: has full privileges
+- `PVEVMAdmin`: fully administer VMs
+- `PVESysAdmin`: audit, system console and system logs
+- `PVEVMUser`: view, backup, configure CD-ROM, VM console, VM power management
+
+
+#### 📦 Packer User Example
+
+[Mayfly277](https://github.com/Mayfly277), one of the contributers to [Game of AD](https://github.com/Orange-Cyberdefense/GOAD), has a [blog post on creating a separate user account in Proxmox to build packer VM's](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/).
+
+Using these steps as a reference, we can create a more "generic" user and group scope using the built-in permissions and roles tied to groups, then modify them from there if needed.
+
+!!! example "Creating Administrators and DevOps Groups + Permissions"
+
+	This walks through creating a dedicated Administrators group to not rely on the root account, and a DevOps group for packer use.
+
+	- Datacenter > Permissions > Groups: Create "Administrators" and "DevOps" groups
+	- Datacenter > Permissions: Add > Group Permission
+		- Path: `/`
+		- Group: Administrators
+		- Role: Administrator
+		- Propagate: ✅
+	- Datacenter > Permissions: Add > Group Permission
+		- Path: `/`
+		- Group: DevOps
+		- Role: PVEVMAdmin
+		- Propagate: ✅
+	- Datacenter > Permissions: Add > Group Permission
+		- Path: `/`
+		- Group: DevOps
+		- Role: PVESysAdmin
+		- Propagate: ✅
+	- Datacenter > Permissions > Users: Edit User > Assign groups from the drop-down menu
+
+	[You can do the same using the `pveum` command line utility](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples):
+
+	```bash
+	# Define the groups
+	pveum group add Administrators -comment "System Administrators"
+	pveum group add DevOps -comment "Infrastructure-as-code Users"
+	# Define the roles
+	pveum acl modify / -group Administrators -role Administrator
+	pveum acl modify / -group DevOps -role PVEVMAdmin
+	pveum acl modify / -group DevOps -role PVESysAdmin
+	# Assign users, assumes these users exist in PAM
+	pveum user modify admin@pam -group Administrators
+	pveum user modify builder@pam -group DevOps
+	```
+
+!!! tip "Permissions Scopes and Privilege Escalation"
+
+	These permissions could be locked down further, however in the example above we give the `builder` user `Sys.Console` access.
+
+	Effectively you have sudo-less console access despite the scope for the permission path itself being `/`.
+
+	- You cannot run any `pve*` binaries, or update apt packages
+	- You cannot read files you do not have access to read
+	- There's no `sudo` by default
+
+	You'll need something like a kernel exploit, misconfiguration in scheduled tasks, the filesystem, or services, a secret being visible in process memory with pspy, or a unique attack path on your local Proxmox configuration to "break out" of this shell context and have higher privileges.
+
+	There are likely other methods not listed above, and this isn't even taking into account attacking Proxmox via the UI or API. The point is, it's not a perfect sandbox, but it's better than running devops workflows as the root account.
+
+	To properly audit unique admin users, you'll need to install `sudo` and configure each admin user that requires sudo access.
+
+
 ---
+
 
 ### 💾 Disk Encryption
 
