@@ -599,6 +599,37 @@ channels_6g = [<list-of-channels>]
 After making these adjustments, `sudo systemctl restart nzyme-tap` should result in a successful run.
 
 
+## Updating nzyme
+
+The [GitHub releases page](https://go.nzyme.org/downloads) (which points to <https://github.com/nzymedefense/nzyme/releases>) always has the latest update instructions for each verison.
+
+!!! important "Update Process"
+
+	Generally, you want to upgrade your **node first, then all your taps**.
+
+To upgrade an **nzyme-node**:
+
+```bash
+# As of 2.0.0-alpha.16
+sudo systemctl stop nzyme
+wget <release-link>
+sudo dpkg -i nzyme-node_[version].deb
+sudo nzyme --migrate-database
+sudo systemctl daemon-reload
+sudo systemctl start nzyme
+```
+
+To upgrade an **nzyme-tap**:
+
+```bash
+sudo systemctl stop nzyme-tap
+wget <release-link>
+sudo dpkg -i nzyme-tap_[version].deb
+sudo systemctl daemon-reload
+sudo systemctl start nzyme-tap
+```
+
+
 ## Bluetooth Monitoring
 
 Follow the documentation [here](https://docs.nzyme.org/bluetooth/). You're obtaining your bluetooth interface information with `hciconfig` similar to `ifconfig`. Ensure any bluetooth interfaces you want monitoring have their own block in `/etc/nzyme/nzyme-tap.conf`, same as each wireless interface.
@@ -646,6 +677,68 @@ To enable bluetooth at the Tenant level:
 - Under "Tenants" click on your Tenant (Often "Default Tenant")
 - Choose "Edit Tenant" on the top right
 - Here you'll see a subsystem settings pane where you can enable bluetooth
+
+
+## Trilateration
+
+WiFi trilateration is described [here](https://docs.nzyme.org/wifi/trilateration/). This allows you to visualize where wireless signals are appearing within a custom floorplan. You will need to create and upload the image file for the floorplan first.
+
+Some useful points if you're lost:
+
+**Creating the Floorplan**
+
+Both [inkscape](https://inkscape.org) and [GIMP](https://www.gimp.org/) are easy to install and effective at creating a basic floorplan quickly.
+
+You can do so using one of the sandboxed packaging frameworks:
+
+```bash
+# If you use snap
+sudo snap install inkscape
+
+# If you use flatpak
+flatpak install --user https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref
+```
+
+!!! tip "AI Usage"
+
+	It's also easy enough for any of the AI tools to create a floorplan mock-up to use.
+
+
+**Uploading a Floorplan**
+
+- System/Authentication & Authorization/Organizations/Your Organization/Tenants/Your Tenant
+- Choose "Locations"
+- Create location
+- Create a floor
+- Upload the floorpan image file
+
+**Assign Taps**
+
+- System/Authentication & Authorization/Organizations/Your Organization/Tenants/Your Tenant
+- Choose "Taps"
+- Select a tap, and set the location
+
+**Place Taps**
+
+- System/Authentication & Authorization/Organizations/Your Organization/Tenants/Your Tenant
+- Locations
+- Your location
+- Floors
+- Your floor
+- Drag and drop the taps around the floorplan
+- Save and exit
+
+!!! question "Where are the maps?"
+
+	To see the trilateration maps, you must go into the details of an AP or a client. Scroll down to see the new "Physical Location / Trilateration" section.
+
+!!! tip "Bug when rendering trilateration maps"
+
+	You may find after enabling this feature, the detailed information page for BSSID's (where the trilateration map will show) fails to load, or will load to a blank page.
+
+	This is being tracked under [Errors displaying BSSID Details page #1257](https://github.com/nzymedefense/nzyme/issues/1257).
+
+	A work-around (as of the time of writing this) is to change the global filter at the top, so instead of "All Taps", only select the view from one tap, apply, and the pages should render again. If not, try refreshing and waiting for a 30-60 seconds.
 
 
 ## Going Forward
