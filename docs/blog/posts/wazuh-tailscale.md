@@ -2,6 +2,7 @@
 draft: false
 date:
   created: 2024-08-13
+  updated: 2025-06-15
 categories:
   - wazuh
   - edr
