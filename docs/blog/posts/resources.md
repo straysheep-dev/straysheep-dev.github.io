@@ -620,6 +620,18 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.qemu.org/documentation/>
 	- <https://gitlab.com/qemu-project/qemu>
 
+??? example "oVirt"
+
+	> oVirt is an open-source distributed virtualization solution, designed to manage your entire enterprise infrastructure. oVirt uses the trusted KVM hypervisor and is built upon several other community projects, including libvirt, PatternFly, and Ansible.
+	>
+	> - Rich web-based user interfaces for both admin and non-admin users
+	> - Integrated management of hosts, storage, and network configuration
+	> - Live migration of virtual machines and disks between hosts and storage
+	> - High availability of virtual machines in the event of host failure
+
+	- <https://www.ovirt.org/>
+	- <https://github.com/oVirt>
+
 
 ## :octicons-beaker-16: Labs & Simulations
 
