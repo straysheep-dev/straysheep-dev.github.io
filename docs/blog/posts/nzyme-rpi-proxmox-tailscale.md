@@ -630,6 +630,49 @@ sudo systemctl start nzyme-tap
 ```
 
 
+## Configuring nzyme
+
+!!! tip "Resources Available"
+
+	It can't be overstated how useful the [documentation](https://docs.nzyme.org/), [community forums](https://github.com/nzymedefense/nzyme/discussions), ***and*** the [Discord Server](https://discord.gg/9W2tVtXUny) are to search through for reference, as the platform grows and develops over time.
+
+	There's also [nzyme Connect](https://connect.nzyme.org/), which is the free API to enrich your data with the following:
+
+	- MAC address vendor (OUI) information
+	- Bluetooth vendor and device information
+	- GeoIP and ASN information. (Powered by IPinfo.io)
+	- UAV (Unmanned Aerial Vehicle) model and classification information
+
+	This API isn't enabled by default, and you need an account. nzyme doesn't collect any unique information. [You can even inspect the code your local nzyme nodes are using the talk to the API](https://connect.nzyme.org/faq). The API data is incredibly useful, especially for Bluetooth monitoring.
+
+
+## WiFi Monitoring
+
+The value of this system comes from taking a few days to really configure monitoring for your location.
+
+!!! tip ""
+
+	This is done by **defining your own assets first**, starting with AP's, followed by clients. Then, **observing what's "normal" for your local wireless traffic**. In other words, neighboring devices and networks.
+
+All of this is detailed [here](https://docs.nzyme.org/wifi/monitoring/network-monitoring/), but it can be overwhelming initially based on the amount of alerts and data. The best way I have found to sort through the initial configuration:
+
+- The majority of what you do will be under WiFi > Monitoring
+	- **Add the SSIDs of your own devices** to monitor under "**Monitored Networks**"
+	- Once you're under WiFi/Monitoring/Monitored Networks/Your Network, you can configure **Alert Status** and more
+	- Enable all alert types that make sense, if you have dynamic channel hopping configured, "Expected Channels" won't be useful
+	- You can use the "**Configure**" column to define things like **Allowed Clients**
+	- Define the BSSID (MAC) of your AP
+	- Define the cipher suites (pull those from the AP's info under WiFi > Access Points > `${MAC}` > SSIDs > `${SSID}`)
+	- Define the fingerprint, which is a hash of the device's unique details (the alert and the BSSID pages will have this)
+
+From here you'll want to continue reviewing Alerts > Overview and ensure you're not seeing any for your own AP's anymore. If there are any, work on those first.
+
+- Check WiFi > Monitoring > SSIDs, "**approve**" your own assets, "**ignore**" any you see consistently **and know about** that aren't yours
+- Check if WiFi > Monitoring > Monitored Networks shows all green (OK) under Status
+
+This should limit the types of alerts you're seeing once all assets are defined in nzyme. This is an ideal starting point.
+
+
 ## Bluetooth Monitoring
 
 Follow the documentation [here](https://docs.nzyme.org/bluetooth/). You're obtaining your bluetooth interface information with `hciconfig` similar to `ifconfig`. Ensure any bluetooth interfaces you want monitoring have their own block in `/etc/nzyme/nzyme-tap.conf`, same as each wireless interface.
