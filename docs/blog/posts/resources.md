@@ -979,6 +979,74 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://developer.hashicorp.com/terraform>
 
 
+### :simple-python: Python
+
+!!! abstract "Overview, Install, and Usage"
+
+	- [https://www.python.org/](https://www.python.org/)
+	- [Documentation](https://docs.python.org/)
+	- [What is Python?](https://docs.python.org/3/faq/general.html#what-is-python)
+
+	> Python is an interpreted, interactive, object-oriented programming language. It incorporates modules, exceptions, dynamic typing, very high level dynamic data types, and classes. It supports multiple programming paradigms beyond object-oriented programming, such as procedural and functional programming. Python combines remarkable power with very clear syntax. It has interfaces to many system calls and libraries, as well as to various window systems, and is extensible in C or C++. It is also usable as an extension language for applications that need a programmable interface. Finally, Python is portable: it runs on many Unix variants including Linux and macOS, and on Windows.
+
+	**Installing Python**
+
+	- [python.org: Windows Binaries](https://www.python.org/downloads/windows/)
+	- [python.org: GPG Signing Keys](https://www.python.org/downloads/)
+
+	**Verifying PGP Signatures**
+
+	Windows binaries are already signed and can be reviewed with [sigcheck.exe](https://learn.microsoft.com/en-us/sysinternals/downloads/sigcheck), however you can also use GPG to verify the detached signature. You'll use [Steve Dower's PGP key](https://keybase.io/stevedower/pgp_keys.asc?fingerprint=7ed10b6531d7c8e1bc296021fc624643487034e5) to verify Windows binaries.
+
+	```txt
+	pub   rsa4096/0xFC624643487034E5 2015-04-06 [SC]
+		Key fingerprint = 7ED1 0B65 31D7 C8E1 BC29  6021 FC62 4643 4870 34E5
+	uid                             Steve Dower (Python Release Signing) <steve.dower@microsoft.com>
+	sub   rsa4096/0xE314D10907F87583 2015-04-06 [E]
+	```
+
+??? example ":simple-python: pip"
+
+	- [Installing pip](https://pip.pypa.io/en/stable/installing/)
+	- [python.org: Installing pip Using Package Managers](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#installing-pip-setuptools-wheel-with-linux-package-managers)
+	- [python.org: Installing Packages via pip](https://packaging.python.org/en/latest/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line)
+	- [github.com/pypa](https://github.com/pypa)
+
+	Install using built in method (Not recommended on Ubuntu)
+
+	```bash
+	python3 -m ensurepip
+	```
+
+	Install from package managers (Recommended on Debian and Fedora OS's, the package is always named `python3-pip`):
+
+	```bash
+	# apt
+	sudo apt install python3-pip
+
+	# dnf
+	sudo dnf install python3-pip
+	```
+
+	*Why install from apt on Ubuntu?*
+
+	- [Ansible: Ensure pip is Available](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#ensuring-pip-is-available)
+	- [python.org: Installing Using Linux Tools](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/)
+	- [python.org: Installing Using Linux Tools (Debian/Ubuntu)](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#debian-ubuntu-and-derivatives)
+
+	> *ensurepip is disabled in Debian/Ubuntu for the system python.*
+
+??? abstract ":simple-python: PEP"
+
+	- [https://peps.python.org/](https://peps.python.org/)
+
+	> PEP stands for Python Enhancement Proposal. A PEP is a design document providing information to the Python community, or describing a new feature for Python or its processes or environment. The PEP should provide a concise technical specification of the feature and a rationale for the feature.
+	>
+	> We intend PEPs to be the primary mechanisms for proposing major new features, for collecting community input on an issue, and for documenting the design decisions that have gone into Python. The PEP author is responsible for building consensus within the community and documenting dissenting opinions.
+	>
+	> Because the PEPs are maintained as text files in a versioned repository, their revision history is the historical record of the feature proposal. This historical record is available by the normal git commands for retrieving older revisions, and can also be browsed on [GitHub](https://github.com/python/peps).
+
+
 ### :fontawesome-brands-golang: Go
 
 !!! abstract "Project source and install instructions"
