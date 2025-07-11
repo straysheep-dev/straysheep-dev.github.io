@@ -462,9 +462,24 @@ kvm -no-reboot -m 4096 -smp 4 \
 ```
 
 
-#### Blank GUI
+#### Blank GUI (Boot)
 
 This was discovered while [building Ubuntu desktop images with packer](https://github.com/straysheep-dev/packer-configs/tree/main/ubuntu-2204-desktop). On boot of a working disk image, sometimes you will just see a blank screen. Try hitting `Esc` a few times to cycle between the CLI view and the GUI view in the QEMU or virt-manager GUI window. This may reveal that the system is actually booting and functional, just waiting for you to login.
+
+
+#### Blank or Frozen GUI (VM Lockup)
+
+This was noticed when running Ubuntu 24.04 with Wayland, on both the guest and host. The lockup can require a full power cycle of the host, or just be temporary.
+
+The fix in that specific case was to update the host's graphics driver packages; specifically, to the new open-kernel drivers for Nvidia. In most cases this is a good set of steps to take before troubleshooting further: update all host packages, the firmware, and GPU drivers.
+
+During the initial search on this issue, Gemini and GPT o4-mini both started pointing to the `vgamem` value of the QXL video driver.
+
+- [ovirt.org: QXL and Video RAM](https://www.ovirt.org/develop/internal/video-ram.html)
+- [libvirt.org: Video Devices](https://libvirt.org/formatdomain.html#video-devices)
+- [launchpad.net: Frequent 15-sec guest freeze with Ubuntu 22.04 host and guest](https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-video-qxl/+bug/1972914)
+
+It's suggested that setting `vgamem="65536"`, or at least a higher value, in the XML config of the QXL video device in virt-manager provides enough video-ram to prevent this type of freeze.
 
 
 #### Networking
