@@ -367,7 +367,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Ultimately the order of operations for debugging performance issues on NVIDIA desktops seems to be this;
 
-	- Update your system and Kernel
+	- Update your system packages, firmware, and Kernel
 	- Update your NVIDIA drivers to the latest tested open kernel modules
 	- Confirm the performance issues are only present on Wayland and not Xorg
 	- Review Ubuntu and NVIDIA driver release notes for any warnings
