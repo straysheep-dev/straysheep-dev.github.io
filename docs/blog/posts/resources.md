@@ -805,6 +805,20 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ### :simple-git: Git
 
+??? example ".gitignore"
+
+	> Often, you'll have a class of files that you don't want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named `.gitignore`.
+
+	This repo has `.gitignore` templates for numerous languages and projects.
+
+	- <https://github.com/github/gitignore>
+
+	Take from the README of GitHub's gitignore repo:
+
+	> - The [Ignoring Files chapter](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) of the [Pro Git](https://git-scm.com/book) book.
+	> - The [Ignoring Files article](https://help.github.com/articles/ignoring-files) on the GitHub Help site.
+	> - The [gitignore(5)](https://git-scm.com/docs/gitignore) manual page.
+
 ??? example "Git Submodules"
 
 	Submodules allow you to integrate a separate project into another using git. The project included as a submodule becomes version pinned to the commit at the point-in-time it was integrated. It's effectively a nested git repo within what becomes your "superproject", and can be pulled + updated to stay in sync with the submodule's repo. This is easy to do and helps you avoid duplicating work by reusing existing code.
@@ -839,6 +853,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ### :simple-github: GitHub
 
+!!! abstract "Platform Information"
+
+	- [GitHub's SSH Key Fingerprints](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
+	- [GitHub's Public GPG Key: 9684 79A1 AFF9 27E3 7D1A 566B B569 0EEE BB95 2194](https://github.com/web-flow.gpg)
+
 ??? example ":octicons-terminal-16: gh cli"
 
 	> `gh` is GitHub on the command line. It brings pull requests, issues, and other GitHub concepts to the terminal next to where you are already working with git and your code.
@@ -854,6 +873,20 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	uid                             GitHub CLI <opensource+cli@github.com>
 	sub   rsa4096/0xE5FAF19590714157 2022-09-06 [E] [expires: 2026-09-05]
 	```
+
+??? example ":simple-githubactions: GitHub-hosted runners"
+
+	> GitHub offers hosted virtual machines to run workflows. The virtual machine contains an environment of tools, packages, and settings available for GitHub Actions to use.
+
+	Docker is one of the tools that is preinstalled on GitHub's hosted runners. The [runner-images](https://github.com/actions/runner-images?tab=readme-ov-file#available-images) repo linked below details all software available to each runner image.
+
+	- [GitHub: GitHub Hosted Runners](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners)
+	- [GitHub: Runner Images & Preinstalled Software](https://github.com/actions/runner-images?tab=readme-ov-file#available-images)
+	- [GitHub: Configure Working Path and Shell for CI](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/set-default-values-for-jobs)
+	- [github.com/actions/checkout](https://github.com/actions/checkout)
+	- [github.com/actions/setup-python](https://github.com/actions/setup-python)
+	- [github.com/actions/setup-go](https://github.com/actions/setup-go)
+	- [github.com/actions/setup-node](https://github.com/actions/setup-node)
 
 
 ### :material-ansible: Ansible
@@ -921,7 +954,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/pfsensible/core>
 
 
-#### :simple-docker: Docker
+### :simple-docker: Docker
 
 ??? example "setup-docker-action"
 
