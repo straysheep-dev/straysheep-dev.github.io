@@ -90,6 +90,8 @@ nav:
     - blog/index.md
     - Post: blog/posts/resources.md
     - Post: blog/posts/aide.md
+    - Post: blog/posts/ansible.md
+    - Post: blog/posts/ansible-molecule.md
     - Post: blog/posts/art-x-uac.md
     - Post: blog/posts/bind9.md
     - Post: blog/posts/bitwarden.md
