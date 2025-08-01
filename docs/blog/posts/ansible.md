@@ -11,7 +11,7 @@ categories:
   - cicd
 ---
 
-# Ansible
+# :simple-ansible: Ansible
 
 Getting started with Ansible. If you don't know what Ansible is or what it's used for:
 
