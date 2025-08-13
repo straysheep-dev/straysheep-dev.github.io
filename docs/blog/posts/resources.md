@@ -175,6 +175,19 @@ Information, compiled for easy reference.
 	> netsh trace stop
 	> ```
 
+??? example ":material-radio-tower: Meshtastic"
+
+	> Meshtastic is a project that lets you use inexpensive LoRa radios as a long range off-grid communicator for areas without reliable cellular service. These radios are great for hiking, skiing, paragliding - essentially any hobby where you don't have reliable internet access. Each member of the mesh can send and view text messages and enable optional GPS based location features. The radios automatically create a mesh to forward packets as needed, so everyone in the group can receive messages from even the furthest member. The radios will optionally work with your phone, but no phone is required.
+
+	These devices are becoming more and more popular, [firmware was even custom built for DEFCON](https://github.com/meshtastic/defcontastic). There's an excellent official app for mobile devices as well as a web client to interact with the mesh (send and receive messages).
+
+	- <https://meshtastic.org/>
+	- <https://github.com/meshtastic>
+
+	You can flash firmware and review all supported devices on the web:
+
+	- <https://flasher.meshtastic.org/>
+
 
 ## :material-note-text: Note Taking
 
