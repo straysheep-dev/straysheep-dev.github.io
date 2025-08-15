@@ -32,8 +32,8 @@ This post tries to fill in any blanks between what the documentation doesn't nee
 The links below are in the order to follow if you're just getting started with Molecule.
 
 - [github.com/ansible/molecule](https://github.com/ansible/molecule)
-- [Molecule: Customizing a Docker Image in Molecule](https://ansible.readthedocs.io/projects/molecule/guides/custom-image/?h=pre_build)
-- [Molecule: molecule.yml Configuration](https://ansible.readthedocs.io/projects/molecule/configuration/?h=depen#molecule.config.Config.dependency)
+- [Molecule: Customizing a Docker Image in Molecule](https://ansible.readthedocs.io/projects/molecule/guides/custom-image.html)
+- [Molecule: molecule.yml Configuration](https://ansible.readthedocs.io/projects/molecule/configuration.html)
 - [Ansible for DevOps: converge.yml Example](https://github.com/geerlingguy/ansible-for-devops/blob/master/molecule/molecule/default/converge.yml)
 - [github.com/geerlingguy/docker-fedora42-ansible Dockerfile](https://github.com/geerlingguy/docker-fedora42-ansible/blob/master/Dockerfile)
 - [github.com/geerlingguy/docker-rockylinux10-ansible Dockerfile](https://github.com/geerlingguy/docker-rockylinux10-ansible/blob/master/Dockerfile)
@@ -55,25 +55,42 @@ The links below are in the order to follow if you're just getting started with M
 
     Ideally, install `ansible-dev-tools` to have everything available to work with.
 
-Install ansible's dev tools and molecule:
+    Alternatively, you can use `pipx` with `inject` to ensure the virtual environment pipx creates for molecule has access to `docker` and `molecule-plugins[docker]`
 
-```bash
-# Install the dev tools if possible
-python3 -m pip install --user ansible-dev-tools
+Install Ansible's dev tools, Molecule, and the Docker Python SDK:
 
-# Minimally, install molecule, ansible, and any necessary container plugins
-python3 -m pip install --user molecule ansible ansible-lint "molecule-plugins[docker]"
-```
+=== "pip"
 
-If using Docker, install the docker python SDK for Docker as well as the Docker daemon itself:
+    ```bash
+    # Install the dev tools if possible
+    python3 -m pip install --user ansible-dev-tools
+
+    # Minimally, install molecule, ansible, and any necessary container plugins
+    python3 -m pip install --user molecule ansible ansible-lint "molecule-plugins[docker]"
+
+    # Install the docker python SDK
+    # https://github.com/docker/docker-py
+    python3 -m pip install --user docker
+    ```
+
+=== "pipx"
+
+    ```bash
+    # Install the latest version of pipx
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+
+    # Install each tool into an isolated environment with pipx
+    pipx install molecule ansible ansible-lint
+
+    # Inject the docker libraries into molecule's pipx environment
+    pipx inject molecule "molecule-plugins[docker]" docker
+    ```
+
+Finally, install Docker itself if you already haven't.
 
 - [Docker Install Instructions](https://docs.docker.com/engine/install/)
 - [Ansible Role to Install Docker](https://github.com/geerlingguy/ansible-role-docker)
-
-```bash
-# https://github.com/docker/docker-py
-python3 -m pip install --user docker
-```
 
 
 ## Creating a Scenario
@@ -232,6 +249,24 @@ Ultimately, if you need to exclude a task from idempotence tests, there's now a 
   tags:
     - molecule-idempotence-notest
 ```
+
+
+### systemd in Docker
+
+By default, Docker containers are minimal environments that do not have systemd out of the box in many cases.
+
+To achieve this, there are a few resources I've found that demonstrate this in an understandable way:
+
+- [Molecule Docs: systemd-container Guide](https://ansible.readthedocs.io/projects/molecule/guides/systemd-container.html)
+- [rockylinux's Docker image systemd Integration Notes](https://hub.docker.com/r/rockylinux/rockylinux#systemd-integration)
+- [geerlingguy's Docker role `converge.yml` file](https://github.com/geerlingguy/ansible-role-docker/blob/94b787389dd028d6397abf27dd7e996912e059de/molecule/default/converge.yml#L6)
+
+SELinux may add complexity in some case, but generally you're:
+
+- Sharing the host's `/sys/fs/cgroup` with the container
+- Run the container with `SYS_ADMIN` capabilities or `privileged` mode.
+- Installing systemd using the container OS's package manager
+- Running / starting systemd
 
 
 ## CI / CD Use
