@@ -762,6 +762,13 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - `/* SPDX-License-Identifier: MIT OR Apache-2.0 */`
 	> - `# SPDX-License-Identifier: GPL-2.0-or-later`
 
+??? example "shields.io Badges"
+
+	> Shields.io is a service for concise, consistent, and legible badges, which can easily be included in GitHub readmes or any other web page. The service supports dozens of continuous integration services, package registries, distributions, app stores, social networks, code coverage services, and code analysis services. It is used by some of the world's most popular open-source projects.
+
+	- <https://shields.io/>
+	- <https://github.com/badges/shields>
+
 ??? example "debos"
 
 	> debos is a tool to make the creation of various Debian-based OS images simpler. While most other tools focus on specific use-cases, debos is designed to be a toolchain making common actions trivial while providing enough rope to do whatever tweaking which might be required behind the scenes.
@@ -968,6 +975,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 
 ### :simple-docker: Docker
+
+!!! example "Docker Hub"
+
+	> Docker Hub simplifies development with the world's largest container registry for storing, managing, and sharing Docker images. By integrating seamlessly with your tools, it enhances productivity and ensures reliable deployment, distribution, and access to containerized applications. It also provides developers with pre-built images and assets to speed up development workflows.
+
+	- <https://hub.docker.com/>
+	- <https://docs.docker.com/docker-hub/>
+	- [Official & Verified Images](https://hub.docker.com/search?badges=official%2Cverified_publisher)
 
 ??? example "setup-docker-action"
 
