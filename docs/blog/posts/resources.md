@@ -184,10 +184,72 @@ Information, compiled for easy reference.
 	- <https://meshtastic.org/>
 	- <https://github.com/meshtastic>
 
-	You can flash firmware and review all supported devices on the web:
+	You can flash ESP32 firmware and review all supported devices on the web:
 
 	- <https://flasher.meshtastic.org/>
 
+	> nRF52 and RP2040 based devices have the easiest firmware upgrade process ([drag & drop](https://meshtastic.org/docs/getting-started/flashing-firmware/nrf52/drag-n-drop/)). No driver or software install is required on any platform. It also appears to support OTA (over the air) updates through bluetooth
+
+	There are three main ways to interact with "nodes", all effectively offering the same capabilities:
+
+	- [Web Client](https://meshtastic.org/docs/software/web-client/)
+	- [iOS Client](https://meshtastic.org/docs/category/apple-apps/)
+	- [Android Client](https://meshtastic.org/docs/category/android-app/)
+	- [Meshtastic CLI](https://meshtastic.org/docs/software/python/cli/)
+
+	Install the command line tool with:
+
+	```bash
+	# Using a venv
+	python3 -m pip install --upgrade "meshtastic[cli]"
+
+	# Using pipx
+	pipx install "meshtastic[cli]"
+	```
+
+	**Setup Notes & Considerations**
+
+	- It's a good idea to [factory erase](https://meshtastic.org/docs/getting-started/flashing-firmware/nrf52/nrf52-erase/) and [flash](https://meshtastic.org/docs/getting-started/flashing-firmware/) devices before first use
+	- Common USB class codes include:
+		- `{ 02:??:?? 0a:??:?? }` for [CDC communication](https://www.usb.org/defined-class-codes#anchor_BaseClass02h) + [CDC data](https://www.usb.org/defined-class-codes#anchor_BaseClass0Ah)
+		- `{ 08:??:?? }` for [USB mass storage](https://www.usb.org/defined-class-codes#anchor_BaseClass08h) when in DFU mode.
+	- Devies appear to have [`region: UNSET`](https://meshtastic.org/docs/configuration/radio/lora/#region) by default until configured, so they aren't sending data until you complete setup
+	- [Change the default BLE static pairing PIN on any new / flashed device: `meshtastic --set bluetooth.fixed_pin <6_digit_pin>`](https://meshtastic.org/docs/configuration/radio/bluetooth/#fixed-pin)
+		- The default PIN is always `123456`
+	- You can enumerate a device's info with [`meshtastic --port /dev/tty[YOUR_DEVICE]0 --info`](https://meshtastic.org/docs/software/python/cli/#--port-port)
+	- You can watch a stream of device activity over serial with [`meshtastic --noproto`](https://meshtastic.org/docs/software/python/cli/#--noproto)
+	- [PKI exists per-device (user identity) and per-channel (group identity)](https://meshtastic.org/docs/development/reference/encryption-technical/#psk-for-channels-pkc-for-direct-messages-and-admin-messages)
+	- [Configuration tips on node roles, (not) location sharing, rebroadcasting traffic, channels, and best practices](https://meshtastic.org/docs/configuration/tips/)
+		- [You can completely disable location sharing on public channels, and enable it for private channels](https://meshtastic.org/docs/configuration/tips/#sharing-location-on-a-private-secondary-channel)
+		- [Client roles + comparison](https://meshtastic.org/docs/configuration/radio/device/), and what the [rebroadcast mode](https://meshtastic.org/docs/configuration/radio/device/#rebroadcast-mode) means
+		- [Tips on rebroadcasting traffic](https://meshtastic.org/docs/configuration/tips/#rebroadcast-public-traffic)
+	- [MQTT](https://meshtastic.org/docs/software/integrations/mqtt/) is off by default, it's a bridge to the internet for meshtastic
+		- [Connecting a node to the public MQTT server may publish the locations of all nodes in your mesh to the internet.](https://meshtastic.org/docs/configuration/tips/#best-practices)
+
+	**Vulnerabilities**
+
+	- [DEFCON 33 Blog Post with Findings and Fixes](https://meshtastic.org/blog/that-one-time-at-defcon/)
+	- [GitHub: Meshtastic Firmware SECURITY.md](https://github.com/meshtastic/firmware/security)
+
+	**Security Considerations**
+
+	While Meshtastic states this is not as secure as something like Signal, in other ways it's something that **could** be life saving in the right situation where you have no traditional network or cell service, and you're able to coordinate with your group or get a message to another node during an emergency. There are obviously no guarantees, as **this is not designed to be an emergency service**, but it's a use case one can imagine while hiking or camping in remote areas. Examples in the [Wikipedia entry for Meshtastic](https://en.wikipedia.org/wiki/Meshtastic#Use_cases_and_applications) suggest it's being explored as a backup communications system during natural disasters.
+
+	- [Comparison to WPA3, TLS1.3, and Signal](https://meshtastic.org/docs/overview/encryption/#is-it-as-secure-as-wi-fi-wpa3-https-tls13-or-signal)
+		- If you have physical access to a node via a client application, you can dump all the private keys and PINs
+		- Change your keys from time to time
+		- [Rotating your device's private key appears to rotate the (user's) identity in the network](https://meshtastic.org/docs/configuration/radio/security/#private-key)
+	- Meshtastic does not implement network auth, [so it is trivial to impersonate anyone else if you have access to the channel key](https://meshtastic.org/docs/overview/encryption/#authentication)
+	- [DM's use PKC to encrypt and validate messages](https://meshtastic.org/docs/overview/encryption/#direct-messages), which makes them harder to impersonate or modify
+	- [Update your firmware regularly, follow any notices on GitHub and Discord](https://meshtastic.org/docs/faq/#firmware)
+	- You do not need to enable [admin mode](https://meshtastic.org/docs/configuration/radio/security/#admin-key), or configure any [remote administration](https://meshtastic.org/docs/configuration/remote-admin/) to secure a personal (non-router) node
+	- [Backup and restore your keys & config using any of the client applications](https://meshtastic.org/docs/configuration/radio/security/#security-keys---backup-and-restore)
+
+	**Device Support**
+
+	- [Supported Hardware Overview](https://meshtastic.org/docs/hardware/devices/)
+	- [Meshtastic on Raspberry Pi](https://meshtastic.org/docs/hardware/devices/raspberrypi/)
+	- [Meshtastic on OpenWrt Routers](https://meshtastic.org/docs/hardware/devices/openwrt/)
 
 ## :material-note-text: Note Taking
 
