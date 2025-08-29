@@ -929,7 +929,72 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - The [Ignoring Files article](https://help.github.com/articles/ignoring-files) on the GitHub Help site.
 	> - The [gitignore(5)](https://git-scm.com/docs/gitignore) manual page.
 
+??? example "Git `--amend` to Rewrite History"
+
+	You can change previous commits, if for example you made a mistake or typo *and have not yet pushed them*.
+
+	[Pro Git: Git Tools - Rewriting History](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
+
+	```bash
+	# Make changes, staged those changes, then revise the last commit
+	git commit --amend
+
+	# Simply sign the last commit if you forgot to
+	git commit -S --amend --no-edit
+	```
+
+	> ...amending changes the SHA-1 of the commit. It's like a very small rebase - don't amend your last commit if you've already pushed it.
+
 ??? example "Git Rebasing"
+
+	> In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`... With the rebase command, you can take all the changes that were committed on one branch and replay them on a different branch... **There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.**
+
+	In other words, it's cleaner to rebase changes below yours when working with other contributors on the same project.
+
+	- [GitHub Docs: About `git-rebase`](https://docs.github.com/en/get-started/using-git/about-git-rebase)
+	- [GitHub Docs: Rebase and Merge Your Commits](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges#rebase-and-merge-your-commits)
+	- [Pro Git: Git Branching - Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)
+	- [Github Docs: Pushing Rebased Code to GitHub](https://docs.github.com/en/get-started/using-git/using-git-rebase-on-the-command-line#pushing-rebased-code-to-github)
+
+	When does this happen? Imagine you have a branch with an open PR on an upstream project. If other PR's are being integrated ahead of yours, and collide with any changes you've made in your PR, you'll have a merge conflict. This is an example of that I encountered: <https://github.com/geerlingguy/ansible-role-docker/pull/473>
+
+	So how do you fix it? Using `git rebase`, git rewinds then integrates the new upstream changes commited underneath your work, then replays your edits on top of them. If there are conflicts at this point you must intervene and resolve them with a code editor (`vi`, `nano`, `code`)
+
+	```bash
+	# Checkout your branch
+	git checkout your-branch
+
+	# Rebase while signing these changes
+	git rebase -S main
+	```
+
+	Here's where you'll need to resolve any conflicts from the rebase. `git` will walk you through this and show you what commands to run to proceed. Once completed you can sign your commit (if you weren't already prompted) and safely push it to your branch with `--force-with-lease`:
+
+	```bash
+	# Sign the commit
+	git commit -S -m "Your comment"
+
+	# Safely force push using the 'with lease' option
+	git push origin you-branch --force-with-lease
+	```
+
+	**Safely Pushing: `--force-with-lease`**
+
+	The [manpage states](https://git-scm.com/docs/git-push#Documentation/git-push.txt---no-force-with-lease):
+
+	> `--force-with-lease` alone, without specifying the details, will protect all remote refs that are going to be updated by requiring their current value to be the same as the remote-tracking branch we have for them.
+	>
+	> (SNIP)
+	>
+	> This option allows you to say that you expect the history you are updating is what you rebased and want to replace. If the remote ref still points at the commit you specified, you can be sure that no other people did anything to the ref. It is like taking a "lease" on the ref without explicitly locking it, and the remote ref is updated only if the "lease" is still valid.
+
+	In other words:
+
+	> The protection it offers over `--force` is ensuring that subsequent changes your work wasn't based on aren't clobbered...
+
+	Reading further you'll see that `--force-with-lease=<refname>:<expect>` is the best method to do this, being the most specific. However in many cases simply using `--force-with-lease` seems to be fine.
+
+??? example "Git Signatures"
 
 	TO DO
 
@@ -1060,6 +1125,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> Not all playbooks follow all of Ansible's best practices, as they illustrate particular Ansible features in an instructive manner.
 
 	- <https://github.com/geerlingguy/ansible-for-devops>
+
+??? example "deb822_repository Module"
+
+	- [Add and remove deb822 formatted repositories](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/deb822_repository_module.html)
+
+	This appears to be the newest module in core that replaces the deprecated [apt_key](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_key_module.html) module. You can read more about Debian third-party repository standards [here](https://wiki.debian.org/DebianRepository/UseThirdParty).
 
 ??? example "pfsensible"
 
