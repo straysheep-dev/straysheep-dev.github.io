@@ -448,6 +448,34 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- Review Ubuntu and NVIDIA driver release notes for any warnings
 	- Review the NVIDIA open-gpu-kernel-modules repo for any issues or warnings
 
+??? tip ":simple-popos: Pop!_OS"
+
+	> Pop!_OS is engineered and designed in-house by System76, the US computer manufacturer. From our factory in Colorado, we craft open source software, repairable computers, and airtight firmware-with the aim of empowering users' ambitions on the best-quality product we can muster.
+
+	Pop!_OS is focused on the desktop experience. It's [built on Ubuntu, but functions in a very unique way](https://support.system76.com/articles/difference-between-pop-ubuntu). It's lighter weight, strong GPU support with easy CUDA and TensorFlow install, replacing GRUB with systemd-boot, and creating recovery partitions for reinstalling the OS to name a few.
+
+	- <https://system76.com/pop/>
+	- <https://github.com/pop-os>
+
+	GPG Key File: [0x204DD8AEC33A7AFF](https://keyserver.ubuntu.com/pks/lookup?search=63C46DF0140D738961429F4E204DD8AEC33A7AFF&fingerprint=on&op=index)
+
+	```txt
+	pub   rsa4096/0x204DD8AEC33A7AFF 2017-06-22 [SC]
+		Key fingerprint = 63C4 6DF0 140D 7389 6142  9F4E 204D D8AE C33A 7AFF
+	uid                   [ unknown] Pop OS (ISO Signing Key) <info@system76.com>
+	sub   rsa4096/0x49F26BFD279696B5 2017-06-22 [E]
+	```
+
+	*To obtain the hashes + signature, replace the .iso file in the download URL with the following patterns:*
+
+	```txt
+	https://iso.pop-os.org/<version>/amd64/nvidia/<build-num>/SHA256SUMS
+	https://iso.pop-os.org/<version>/amd64/nvidia/<build-num>/SHA256SUMS.gpg
+	https://iso.pop-os.org/<version>/amd64/intel/<build-num>/SHA256SUMS
+	https://iso.pop-os.org/<version>/amd64/intel/<build-num>/SHA256SUMS.gpg
+	```
+
+
 ??? tip ":simple-raspberrypi: Raspberry Pi OS"
 
 	> Raspberry Pi needs an operating system to work. This is it. Raspberry Pi OS (previously called Raspbian) is our official supported operating system.
@@ -900,6 +928,10 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - The [Ignoring Files chapter](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) of the [Pro Git](https://git-scm.com/book) book.
 	> - The [Ignoring Files article](https://help.github.com/articles/ignoring-files) on the GitHub Help site.
 	> - The [gitignore(5)](https://git-scm.com/docs/gitignore) manual page.
+
+??? example "Git Rebasing"
+
+	TO DO
 
 ??? example "Git Submodules"
 
