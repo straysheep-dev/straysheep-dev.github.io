@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2019-07-15
-  updated: 2025-06-15
+  updated: 2025-08-30
 categories:
   - links
   - resources
@@ -1427,8 +1427,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Currently there's no browser-based diagnostic endpoint dedicated to verifying you're using their resolvers like Cloudflare or Quad9 have.
 
+??? example "Trickest Resolvers"
+
+	> The most exhaustive list of reliable DNS resolvers
+
+	- <https://github.com/trickest/resolvers>
+
 
 ## :material-sword-cross: Offense
+
+### :material-text-box-search: Methodology & General Resources
 
 !!! abstract "PTES (Penetration Testing Execution Standard)"
 
@@ -1469,6 +1477,19 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://book.hacktricks.wiki/>
 	- <https://github.com/HackTricks-wiki/hacktricks>
+
+??? abstract "SecLists"
+
+    - <https://github.com/danielmiessler/SecLists>
+
+??? abstract "Statistically Likely Usernames"
+
+    - <https://github.com/insidetrust/statistically-likely-usernames>
+
+??? abstract "Trickest Wordlists_"
+
+	- <https://github.com/trickest/wordlists>
+
 
 ### :material-network: Network
 
