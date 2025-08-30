@@ -1029,6 +1029,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	git submodule foreach 'git pull'
 	```
 
+**Security Advisories**
+
+??? warning "CVE-2025-48384"
+
+	> When reading a config value, Git strips any trailing carriage return and line feed (CRLF). When writing a config entry, values with a trailing CR are not quoted, causing the CR to be lost when the config is later read. When initializing a submodule, if the submodule path contains a trailing CR, the altered path is read resulting in the submodule being checked out to an incorrect location. If a symlink exists that points the altered path to the submodule hooks directory, and the submodule contains an executable post-checkout hook, the script may be unintentionally executed after checkout. This vulnerability is fixed in v2.43.7, v2.44.4, v2.45.4, v2.46.4, v2.47.3, v2.48.2, v2.49.1, and v2.50.1.
+
+	- <https://nvd.nist.gov/vuln/detail/CVE-2025-48384>
+	- <https://github.com/git/git/security/advisories/GHSA-vwqx-4fm8-6qc9>
 
 ### :simple-github: GitHub
 
@@ -1164,6 +1172,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/docker/docker-py>
 	- [Ansible for Devops: Molecule Examples](https://github.com/geerlingguy/ansible-for-devops/tree/master/molecule)
 
+
+**Security Advisories**
+
+??? warning "CVE-2025-9074"
+
+	> A vulnerability was identified in Docker Desktop that allows local running Linux containers to access the Docker Engine API via the configured Docker subnet, at 192.168.65.7:2375 by default. This vulnerability occurs with or without Enhanced Container Isolation (ECI) enabled, and with or without the "Expose daemon on tcp://localhost:2375 without TLS" option enabled. This can lead to execution of a wide range of privileged commands to the engine API, including controlling other containers, creating new ones, managing images etc. In some circumstances (e.g. Docker Desktop for Windows with WSL backend) it also allows mounting the host drive with the same privileges as the user running Docker Desktop.
+
+	- <https://nvd.nist.gov/vuln/detail/CVE-2025-9074>
 
 ### :simple-hashicorp: HashiCorp
 
