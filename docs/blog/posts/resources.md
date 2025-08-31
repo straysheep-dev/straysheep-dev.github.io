@@ -140,9 +140,9 @@ Information, compiled for easy reference.
 
 	Supported OS's:
 
-    - Linux; most distros; Intel 64-bit.
-    - Windows 10 and later; Intel 64-bit.
-    - macOS 10.13 (High Sierra) and later; both Intel and Apple Silicon.
+	- Linux; most distros; Intel 64-bit.
+	- Windows 10 and later; Intel 64-bit.
+	- macOS 10.13 (High Sierra) and later; both Intel and Apple Silicon.
 
 
 ??? info "Rufus"
@@ -344,7 +344,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://cdimage.kali.org/>
 	- <https://www.kali.org/downloads/>
 	- <https://www.kali.org/docs/introduction/download-images-securely/>
-    - For older images of kali: <https://old.kali.org/>
+	- For older images of kali: <https://old.kali.org/>
 	- [A New Kali Linux Archive Signing Key](https://www.kali.org/blog/new-kali-archive-signing-key/)
 
 	Obtaining the Kali Linux GPG public key and verifying signatures:
@@ -389,7 +389,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.debian.org>
 	- <https://www.debian.org/CD/verify>
 	- <https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/>
-    - For older images of Debian: <https://cdimage.debian.org/mirror/cdimage/archive/>
+	- For older images of Debian: <https://cdimage.debian.org/mirror/cdimage/archive/>
 	- [Package Search](https://www.debian.org/distrib/packages)
 
 	GPG Key:
@@ -409,9 +409,9 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	Ubuntu is a Debian-base Linux distribution developed by Canonical.
 
 	- <https://releases.ubuntu.com> (main images)
-    - `https://old-releases.ubuntu.com/releases/$VERSION/` (is how you can version pin URLs to ISOs and signatures, this contians all released images in one page per version)
+	- `https://old-releases.ubuntu.com/releases/$VERSION/` (is how you can version pin URLs to ISOs and signatures, this contians all released images in one page per version)
 	- <https://cdimage.ubuntu.com/releases/> (rpi + alternate flavors)
-    - <https://cloud-images.ubuntu.com/> (vagrant and cloud provider images)
+	- <https://cloud-images.ubuntu.com/> (vagrant and cloud provider images)
 	- <https://ubuntu.com/download/raspberry-pi>
 	- <https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi>
 	- [Package Search](https://packages.ubuntu.com/)
@@ -488,11 +488,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- Verify the .sig file against the img.xz compressed file, not the SHA signatures.
 	- <https://www.raspberrypi.org/about/> links to raspberrypi.com
-    - <https://www.raspberrypi.com/>
+	- <https://www.raspberrypi.com/>
 	- <https://www.raspberrypi.com/software/operating-systems/> (links to main images, use the archive link to obtain the .sig)
-    - <https://downloads.raspberrypi.com/raspios_arm64/images/> (folder for standard desktop download)
-    - <https://github.com/raspberrypi>
-    - <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines
+	- <https://downloads.raspberrypi.com/raspios_arm64/images/> (folder for standard desktop download)
+	- <https://github.com/raspberrypi>
+	- <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines
 
 	```txt
 	pub   rsa2048/0x8738CD6B956F460C 2017-04-10 [SC] [expires: 2031-04-07]
@@ -548,9 +548,9 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> To create Red Hat Enterprise Linux, some version of Fedora is forked and enters an extensive development, testing and certification process to become a new version of Red Hat Enterprise Linux.
 
 	- <https://getfedora.org>
-    - <https://fedoraproject.org/security> (GPG Keys)
+	- <https://fedoraproject.org/security> (GPG Keys)
 	- <https://docs.fedoraproject.org>
-    - <https://hub.docker.com/_/fedora>
+	- <https://hub.docker.com/_/fedora>
 
 	To automate installs, Fedora uses [Kickstart files](https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/advanced/Kickstart_Installations/).
 
@@ -597,12 +597,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 ??? info ":simple-openbsd: OpenBSD"
 
 	- <https://www.openbsd.org/>
-    - <https://www.openbsd.org/faq/faq4.html#Download>
+	- <https://www.openbsd.org/faq/faq4.html#Download>
 
 ??? info ":simple-freebsd: FreeBSD"
 
 	- <https://www.freebsd.org/where/>
-    - <https://docs.freebsd.org/en/articles/pgpkeys/>
+	- <https://docs.freebsd.org/en/articles/pgpkeys/>
 	- <https://docs.freebsd.org/pgpkeys/pgpkeys.txt>
 
 ??? tip ":simple-pfsense: pfSense"
@@ -658,7 +658,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/truenas>
 	- <https://www.truenas.com/docs/>
 	- <https://www.truenas.com/download-truenas-scale/>
-    - PGP Key: `C8D6 2DEF 767C 1DB0 DFF4 E6EC 358E AA91 12CF 7946`
+	- PGP Key: `C8D6 2DEF 767C 1DB0 DFF4 E6EC 358E AA91 12CF 7946`
 
 ??? info ":simple-openmediavault: openmediavault"
 
@@ -818,7 +818,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	> A vulnerable Node.js demo application.
 
-    - <https://github.com/snyk-labs/nodejs-goof>
+	- <https://github.com/snyk-labs/nodejs-goof>
 
 
 ## :fontawesome-solid-gear: Hardware
@@ -1959,9 +1959,9 @@ This includes general network information as well as network-focused tools.
 	>
 	> It consists of three separate parts:
 	>
-    > - A PowerShell script where the majority of modules are located
-    > - An HTML GUI that can leverage an access token to navigate and pillage a user's account
-    > - A simple PHP redirector for harvesting authentication codes during an OAuth flow
+	> - A PowerShell script where the majority of modules are located
+	> - An HTML GUI that can leverage an access token to navigate and pillage a user's account
+	> - A simple PHP redirector for harvesting authentication codes during an OAuth flow
 
 	- <https://github.com/dafthack/GraphRunner>
 
@@ -2293,10 +2293,10 @@ This includes general network information as well as network-focused tools.
 
 	RITA is possibly the ultimate open-source network threat hunting tool. Using Zeek logs, it can determine:
 
-    > - Beaconing Detection: Search for signs of beaconing behavior in and out of your network
-    > - Long Connection Detection: Easily see connections that have communicated for long periods of time
-    > - DNS Tunneling Detection: Search for signs of DNS based covert channels
-    > - Threat Intel Feed Checking: Query threat intel feeds to search for suspicious domains and hosts
+	> - Beaconing Detection: Search for signs of beaconing behavior in and out of your network
+	> - Long Connection Detection: Easily see connections that have communicated for long periods of time
+	> - DNS Tunneling Detection: Search for signs of DNS based covert channels
+	> - Threat Intel Feed Checking: Query threat intel feeds to search for suspicious domains and hosts
 
 	The deployment method has changed since they have moved to using Ansible. It can be dropped onto the local system with:
 
@@ -2624,24 +2624,24 @@ All things standards, configuration, compliance, and policy related.
 
 ??? abstract "DBX Update Process"
 
-    - <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
+	- <https://eclypsium.com/2022/07/26/firmware-security-realizations-part-1-secure-boot-and-dbx/>
 
 
 ### :octicons-gear-24: Projects
 
 ??? info "Coreboot"
 
-    - <https://doc.coreboot.org/>
+	- <https://doc.coreboot.org/>
 
 ??? info "EDK2 / Tianocore"
 
-    - <https://github.com/tianocore/edk2>
+	- <https://github.com/tianocore/edk2>
 
 ??? info "System76 Open Firmware"
 
 	> An open source distribution of firmware utilizing coreboot, EDK2, and System76 firmware applications
 
-    - <https://github.com/system76/firmware-open>
+	- <https://github.com/system76/firmware-open>
 	- [Secure Boot support was added in 2023-04-03](https://github.com/system76/firmware-open/blob/master/docs/uefi.md)
 
 ??? info "LVFS"
@@ -2699,7 +2699,7 @@ All things standards, configuration, compliance, and policy related.
 
 	This includes the vulnerability check for both bash and PowerShell.
 
-    - <https://github.com/eclypsium/BootHole>
+	- <https://github.com/eclypsium/BootHole>
 
 ??? danger "baton drop (CVE-2022-21894)"
 
@@ -2956,13 +2956,13 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	The API has a 50 searches per week limit.
 
 	- <https://viz.greynoise.io/>
-    - <https://docs.greynoise.io/docs/using-the-greynoise-community-api>
+	- <https://docs.greynoise.io/docs/using-the-greynoise-community-api>
 
 ??? bug "vxunderground"
 
 	A collection of malware samples, code, and research.
 
-    - <https://github.com/vxunderground/MalwareSourceCode>
+	- <https://github.com/vxunderground/MalwareSourceCode>
 	- <https://github.com/vxunderground/ThreatIntelligenceDiscordBot>
 
 ??? bug "theZoo"
@@ -2974,7 +2974,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 ??? bug "Joe Security / JoeSandbox"
 
 	- <https://github.com/joesecurity>
-    - <https://www.joesecurity.org/>
+	- <https://www.joesecurity.org/>
 
 ??? bug "PhishTank"
 
@@ -3212,10 +3212,10 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 ??? quote "Hal Pomeranz"
 
 	- <https://github.com/halpomeranz>
-    - <https://righteousit.com/author/halpomeranz/> (Blog)
-    - <https://archive.org/search?query=creator%3A%22Hal+Pomeranz%22> (Training materials released on archive.org)
-    - [Hiding Linux Processes with Bind Mounts](https://righteousit.com/2024/07/24/hiding-linux-processes-with-bind-mounts/)
-    - [Systemd Timers](https://righteousit.com/2024/05/05/systemd-timers/)
+	- <https://righteousit.com/author/halpomeranz/> (Blog)
+	- <https://archive.org/search?query=creator%3A%22Hal+Pomeranz%22> (Training materials released on archive.org)
+	- [Hiding Linux Processes with Bind Mounts](https://righteousit.com/2024/07/24/hiding-linux-processes-with-bind-mounts/)
+	- [Systemd Timers](https://righteousit.com/2024/05/05/systemd-timers/)
 
 ??? quote "IppSec"
 
