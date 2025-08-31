@@ -20,6 +20,10 @@ Information, compiled for easy reference.
 
 <!-- more -->
 
+!!! warning "AI Usage"
+
+	AI was used to port some of my existing notes out of CherryTree and Standard-Notes, by converting the original markdown formatting I had into the formatting I decided on for mkdocs-material. This choice was made due to volume as well as format inconsistencies across years of previous notes.
+
 
 ## :material-toolbox: Utilities
 
@@ -1496,11 +1500,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ??? abstract "SecLists"
 
-    - <https://github.com/danielmiessler/SecLists>
+	- <https://github.com/danielmiessler/SecLists>
 
 ??? abstract "Statistically Likely Usernames"
 
-    - <https://github.com/insidetrust/statistically-likely-usernames>
+	- <https://github.com/insidetrust/statistically-likely-usernames>
 
 ??? abstract "Trickest Wordlists_"
 
@@ -1635,6 +1639,30 @@ This includes general network information as well as network-focused tools.
 
 ### :material-microsoft-windows: Windows
 
+**Enumeration**
+
+??? info "PEASS-ng"
+
+	- <https://github.com/peass-ng/PEASS-ng>
+
+??? info "HostRecon"
+
+	- <https://github.com/dafthack/HostRecon>
+
+??? info "Seatbelt"
+
+	- <https://github.com/GhostPack/Seatbelt>
+
+??? info "PrivescCheck"
+
+	- <https://github.com/itm4n/PrivescCheck>
+
+**Execution & PrivEsc**
+
+??? danger "PowerSploit"
+
+	- <https://github.com/PowerShellMafia/PowerSploit>
+
 ??? danger "LOLBAS"
 
 	> Living Off The Land Binaries, Scripts and Libraries
@@ -1656,32 +1684,18 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/wietze/HijackLibs>
 
-??? danger "Bypassing Windows Defender Application Control (WDAC) with Loki C2"
+??? bug "UACME"
 
-	> ...because I replaced the Teams /resources/app/ directory with Loki C2 Agent's code, the Electron-based Teams application now executes Loki C2 Agent's JavaScript inside the trusted Teams process.
+	- <https://github.com/hfiref0x/UACME>
 
-	- <https://securityintelligence.com/x-force/bypassing-windows-defender-application-control-loki-c2/>
+??? bug "PrintSpoofer"
 
-	Additional resources from the article:
+	- <https://github.com/itm4n/PrintSpoofer>
 
-	- [Microsoft: Applications that can Bypass WDAC and How to Block Them](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/applications-that-can-bypass-appcontrol)
-	- [T1218.015: System Binary Proxy Execution: Electron Applications](https://attack.mitre.org/techniques/T1218/015/)
-	- <https://github.com/mttaggart/quasar>
-	- <https://taggart-tech.com/quasar-electron/>
+??? abstract "WinPwn"
 
-	To try and summarize this:
-
-	- WDAC is a security boundary to prevent executing untrusted software
-	- [LOLBAS](https://lolbas-project.github.io/) details these kinds of bypasses
-	- Electron applications are interesting targets
-		- They're the reverse of EXE / DLL's in that the Electron EXE exposes API's to .js files and .node modules
-		- Goal is to execute arbitrary JS and leverage existing Node modules through a trusted Electron application
-		- Electron apps can enforce integrity checking on JS scripts they execute which can help mitigate this vector
-	- Node modules have limitations, but can be stealthier
-		- Largely undocumented internal structures
-		- If you use a function of a signed Node module instead of PowerShell, you avoid spawning processes and being caught
-		- Execute everything in JS to remain stealthier
-	- The post uses the legacy version of Teams to achieve code execution and C2 deployment via JS
+	- <https://github.com/S3cur3Th1sSh1t/WinPwn>
+	- <https://github.com/S3cur3Th1sSh1t/Creds>
 
 ??? danger "Bolthole"
 
@@ -1708,6 +1722,8 @@ This includes general network information as well as network-focused tools.
 	- Inspecting protocols on ALL ports
 	- Inspecting code signatures on binaries
 	- Preventing execution of unauthorized applications
+
+**Evasion**
 
 ??? danger "CarbonCopy"
 
@@ -1741,6 +1757,92 @@ This includes general network information as well as network-focused tools.
 
 	*Mentioned in Discord at [42:57 of Exploring ClickOnce and .NET Hijacking for SSH Initial Access](https://www.youtube.com/watch?v=Zid7tB0Iyss).*
 
+??? danger "Bypassing Windows Defender Application Control (WDAC) with Loki C2"
+
+	> ...because I replaced the Teams /resources/app/ directory with Loki C2 Agent's code, the Electron-based Teams application now executes Loki C2 Agent's JavaScript inside the trusted Teams process.
+
+	- <https://securityintelligence.com/x-force/bypassing-windows-defender-application-control-loki-c2/>
+
+	Additional resources from the article:
+
+	- [Microsoft: Applications that can Bypass WDAC and How to Block Them](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/applications-that-can-bypass-appcontrol)
+	- [T1218.015: System Binary Proxy Execution: Electron Applications](https://attack.mitre.org/techniques/T1218/015/)
+	- <https://github.com/mttaggart/quasar>
+	- <https://taggart-tech.com/quasar-electron/>
+
+	To try and summarize this:
+
+	- WDAC is a security boundary to prevent executing untrusted software
+	- [LOLBAS](https://lolbas-project.github.io/) details these kinds of bypasses
+	- Electron applications are interesting targets
+		- They're the reverse of EXE / DLL's in that the Electron EXE exposes API's to .js files and .node modules
+		- Goal is to execute arbitrary JS and leverage existing Node modules through a trusted Electron application
+		- Electron apps can enforce integrity checking on JS scripts they execute which can help mitigate this vector
+	- Node modules have limitations, but can be stealthier
+		- Largely undocumented internal structures
+		- If you use a function of a signed Node module instead of PowerShell, you avoid spawning processes and being caught
+		- Execute everything in JS to remain stealthier
+	- The post uses the legacy version of Teams to achieve code execution and C2 deployment via JS
+
+??? danger "SharpKiller"
+
+	- <https://github.com/S1lkys/SharpKiller>
+
+??? danger "Amsi-Killer"
+
+	- <https://github.com/ZeroMemoryEx/Amsi-Killer>
+
+??? danger "Invoke-SharpLoader"
+
+	- <https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader>
+
+??? danger "KillDefender"
+
+	- <https://github.com/pwn1sher/KillDefender>
+
+??? danger "EDRSandblast"
+
+	- <https://github.com/wavestone-cdt/EDRSandblast>
+
+??? danger "PPLdump"
+
+	- <https://github.com/itm4n/PPLdump>
+
+??? danger "PPLGuard"
+
+	- <https://github.com/elastic/PPLGuard>
+
+??? tip "Invoke-Obfuscation"
+
+	> Invoke-Obfuscation is a PowerShell v2.0+ compatible PowerShell command and script obfuscator.
+
+	- <https://github.com/danielbohannon/Invoke-Obfuscation>
+	- <https://github.com/danielbohannon/Revoke-Obfuscation>
+	- <https://github.com/danielbohannon/Invoke-CradleCrafter>
+	- <https://github.com/danielbohannon/Invoke-DOSfuscation>
+
+**Data Harvesting & Exfiltration**
+
+??? tip "pypykatz"
+
+	pypykatz allows you to work with Windows data dumps locally on Linux.
+
+	- <https://github.com/skelsec/pypykatz>
+
+??? tip "mimikatz"
+
+	- <https://github.com/gentilkiwi/mimikatz>
+
+??? info "Invoke-Mimikatz"
+
+	- <https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1>
+
+??? tip "LetMeowIn"
+
+	> A sophisticated, covert LSASS dumper using C++ and MASM x64.
+
+	- <https://github.com/Meowmycks/LetMeowIn>
+
 
 ### :simple-apple: macOS
 
@@ -1767,6 +1869,15 @@ This includes general network information as well as network-focused tools.
 	> Retrieve LAPS password from LDAP.
 
 	- <https://github.com/swisskyrepo/SharpLAPS>
+
+??? bug "KrbRelayUp"
+
+	> A no-fix local privesc to SYSTEM on AD joined machines where LDAP signing is not enforced
+
+	Manually executing this attack combines PowerMad/SharpMad + KrbRelay + Rubeus + SCMUACBypass. This tool wraps all of those tools together.
+
+	- <https://github.com/Dec0ne/KrbRelayUp>
+
 
 ### :material-wifi: Wireless
 
