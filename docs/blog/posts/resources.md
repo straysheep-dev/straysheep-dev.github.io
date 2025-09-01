@@ -1013,7 +1013,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	```bash
 	# <submodule-name> can be specified as an option, if you want to change it
 	# Otherwise the repo name is used by default
-	git submodule add <repo-url> [<submodule-name>]
+	git submodule add -b <branch> <repo-url> [<submodule-name>]
 	```
 
 	This creates the following `.gitmodules` file in the root of your repo:
@@ -1022,16 +1022,36 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	[submodule "<submodule-name>"]
         path = <submodule-name>
         url = <repo-url>
+		branch = <branch>
 	```
 
 	You can manually edit and revise these files.
 
+	**Working on Submodules**
+
 	> There is a `foreach` submodule command to run some arbitrary command in each submodule. This can be really helpful if you have a number of submodules in the same project.
 
 	```bash
-	# Update all submodules in a repo
+	# Example running 'git pull' on all submodules in a repo
 	git submodule foreach 'git pull'
 	```
+
+	However, ***this does not work well with nested submodules***. Comparing [this post on stackoverflow](https://stackoverflow.com/questions/75104243/git-submodule-update-remote-vs-git-pull-recurse-submodule-vs-git-submod) with the [manpage](https://git-scm.com/docs/git-submodule) helps delineate your options.
+
+	In most cases, when updating a project with one or more submodules, you'll want to use:
+
+	```bash
+	# Reinitialize all submodules, you'd do this after cloning a project with submodules
+	git submodule update --init --recursive
+
+	# If a branch isn't already specified in .gitmodules, you can set it
+	git submodule set-branch --branch <branch> ./path/to/submodule
+
+	# Fetch any missing commits and update the working directory of all submodules
+	git submodule update --remote --recursive
+	```
+
+	This effectively updates your current project with the latest changes of all submodules.
 
 **Security Advisories**
 
