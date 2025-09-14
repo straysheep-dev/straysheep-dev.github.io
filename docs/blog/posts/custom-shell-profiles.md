@@ -2,7 +2,7 @@
 draft: false
 date:
   created: 2024-05-29
-  updated: 2025-06-15
+  updated: 2025-09-14
 categories:
   - shell
   - cli
@@ -11,6 +11,9 @@ categories:
   - zsh
   - bashrc
   - zshrc
+  - gnome
+  - dconf
+  - gsettings
 ---
 
 
@@ -20,37 +23,56 @@ Working with and customizing shell profiles.
 
 <!-- more -->
 
+!!! abstract "How did this start?"
+
+    The examples below are essentially replicating what's displayed in the [TrustedSec blog post](https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/), in a way that looks like the Kali `zsh`. The [gist by Carlos Polop](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808) has examples for more advanced things you can do such as displaying current CPU, RAM and disk usage in the prompt.
+
 *This file is originally from [straysheep-dev/linux-configs](https://github.com/straysheep-dev/linux-configs/tree/main/shells).*
 
 ## References
 
-This draws heavily from the following references:
+This post draws heavily from the following references:
 
-- <https://www.kali.org/blog/kali-linux-2022-1-release/#shell-prompt-changes>
-- <https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/>
-- <https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808>
-- <https://stackoverflow.com/questions/61335641/bash-or-z-shell-terminal-prompt-with-time-and-date>
-- <https://superuser.com/questions/668174/how-can-you-display-host-ip-address-in-bash-prompt>
-- <https://unix.stackexchange.com/questions/145672/print-last-element-of-each-row>
+- [GNU Bash Manual: Shell Variables](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1)
+- [GNU Bash Manual: Controlling the Prompt String](https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1)
+- [Kali Linux Blog: Shell Prompt Change](https://www.kali.org/blog/kali-linux-2022-1-release/#shell-prompt-changes)
+- [TrustedSec: Shell Improvements for Pentesters](https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/)
+- [ohmyzsh: Themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+- [github.com/carlospolop: Shell Prompt Gist](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+- [Stack Overflow: Shell Prompt with Datetime](https://stackoverflow.com/questions/61335641/bash-or-z-shell-terminal-prompt-with-time-and-date)
+- [Super User: Display IP in Shell Prompt](https://superuser.com/questions/668174/how-can-you-display-host-ip-address-in-bash-prompt)
+- [Stack Exchange: Print Last Element of Each Row](https://unix.stackexchange.com/questions/145672/print-last-element-of-each-row)
+- [Arch Linux Wiki: GNOME Configuration](https://wiki.archlinux.org/title/GNOME#Configuration)
+- [Arch Linux Wiki: Prompt Customization](https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands)
+- [Ask Ubuntu: Backup GNOME Terminal Settings](https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings)
+- [Stack Exchange: How the Escape `\` Character Works in Bash](https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt)
+- [Stack Overflow: How Do I Change the `virtualenv` Prompt?](https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt)
 
-Additional resources:
+Additional resources that are useful here:
 
-- <https://academy.tcm-sec.com/p/linux-101>
-- <https://www.antisyphontraining.com/regular-expressions-your-new-lifestyle-w-joff-thyer/>
+- [TCM-SEC Academy: Linux 101](https://academy.tcm-sec.com/p/linux-101)
+- [Antisyphon Training: Regular Expressions with Joff Thyer](https://www.antisyphontraining.com/regular-expressions-your-new-lifestyle-w-joff-thyer/)
 
-The examples below are essentially replicating what's displayed in the [TrustedSec blog post](https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/), in a way that looks like the Kali `zsh`. The [gist by Carlos Polop](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808) has examples for more advanced things you can do such as displaying current CPU, RAM and disk usage in the prompt.
+---
 
 
 ## Prompt String
 
 *Use your shell prompt to track your user, hostname, tty, the date/time, interface information, and working directory.*
 
-```
+```python
 ┌──[user@fedora:1]-[2024-05-13•15:45:11]-[eth0:10.55.55.28/24]-[/tmp]
 └─$
 ```
 
 The following sections detail how to do this with your shell prompt.
+
+!!! tip "Bash Documentation"
+
+    There are a number of built-in escape characters and modifiers for `bash` that you can start with. Be sure to check those first. These are also discussed below in the [bash](#bash) section.
+
+    - [GNU Bash Manual: Shell Variables](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1)
+    - [GNU Bash Manual: Controlling the Prompt String](https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1)
 
 
 ### Network Information
@@ -75,7 +97,7 @@ ip link show | awk -F ': ' '{
     if ($2 ~ /tun|tap|wg[0-9]/) {
         print $2
         exit
-    } else if ($2 ~ /eth|ens/) {
+    } else if ($2 ~ /eth|en/) {
         print $2
         exit
     }
@@ -91,7 +113,7 @@ ip link show | awk -F ': ' '{
 
 **Processing Data in awk with the END Pattern**
 
-The shortest way to do this appears to be creating an array of interfaces, and separating interfaces of the same prefix with a space. This gives us our list of interfaces, and the array assignment allows us to control priority, so we'll match first on `tunX/tapX`, then `wgX`, `ensX`, `ethX` and finally `wlan0` type interfaces.
+The shortest way to do this appears to be creating an array of interfaces, and separating interfaces of the same prefix with a space. This gives us our list of interfaces, and the array assignment allows us to control priority, so we'll match first on `tunX/tapX`, then `wgX`, `enxX`, `ethX` and finally `wlan0` type interfaces.
 
 *NOTE: Appending a final pipe to ` | awk '{print $1}')` would ensure that in cases of multiple `ethX` interfaces, only the first is printed. This is otherwise handled by the commented out `#return` line in the `get_net_info()` function.*
 
@@ -107,7 +129,7 @@ END{
             printf interfaces[i] " "
         } else if (interfaces[i] ~ /^wg[0-9]/) {
             printf interfaces[i] " "
-        } else if (interfaces[i] ~ /^ens/) {
+        } else if (interfaces[i] ~ /^en/) {
             printf interfaces[i] " "
         } else if (interfaces[i] ~ /^eth/) {
             printf interfaces[i] " "
@@ -122,17 +144,20 @@ Function to get the interface information:
 
 ```bash
 get_net_info() {
-        # Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)
-        #for interface in tun0 eth0; do
-        for interface in $(echo $interface_list); do
-                # The `NR==1{<SNIP>; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs
-                # http://stackoverflow.com/questions/22190902/ddg#22190928
-                net_info=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $NF ":" $2; exit}')
-                if [[ "$net_info" != '' ]]; then
-                        echo "$net_info" # | tr '\n' ']'  # Uncomment the ` | tr '\n' '|'` if you comment the next line
-                        return                            # Comment `return` to print multiple interface matches in $interface_list (eth1, eth2...)
-                fi
-        done
+    # Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)
+    #for interface in eth0; do
+    for interface in $(echo $interface_list); do
+        # The `NR==1{<SNIP>; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs
+        # http://stackoverflow.com/questions/22190902/ddg#22190928
+        IFACE_NAME=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $NF; exit}')
+        IFACE_ADDR=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $2; exit}')
+        if [[ -n "${IFACE_NAME}" ]] && [[ -n "${IFACE_ADDR}" ]]; then
+            # The "${NC}:${YELLOW}" is being passed to and interpretted by this script in your shell, it resets the color of the `:` symbol
+            # using the ANSI colors defined above.
+            echo "${IFACE_NAME}${NC}:${YELLOW}${IFACE_ADDR}"
+            return
+        fi
+    done
 }
 ```
 
@@ -187,6 +212,13 @@ In this example the date string, and time string, will be green, but the dot `�
 
 `bash` is universally available on Linux. Certain escape sequences have unique behavior in bash prompts. These escape characters work the same in bash across different platforms, especially when using a custom shell profile to override any unique changes the OS makes to the shell prompt.
 
+!!! tip "Prompt Customization Guides"
+
+    - [GNU Bash Manual: Controlling the Prompt String](https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1)
+    - [Arch Linux Wiki: Prompt Customization](https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands)
+    - [Stack Exchange: How the Escape `\` Character Works in Bash](https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt)
+
+
 ```
 # Example Ubuntu `bash` prompt:
 ┌──[ubuntu@ubuntu2204:2]-(2024-05-13•22:26:15)-(eth0:172.16.1.14/24)-[/tmp]
@@ -196,19 +228,28 @@ In this example the date string, and time string, will be green, but the dot `�
 - `\D{%Y-%m-%d}`: Displays the date based on the format within curly brackets
 - `\t`: Displays the time as `hh:mm:ss`
 - `\l`: Shows your current TTY
+- `\$(<cmd>)`: Will cause any command or function to execute each time the `PS1` string is printed
 
-Matching `.bashrc` prompt string code, if you'd like to try to insert this into your `PS1` variable:
+!!! note "Escaping commands with `\$(<cmd>)`"
+
+    If you don't [escape embedded commands](https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands), any command substituation done in your shell will only excute ***once***, when the shell loads, instead of (what you likely are intending) which is to update the prompt string every time you press enter.
+
+**Modify .bashrc (difficult)**
+
+If you'd like to try to insert this into your existing `PS1` variable:
 
 - You'll need to figure out how this fits into your current `PS1` string
-- Don't forget to also insert the `$get_net_info` function somewhere above the `PS1` variable
+- Don't forget to also insert the `get_net_info()` function somewhere above the `PS1` variable
 - Harder to maintain
 
 ```bash
 # Just date/time, net info
-<SNIP>:\l]-(\D{%Y-%m-%d}•\t)-($(get_net_info))-<SNIP>
+<SNIP>:\l]-(\D{%Y-%m-%d}•\t)-(\$(get_net_info))-<SNIP>
 ```
 
-Or to replace, your `PS1` variable in a separate dot file (e.g. `~/.custom_shell.sh`):
+**Custom Dotfile (recommended)**
+
+Or to replace your `PS1` variable in a separate dot file (e.g. `~/.custom_shell.sh`):
 
 - You'll lose any special changes or settings your default `.bashrc` prompt string provides
 - Add a line at the end of your `.bashrc` to source this file and use it
@@ -217,9 +258,17 @@ Or to replace, your `PS1` variable in a separate dot file (e.g. `~/.custom_shell
 ```bash
 <SNIP>
 	# Entire variable
-	PS1="┌──[\u@\h:\l]-(\D{%Y-%m-%d}•\t)-($(get_net_info))-[\w]\n└─\\$ "
+	PS1="┌──[\u@\h:\l]-(\D{%Y-%m-%d}•\t)-(\$(get_net_info))-[\w]\n└─\\$ "
 <SNIP>
 ```
+
+[Shell variables](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1) exist in bash that can be used to customize these settings further. One of the most useful variables is `PROMPT_DIRTRIM`.
+
+!!! tip "`PROMPT_DIRTRIM`"
+
+    If set to a number greater than zero, the value is used as the number of trailing directory components to retain when expanding the \w and \W prompt string escapes (see Controlling the Prompt). Characters removed are replaced with an ellipsis.
+
+    Example: `export PROMPT_DIRTRIM=2`
 
 
 ### zsh (Kali)
@@ -262,6 +311,76 @@ PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRT
 ```
 
 
+### Controlling (venv)
+
+You can modify where and how the virtual environment string gets added to your shell (specifically for python in this case, but the same idea applies to other shell modifiers).
+
+[If you review the `.../bin/activate` file of a python virtual environment, you'll see how it works, and how you can modify its behavior](https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt).
+
+!!! quote "Python Virtual Environment Dotfile Snippet"
+
+    ```bash
+    # SNIP
+
+    VIRTUAL_ENV=/home/user1/venv
+    export VIRTUAL_ENV
+
+    _OLD_VIRTUAL_PATH="$PATH"
+    PATH="$VIRTUAL_ENV/"bin":$PATH"
+    export PATH
+
+    # unset PYTHONHOME if set
+    # this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
+    # could use `if (set -u; : $PYTHONHOME) ;` in bash
+    if [ -n "${PYTHONHOME:-}" ] ; then
+        _OLD_VIRTUAL_PYTHONHOME="${PYTHONHOME:-}"
+        unset PYTHONHOME
+    fi
+
+    if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
+        _OLD_VIRTUAL_PS1="${PS1:-}"
+        PS1='(venv) '"${PS1:-}"
+        export PS1
+        VIRTUAL_ENV_PROMPT='(venv) '
+        export VIRTUAL_ENV_PROMPT
+    fi
+
+    # SNIP
+
+    ```
+
+    That `VIRTUAL_ENV_DISABLE_PROMPT` is a variable we can set so we can handle how and where the `(venv)` string gets added to our prompt.
+
+Here's how we can achieve this:
+
+```bash
+# This will add (venv) to the front of the prompt anytime it's activated
+# SNIP
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+venv_prompt() {
+	# This is for modifying python virtual evnrionments
+	if [[ -n "${VIRTUAL_ENV}" ]]; then
+		echo "(venv) "
+	fi
+}
+
+PS1=" ... \\$ \$(venv_prompt)"
+
+# SNIP
+
+```
+
+Here's what this could look like, if for instance you have a multiline shell prompt:
+
+```python
+┌──[user@fedora:1] • (/tmp])
+└─$ (venv)
+```
+
+
+
 ### Making the Changes
 
 Putting the above network functions, color variables, and shell escape characters together into a shell profile can be accomplished with minimal mess by writing all of these modifications to a single file, and dot sourcing it. This is ideal over trying to manually edit the `~/.bashrc` or shell profiles that ship with your OS, as the code there can be unreadable and hard to work with if you're not familiar with how `bash` or `zsh` work.
@@ -270,6 +389,30 @@ For example, take the following code block containing our shell modifications:
 
 ```bash
 #!/bin/bash
+
+# GPL-3.0-or-later
+
+# shellcheck disable=SC2034
+# shellcheck disable=SC2116
+# shellcheck disable=SC2086
+
+# References:
+# - [GNU Bash Manual: Shell Variables](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1)
+# - [GNU Bash Manual: Controlling the Prompt String](https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1)
+# - [Kali Linux Blog: Shell Prompt Change](https://www.kali.org/blog/kali-linux-2022-1-release/#shell-prompt-changes)
+# - [TrustedSec: Shell Improvements for Pentesters](https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/)
+# - [ohmyzsh: Themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+# - [github.com/carlospolop: Shell Prompt Gist](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+# - [Stack Overflow: Shell Prompt with Datetime](https://stackoverflow.com/questions/61335641/bash-or-z-shell-terminal-prompt-with-time-and-date)
+# - [Super User: Display IP in Shell Prompt](https://superuser.com/questions/668174/how-can-you-display-host-ip-address-in-bash-prompt)
+# - [Stack Exchange: Print Last Element of Each Row](https://unix.stackexchange.com/questions/145672/print-last-element-of-each-row)
+# - [Arch Linux Wiki: GNOME Configuration](https://wiki.archlinux.org/title/GNOME#Configuration)
+# - [Arch Linux Wiki: Prompt Customization](https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands)
+# - [Ask Ubuntu: Backup GNOME Terminal Settings](https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings)
+# - [Stack Exchange: How the Escape `\` Character Works in Bash](https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt)
+# - [Stack Overflow: How Do I Change the `virtualenv` Prompt?](https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt)
+# - [TCM-SEC Academy: Linux 101](https://academy.tcm-sec.com/p/linux-101)
+# - [Antisyphon Training: Regular Expressions with Joff Thyer](https://www.antisyphontraining.com/regular-expressions-your-new-lifestyle-w-joff-thyer/)
 
 # Colors and color printing code taken directly from:
 # https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/builder/linpeas_parts/linpeas_base.sh
@@ -288,6 +431,10 @@ NC="${C}[0m"
 UNDERLINED="${C}[5m"
 ITALIC="${C}[3m"
 
+# Shell variables
+export PROMPT_DIRTRIM=1
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 interface_list=$(ip link show | awk -F ': ' '{
     if ($0 !~ /state DOWN/ && $2 ~ /[a-z]+[0-9]/) {
         interfaces[NR] = $2
@@ -299,39 +446,60 @@ END{
             printf interfaces[i] " "
         } else if (interfaces[i] ~ /^wg[0-9]/) {
             printf interfaces[i] " "
-        } else if (interfaces[i] ~ /^ens/) {
+        } else if (interfaces[i] ~ /^en/) {
             printf interfaces[i] " "
         } else if (interfaces[i] ~ /^eth/) {
             printf interfaces[i] " "
-        } else if (interfaces[i] ~ /^wl[a-z]+[0-9]$|^ath[0-9]/) {
+        } else if (interfaces[i] ~ /^wl[a-z0-9]+$|^ath[0-9]/) {
             printf interfaces[i] " "
         }
     }
 }')
 
 get_net_info() {
-        # Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)
-        #for interface in eth0; do
-        for interface in $(echo $interface_list); do
-                # The `NR==1{<SNIP>; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs
-                # http://stackoverflow.com/questions/22190902/ddg#22190928
-                net_info=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $NF ":" $2; exit}')
-                if [[ "$net_info" != '' ]]; then
-                        echo "$net_info" # | tr '\n' ']'  # Uncomment the ` | tr '\n' '|'` if you comment the next line
-                        return                            # Comment out "return", and uncomment the | tr '\n' ']' above to print multiple interface matches in $interface_list (eth1, eth2...)
-                fi
-        done
+    # Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)
+    #for interface in eth0; do
+    for interface in $(echo $interface_list); do
+        # The `NR==1{<SNIP>; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs
+        # http://stackoverflow.com/questions/22190902/ddg#22190928
+        IFACE_NAME=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $NF; exit}')
+        IFACE_ADDR=$(ip addr show dev "$interface" 2>/dev/null | grep -P "inet\s.+$interface$" | awk 'NR==1{print $2; exit}')
+        if [[ -n "${IFACE_NAME}" ]] && [[ -n "${IFACE_ADDR}" ]]; then
+            # The "${NC}:${YELLOW}" is being passed to and interpretted by this script in your shell, it resets the color of the `:` symbol
+            # using the ANSI colors defined above.
+            echo "${IFACE_NAME}${NC}:${YELLOW}${IFACE_ADDR}"
+            return
+        fi
+    done
+}
+
+get_timezone() {
+    # This will get the timezone set such as "UTC" for use in the PS1 string
+	date | awk '{print $6}'
+}
+
+venv_prompt() {
+	# This is for modifying python virtual evnrionments
+	if [[ -n "${VIRTUAL_ENV}" ]]; then
+		echo "(venv) "
+	fi
 }
 
 # Plain text prompt string
+#if [ "$PS1" ]; then
+#    PS1="┌──[\u@\h:\l]-[\D{%Y-%m-%d}•\t]-[\$(get_net_info)]-[ \W]\n└─\\$ "
+#fi
+
+# Color prompt string using brackets
+#if [ "$PS1" ]; then
+#    PS1="┌──[${GREEN}\u${NC}@${GREEN}\h${NC}:${LIGHT_MAGENTA}\l${NC}]-[${LIGHT_CYAN}\D{%Y-%m-%d}${NC}•${LIGHT_CYAN}\t${NC}]-[${YELLOW}\$(get_net_info)${NC}]-[${GREEN}\w${NC}]\n└─\\$ "
+#fi
+
+# Color prompt string without brackets
 if [ "$PS1" ]; then
-    PS1="┌──[\u@\h:\l]-[\D{%Y-%m-%d}•\t]-[$(get_net_info)]-[ \W]\n└─\\$ "
+    PS1="┌──/${GREEN}\u${NC}@${GREEN}\h${NC}:${LIGHT_MAGENTA}\l${NC}/ ${LIGHT_CYAN}\D{%Y%m%d%H%M%S}${NC}\$(get_timezone) ${YELLOW}\$(get_net_info)${NC} (${GREEN}\w${NC})\n└─\\$ \$(venv_prompt)"
 fi
 
-# Color prompt string
-#if [ "$PS1" ]; then
-#    PS1="┌──[${GREEN}\u${NC}@${GREEN}\h${NC}:${LIGHT_MAGENTA}\l${NC}]-[${LIGHT_CYAN}\D{%Y-%m-%d}${NC}•${LIGHT_CYAN}\t${NC}]-[${YELLOW}$(get_net_info)${NC}]-[${GREEN}\w${NC}]\n└─\\$ "
-#fi
 ```
 
 Write all of it to one of the following paths:
@@ -349,6 +517,8 @@ fi
 
 This will source that file, loading it into your shell. The above example effectively overwrites your default `PS1` shell prompt variable.
 
+---
+
 
 ## Testing Changes
 
@@ -360,6 +530,8 @@ This will source that file, loading it into your shell. The above example effect
 - One session is used to dot source or load changes and test them out
 - If anything breaks, kill the broken session and undo the breaking changes with your functioning session
 
+---
+
 
 ## Aliases
 
@@ -370,6 +542,107 @@ It's also worth including some examples for aliases. Use these for sets of comma
 alias c='clear'
 alias dualshark='wireshark& wireshark&'
 ```
+
+---
+
+
+## Export and Import Shell Profiles (GNOME)
+
+On GNOME you can use `gsettings` and `dconf` to enumerate your terminal settings. This is useful when you customize your shell settings or want to apply profiles to other machines in a repeatable way. This isn't limited to terminal settings either, it's an effective way to backup and restore GNOME system configurations in general.
+
+- [Arch Linux Wiki: GNOME Configuration](https://wiki.archlinux.org/title/GNOME#Configuration)
+- [Ask Ubuntu: Backup GNOME Terminal Settings](https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings)
+
+!!! note "`dconf` vs `gsettings`"
+
+    `dconf` is the ideal way to manage applying settings system-wide through automation. However, some settings are only readable through `gsettings`, meaning you'll need to enumerate them there, then translate them to be in a format to work with `dconf`. This is tricky at first but becomes easier to do over time.
+
+The GNOME terminal settings seem to be split into two pieces; the settings themselves for each profile, and the actual list of profile ID's that makes them populate your settings tab in the GUI. Here is where `dconf` is unable to "see" the lists by default in most cases, but `gsettings` can.
+
+First, obtain the current profiles in your shell settings:
+
+```bash
+# Tab complete this to reveal "list" and "default" as the only keys
+$ gsettings get org.gnome.Terminal.ProfilesList
+default  list
+
+# Dump both, you may end up with something like this
+gsettings get org.gnome.Terminal.ProfilesList list
+['b1dcc9dd-5262-4d8d-a863-c897e6d979b9']
+gsettings get org.gnome.Terminal.ProfilesList default
+'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'
+
+```
+
+Next, create the backup file of *all* terminal settings:
+
+```bash
+dconf dump /org/gnome/terminal/ > gnome-terminal-settings.dconf
+```
+
+You may end up with something like this:
+
+```conf
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(0,0,0)'
+foreground-color='rgb(0,255,0)'
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+use-theme-transparency=false
+
+[legacy/profiles:/:2da83008-7288-437f-ab56-0e6052283371]
+background-color='rgb(46,52,54)'
+foreground-color='rgb(211,215,207)'
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+use-theme-transparency=false
+visible-name='My Custom Profile'
+```
+
+What's missing are ==the two keys we obtained using `gsettings` for the profile list and which profile is set to be the default==.
+
+!!! tip "`dconf-editor`"
+
+    You can also find these paths using `dconf-editor` on Ubuntu, which will note anything that's been changed from its default value.
+
+Whether you used `dconf-editor` or wrote this manually based on the `gsettings` output, here's what a full block would look like:
+
+```conf
+[legacy/profiles:]
+default='b1dcc9dd-5262-4d8d-a863-c897e6d979b9'
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', '2da83008-7288-437f-ab56-0e6052283371']
+
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(0,0,0)'
+foreground-color='rgb(0,255,0)'
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+use-theme-transparency=false
+
+[legacy/profiles:/:2da83008-7288-437f-ab56-0e6052283371]
+background-color='rgb(46,52,54)'
+foreground-color='rgb(211,215,207)'
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+use-theme-transparency=false
+visible-name='My Custom Profile'
+```
+
+This contains both the default profile, 'My Custom Profile', and includes the UUID's for both in the list variable so they'll appear in the settings UI for the GNOME terminal.
+
+To restore from a `dconf` backup file:
+
+```bash
+# Note the path of /org/gnome/terminal/, this prepends the
+# legacy/profiles... bracketed paths in your backup.
+dconf load /org/gnome/terminal/ < gnome-terminal-settings.dconf
+```
+
+!!! tip ""
+
+    If you don't see any immediate changes in your terminal window, try opening a new one.
+
+---
 
 
 ## bashrc Security
