@@ -1736,7 +1736,18 @@ Components to maintain and when:
 
 ## Troubleshooting
 
-!!! bug "Wazuh dashboard server is not ready yet"
+### Wazuh dashboard server is not ready yet
+
+!!! quote "Related Documentation"
+
+    - [Wazuh Docs: Wazuh dashboard server is not ready yet](https://documentation.wazuh.com/current/upgrade-guide/troubleshooting.html#wazuh-dashboard-server-is-not-ready-yet)
+    - [GitHub: wazuh-indexer](https://github.com/wazuh/wazuh-indexer) (The wazuh-indexer is a customized fork of OpenSearch)
+    - [GitHub: wazuh-dashboard](https://github.com/wazuh/wazuh-dashboard) (The wazuh-dashboard is a customized fork of OpenSearch's Dashboard)
+    - [OpenSearch-Dashboards/issues/4617](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4617)
+    - [OpenSearch Docs: Cluster API / Cluser Health](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health/)
+    - [OpenSearch Docs: Dashboard Upgrades](https://docs.opensearch.org/2.15/upgrade-to/dashboards-upgrade-to/)
+
+!!! bug "Service Timeout"
 
     You may encounter this issue when trying to reach the web interface. Check `wazuh-indexer.service` first:
 
@@ -1783,6 +1794,80 @@ Components to maintain and when:
 
     After a couple minutes the dashboard webpage should finally load.
 
+!!! bug "Migration Failure"
+
+    This can happen during upgrades if you're not following the [upgrade guide](https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html#wazuh-central-components) which recommends [disabling shard replication](https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html#preparing-the-wazuh-indexer-cluster-for-upgrade) on each indexer before upgrading them. Ideally this could be automated so it can run and then be validated after, however if you are simply doing some form of headless apt update + full-upgrade you can run into this issue leading to the dashboard not being able to load.
+
+    This process was put together after working with GPT5 (Thinking) to explore each option, and determine what worked in this unique instance. The Wazuh documentation for this error helps you find what's failing and where, but you'll have to know how to manually talk to the underlying components to really get anywhere.
+
+    These commands will help you gather the current 'state' of Wazuh at a high level, and hopefully point to what is failing and why.
+
+    ```bash
+    # Rule out connection issues
+    curl -v telnet://<WAZUH_INDEXER_IP_ADDRESS>:9200
+
+    # Dashboard status
+    sudo systemctl status wazuh-dashboard
+
+    # Dashboard journal (can take a long time to render)
+    sudo journalctl -u wazuh-dashboard | grep -i -E "error|warn"
+    sudo journalctl -u wazuh-dashboard | grep -i -E "error|warn" | tail
+
+    # Indexer status
+    sudo systemctl status wazuh-indexer
+
+    # Indexer logs
+    sudo cat /var/log/wazuh-indexer/<WAZUH_INDEXER_CLUSTER_NAME>.log | grep -E "ERROR|WARN|Caused"
+    ```
+
+    In my case, after reviewing the output of all the above commands, the final line in the output of `wazuh-dashboard`'s journal pointed to the solution:
+
+    ```log
+    # SNIP
+    Jan 01 05:22:47 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:22:47Z","tags":["error","opensearch","data"],"pid":123,"message":"[search_phase_execution_exception]: all shards failed"}
+    Jan 01 05:22:49 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:22:49Z","tags":["error","opensearch","data"],"pid":123,"message":"[search_phase_execution_exception]: all shards failed"}
+    Jan 01 05:22:52 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:22:52Z","tags":["error","opensearch","data"],"pid":123,"message":"[search_phase_execution_exception]: all shards failed"}
+    Jan 01 05:22:54 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:22:54Z","tags":["error","opensearch","data"],"pid":123,"message":"[search_phase_execution_exception]: all shards failed"}
+    Jan 01 05:22:57 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:22:57Z","tags":["error","opensearch","data"],"pid":123,"message":"[search_phase_execution_exception]: all shards failed"}
+    Jan 01 05:23:00 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:23:00Z","tags":["error","opensearch","data"],"pid":123,"message":"[resource_already_exists_exception]: index [.kibana_3/<string>] already exists"}
+    Jan 01 05:23:00 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:23:00Z","tags":["warning","savedobjects-service"],"pid":123,"message":"Unable to connect to OpenSearch. Error: resource_already_exists_exception: [resource_already_exists_exception] Reason: index [.kibana_3/<string>] already exists"}
+    Jan 01 05:23:00 wazuh-standalone opensearch-dashboards[123]: {"type":"log","@timestamp":"2025-01-01T05:23:00Z","tags":["warning","savedobjects-service"],"pid":123,"message":"Another OpenSearch Dashboards instance appears to be migrating the index. Waiting for that migration to complete. If no other OpenSearch Dashboards instance is attempting migrations, you can get past this message by deleting index .kibana_3 and restarting OpenSearchDashboards."}
+    ```
+
+    > If no other OpenSearch Dashboards instance is attempting migrations, you can get past this message by deleting index .kibana_3 and restarting OpenSearchDashboards."
+
+    *How* to do this, was suggested through numerous steps by GPT5. Ultimately this is exactly what was necessary to clear the "stuck" index of .kibana_3.
+
+    First SSH into your manager node, and set your username:password as a temporary environment variable hidden from your shell history.
+
+    ```bash
+    # Safely ingest your authentication information
+    echo "Enter Wazuh [username:password]"; read -r -s wazuh_userpass; export WAZUH_USERPASS=$wazuh_userpass
+    ```
+
+    Now you can start querying the cluster's health. This will point to any other obvious issues.
+
+    ```bash
+    curl -k -u "${WAZUH_USERPASS}" https://localhost:9200/_cluster/health?pretty
+    ```
+
+    To clear `.kibana_3` (steps directly from GPT5):
+
+    ```bash
+    # Stop the dashboard service
+    sudo systemctl stop wazuh-dashboard
+
+    # Remove the .kibana_3 index called out in the indexer log
+    curl -k -u "${WAZUH_USERPASS}" -X DELETE 'https://localhost:9200/.kibana_3'
+
+    # If present, also delete the paired task manager index generated for that generation:
+    curl -k -u "${WAZUH_USERPASS}" -X DELETE 'https://localhost:9200/.kibana_task_manager_3'
+
+    # Restart the dashboard
+    sudo systemctl start wazuh-dashboard
+    ```
+
+    This addresses the issue of a stuck index migration. You won't lose any log data, and while the dashboard is unavailable in this state, your Wazuh instance will still be functional and gathering logs / taking actions as normal in the background.
 
 ---
 
