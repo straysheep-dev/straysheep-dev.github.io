@@ -62,6 +62,11 @@ Install Ansible's dev tools, Molecule, and the Docker Python SDK:
 === "pip"
 
     ```bash
+    # Create a virtual environment
+    mkdir ~/venv
+    python3 -m venv ~/venv
+    source ~/venv/bin/activate
+
     # Install the dev tools if possible
     python3 -m pip install --user ansible-dev-tools
 
@@ -81,7 +86,8 @@ Install Ansible's dev tools, Molecule, and the Docker Python SDK:
     python3 -m pipx ensurepath
 
     # Install each tool into an isolated environment with pipx
-    pipx install molecule ansible ansible-lint
+    pipx install molecule ansible-lint
+    pipx install --include-deps ansible
 
     # Inject the docker libraries into molecule's pipx environment
     pipx inject molecule "molecule-plugins[docker]" docker
@@ -267,6 +273,69 @@ SELinux may add complexity in some case, but generally you're:
 - Run the container with `SYS_ADMIN` capabilities or `privileged` mode.
 - Installing systemd using the container OS's package manager
 - Running / starting systemd
+
+!!! note "Docker Notes"
+
+    This section was taken directly from the [docker-configs README](https://github.com/straysheep-dev/docker-configs?tab=readme-ov-file#usage).
+
+**Building Images with Dockerfiles**
+
+See [build, tag, and publish an image](https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/).
+
+```bash
+# Tag the file with any name you want, and point to the dockerfile with -f
+# This also assumes you're in the cwd of the dockerfile with the "." on the end
+docker build -t local/my-image-name -f ./some.Dockerfile .
+```
+
+**Interactively Running Images**
+
+If you just want to jump into a standard image pulled from Docker Hub, or one you've built:
+
+!!! tip ""
+
+    See [Using Kali Linux Docker Images](https://www.kali.org/docs/containers/using-kali-docker-images/).
+
+```bash
+# Example
+docker run --tty --interactive <tag/image-name>
+
+# Download and run Kali
+docker run --tty --interactive kalilinux/kali-rolling
+
+# Download and run Fedora
+docker run --tty --interactive fedora:latest
+
+```
+
+If the image you built uses systemd, you need to start it with `systemd` executed in the background first. The arguments required are the [same that you'd use for running molecule containers with systemd support](https://ansible.readthedocs.io/projects/molecule/guides/systemd-container/#systemd-container). You can see an example of this in [geerlingguy's build.yml using GitHub actions to build and test Docker containers](https://github.com/geerlingguy/docker-rockylinux9-ansible/blob/4c366b8059f5bf993e30b7d38da37b9900b6f17f/.github/workflows/build.yml#L26).
+
+- See the [`docker run` command reference](https://docs.docker.com/reference/cli/docker/container/run/#description)
+- `-d` is most important here, it runs as a daemon in the background so `systemd` can start within the container as PID 1
+- `--name` can be anything you want to name that instance of the running container
+- `--hostname` is also independant of the container image name
+- `local/kali-molecule` is the same arg as `-t <tag/name>` when you either pulled or built the image
+
+```bash
+docker run -d \
+  --name kali-molecule \
+  --hostname kali-molecule \
+  --privileged \
+  --cgroupns=host \
+  --tmpfs /run \
+  --tmpfs /tmp \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -e container=docker \
+  local/kali-molecule /sbin/init
+
+```
+
+*Then* interactively execute a shell in the running container once it starts:
+
+```bash
+docker exec -it kali-molecule /bin/bash
+
+```
 
 
 ## CI / CD Use
