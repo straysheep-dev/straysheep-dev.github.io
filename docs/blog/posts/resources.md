@@ -373,6 +373,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     sub   rsa4096/0xA8373E18FC0D0DCB 2012-03-05 [E] [expires: 2027-02-04]
     ```
 
+	[**Kali Vagrant Rebuilt: Out With Packer, In With DebOS**](https://www.kali.org/blog/kali-vagrant-rebuilt/)
+
+	This is a good example of using DebOS to replace the steps packer takes to automate building a VM.
+
+
 ??? bug ":simple-ubuntu: REMnux"
 
 	A Linux toolkit for malware analysts. [Lenny Zeltser](https://zeltser.com/) is [one of the maintainers](https://remnux.org/#people).
@@ -1038,20 +1043,69 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	However, ***this does not work well with nested submodules***. Comparing [this post on stackoverflow](https://stackoverflow.com/questions/75104243/git-submodule-update-remote-vs-git-pull-recurse-submodule-vs-git-submod) with the [manpage](https://git-scm.com/docs/git-submodule) helps delineate your options.
 
-	In most cases, when updating a project with one or more submodules, you'll want to use:
+	In most cases, when cloning for the first time, or updating a project with one or more submodules, you'll want to use:
 
 	```bash
 	# Reinitialize all submodules, you'd do this after cloning a project with submodules
-	git submodule update --init --recursive
+	git submodule update --init --checkout --recursive
+	git submodule sync --recursive
 
 	# If a branch isn't already specified in .gitmodules, you can set it
 	git submodule set-branch --branch <branch> ./path/to/submodule
 
+	# Check status of all submodules, including nested projects
+	git submodule foreach --recursive 'git submodule status --recursive'
+
 	# Fetch any missing commits and update the working directory of all submodules
-	git submodule update --remote --recursive
+	git submodule foreach --recursive '
+		git submodule update --init --checkout --recursive
+		git submodule update --remote --checkout --recursive
+	'
 	```
 
 	This effectively updates your current project with the latest changes of all submodules.
+
+	When making commits on super-projects, you'll want to effectively repeat the same steps:
+
+	```bash
+	# Checkout the latest changes of all submodules
+	git submodule update --init --recursive
+
+	# Include --checkout to also clone the new files
+	git submodule update --init --checkout --recursive
+	```
+
+	**Cloning Submodules Unauthenticated**
+
+	The safest way will always be over SSH by verifying the remote server's public key. However, if you simply want to clone a project unauthenticated in a test environment without an SSH key that is tied to your GitHub account, you can convert the endpoints to HTTPS. (The goal here is to avoid the `--global` option. GPT5 pointed to these references and provided a number of examples to try locally to work around this.)
+
+	- [Git-Scm: `url.<base>.insteadOf`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-urlbaseinsteadOf)
+	- [Git-Scm: git `-c` Option](https://git-scm.com/docs/git#Documentation/git.txt--cnamevalue)
+	- [Git Submodules Equivalent of `url.insteadOf`](https://stackoverflow.com/questions/44788335/git-submodules-equivalent-for-url-insteadof#51920532)
+
+	This first example is ***required*** to (easily) initialize all submodules over HTTPS:
+
+	```bash
+	git clone "${git_repo}"
+	cd "${git_repo##*/}"
+	git -c url.https://github.com/.insteadof=ssh://git@github.com/ \
+		-c url.https://github.com/.insteadof=git@github.com: \
+		submodule update --init --checkout --recursive
+	```
+
+	This second example sets this change at the local project configuration level per-submodule going forward, now that each submodule has been initialized, since the previous change is not persistant and is used to quickly "init" all submodules:
+
+	```bash
+	# Set the change for each submodule at the project level after initializing
+	git submodule foreach --recursive \
+		'git config url.https://github.com/.insteadof ssh://git@github.com/
+		git config url.https://github.com/.insteadof git@github.com:'
+
+	# Confirm HTTPS is in use
+	git submodule foreach --recursive 'git fetch -v'
+	```
+
+	This will recursively checkout all submodules of a project, changing the SSH url to HTTPS.
 
 **Security Advisories**
 
