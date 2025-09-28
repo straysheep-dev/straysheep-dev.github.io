@@ -1058,12 +1058,21 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	# Fetch any missing commits and update the working directory of all submodules
 	git submodule foreach --recursive '
-		git submodule update --init --checkout --recursive
-		git submodule update --remote --checkout --recursive
+		git submodule update --init [--checkout] --recursive
+		git submodule update --remote [--checkout] --recursive
 	'
 	```
 
-	This effectively updates your current project with the latest changes of all submodules.
+	The steps above effectively update your current project with the latest changes of all submodules.
+
+	`--checkout` is optional, you can leave the submodule empty with only a reference to the commit.
+
+	When updating a project's submodules to point to the latest changes:
+
+	```bash
+	# --remote will pull in the latest changes of submodules
+	git submodule update --remote --recursive
+	```
 
 	When making commits on super-projects, you'll want to effectively repeat the same steps:
 
