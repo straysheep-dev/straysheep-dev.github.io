@@ -150,6 +150,10 @@ The firewall is off by default. To enable it:
 
 If you enable it, the only default allow rules are to 22/tcp and 8006/tcp from the local subnet.
 
+!!! tip "Firewall Isolation"
+
+    You can enable the firewall at the Proxmox node level, as well as per-VM to isolate lateral traffic between VM's on the same bridge interface. This requires nothing more than simply enabling the firewall for each VM, the default rules allow outbound but drop inbound. Keep in mind this will also prevent you from remoting into VM's directly without some type of reverse tunnel or proxy.
+
 You can define specific rules to the Proxmox VE host and VM guests from the GUI or using a text editor on:
 
 - `/etc/pve/nodes/<nodename>/host.fw` Host configuration
