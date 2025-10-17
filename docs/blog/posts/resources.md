@@ -516,6 +516,9 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	On Linux there's an AppImage binary available if you prefer installing something under a `local/` path instead of using `dpkg`. Regardless, each binary comes with a signature file. You can use the Raspberry Pi public key (above) to verify the file integrity.
 
 	```bash
+	# Ensure jq is installed, on Ubuntu / Debian use apt
+	sudo apt update; sudo apt install -y jq
+
 	# Obtain the signing key
 	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys '54C3 DD61 0D9D 1B4A F82A 3775 8738 CD6B 956F 460C'
 
@@ -527,6 +530,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	cd ~/Downloads
 	curl -LfO "https://downloads.raspberrypi.org/imager/imager_${latest_version}_amd64.AppImage"
 	curl -LfO "https://downloads.raspberrypi.org/imager/imager_${latest_version}_amd64.AppImage.sig"
+	# If the download fails, the latest signed version may be one version behind, check this server manually
 
 	# Verify the signature
 	gpg --verify imager_${latest_version}_amd64.AppImage.sig imager_${latest_version}_amd64.AppImage
@@ -1964,11 +1968,33 @@ This includes general network information as well as network-focused tools.
 
 ### :material-wifi: Wireless
 
-??? abstract "WiFi Challenge Lab Walkthrough"
+!!! abstract "WiFi Challenge Lab Walkthrough"
 
 	Think of this as "WirelessAllTheThings". This walkthrough will demonstrate a number of WiFi attacks, from recon and basic commands to operate wireless tools on Linux, to attacking OPN, WEP, WPA/2/3 and MGT enterprise networks.
 
+	*The latest information is available in the [CWP Course](https://academy.wifichallenge.com/courses/certified-wifichallenge-professional-cwp)*.
+
 	- <https://r4ulcl.com/posts/walkthrough-wifichallenge-lab-2.0/>
+	- [wpa_supplicant Configuration Templates](https://r4ulcl.com/posts/top-10-wi-fi-hacking-tips/#7-connect-to-ap-using-cli-instead-of-network-manager)
+	- [Attack Paths Based on Network Type](https://r4ulcl.com/posts/top-10-wi-fi-hacking-tips/#10-always-keep-in-mind-the-basic-attack-paths-for-each-network)
+
+!!! abstract "eaphammer Wiki"
+
+	eaphammer is one of the most versatile wireless pentesting tools available, with capabilities for targeting enterprise (WPA-MGT) networks, hosting rogue APs with captive portals and more.
+
+	The Wiki contains a ton of useful information for wireless pentesting methods and tools.
+
+	- [eaphammer Wiki](https://github.com/s0lst1c3/eaphammer/wiki)
+
+!!! abstract "Pi-PwnBox Rogue-AP Wiki"
+
+	The project itself focuses on being a guide for building and managing a homemade (headless) PwnBox / RogueAP based on Raspberry Pi & Alfa WiFi USB Adapters.
+
+	The Wiki contains a ton of useful information for wireless pentesting methods and tools. This includes methodology, tool commands, and a Mind Map that can help you work out the plan of attack based on any situation.
+
+	- [Pi-PwnBox Rogue-AP Wiki](https://github.com/koutto/pi-pwnbox-rogueap/wiki)
+	- [WPA Protocol Overview](https://github.com/koutto/pi-pwnbox-rogueap/wiki/04.-WPA-Protocol-Overview)
+
 
 ??? question "USB-WiFi Guide"
 
@@ -2026,6 +2052,19 @@ This includes general network information as well as network-focused tools.
 
 	- This works on most desktop versions of Chrome
 	- Does not appear to work on iOS
+
+??? question "wifi_db"
+
+	A utility from the creator of WiFi-ChallengeLab to pull useful information from capture files. This is a python tool that creates a browseable SQLite DB.
+
+	- <https://github.com/r4ulcl/wifi_db>
+
+??? question "pcapFilter.sh"
+
+	A utility from the creator of WiFi-ChallengeLab to pull useful information from capture files. This is a CLI tool that outputs text by using `tshark` filters.
+
+	- <https://gist.github.com/r4ulcl/f3470f097d1cd21dbc5a238883e79fb2>
+
 
 
 ### :material-cloud-cog-outline: Cloud
