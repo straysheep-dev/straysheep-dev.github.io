@@ -113,6 +113,12 @@ h1:first-of-type {
 
     <div class="grid cards" markdown>
 
+    - :material-wifi:{ .lg .middle } __CWP__{ title="Certified WiFiChallenge Professional" }
+
+        ---
+
+        Certified WiFiChallenge Professional
+
     - :simple-dragonframe:{ .lg .middle } __OSCP__{ title="OffSec Certified Professional" }
 
         ---
