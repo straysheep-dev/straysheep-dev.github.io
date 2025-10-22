@@ -1171,7 +1171,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 !!! abstract "Ansible"
 
-	Most of my Ansible notes are a part of the README over at my [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs) repo.
+	Most of my Ansible notes were a part of the README over at my [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs) repo. These have moved to their own post on this blog: [straysheep.dev/blog/ansible](https://straysheep.dev/blog/2023/08/20/simple-ansible-ansible/).
 
 	With that said, the most general and useful notes or links can be found here.
 
@@ -2176,6 +2176,35 @@ This includes general network information as well as network-focused tools.
 
 	- <https://www.runzero.com/>
 	- <https://github.com/runZeroInc>
+
+	**Platform Support**
+
+	runZero supports almost all major platforms and architectures, including Windows, macOS, Linux, BSD, 32/64-bit, and ARM. Using a Raspberry Pi as an "Explorer" node works really well and has a lot of flexibility. The device you deploy the Explorer service to becomes your internal scanning engine. Ensure you have the right network access in place, or the right number of devices to use as Explorers, to fully enumerate your networks.
+
+	- <https://help.runzero.com/docs/installing-an-explorer/>
+	- <https://help.runzero.com/docs/installing-explorer-on-raspberry-pi/>
+
+
+	**Verifying Binaries**
+
+	runZero is able to build dynamic binaries on-demand, but also uses GPG and a custom signing tool to verify them. The documentation below walks through the process of validating any installers obtained from your console, as they are unique to your instance.
+
+	```
+	pub   rsa4096/60EBAAE9AEF08C6D 2022-08-07 [SC] [expires: 2029-08-05]
+		Key fingerprint = 9B5D AFF7 D433 4929 8A30  39BD 60EB AAE9 AEF0 8C6D
+	uid                 [ unknown] runZero Security <security@runzero.com>
+	sub   rsa4096/42ABA0ED4DBCD1C5 2022-08-07 [E] [expires: 2029-08-05]
+	```
+
+	- <https://help.runzero.com/docs/binary-verification/>
+
+	In summary:
+
+	- Download the GPG public key
+	- Download the verifier tool and its detached signature / hash
+	- Verify the verifier tool itself using the detached GPG signature and hash
+	- Download your Explorer installer
+	- Use the verifier tool to validate the Explorer installer binary
 
 ??? question "Nessus"
 
