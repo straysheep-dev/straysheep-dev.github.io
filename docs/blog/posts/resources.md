@@ -1051,41 +1051,45 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	```bash
 	# Reinitialize all submodules, you'd do this after cloning a project with submodules
-	git submodule update --init --checkout --recursive
-	git submodule sync --recursive
+	git submodule update --init --checkout [--recursive]
+	git submodule sync [--recursive]
 
 	# If a branch isn't already specified in .gitmodules, you can set it
 	git submodule set-branch --branch <branch> ./path/to/submodule
 
 	# Check status of all submodules, including nested projects
-	git submodule foreach --recursive 'git submodule status --recursive'
+	git submodule foreach [--recursive] 'git submodule status [--recursive]'
 
 	# Fetch any missing commits and update the working directory of all submodules
-	git submodule foreach --recursive '
-		git submodule update --init [--checkout] --recursive
-		git submodule update --remote [--checkout] --recursive
+	git submodule foreach [--recursive] '
+		git submodule update --init [--checkout] [--recursive]
+		git submodule update --remote [--checkout] [--recursive]
 	'
 	```
 
-	The steps above effectively update your current project with the latest changes of all submodules.
+	The steps above effectively initialize your current project with the latest changes of all submodules.
 
 	`--checkout` is optional, you can leave the submodule empty with only a reference to the commit.
 
-	When updating a project's submodules to point to the latest changes:
+	`--recursive` is also optional, to recurse into nested submodules. You don't always need this.
+
+	When updating a (super)project's submodules to point to the latest changes:
 
 	```bash
 	# --remote will pull in the latest changes of submodules
-	git submodule update --remote --recursive
+	git submodule update --remote [--recursive]
 	```
 
-	When making commits on super-projects, you'll want to effectively repeat the same steps:
+	**Deinitializing Submodules**
+
+	If you accidentally cloned a super-project and all of its submodules recursively, you can deinitialize them to undo this. This doesn't actually affect your commit status, even if you just added changes from a submodule to be commited, because it's all tracked by commit hashes over the files themselves.
 
 	```bash
-	# Checkout the latest changes of all submodules
-	git submodule update --init --recursive
+	# -f | --force will remove even submodules with local modifications
+	git submodule deinit -f my_submodule/
 
-	# Include --checkout to also clone the new files
-	git submodule update --init --checkout --recursive
+	# --all will unregister all submodules within the super-project
+	git submodule deinit -f --all
 	```
 
 	**Cloning Submodules Unauthenticated**
