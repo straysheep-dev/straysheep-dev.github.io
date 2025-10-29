@@ -669,19 +669,25 @@ Primary key fingerprint: 9684 79A1 AFF9 27E3 7D1A  566B B569 0EEE BB95 2194
 `cd` into the project folder and create a new inventory file.
 
 ```bash
-nano inventory.ini
+nano inventory.yaml
 ```
 
-Let's assume your ansible control node in this case is also the one you're installing Wazuh's server / node components onto. If not, then replace the IP in the inventory file with the IP you'd use to SSH into the machine where Wazuh will be installed.
+In this example, we're creating the "aio" or all-in-one inventory group, which points to remote machine(s) that already have our SSH public key on them for us to connect to, and we have the ansible user's `sudo` password for privilege escalation.
 
-```ini
-[aio]
-<your server host's IP>
+```yaml
+aio:
+  hosts:
+    192.168.123.198:
+      ansible_user: user1
+      ansible_become_password: 'packer'  # Replace this with a vault variable
+      ansible_become_method: sudo
+```
 
-[all:vars]
-ansible_ssh_user=root
-ansible_ssh_private_key_file=/path/to/ssh/key.pem    # Comment this line if you're using a YubiKey
-ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+You won't need to modify anything in the playbook (even the 127.0.0.1 addresses) other than using sudo instead of root:
+
+```yaml
+# Comment out all instances of "root" and replace with
+become: yes
 ```
 
 If you are in fact doing this "locally" it will still try to ssh into 127.0.0.1. You'll need a public key your own localhost will accept ssh connections over.
@@ -701,7 +707,7 @@ ssh-add -L >> ~/.ssh/authorized_keys
 Execute with
 
 ```bash
-ansible-playbook -i inventory.ini -b -v ./wazuh-single.yml
+ansible-playbook -i inventory.yaml -v ./wazuh-single.yml
 ```
 
 ---
