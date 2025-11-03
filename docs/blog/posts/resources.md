@@ -839,6 +839,18 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/geerlingguy/mini-rack>
 
 
+??? example "Framework Desktop (AMD Ryzen AI Max)"
+
+	[frame.work/desktop](https://frame.work/desktop?tab=specs)
+
+	This appears to be a relatively affordable and compact option for gaming, self-hosted AI workloads, and more. The raw compute power and size makes it a good candidate for a homelab server.
+
+	Proxmox is not officially supported, but there are early reports of PVE 9.0+ working with the 6.17 kernel. Framework suggests kernel 6.15 or newer. This needs to be tested.
+
+	- [frame.work: Official Distro Support](https://frame.work/desktop?tab=linux)
+	- [Proxmox Forum: AMD Ryzen AI Max+ 395 / Radeon 8060S Support](https://forum.proxmox.com/threads/amd-ryzen-ai-max-395-radeon-8060s-support.168225/)
+
+
 ## :fontawesome-solid-code: DevOps
 
 !!! abstract "Open Source Licensing"
@@ -927,6 +939,15 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 
 ### :simple-git: Git
+
+!!! abstract "Pro Git (PDF/epub)"
+
+	> The entire Pro Git book, written by Scott Chacon and Ben Straub and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.
+
+	Pulling the PDF or epub to search through all the examples at once will save you time.
+
+	- [git-scm.com/book/en/v2](https://git-scm.com/book/en/v2)
+	- [github.com/progit/progit2](https://github.com/progit/progit2)
 
 ??? example ".gitignore"
 
@@ -1124,6 +1145,50 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	This will recursively checkout all submodules of a project, changing the SSH url to HTTPS.
 
+	**Using Tags in Submodules**
+
+	Submodules are "pinned" to a branch (technically a commit hash). This makes working with tags both less clear, but equally straight forward depending on what you want to do.
+
+	- [git-scm.com: Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes)
+	- [git-scm.com: Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+
+	This section will use a real example that's public. I worked through this by cross referencing examples Google and ChatGPT returned with what's covered in the Git documentation. The goal was to maintain a fork of the [wazuh-ansible](https://github.com/wazuh/wazuh-ansible) repo, that I will point to the latest release tag as [a submodule in my ansible-configs repo](https://github.com/straysheep-dev/ansible-configs/commit/0a12aaa96bdfbf67cc57a2403b05e52d7a80d36e).
+
+	The wazuh-ansible releases are based on tags, not branches. Submodules prefer using branches to track commits, not tags. In this case it makes sense to checkout the tag in my fork as a dedicated branch (something like `<username>/latest-tag`) that the submodule will always point to. In other words, whenever a new tag is released, you're adding that commit data to the same `<username>/latest-tag` branch the submodule will track. You could also create branches for each tag if that makes more sense, but the submodule will need to be updated to track that branch.
+
+	```bash
+	# Clone your fork
+	git clone git@github.com:straysheep-dev/wazuh-ansible.git
+
+	# Add the upstream source as a remote
+	git remote add upstream git@github.com:wazuh/wazuh-ansible.git
+
+	# Fetch the latest stable release tag (you'll repeat this to update to the latest tag)
+	# As of the time of writing that's v4.14.0
+	git fetch upstream tag v4.14.0
+
+	# Push that tag to your fork (it seems to become aware of all tags at this point)
+	git push origin v4.14.0
+	```
+
+	Create a branch that you'll use to track the latest release tag. This stays the same, and allows you to pull in future tags without needing to change which branch the submodule tracks.
+
+	```bash
+	# Checkout the tag, and simultaneously create the branch you want to use to track the latest tag commit
+	git checkout -b <branch> <tag>
+	git checkout -b straysheep-dev/latest-tag v4.14.0
+	```
+
+	Now add the submodule, pointing it to your branch that will track the latest tag release going forward (`straysheep-dev/latest-tag`):
+
+	```bash
+	# Add your fork + custom branch as a submodule
+	git submodule add -b <branch> <url> <local-path>
+	git submodule add -b straysheep-dev/latest-tag git@github.com:straysheep-dev/wazuh-ansible.git install_wazuh
+	```
+
+	Now any time you need to update that branch to a later tag as new tags are released, you're pulling any new tag data into that same `<username>/latest-tag` branch.
+
 **Security Advisories**
 
 ??? warning "CVE-2025-48384"
@@ -1169,6 +1234,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [github.com/actions/setup-python](https://github.com/actions/setup-python)
 	- [github.com/actions/setup-go](https://github.com/actions/setup-go)
 	- [github.com/actions/setup-node](https://github.com/actions/setup-node)
+
+
+??? example "GitHub README Customization"
+
+	**Custom Stat Cards**
+
+	- [How can I add GitHub stats to my profile?](https://github.com/orgs/community/discussions/61477)
+	- [GitHub README Stats](https://github.com/anuraghazra/github-readme-stats)
 
 
 ### :material-ansible: Ansible
