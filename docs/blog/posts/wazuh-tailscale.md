@@ -1035,6 +1035,8 @@ All of these things will work fine out of the box.
 
     The most useful component to reviewing your logs after applying these changes is making sure all of your rules have [keys (`man audit.rules`)](https://github.com/linux-audit/audit-userspace/blob/e5b0c9d74a54e0c6c83ba402807a53e4544b7898/docs/audit.rules.7#L151) associated with them. Even without a specific Wazuh rule for each key, the SOCFortress decoder file allows you to visualize and search logs based on the key you've asigned each rule in your own audit.rules file(s).
 
+**Endpoint**:
+
 Use whatever means of [deploying `auditd` itself and a configuration](https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd). Regardless of which way you do this, this line should be included somewhere in your auditd configuration to filter out the Wazuh agent's behavior which could flood the logs. You could even write this to it's own `40-wazuh.rules` file:
 
 ```conf
@@ -1042,7 +1044,24 @@ Use whatever means of [deploying `auditd` itself and a configuration](https://gi
 -a always,exclude -F gid=wazuh  # from SocFortress config: https://github.com/socfortress/Wazuh-Rules/tree/main/Auditd
 ```
 
-Install everything on the Wazuh Server:
+Unlike sysmonforlinux, auditd writes to its own log files. [You will need to configure the agent to ingest these](https://documentation.wazuh.com/current/user-manual/capabilities/system-calls-monitoring/audit-configuration.html#monitored-endpoint):
+
+```bash
+echo '
+<ossec_config>
+  <localfile>
+    <log_format>audit</log_format>
+    <location>/var/log/audit/audit.log</location>
+  </localfile>
+</ossec_config>
+' | sudo tee -a /var/ossec/etc/ossec.conf
+
+sudo systemctl restart wazuh-agent
+
+```
+
+
+**Server-side**:
 
 ```bash
 cd ~/src
@@ -1102,6 +1121,42 @@ This section details doing the same using Zeek.
 *⚠️ TO DO: This section is still under construction, check back later! ⚠️*
 
 ---
+
+
+## Customizing Rules
+
+By default you'll find even the [SOC Fortress rules](https://github.com/straysheep-dev/Wazuh-Rules/blob/main/Auditd/200110-auditd.xml) are not alerting on all of your auditd rules in Wazuh's dashboard, even if they're getting logged by auditd.
+
+This section is an example showing you how to write your own rule block to integrate with those rules specifically, but could apply to any ruleset. In this case, assume you installed all of the default rules plus the [STIG profile that ships with auditd](https://github.com/linux-audit/audit-userspace/blob/master/rules/30-stig.rules).
+
+First obtain all active auditd keys from the endpoint:
+
+```bash
+audit_rules=$(sudo cat /etc/audit/audit.rules)
+echo "$audit_rules" | awk '{print $NF}' | sed 's/key=//g' | sort | uniq
+```
+
+Use `type=pcre2` when [writing the rules](https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html#options) with numerous keys to match on, to be able to include them all in the same line. You'll see SOC Fortress is using their own decoders and parent rules to process log entries that are generally syscall, execve, path-related, etc. Here [`if_sid 200110`](https://github.com/straysheep-dev/Wazuh-Rules/blob/02439a51ba2ed58d7b5790ffbd44fba42533b2f9/Auditd/200110-auditd.xml#L3C13-L3C19) is being used as the "parent" rule for subsequent rules that generally result in logs related to syscall events.
+
+We'll also use `200110` below here to process all matches as syscalls. Ideally you would go through each key to determine what event types the majority of them result in, so groups of keys have their own processing block. If you try to simply duplicate this entire block for each decoder type, it appears to operate on a first match in the `local_rules.xml`, so only the first decoder will process the log if a matching key is in both blocks.
+
+Add this to the bottom of `/var/ossec/etc/rules/local_rules.xml`, just above the `</group>` closing tag, on your Wazuh server (not the endpoints):
+
+```xml
+  <rule id="300001" level="12">
+  <if_sid>200110</if_sid>
+  <field type="pcre2" name="audit.key">(actions|identity|32bit-abi|MAC-policy|access|code-injection|data-injection|delete|export|external-access|maybe-escalation|module-load|module-unload|perm_mod|register-injection|system-locale|time-change|tracing)</field>
+  <description>Detects all keys mapped to the default + STIG rules that ship with auditd.</description>
+  <group>syscall,stig,</group>
+  </rule>
+
+</group>
+
+```
+
+
+---
+
 
 ## Reviewing Logs
 
