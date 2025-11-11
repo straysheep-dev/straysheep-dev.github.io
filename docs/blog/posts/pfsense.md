@@ -2258,3 +2258,25 @@ Luckily IPv6 Link-Local scope is a direct connection without the need for IPv4 s
 3. Port forward with SSH into the interface so you can browse to the GUI: `ssh -L 8443:127.0.0.1:443 <pfsense-user>@fe80::aaaa:bbbb:cccc:1234%<your-iface>`
 4. Point your browser to `https://127.0.0.1:8443`
 5. Re-enable DHCP for the interface that lost it; `Services > DHCP Server > <iface>` check `Enable`
+
+
+### Management Stack Fails to Load After Reboot
+
+!!! note "Observed Conditions"
+
+	This has only been replicated on an SG-1100 under heavier network strain.
+
+On occassion this has happened, if for example you're streaming Netflix or running high volume network scans (`nmap`) while needing to reboot pfSense. In cases like this, everything comes back online in 2-3 minutes, but you'll find you cannot reach the management interfaces over SSH or HTTPS, no matter how you're trying to reach them.
+
+When this happens the simplest solution is to connect via the serial console, and reboot the machine one more time. Over time logs may be added here that could point to why this happens, but so far no consistent issue has been found.
+
+!!! tip "Serial Connection"
+
+	If you have your pfSense box installed in some sort of rack and have the space, leaving the serial cable connected and wrapped up behind the device while not in use may save you time if you ever need to reconnect again.
+
+
+### pfSense Fails Reconnecting to Tailnet
+
+Sometimes after a reboot Tailscale may not connect back to your tailnet. Simply restart the Tailscale service to fix this.
+
+If you use Tailscale to manage pfSense remotely this can be an issue. Having an alternate remote access method such as SSH (even externally with limited ingress rules) or another jump box connected to your Tailnet on pfSense's management subnet, can save you.
