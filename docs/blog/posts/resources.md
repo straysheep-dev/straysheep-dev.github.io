@@ -895,6 +895,33 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - `/* SPDX-License-Identifier: MIT OR Apache-2.0 */`
 	> - `# SPDX-License-Identifier: GPL-2.0-or-later`
 
+!!! danger "Securing GitOps"
+
+	[**VSCode Restricted Mode**](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust)
+
+	To define exactly what extensions can be installed and set restricted mode globally in `settings.json`:
+
+	```json
+	{
+		"extensions.allowed": {},
+		"security.workspace.trust.emptyWindow": false
+	}
+	```
+
+	> Restricted Mode tries to prevent automatic code execution by disabling or limiting the operation of several VS Code features: tasks, debugging, workspace settings, and extensions.
+	>
+	> To see the full list of features disabled in Restricted Mode, you can open the Workspace Trust editor via the Manage link in the banner, or by selecting the Restricted Mode badge in the Status Bar.
+	>
+	> **Important**: Workspace Trust can't prevent a malicious extension from executing code and ignoring Restricted Mode. You should only install and run extensions that come from a well-known publisher that you trust.
+
+	Tasks are defined in the workspace `.vscode` folder. This folder **is** cloned when git cloning a remote project.
+
+	[**Git Hooks**](https://git-scm.com/docs/githooks) and [**Customizing Git Hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+
+	Git hooks are scripts stored under `$GIT_DIR/hooks/*` or `git config core.hooksPath/*` in a project. The default/bundled example scripts all end with `.sample` and won't execute without a proper file extension. Git hooks can execute bash, Perl, Python, or really any scripting language.
+
+	**Git hooks do not get cloned when you clone or otherwise fetch the upstream source of a project. You will need to add these yourself similar to local git config settings.**
+
 ??? example "shields.io Badges"
 
 	> Shields.io is a service for concise, consistent, and legible badges, which can easily be included in GitHub readmes or any other web page. The service supports dozens of continuous integration services, package registries, distributions, app stores, social networks, code coverage services, and code analysis services. It is used by some of the world's most popular open-source projects.
@@ -1273,7 +1300,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Possibly the most popular code editor. It's lighter weight than Visual Studio, cross-platform, and still very feature rich with built-in support for git, visual diff similar to GitHub, and other dev(ops) operations. Use it as a frontend to connect to a remote developer server, integrate with various AI tools, and more.
 
-	From a security perspective, the public extensions and remote automation capabilities make it an interesting attack vector for secrets theft, malware deployment, and even direct C2 communications.
+	From a security perspective, the extensions marketplace and remote automation capabilities make it an interesting attack vector for secrets theft, malware deployment, and even direct C2 communications.
 
 ??? note "Settings JSON File"
 
