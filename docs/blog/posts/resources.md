@@ -850,6 +850,24 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [frame.work: Official Distro Support](https://frame.work/desktop?tab=linux)
 	- [Proxmox Forum: AMD Ryzen AI Max+ 395 / Radeon 8060S Support](https://forum.proxmox.com/threads/amd-ryzen-ai-max-395-radeon-8060s-support.168225/)
 
+??? tip "Raspberry Pi"
+
+	[**Secure Boot Chain of Trust**](https://github.com/raspberrypi/usbboot/tree/master/docs)
+
+	- [Raspberry Pi4 Boot Process](https://github.com/raspberrypi/usbboot/blob/master/docs/secure-boot-chain-of-trust-2711.pdf)
+	- [Raspberry Pi5 Boot Security](https://github.com/raspberrypi/usbboot/blob/master/docs/secure-boot-chain-of-trust-2712.pdf)
+	- [Raspberry Pi boot EEPROM](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspberry-pi-boot-eeprom)
+	- [EEPROM boot flow](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#eeprom-boot-flow)
+	- [BCM Chip Overviews and Datasheets](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711)
+	- [OTP register and bit definitions](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions)
+	- [github.com/raspberrypi/firmware/issues/1857 Support loading custom ARM firmware from EEPROM](https://github.com/raspberrypi/firmware/issues/1857)
+
+	The first two references above detail the entire boot process for the most recent Raspberry Pi hardware models (4 and 5 at the time of writing this note). Separately from how Secure Boot works here, these documents help answer questions regarding the level of persistence an adversary could potentially reach on a Raspberry Pi, if for example a device is compromised.
+
+	In the case of the Pi5, "the BOOTROM *always* verifies the RPi signature and RPi `fw_min_ver` which is defined by the RPi per ROM key". It's also evident from the open issue ([#1857](https://github.com/raspberrypi/firmware/issues/1857)) that loading custom firmware from the EEPROM isn't possible *yet*. Couple that with the BOOTROM and OTP registers containing some factory-programmed data that's not writable, suggests that only properly signed firmware updates can be applied.
+
+	Data sheets or supporting documentation that speaks to this more directly will be quoted or added here over time.
+
 
 ## :fontawesome-solid-code: DevOps
 
@@ -1242,6 +1260,36 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- [How can I add GitHub stats to my profile?](https://github.com/orgs/community/discussions/61477)
 	- [GitHub README Stats](https://github.com/anuraghazra/github-readme-stats)
+
+
+### :material-microsoft-visual-studio-code: VSCode
+
+!!! abstract "VSCode"
+
+	> The open source AI code editor.
+
+	- <https://github.com/microsoft/vscode>
+	- <https://code.visualstudio.com/>
+
+	Possibly the most popular code editor. It's lighter weight than Visual Studio, cross-platform, and still very feature rich with built-in support for git, visual diff similar to GitHub, and other dev(ops) operations. Use it as a frontend to connect to a remote developer server, integrate with various AI tools, and more.
+
+	From a security perspective, the public extensions and remote automation capabilities make it an interesting attack vector for secrets theft, malware deployment, and even direct C2 communications.
+
+??? note "Settings JSON File"
+
+	[Settings JSON File](https://code.visualstudio.com/docs/configure/settings#_settings-json-file)
+
+	- Windows `%APPDATA%\Code\User\settings.json`
+	- macOS `$HOME/Library/Application\ Support/Code/User/settings.json`
+	- Linux `$HOME/.config/Code/User/settings.json`
+
+??? question "Search vs Find in Folder"
+
+	It's often useful, if you have all of your projects under a `~/src` directory, to open that folder so all of your projects are accessible in the explorer pane.
+
+	**Search** allows you to search through everything in the explorer pane, as well as conduct find-and-replace operations.
+
+	**Find in Folder** can do the same, and is available by right-clicking any folder in the explorer pane to **limit your search to just that path**.
 
 
 ### :material-ansible: Ansible
