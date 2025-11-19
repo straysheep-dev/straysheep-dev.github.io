@@ -1243,6 +1243,84 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://nvd.nist.gov/vuln/detail/CVE-2025-48384>
 	- <https://github.com/git/git/security/advisories/GHSA-vwqx-4fm8-6qc9>
 
+
+### :material-shield-key: SOPS
+
+	> SOPS is an editor of encrypted files that supports YAML, JSON, ENV, INI and BINARY formats and encrypts with AWS KMS, GCP KMS, Azure Key Vault, age, and PGP.
+
+	- <https://github.com/getsops/sops>
+
+	**Verifying Integrity**
+
+	SOPS has an extensive series of checks you can do to validate the release files are authentic and haven't been tampered with. An SBOM is also provided with each release.
+
+	**Ansible Collection**
+
+	SOPS is available by default as a community collection in the standard Ansible package. Review [Protecting Ansible Secrets with SOPS](https://docs.ansible.com/projects/ansible/latest/collections/community/sops/docsite/guide.html) for a quick-start guide.
+
+	SOPS is better suited for complex environments over an Ansible Vault file because it can encrypt comments and values in files while leaving the mapping keys visible within structured data like YAML, JSON, INI and ENV.
+
+	If you have Ansible already installed on a controller or node, you can [easily install SOPS from your package manager or GitHub using the built-in role](https://docs.ansible.com/projects/ansible/latest/collections/community/sops/docsite/guide.html#installing-sops) via the two convenience playbooks (below).
+
+	```bash
+	# Install SOPS on Ansible controller
+	$ ansible-playbook community.sops.install_localhost
+
+	# Install SOPS on remote servers
+	$ ansible-playbook community.sops.install --inventory /path/to/inventory
+	```
+
+	It's recommended to use [`age`](https://github.com/FiloSottile/age) with SOPS for encryption.
+
+	**Example Usage**
+
+	Example workflow to convert an existing inventory.yaml file to an age-encrypted file via SOPS:
+
+	```bash
+	# SOPS uses predictable config folder paths, create one on Linux
+	mkdir -p $HOME/.config/sops/age/
+
+	# Generate an age public / private key pair
+	age-keygen -o $HOME/.config/sops/age/keys.txt
+
+	# Create a SOPS copy of an existing inventory file
+	sops encrypt --age <public-key-string> inventory.yaml > inventory.enc.yaml
+
+	# Assuming your inventory previously referenced an Ansible vault with variables,
+	# you can now write those secrets into the inventory.enc.yaml file that's
+	# protected with SOPS and age
+	sops inventory.enc.yaml
+
+	# You can also use a text editor to write key mappings into an encrypted SOPS file!
+	nano inventory.enc.yaml
+	# Then add the secrets later with SOPS
+	sops inventory.enc.yaml
+	```
+
+	**Best Practices**
+
+	The documented usage covers (what I read as) three layers:
+
+	- setting the environment variable `SOPS_AGE_KEY_FILE`;
+	- setting the `SOPS_AGE_KEY` environment variable;
+	- providing a command to output the age keys by setting the `SOPS_AGE_KEY_CMD` environment variable.
+
+	SOPS automatically reads from `~/.config/sops/age/keys.txt`. This seems to be fine to get started with on trusted / locked down machines for devops or automated workflows. The next step up from that would be using a granularly-scoped vault to retrieve the `age` secret dynamically via the `SOPS_AGE_KEY_CMD` environment variable. Keys in this scenario can be rotated too without needing to rotate all of the encrypted secrets. Neither of these methods prevent a root process on that host from compromising the key or it's secrets at the moment of decryption, in which case, all secrets should be rotated. However, it greatly limits (and through a vault, audits) the potential reach of the damage through what are effectively layers of abstraction.
+
+	The ideal (Ansible) setup seems to be a dedicated, locked down host (the controller node), storing the secrets and/or with vault access, to launch automated workflows on other machines remotely. The machines with the highest chance to be compromised only ever contain their own secrets in memory temporarily and have no access to the controller node or other secrets. This is similar to what cloud provider's key management services do, where specific secrets are provided just-in-time.
+
+	This is discussed in more detail here: <https://getsops.io/docs/#the-initial-trust>
+
+
+### :material-file-key: age
+
+	> A simple, modern and secure encryption tool (and Go library) with small explicit keys, no config options, and UNIX-style composability.
+
+	- <https://github.com/FiloSottile/age>
+
+	See the GitHub README for an overview and quick-start on usage. This is the recommended encryption tool to use with [SOPS](https://github.com/getsops/sops) instead of GPG.
+
+
 ### :simple-github: GitHub
 
 !!! abstract "Platform Information"
