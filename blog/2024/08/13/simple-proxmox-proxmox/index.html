@@ -1,0 +1,2834 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/08/13/simple-proxmox-proxmox/">
+      
+      
+        <link rel="prev" href="../material-server-security-wazuh-all-your-things-with-tailscale/">
+      
+      
+        <link rel="next" href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Proxmox - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Proxmox - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/08/13/simple-proxmox-proxmox.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/08/13/simple-proxmox-proxmox/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Proxmox - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/08/13/simple-proxmox-proxmox.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#proxmox" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Proxmox
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏬ Download
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💽 Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔑 Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mfa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 MFA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Package Repositories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 System Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐚 SSH Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suricata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔎 Suricata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⌨️ Users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📇 Groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Realms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪪 Permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🪪 Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packer-user-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Packer User Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Disk Encryption
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Migrating VMs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ VM Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ VM Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#virtual-nic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛜 Virtual NIC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk-passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Disk Passthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uefi-causes-boot-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UEFI Causes Boot Failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-08-13 00:00:00+00:00" class="md-ellipsis">August 13, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              18 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏬ Download
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💽 Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔑 Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mfa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 MFA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Package Repositories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 System Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐚 SSH Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suricata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔎 Suricata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⌨️ Users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📇 Groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Realms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪪 Permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🪪 Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packer-user-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Packer User Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Disk Encryption
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Migrating VMs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ VM Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ VM Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#virtual-nic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛜 Virtual NIC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk-passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Disk Passthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uefi-causes-boot-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UEFI Causes Boot Failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="proxmox"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.928 1.825c-1.09.553-1.09.64-.07 1.78 5.655 6.295 7.004 7.782 7.107 7.782.139.017 7.971-8.542 8.058-8.801.034-.07-.208-.312-.519-.536-.415-.312-.864-.433-1.712-.467-1.59-.104-2.144.242-4.115 2.455-.899 1.003-1.66 1.833-1.66 1.833-.017 0-.76-.813-1.642-1.798S8.473 2.1 8.127 1.91c-.796-.45-2.421-.484-3.2-.086zM1.297 4.367C.45 4.695 0 5.007 0 5.248c0 .121 1.331 1.678 2.94 3.459 1.625 1.78 2.939 3.268 2.939 3.302s-1.331 1.522-2.94 3.303C1.314 17.11.017 18.683.035 18.822c.086.467 1.504 1.055 2.541 1.055 1.678-.018 2.058-.312 5.603-4.202 1.78-1.954 3.233-3.614 3.233-3.666 0-.069-1.435-1.694-3.199-3.63-2.3-2.508-3.423-3.632-3.96-3.874-.812-.398-2.126-.467-2.956-.138m18.467.12c-.502.26-1.764 1.505-3.943 3.891-1.763 1.937-3.199 3.562-3.199 3.631 0 .07 1.453 1.712 3.234 3.666 3.544 3.89 3.925 4.184 5.602 4.202 1.038 0 2.455-.588 2.542-1.055.017-.156-1.28-1.712-2.905-3.493-1.608-1.78-2.94-3.285-2.94-3.32s1.332-1.539 2.94-3.32C22.72 6.91 24.017 5.352 24 5.214c-.087-.45-1.366-.968-2.473-1.038-.795-.034-1.21.035-1.763.312zM7.954 16.973c-2.144 2.369-3.908 4.374-3.943 4.46-.034.07.208.312.52.537.414.311.864.432 1.711.467 1.574.103 2.161-.26 4.15-2.508.864-.968 1.608-1.78 1.625-1.78s.761.812 1.643 1.798c2.023 2.248 2.559 2.576 4.132 2.49.848-.035 1.297-.156 1.712-.467.311-.225.553-.467.519-.536-.087-.26-7.92-8.819-8.058-8.801-.069 0-1.867 1.954-4.011 4.34"/></svg></span> Proxmox</h1>
+<p>Get started with Proxmox. Installation considerations, networking, disk encryption options, and migrating existing virtual machines.</p>
+<p>Everything's presented in a useful order to follow if you're used to Hyper-V, VMware Workstation, or VirtualBox and want to jump in by moving to a Proxmox server.</p>
+<p>What's most interesting about Proxmox is the Web UI gives you full console and GUI (yes, GUI desktop) access to your VM's through either noVNC or SPICE, <em>even via a smart phone</em>.</p>
+<!-- more -->
+
+<p>📚 <a href="https://pve.proxmox.com/pve-docs">Proxmox VE Documentation</a></p>
+<hr />
+<h2 id="download">⏬ Download</h2>
+<div class="admonition tip">
+<p class="admonition-title">Verifying Signatures</p>
+<p>The ISO URL points to an <code>/iso/</code> folder on the Proxmox webiste. Browsing this manually reveals the following files:</p>
+<ul>
+<li><a href="https://enterprise.proxmox.com/iso/SHA256SUMS.txt">https://enterprise.proxmox.com/iso/SHA256SUMS.txt</a></li>
+<li><a href="https://enterprise.proxmox.com/iso/SHA256SUMS.asc">https://enterprise.proxmox.com/iso/SHA256SUMS.asc</a></li>
+</ul>
+<p>You can use these along with the following public key to verify the ISO's integrity.</p>
+<div class="highlight"><pre><span></span><code>gpg<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;F4E136C67CDCE41AE6DE6FC81140AF8F639E0C39&#39;</span>
+
+<span class="c1"># list keys</span>
+pub<span class="w">   </span>rsa4096/0x1140AF8F639E0C39<span class="w"> </span><span class="m">2022</span>-11-27<span class="w"> </span><span class="o">[</span>SC<span class="o">]</span><span class="w"> </span><span class="o">[</span>expires:<span class="w"> </span><span class="m">2032</span>-11-24<span class="o">]</span>
+<span class="w">    </span>Key<span class="w"> </span><span class="nv">fingerprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>F4E1<span class="w"> </span>36C6<span class="w"> </span>7CDC<span class="w"> </span>E41A<span class="w"> </span>E6DE<span class="w">  </span>6FC8<span class="w"> </span><span class="m">1140</span><span class="w"> </span>AF8F<span class="w"> </span>639E<span class="w"> </span>0C39
+uid<span class="w">                   </span><span class="o">[</span><span class="w"> </span>unknown<span class="o">]</span><span class="w"> </span>Proxmox<span class="w"> </span>Bookworm<span class="w"> </span>Release<span class="w"> </span>Key<span class="w"> </span>&lt;proxmox-release@proxmox.com&gt;
+</code></pre></div>
+</div>
+<h2 id="install">💽 Install</h2>
+<p>Walk through the graphical or terminal installer. This is straight forward if you're used to installing hypervisor software.</p>
+<p><strong>Email</strong></p>
+<p>You'll need to choose an email address to send alerts to, this can be <code>root@localhost</code> or a real email.</p>
+<h2 id="access">🔑 Access</h2>
+<p>Proxmox listens on 22/tcp (SSH) and 8006/tcp (Web UI).</p>
+<p>You can browse directly to your Proxmox machine's <code>https://&lt;IP&gt;:8006</code> or use SSH. SSH allows you to do local port forwarding which will help you access the web interface from a jump host.</p>
+<div class="admonition tip">
+<p class="admonition-title">Jump Hosts</p>
+<p><strong>Tailscale</strong></p>
+<p>You can install Tailscale on proxmox, since it's Debian under the hood. This is a great way to isolate and access the management interface from authorized tailnet nodes.</p>
+<p><strong>From WSL to Jump Host</strong></p>
+<p>This example has a Yubikey connected to WSL on Windows:</p>
+<ul>
+<li>The Yubikey is required to SSH into Proxmox</li>
+<li>SSH Windows:8006 &gt; WSL:8006</li>
+<li>SSH WSL:8006 (with Yubikey) &gt; JumpHost:SSH-PORT &gt; Proxmox:8006</li>
+<li>Now point your Windows browser to https://127.0.0.1:8006</li>
+<li>It will forward to WSL which uses a jump host to forward again to proxmox's localhost:8006</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># On Windows Host</span>
+<span class="nv">$wsl_user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>wsl.exe<span class="w"> </span>whoami
+<span class="nv">$wsl_ipv4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>wsl.exe<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>eth0<span class="w"> </span><span class="p">|</span><span class="w"> </span>sls<span class="w"> </span><span class="s2">&quot;(?:(?:192\.168|172\.16|10\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\.)(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.)(?:25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ForEach-Object<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nv">$_</span>.Matches.Value<span class="w"> </span><span class="o">}</span>
+PS&gt;<span class="w"> </span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">127</span>.0.0.1:8006:127.0.0.1:8006<span class="w"> </span><span class="nv">$wsl_user</span>@<span class="nv">$wsl_ipv4</span>
+
+<span class="c1"># On WSL</span>
+<span class="nv">JUMP_HOST_USER</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">JUMP_HOST_IP</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">JUMP_HOST_PORT</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">PROXMOX_USER</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">PROXMOX_IP</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+$<span class="w"> </span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">127</span>.0.0.1:8006:127.0.0.1:8006<span class="w"> </span>-J<span class="w"> </span><span class="nv">$JUMP_HOST_USER</span>@<span class="nv">$JUMP_HOST_IP</span>:<span class="nv">$JUMP_HOST_PORT</span><span class="w"> </span><span class="nv">$PROXMOX_USER</span>@<span class="nv">$PROXMOX_IP</span>
+</code></pre></div>
+</div>
+<h2 id="configure">⚙️ Configure</h2>
+<h3 id="mfa">🔐 MFA</h3>
+<p>First, add 2FA/MFA to your root login. This can be a software token saved to your password manager or authenticator app, plus a hardware key using webauthn.</p>
+<hr />
+<h3 id="package-repositories">📦 Package Repositories</h3>
+<p>Next, if you have a valid enterprise subscription key, you're good to go. If not, disable the enterprise repos and enable the pve-no-subscription repo.</p>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_package_repositories">Proxmox VE Enterprise / No-Subscription Repository</a></li>
+</ul>
+<hr />
+<h3 id="system-updates">💻 System Updates</h3>
+<p>GUI: Click <code>Updates</code> then <code>Refresh</code> to run <code>apt-get update;</code> finally <code>&gt;_ Upgrade</code> to run <code>apt-get dist-upgrade</code></p>
+<p>You can also run these from a bash shell on the Proxmox VE host.</p>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#system_software_updates">Proxmox VE System Software Updates</a></li>
+</ul>
+<hr />
+<h3 id="ssh-authentication">🐚 SSH Authentication</h3>
+<p><code>root</code> is allowed to login with a password by default. You can disable this in <code>sshd_config</code> once you've added your key to <code>authorized_keys</code>:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://github.com/USERNAME.keys<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/root/.ssh/authorized_keys
+<span class="c1"># symlink to /etc/pve/priv/authorized_keys</span>
+
+sed<span class="w"> </span>-i_bkup<span class="w"> </span><span class="s1">&#39;s/^.*PasswordAuthentication.*$/PasswordAuthentication no/g&#39;</span><span class="w"> </span>/etc/ssh/sshd_config
+systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
+</code></pre></div>
+<hr />
+<h3 id="firewall">🔥 Firewall</h3>
+<p>The firewall is off by default. To enable it:</p>
+<ul>
+<li>Datacenter &gt; Firewall &gt; Options &gt; Click <code>Firewall ... No</code> to highlight it &gt; Click <code>Edit</code> &gt; Check <code>Firewall</code></li>
+<li>Now <code>iptables -S</code> will reveal a set of default rules</li>
+</ul>
+<p>If you enable it, the only default allow rules are to 22/tcp and 8006/tcp from the local subnet.</p>
+<div class="admonition tip">
+<p class="admonition-title">Firewall Isolation</p>
+<p>You can enable the firewall at the Proxmox node level, as well as per-VM to isolate lateral traffic between VM's on the same bridge interface. This requires nothing more than simply enabling the firewall for each VM, the default rules allow outbound but drop inbound. Keep in mind this will also prevent you from remoting into VM's directly without some type of reverse tunnel or proxy.</p>
+</div>
+<p>You can define specific rules to the Proxmox VE host and VM guests from the GUI or using a text editor on:</p>
+<ul>
+<li><code>/etc/pve/nodes/&lt;nodename&gt;/host.fw</code> Host configuration</li>
+<li>
+<p><code>/etc/pve/firewall/&lt;VMID&gt;.fw</code> VM / Container configuration</p>
+</li>
+<li>
+<p>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_pve_firewall">Proxmox VE Firewall</a></p>
+</li>
+</ul>
+<hr />
+<h3 id="suricata">🔎 Suricata</h3>
+<p>You can install suricata IPS on the Proxmox host. Keep in mind REJECTED or DROP'd packets do not go to suricata.</p>
+<div class="highlight"><pre><span></span><code>apt-get<span class="w"> </span>install<span class="w"> </span>suricata
+modprobe<span class="w"> </span>nfnetlink_queue
+</code></pre></div>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_tips_and_tricks">Proxmox VE Firewall Tips and Tricks</a></li>
+</ul>
+<hr />
+<h3 id="users">⌨️ Users</h3>
+<p>To see all system users: Datacenter &gt; Permissions &gt; Users</p>
+<p>User details for the PVE realm are defined on the filesystem under <code>/etc/pve/user.cfg</code> (note that passwords are under <code>/etc/pve/priv/shadow.cfg</code>).</p>
+<p>Users in the PAM realm are still stored under <code>/etc/passwd</code>,<code>shadow</code> and the usual system paths.</p>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_users">Proxmox VE User Management</a></li>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples">Proxmox VE User Management: Examples</a></li>
+</ul>
+<h3 id="groups">📇 Groups</h3>
+<p>To see, create, and modify groups: Datacenter &gt; Permissions &gt; Groups</p>
+<p>These are effectively user defined, based on what your needs are. Groups are a way to tie multiple users to one or more permission sets.</p>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_groups">Proxmox VE Groups</a></li>
+</ul>
+<p>Proxmox has a built-in set of permission "roles" that you can get started with. These are covered <a href="#permissions">below</a>.</p>
+<h3 id="realms">📚 Realms</h3>
+<p>Proxmox understands two authentication "realms", which are "pve" and "pam".</p>
+<div class="admonition tip">
+<p class="admonition-title">PVE &amp; PAM Realms are Two Separate Things</p>
+<ul>
+<li><strong>PVE</strong>: Authentication and permissions tied directly to Proxmox-specific functionality (GUI/API)<ul>
+<li>A user created in the PVE realm doesn't necessarily have direct Linux shell access outside of the Proxmox GUI/API</li>
+</ul>
+</li>
+<li><strong>PAM</strong>: Authentication to, and controlled by, the underlying OS (for shell or SSH access)<ul>
+<li>PAM can still be used as an auth realm via the GUI</li>
+<li>In other words, a PAM account can be expanded to have GUI/API access, but a PVE account must have a separate PAM account for shell access</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Testing User Access</p>
+<p>You can try and verify how this works by creating users however you'd like, and seeing what level of access they have to the UI, API, and console / SSH, one step at a time. This is the best way to visualize and understand what's required and what the authentication mechanisms expect.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Users and Realms Examples</p>
+<ul>
+<li>A user created in the web UI, under the PAM realm, doesn't have a shell account automatically; you must create this</li>
+<li>There isn't even a way to set a password like this either; the expectation is the user account already exists on the OS underneath</li>
+<li>A user created via a utility like <code>useradd</code> from the shell, does not automatically have an account in the web UI</li>
+<li>In this case, create your user with <code>useradd</code>, then create them in the web UI tied to the PAM realm, and you can login to the web UI with that user</li>
+<li>Similarly you must create a shell account for a web UI user that you'd like to have shell access, say a unique admin account</li>
+<li>Users can even have the <code>Sys.Console</code> permission in Proxmox, but won't be able to use the shell or SSH unless they know a valid login to the OS underneath</li>
+</ul>
+</div>
+<p><strong>Example Continued <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Here we're using the Proxmox utility <code>pveum user add</code> to create a user in the Proxmox "side" of the system, but tie their authenticaiton to PAM:</p>
+<div class="highlight"><pre><span></span><code>root@pve:~# pveversion
+pve-manager/8.4.1/2a5fa54a8503f96d (running kernel: 6.8.12-11-pve)
+root@pve:~#
+root@pve:~# pveum user add testuser@pam
+root@pve:~#
+root@pve:~# pveum user list
+┌──────────────┬─────────────────────────────────┬────────────────┬────────┬────────┬───────────┬────────┬──────┬──────────┬────────────┬──────────────────┬──
+│ userid       │ comment                         │ email          │ enable │ expire │ firstname │ groups │ keys │ lastname │ realm-type │ tfa-locked-until │ t
+╞══════════════╪═════════════════════════════════╪════════════════╪════════╪════════╪═══════════╪════════╪══════╪══════════╪════════════╪══════════════════╪══
+│ admin@pve    │ Standard administrative user.   │                │ 1      │      0 │           │        │      │          │ pve        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ builder@pam  │ User to build packer templates. │                │ 0      │      0 │           │        │      │          │ pam        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ root@pam     │                                 │ root@localhost │ 1      │      0 │           │        │      │          │ pam        │                  │
+├──────────────┼─────────────────────────────────┼────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼──
+│ testuser@pam │                                 │                │ 1      │      0 │           │        │      │          │ pam        │                  │
+└──────────────┴─────────────────────────────────┴────────────────┴────────┴────────┴───────────┴────────┴──────┴──────────┴────────────┴──────────────────┴──
+root@pve:~#
+</code></pre></div>
+<p>We can see even though we created this user in Proxmox, they don't really exist (yet):</p>
+<div class="highlight"><pre><span></span><code>root@pve:~#<span class="w"> </span>su<span class="w"> </span>testuser
+su:<span class="w"> </span>user<span class="w"> </span>testuser<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </span>entry<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>contain<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>required<span class="w"> </span>fields
+root@pve:~#
+root@pve:~#
+root@pve:~#<span class="w"> </span>pveum<span class="w"> </span>passwd<span class="w"> </span>testuser@pam
+Enter<span class="w"> </span>new<span class="w"> </span>password:<span class="w"> </span>************************************
+Retype<span class="w"> </span>new<span class="w"> </span>password:<span class="w"> </span>************************************
+change<span class="w"> </span>password<span class="w"> </span>failed:<span class="w"> </span>user<span class="w"> </span><span class="s1">&#39;testuser&#39;</span><span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist
+</code></pre></div>
+<p>Once they've been added to the underlying OS, we can both, run as this user via a shell, AND login to Proxmox's web UI or API with them since it's aware of, and accepting, their authentication through PAM:</p>
+<div class="highlight"><pre><span></span><code>root@pve:~#<span class="w"> </span>useradd<span class="w"> </span>-m<span class="w"> </span>-s<span class="w"> </span>/bin/bash<span class="w"> </span>testuser
+root@pve:~#<span class="w"> </span>passwd<span class="w"> </span>testuser
+root@pve:~#
+root@pve:~#<span class="w"> </span>su<span class="w"> </span>testuser
+testuser@pve:/root$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~
+testuser@pve:~$<span class="w"> </span><span class="nb">pwd</span>
+/home/testuser
+testuser@pve:~$<span class="w"> </span>id
+<span class="nv">uid</span><span class="o">=</span><span class="m">1001</span><span class="o">(</span>testuser<span class="o">)</span><span class="w"> </span><span class="nv">gid</span><span class="o">=</span><span class="m">1001</span><span class="o">(</span>testuser<span class="o">)</span><span class="w"> </span><span class="nv">groups</span><span class="o">=</span><span class="m">1001</span><span class="o">(</span>testuser<span class="o">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Setting Passwords</p>
+<p>Interestingly, both <code>passwd user</code> and <code>pveum passwd user@pam</code> can manage a shell user's login password, once they exist under PAM.</p>
+</div>
+<p>Finally, you'll need to scope each user their permissions, either individually, or by giving permissions to a group and tying user(s) to groups, which is the recommended way to manage permissions at scale.</p>
+<h3 id="permissions">🪪 Permissions</h3>
+<p>See, create, and modify permission assignments: Datacenter &gt; Permissions</p>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_permission_management">Proxmox VE Permission Management: List of Permissions</a></li>
+</ul>
+<p>That link lists out all predefined permission sets and what they do. The most useful if you're just getting started:</p>
+<ul>
+<li><code>Administrator</code>: has full privileges</li>
+<li><code>PVEVMAdmin</code>: fully administer VMs</li>
+<li><code>PVESysAdmin</code>: audit, system console and system logs</li>
+<li><code>PVEVMUser</code>: view, backup, configure CD-ROM, VM console, VM power management</li>
+</ul>
+<h4 id="packer-user-example">📦 Packer User Example</h4>
+<p><a href="https://github.com/Mayfly277">Mayfly277</a>, one of the contributers to <a href="https://github.com/Orange-Cyberdefense/GOAD">Game of AD</a>, has a <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/">blog post on creating a separate user account in Proxmox to build packer VM's</a>.</p>
+<p>Using these steps as a reference, we can create a more "generic" user and group scope using the built-in permissions and roles tied to groups, then modify them from there if needed.</p>
+<div class="admonition example">
+<p class="admonition-title">Creating Administrators and DevOps Groups + Permissions</p>
+<p>This walks through creating a dedicated Administrators group to not rely on the root account, and a DevOps group for packer use.</p>
+<ul>
+<li>Datacenter &gt; Permissions &gt; Groups: Create "Administrators" and "DevOps" groups</li>
+<li>Datacenter &gt; Permissions: Add &gt; Group Permission<ul>
+<li>Path: <code>/</code></li>
+<li>Group: Administrators</li>
+<li>Role: Administrator</li>
+<li>Propagate: ✅</li>
+</ul>
+</li>
+<li>Datacenter &gt; Permissions: Add &gt; Group Permission<ul>
+<li>Path: <code>/</code></li>
+<li>Group: DevOps</li>
+<li>Role: PVEVMAdmin</li>
+<li>Propagate: ✅</li>
+</ul>
+</li>
+<li>Datacenter &gt; Permissions: Add &gt; Group Permission<ul>
+<li>Path: <code>/</code></li>
+<li>Group: DevOps</li>
+<li>Role: PVESysAdmin</li>
+<li>Propagate: ✅</li>
+</ul>
+</li>
+<li>Datacenter &gt; Permissions &gt; Users: Edit User &gt; Assign groups from the drop-down menu</li>
+</ul>
+<p><a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples">You can do the same using the <code>pveum</code> command line utility</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define the groups</span>
+pveum<span class="w"> </span>group<span class="w"> </span>add<span class="w"> </span>Administrators<span class="w"> </span>-comment<span class="w"> </span><span class="s2">&quot;System Administrators&quot;</span>
+pveum<span class="w"> </span>group<span class="w"> </span>add<span class="w"> </span>DevOps<span class="w"> </span>-comment<span class="w"> </span><span class="s2">&quot;Infrastructure-as-code Users&quot;</span>
+<span class="c1"># Define the roles</span>
+pveum<span class="w"> </span>acl<span class="w"> </span>modify<span class="w"> </span>/<span class="w"> </span>-group<span class="w"> </span>Administrators<span class="w"> </span>-role<span class="w"> </span>Administrator
+pveum<span class="w"> </span>acl<span class="w"> </span>modify<span class="w"> </span>/<span class="w"> </span>-group<span class="w"> </span>DevOps<span class="w"> </span>-role<span class="w"> </span>PVEVMAdmin
+pveum<span class="w"> </span>acl<span class="w"> </span>modify<span class="w"> </span>/<span class="w"> </span>-group<span class="w"> </span>DevOps<span class="w"> </span>-role<span class="w"> </span>PVESysAdmin
+<span class="c1"># Assign users, assumes these users exist in PAM</span>
+pveum<span class="w"> </span>user<span class="w"> </span>modify<span class="w"> </span>admin@pam<span class="w"> </span>-group<span class="w"> </span>Administrators
+pveum<span class="w"> </span>user<span class="w"> </span>modify<span class="w"> </span>builder@pam<span class="w"> </span>-group<span class="w"> </span>DevOps
+</code></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Permissions Scopes and Privilege Escalation</p>
+<p>These permissions could be locked down further, however in the example above we give the <code>builder</code> user <code>Sys.Console</code> access.</p>
+<p>Effectively you have sudo-less console access despite the scope for the permission path itself being <code>/</code>.</p>
+<ul>
+<li>You cannot run any <code>pve*</code> binaries, or update apt packages</li>
+<li>You cannot read files you do not have access to read</li>
+<li>There's no <code>sudo</code> by default</li>
+</ul>
+<p>You'll need something like a kernel exploit, misconfiguration in scheduled tasks, the filesystem, or services, a secret being visible in process memory with pspy, or a unique attack path on your local Proxmox configuration to "break out" of this shell context and have higher privileges.</p>
+<p>There are likely other methods not listed above, and this isn't even taking into account attacking Proxmox via the UI or API. The point is, it's not a perfect sandbox, but it's better than running devops workflows as the root account.</p>
+<p>To properly audit unique admin users, you'll need to install <code>sudo</code> and configure each admin user that requires sudo access.</p>
+</div>
+<hr />
+<h3 id="disk-encryption">💾 Disk Encryption</h3>
+<p><em><strong>NOTE</strong>: A safer approach instead of full disk encryption is to install the Proxmox OS on an unencrypted disk, and use additional storage as encrypted disks for your production VM's. Proxmox does not offer full disk encryption by default. There are some issues you can encounter with this depending on your use case.</em></p>
+<p><strong>Mount an Encrypted Disk</strong></p>
+<ul>
+<li>🌐 <a href="https://forum.proxmox.com/threads/how-to-mount-existing-disk-to-storage.66559/">How to Mount Existing Disks Within proxmox</a></li>
+<li>🌐 <a href="https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/">Adding LUKS Encryption to proxmox</a></li>
+<li>🌐 <a href="https://forum.proxmox.com/threads/adding-an-existing-hdd-to-proxmox.118361/">Add an Existing Disk to proxmox</a></li>
+<li>🌐 <a href="https://forum.proxmox.com/threads/adding-a-disk-and-set-it-as-lvm-thin-help-needed-please.111724/">Add a Dew Disk as LVM-thin</a></li>
+<li>🌐 <a href="https://pve.proxmox.com/wiki/Storage">proxmox Storage Wiki</a></li>
+<li>🌐 <a href="https://github.com/drduh/YubiKey-Guide?tab=readme-ov-file#backup-keys">Dr Duh Yubikey Guide: Backing Up Keys on Encrypted Storage</a></li>
+</ul>
+<p>You can easily mount and add an encrypted disk to an existing Proxmox server over SSH or from the Proxmox server console in the Web UI. As mentioned above, a perfect example is you've installed Proxmox itself on an unencrypted drive, and have other internal drives you can encrypt with LUKS or ZFS encryption that you want to store VM's on.</p>
+<div class="admonition tip">
+<p class="admonition-title">Creating a LUKS Partition</p>
+<p>The easiest way to do this (and the way I initially set this up) is from an Ubuntu or Debian live OS. Using the <code>disks</code> application in Ubuntu, you can easily format and create a LUKS encrypted drive. Poweroff the Proxmox server, reboot into a live USB, create  the drive, then continue.</p>
+<p>Alternatively, you can <a href="https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encrypting_devices_with_cryptsetup">do this all manually from the CLI</a> within proxmox. <em><strong>NOTE</strong>: this will need tested and verified.</em></p>
+<div class="highlight"><pre><span></span><code>cryptsetup<span class="w"> </span>luksFormat<span class="w"> </span>/dev/sdXY
+cryptsetup<span class="w"> </span>open<span class="w"> </span>--type<span class="w"> </span>luks<span class="w"> </span>/dev/sdXY<span class="w"> </span>&lt;storage-id&gt;
+<span class="c1"># Enter a passphrase, store it in your password manager</span>
+
+<span class="c1"># Only create an ext4 filesystem if you need it, otherwise use lvm-thin for VM storage instead of ext4</span>
+mkfs.ext4<span class="w"> </span>/dev/mapper/luks3-lvm
+</code></pre></div>
+</div>
+<p>Now that we have a LUKS partition, we can mount it.</p>
+<p>Get a sense of which partition(s) you'll want to add. In this case, the device is <code>sdd</code> and the partition is <code>sdd1</code>.</p>
+<div class="highlight"><pre><span></span><code>lsblk
+&lt;SNIP&gt;
+sdd<span class="w">                            </span><span class="m">8</span>:48<span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">1</span>.8T<span class="w">  </span><span class="m">0</span><span class="w"> </span>disk
+└─sdd1<span class="w">                         </span><span class="m">8</span>:49<span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">1</span>.8T<span class="w">  </span><span class="m">0</span><span class="w"> </span>part
+</code></pre></div>
+<p><strong>Unlock an Encrypted Disk</strong></p>
+<p>Unlock and mount the LUKS partition. You can make up any name for a storage ID, just stick to alphanumeric characters and hyphens <code>-</code>. <strong>Remember, you would only <code>mkdir</code> and <code>mount</code> a filesystem if you're using it as a filesystem. VM's benefit from lvm-thin data pools for more efficency than a filesystem</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Naming the Storage ID</p>
+<p>If you look under Datacenter &gt; Storage, you'll see the default ID's are <code>local</code> and <code>local-lvm</code>.</p>
+<p>In this example, lets say you already have two other internal disks that are also LUKS encrypted.</p>
+<p>Since this is the third disk, we'll call it <code>luks3-lvm</code> to stick to a similar naming convention.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example: cryptsetup open --type luks /dev/sddX &lt;storage-id&gt;</span>
+<span class="c1"># This is all you need if the encrypted partition is acting as a storage pool for VMs</span>
+cryptsetup<span class="w"> </span>open<span class="w"> </span>--type<span class="w"> </span>luks<span class="w"> </span>/dev/sdd1<span class="w"> </span>luks3-lvm
+
+<span class="c1"># If this will be a filesystem and NOT an lvm-thin storage pool</span>
+mkdir<span class="w"> </span>/mnt/2tb-internal3
+mount<span class="w"> </span>/dev/mapper/luks3-lvm<span class="w"> </span>/mnt/2tb-internal3
+
+<span class="c1"># To unmount the filesystem, and close the the LUKS partition if you need to</span>
+umount<span class="w"> </span>/mnt/2tb-internal3
+cryptsetup<span class="w"> </span>close<span class="w"> </span>&lt;storage-id&gt;
+</code></pre></div>
+<p>To add the encrypted partition to the Proxmox data pool (basically so you see it in the GUI and can make use of it), you can use:</p>
+<ul>
+<li>Datacenter &gt; Storage &gt; Add</li>
+<li>ID: <code>luks3-lvm</code> (storage identifier created with cryptsetup)</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">New vgname and thinpool</p>
+<p>Create a new volume group and thinpool for LUKS drives to share. This is because adding them to the existing volume group and thinpool means VM's and data will still be written to the unencrypted drives (if you aren't using full disk encryption).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Ai Usage</p>
+<p>ChatGPT showed examples that led to posts and documentation detailing the following commands.</p>
+</div>
+<p>...or the CLI with <code>pvesm</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Helpful to visualize the pve storage</span>
+pvesm<span class="w"> </span>status
+
+<span class="c1"># Create a new volume group for LUKS drives</span>
+vgcreate<span class="w"> </span>luks-group<span class="w"> </span>/dev/mapper/luks3-lvm
+WARNING:<span class="w"> </span>ext4<span class="w"> </span>signature<span class="w"> </span>detected<span class="w"> </span>on<span class="w"> </span>/dev/mapper/luks3-lvm<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span><span class="m">1080</span>.<span class="w"> </span>Wipe<span class="w"> </span>it?<span class="w"> </span><span class="o">[</span>y/n<span class="o">]</span>:<span class="w"> </span>y
+<span class="w">  </span>Wiping<span class="w"> </span>ext4<span class="w"> </span>signature<span class="w"> </span>on<span class="w"> </span>/dev/mapper/luks3-lvm.
+<span class="w">  </span>Physical<span class="w"> </span>volume<span class="w"> </span><span class="s2">&quot;/dev/mapper/luks3-lvm&quot;</span><span class="w"> </span>successfully<span class="w"> </span>created.
+<span class="w">  </span>Volume<span class="w"> </span>group<span class="w"> </span><span class="s2">&quot;luks-group&quot;</span><span class="w"> </span>successfully<span class="w"> </span>created
+
+<span class="c1"># If you mess up, delete the group and remake it</span>
+vgremove<span class="w"> </span>luks-group
+
+<span class="c1"># Create a new thinpool for LUKS drives to share, leaving 5% of the drive for metadata</span>
+lvcreate<span class="w"> </span>--type<span class="w"> </span>thin-pool<span class="w"> </span>-l95%FREE<span class="w"> </span>-n<span class="w"> </span>&lt;thinpool-name&gt;<span class="w"> </span>&lt;vgname&gt;
+lvcreate<span class="w"> </span>--type<span class="w"> </span>thin-pool<span class="w"> </span>-l95%FREE<span class="w"> </span>-n<span class="w"> </span>luks-data<span class="w"> </span>luks-group
+<span class="w">  </span>Thin<span class="w"> </span>pool<span class="w"> </span>volume<span class="w"> </span>with<span class="w"> </span>chunk<span class="w"> </span>size<span class="w"> </span><span class="m">1</span>.00<span class="w"> </span>MiB<span class="w"> </span>can<span class="w"> </span>address<span class="w"> </span>at<span class="w"> </span>most<span class="w"> </span><span class="m">254</span>.00<span class="w"> </span>TiB<span class="w"> </span>of<span class="w"> </span>data.
+<span class="w">  </span>WARNING:<span class="w"> </span>Pool<span class="w"> </span>zeroing<span class="w"> </span>and<span class="w"> </span><span class="m">1</span>.00<span class="w"> </span>MiB<span class="w"> </span>large<span class="w"> </span>chunk<span class="w"> </span>size<span class="w"> </span>slows<span class="w"> </span>down<span class="w"> </span>thin<span class="w"> </span>provisioning.
+<span class="w">  </span>WARNING:<span class="w"> </span>Consider<span class="w"> </span>disabling<span class="w"> </span>zeroing<span class="w"> </span><span class="o">(</span>-Zn<span class="o">)</span><span class="w"> </span>or<span class="w"> </span>using<span class="w"> </span>smaller<span class="w"> </span>chunk<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>&lt;<span class="m">512</span>.00<span class="w"> </span>KiB<span class="o">)</span>.
+<span class="w">  </span>Logical<span class="w"> </span>volume<span class="w"> </span><span class="s2">&quot;luks-data&quot;</span><span class="w"> </span>created.
+
+<span class="c1"># Add a LUKS thin-lvm data pool for VM storage</span>
+pvesm<span class="w"> </span>add<span class="w"> </span>lvmthin<span class="w"> </span>luks3-lvm<span class="w"> </span>--vgname<span class="w"> </span>pve<span class="w"> </span>--thinpool<span class="w"> </span>data<span class="w"> </span>--content<span class="w"> </span>images<span class="w"> </span>--content<span class="w"> </span>rootdir<span class="w"> </span><span class="c1"># lvm-thin is more efficient than a filesystem for VM storage</span>
+
+<span class="c1"># Add a LUKS filesystem for backup, ISO, or other use</span>
+pvesm<span class="w"> </span>add<span class="w"> </span>dir<span class="w"> </span>luks3-lvm<span class="w"> </span>--path<span class="w"> </span>/mnt/2tb-internal3<span class="w"> </span>--content<span class="w"> </span>backup<span class="w"> </span><span class="c1"># Only for backup, browsable filesystems</span>
+</code></pre></div>
+<p>If you mess up and want to redo the pvesm, just use <code>pvesm remove &lt;storage-id&gt;</code>. Remember we came up with the storage ID when unlocking the LUKS partition during <code>cryptsetup open --type luks /dev/sddX &lt;storage-id&gt;</code>.</p>
+<hr />
+<p><strong>Backup LUKS Headers</strong></p>
+<ul>
+<li>🌐 <a href="https://docs.fedoraproject.org/en-US/quick-docs/encrypting-drives-using-LUKS/#_backup_luks_headers">Fedora Project: Backup LUKS Headers</a></li>
+<li>🌐 <a href="https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions#6-backup-and-data-recovery">gitlab/cryptsetup: Backup and Data Recovery</a></li>
+<li>🌐 <a href="https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Backup_and_restore">Arch Linux: LUKS Backup and Restore</a></li>
+</ul>
+<p>Once everything's working it's <strong>recommended to backup the headers of your LUKS devices</strong>. These are ~2MB or larger binary blobs, the first "area" of the LUKS disk containing the encrypted key slots and necessary data to unlock the drive. Having a backup of these is easy to store as an attachment in a password vault, and can recover a drive if anything corrupts the header.</p>
+<p>Ideally you have two encrypted drives that both have copies of the data, for example two LUKS drives, one for running the VMs, the other for saving backups of the VMs. It's less likely both will fail at the same time, even less so if the "backup" drive is an external device that isn't always connected.</p>
+<div class="highlight"><pre><span></span><code>cryptsetup<span class="w"> </span>luksHeaderBackup<span class="w"> </span>--header-backup-file<span class="w"> </span>&lt;file&gt;<span class="w"> </span>&lt;device&gt;
+cryptsetup<span class="w"> </span>luksHeaderBackup<span class="w"> </span>--header-backup-file<span class="w"> </span>/root/sddX-luks3-lvm.bin<span class="w"> </span>/dev/sddX
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Header Backup Storage</p>
+<p>In most cases, it's fine to leave the header binary here in <code>/root</code> of the Proxmox unencrypted drive. An attacker would still need the key along with the header, and if the device itself is physically stolen, the LUKS volume itself also contains the header. This is a small trade off for having access to your header backup. Assume an attacker who could brute force your drive's key would already know how to extract the header, and has physical access.</p>
+<p>That said, you may choose to save the header to your password manager and delete it from proxmox.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Destroy the header file</span>
+shred<span class="w"> </span>-n<span class="w"> </span><span class="m">7</span><span class="w"> </span>-v<span class="w"> </span>/root/sddX-luks3-lvm.bin
+</code></pre></div>
+</div>
+<p>Before you're done you can do two more things; if you're using this partition as a filesystem <code>type=dir</code>, or you want to use a keyfile to unlock your drives on boot, set autodecryption and set auto-mounting.</p>
+<div class="admonition warning">
+<p class="admonition-title">Keyfile Storage</p>
+<p>Typically what you'd do is use full disk encryption on the OS drive, requiring a password over SSH with dropbear_initramfs on remote startup. This will decrypt the boot drive. This is where you would be safe to store keyfiles. Do not store keyfiles on unencrypted partitions, as it would be easy to decrypt your drives with physical or shell access.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Without a keyfile, simply map the drive but still require a passphrase</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;luks3-lvm UUID=</span><span class="k">$(</span>blkid<span class="w"> </span>-s<span class="w"> </span>UUID<span class="w"> </span>-o<span class="w"> </span>value<span class="w"> </span>/dev/sdd1<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="k">)</span><span class="s2"> none luks&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/crypttab
+
+<span class="c1"># With a keyfile stored in the filesystem root, literally as /keyfile</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;luks3-lvm UUID=</span><span class="k">$(</span>blkid<span class="w"> </span>-s<span class="w"> </span>UUID<span class="w"> </span>-o<span class="w"> </span>value<span class="w"> </span>/dev/sdd1<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="k">)</span><span class="s2"> /keyfile luks&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/crypttab
+
+<span class="c1"># Mount the volume as a filesystem under /mnt (we created this path eariler)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;UUID=$(blkid -s UUID -o value /dev/sdd1 | tr -d &#39;</span><span class="se">\n</span><span class="err">&#39;</span><span class="o">)</span><span class="w"> </span>/mnt/2tb-internal3<span class="w">    </span>ext4<span class="w">    </span>defaults<span class="w"> </span><span class="m">0</span><span class="w">   </span><span class="m">2</span><span class="s2">&quot; &gt;&gt; /etc/fstab</span>
+</code></pre></div>
+<p><strong>Unlocking the Drives</strong></p>
+<p>From here, anytime you update and reboot the Proxmox server, you'll just need to paste this command into the terminal through the WebUI and enter your passphrase to unlock the LUKS disk. <strong>Be sure to always use the same storage ID when mounting the LUKS partition, so pvesm can access it</strong>.</p>
+<div class="highlight"><pre><span></span><code>cryptsetup<span class="w"> </span>open<span class="w"> </span>--type<span class="w"> </span>luks<span class="w"> </span>/dev/sddX<span class="w"> </span>&lt;storage-id&gt;
+cryptsetup<span class="w"> </span>open<span class="w"> </span>--type<span class="w"> </span>luks<span class="w"> </span>/dev/sddX<span class="w"> </span>luks3-lvm
+</code></pre></div>
+<p>That's it. It's already mapped to your pve storage manager, and remembered there.</p>
+<hr />
+<p><strong>Full Disk Encryption</strong></p>
+<p><em>One option is to install Debian with FDE, then install Proxmox on top of it. However it's recommended to just install Proxmox following one of the paths below.</em></p>
+<ol>
+<li>Install Proxmox with ZFS</li>
+<li>Reboot into recovery mode from the installer USB</li>
+<li>Follow <a href="https://gist.github.com/yvesh/ae77a68414484c8c79da03c4a4f6fd55">these steps</a> to enable ZFS encryption</li>
+<li>Follow <a href="https://github.com/openzfs/zfs/tree/master/contrib/initramfs#unlocking-a-zfs-encrypted-root-over-ssh">these steps</a> to install <code>dropbear-initramfs</code> for remote decryption over SSH</li>
+<li>Encrypt the dataset for VMs and containers (which is also step 5 in <a href="https://forum.proxmox.com/threads/encrypting-proxmox-ve-best-methods.88191/#post-387731">this post</a>)</li>
+</ol>
+<p>ZFS + Dropbear, all of the resources below came from this post: <a href="https://forum.proxmox.com/threads/full-disk-encryption-with-zfs-using-proxmox-installer.127512/">FDE with ZFS</a></p>
+<ul>
+<li>🌐 <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=2714">Feature Request: Native ZFS encryption during Proxmox installation</a></li>
+<li>🌐 <a href="https://forum.proxmox.com/threads/encrypting-proxmox-ve-best-methods.88191/#post-387731">Encrypting Proxmox VE: Best Methods</a></li>
+<li>🌐 <a href="https://gist.github.com/yvesh/ae77a68414484c8c79da03c4a4f6fd55">gist: FDE with Proxmox and ZFS native encryption</a></li>
+<li>🌐 <a href="https://github.com/openzfs/zfs/tree/master/contrib/initramfs#unlocking-a-zfs-encrypted-root-over-ssh">github/openzfs: Unlocking ZFS encrypted root over SSH</a></li>
+<li>🌐 <a href="https://pve.proxmox.com/wiki/ZFS_on_Linux#zfs_encryption">Proxmox VE ZFS encryption</a></li>
+</ul>
+<p>LUKS + Dropbear</p>
+<ul>
+<li>🌐 <a href="https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/">Adding LUKS FDE to Proxmox</a></li>
+</ul>
+<hr />
+<h2 id="migrating-vms">🔀 Migrating VMs</h2>
+<ul>
+<li>🌐 <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#qm_import_virtual_machines">Importing Virtual Machines</a></li>
+<li>🌐 <a href="https://forum.proxmox.com/threads/migrating-hyper-v-to-proxmox-what-i-learned.137664/">Migrating Hyper-V to Proxmox</a></li>
+</ul>
+<p><strong>Hyper-V</strong></p>
+<p>Follow <a href="https://forum.proxmox.com/threads/migrating-hyper-v-to-proxmox-what-i-learned.137664/">the link referenced above</a>. Essentially, with no snapshots on the Hyper-V VM you wish to migrate (you can export the VM and import it back into Hyper-V so it's separate from your "main" copy, to delete the snapshots, then export it again) export your Hyper-V VM so you have the .vhdx file. Move it over to the Proxmox filesystem.</p>
+<div class="admonition tip">
+<p class="admonition-title">Filesystem Space and Migrating VMs</p>
+<p>An external drive or larger filesystem space within Proxmox is useful here, as by default Proxmox gives its default "filesystem" on the OS drive roughly 100GB while leaving the remaining space to lvm-thin pool storage for VMs.</p>
+<p>This is not explicitly talked about in the post, but if you cannot access the .vhdx file on your Hyper-V host by mounting a share on to the Hyper-V host on Proxmox, you should use an external drive to transfer the VM. <strong>With the average size likely being over 40GB, it will take a long time to <code>scp</code>, <code>rsync</code>, or similar</strong>.</p>
+<p>Since the OS drive has roughly 100GB on the root filesystem, the majority of the remaining space is lvm-thin space, which is a special type of storage format efficient for VM's but lacking a filesystem.</p>
+<p>Both an external drive and a fileshare allow you to import the VM directly to the lvm-thin space without accidentally overruning your /root filesystem's space which can happen if you copy the VM directly onto the OS drive filesystem before importing it.</p>
+</div>
+<p><strong>Create the VM in Proxmox</strong></p>
+<p>Create the VM as you would if you were making it from scratch, following the steps in the linked forum post (q35 for the VM type, and then detach the default disk). Use the <code>qm disk import &lt;vmid&gt; &lt;source&gt; &lt;storage&gt; [OPTIONS]</code> command to import the .vhdx file as the disk image for your Hyper-V VM.</p>
+<div class="highlight"><pre><span></span><code>qm<span class="w"> </span>disk<span class="w"> </span>import<span class="w"> </span><span class="m">105</span><span class="w"> </span>/mnt/wd500-external/Virtualization/Wazuh/Virtual<span class="se">\ </span>Hard<span class="se">\ </span>Disks/Wazuh.vhdx<span class="w"> </span>luks3-lvm
+importing<span class="w"> </span>disk<span class="w"> </span><span class="s1">&#39;/mnt/wd500-external/Virtualization/Wazuh/Virtual Hard Disks/Wazuh.vhdx&#39;</span><span class="w"> </span>to<span class="w"> </span>VM<span class="w"> </span><span class="m">105</span><span class="w"> </span>...
+<span class="w">  </span>Logical<span class="w"> </span>volume<span class="w"> </span><span class="s2">&quot;vm-105-disk-3&quot;</span><span class="w"> </span>created.
+transferred<span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>B<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">1</span>.3<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">1</span>.00%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">2</span>.00%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">3</span>.8<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">3</span>.00%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">5</span>.1<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">4</span>.00%<span class="o">)</span>
+&lt;SNIP&gt;
+transferred<span class="w"> </span><span class="m">125</span>.9<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">99</span>.12%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>
+transferred<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span>of<span class="w"> </span><span class="m">127</span>.0<span class="w"> </span>GiB<span class="w"> </span><span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>
+Successfully<span class="w"> </span>imported<span class="w"> </span>disk<span class="w"> </span>as<span class="w"> </span><span class="s1">&#39;unused1:luks3-lvm:vm-102-disk-3&#39;</span>
+</code></pre></div>
+<p>Add (attach) the disk under the VM's settings. <strong>Be sure to go into "Options", not "Hardware" and set this disk first in the boot order</strong>. In the event this is a Linux VM, even with SecureBoot enabled you'll be able to boot it, and get running.</p>
+<p>That's really it, be sure to install the <code>spice-vdagent</code> service on the guest to leverage additional virtualization features if you want them, though this is not necessary.</p>
+<p>Fix any issues (such as networking), poweroff, then take your first snapshot.</p>
+<hr />
+<h2 id="vm-configuration">⚙️ VM Configuration</h2>
+<h3 id="virtual-nic">🛜 Virtual NIC</h3>
+<p>This is the equivalent of creating a virtual NIC (not to be confused with a VLAN) in VMware or VirtualBox for guest-to-guest communication (for example a LAN and OPT NIC to attach to a pfSense VM). First you need to create another Linux Bridge network device that isn't attached to any physical network ports.</p>
+<ul>
+<li>Under Datacenter, select your proxmox-ve hostname &gt; System &gt; Network &gt; Create</li>
+<li>Name it, check <code>[x]</code> autostart, create</li>
+<li>Now click "Apply Configuration" at the top, so your new <code>vmbrX</code> shows as "Active: Yes"</li>
+</ul>
+<p>Now when creating the VM:</p>
+<ul>
+<li><code>[VM Name]</code> &gt; Hardware &gt; Add &gt; Network Device</li>
+<li>Add two, the WAN side can be the default <code>vmbr0</code>, the LAN side is your new <code>vmbrX</code> with either <code>intel E1000</code> or <code>virtIO</code></li>
+<li>One will receive DHCP / access to the outside world over the Proxmox virtual brdige</li>
+<li>The other will remain purely virtual (for example pfSense could then provide DHCP to that NIC)</li>
+</ul>
+<h3 id="disk-passthrough">💾 Disk Passthrough</h3>
+<p>Say you've installed Proxmox on an existing server or workstation, either as the primary OS or next to an existing OS. You can mount any of the internal drives to VM's without any special modifications to Proxmox's kernel or boot parameters (tested on PVE-8.3.0).</p>
+<div class="admonition note">
+<p class="admonition-title">PCIe Passthrough?</p>
+<p>This does <em>not</em> cover PCIe passthrough, see <a href="https://www.youtube.com/watch?v=_hOBAGKLQkI">this video</a> for details on passing through entire storage controllers and GPUs.</p>
+<p>This type of hardware passthrough <em>does</em> require modifications to the kernel and reboots. It will have its own section in this guide after testing.</p>
+</div>
+<p>The commands below are summarized from this article, on <a href="https://pve.proxmox.com/wiki/Passthrough_Physical_Disk_to_Virtual_Machine_(VM)">how to pass through a physical disk to a virtual machine</a>. This can be done while the VM is live, and without rebooting the VM or Proxmox.</p>
+<p>In summary, first obtain the MODEL (e.g. ata-ST1000DM001-1ABCDEF) plus the SERIAL string (e.g. Z1A2B3C4) of all disks:</p>
+<div class="highlight"><pre><span></span><code>lsblk<span class="w"> </span>-o<span class="w"> </span>+MODEL,SERIAL,WWN
+</code></pre></div>
+<p>If you're looking for a specific disk, you'll have to recognize it by MODEL name, or if they're all the same, you may have to mount each one and review what's on it.</p>
+<p>Together those strings create a full path to the disk itself. Find the full path under <code>/dev/disk/by-id/</code> by searching for the SERIAL string.</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/dev/disk/by-id<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Z1A2B3C4
+</code></pre></div>
+<p>Hot-plug the disk as a new SCSI device to the VM.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Existing SCSI disks are listed as scsi0, scsi1, etc. Add this as a new disk</span>
+<span class="c1"># to &lt;vm-id&gt;. Use the full path to the disk like below.</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;vm-id&gt;<span class="w"> </span>--scsi&lt;int&gt;<span class="w"> </span>/dev/disk/by-id/&lt;model&gt;_&lt;serial&gt;
+
+<span class="c1"># Example:</span>
+qm<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">105</span><span class="w"> </span>--scsi2<span class="w"> </span>/dev/disk/by-id/ata-ST1000DM001-1ABCDEF_Z1A2B3C4
+</code></pre></div>
+<p>Hot-unplug or remove the disk.</p>
+<div class="highlight"><pre><span></span><code>qm<span class="w"> </span>unlink<span class="w"> </span><span class="m">105</span><span class="w"> </span>--idlist<span class="w"> </span>scsi2
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><em>This section details issues and how to resolve them.</em></p>
+<h3 id="uefi-causes-boot-failure">UEFI Causes Boot Failure</h3>
+<p>Typically in Unix-like distros where UEFI is supported but Secure Boot is not, you must interrupt the boot process and turn off Secure Boot.</p>
+<ul>
+<li>During boot, when you see the Proxmox splash screen, hit <code>Esc</code></li>
+<li>Select <code>Device Manager</code></li>
+<li>Select <code>Secure Boot Configuration</code></li>
+<li>Uncheck <code>Attempt SecureBoot</code> with the <code>Space</code> bar</li>
+<li>Back out to the main UEFI menu and select <code>Continue</code></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

