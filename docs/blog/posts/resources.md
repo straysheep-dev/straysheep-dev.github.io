@@ -1246,15 +1246,17 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ### :material-shield-key: SOPS
 
+!!! abstract "SOPS"
+
 	> SOPS is an editor of encrypted files that supports YAML, JSON, ENV, INI and BINARY formats and encrypts with AWS KMS, GCP KMS, Azure Key Vault, age, and PGP.
 
 	- <https://github.com/getsops/sops>
 
-	**Verifying Integrity**
+???	success "Verifying Integrity"
 
 	SOPS has an extensive series of checks you can do to validate the release files are authentic and haven't been tampered with. An SBOM is also provided with each release.
 
-	**Ansible Collection**
+??? example "Ansible Collection"
 
 	SOPS is available by default as a community collection in the standard Ansible package. Review [Protecting Ansible Secrets with SOPS](https://docs.ansible.com/projects/ansible/latest/collections/community/sops/docsite/guide.html) for a quick-start guide.
 
@@ -1297,7 +1299,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	sops inventory.enc.yaml
 	```
 
-	**Best Practices**
+??? success "Best Practices"
 
 	The documented usage covers (what I read as) three layers:
 
@@ -1313,6 +1315,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 
 ### :material-file-key: age
+
+!!! abstract "age"
 
 	> A simple, modern and secure encryption tool (and Go library) with small explicit keys, no config options, and UNIX-style composability.
 
