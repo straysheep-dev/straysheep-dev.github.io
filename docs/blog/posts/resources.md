@@ -497,13 +497,23 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.raspberrypi.com/software/operating-systems/> (links to main images, use the archive link to obtain the .sig)
 	- <https://downloads.raspberrypi.com/raspios_arm64/images/> (folder for standard desktop download)
 	- <https://github.com/raspberrypi>
-	- <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines
+	- <https://www.raspberrypi.org/raspberrypi_downloads.gpg.key> GPG key, indexed by search engines, deprecated as of November 24th 2025
+	- [Current Raspberry Pi OS and Imager signing key](https://keyserver.ubuntu.com/pks/lookup?search=F4AADD86C4687D69AE04543E796C114AD12B2292&fingerprint=on&op=index)
 
-	```txt
+	```sh
+	# Previous Signing Key
 	pub   rsa2048/0x8738CD6B956F460C 2017-04-10 [SC] [expires: 2031-04-07]
 		Key fingerprint = 54C3 DD61 0D9D 1B4A F82A  3775 8738 CD6B 956F 460C
 	uid                   [ unknown] Raspberry Pi Downloads Signing Key
 	sub   rsa2048/0x287C051D4228C4CE 2017-04-10 [E] [expires: 2031-04-07]
+
+	# Current Signing Key
+	# See: https://www.raspberrypi.com/news/a-new-raspberry-pi-imager/ and https://forums.raspberrypi.com/viewtopic.php?t=394045
+	pub   rsa4096/0x796C114AD12B2292 2025-11-24 [SC] [expires: 2027-01-01]
+		Key fingerprint = F4AA DD86 C468 7D69 AE04  543E 796C 114A D12B 2292
+	uid                   [ unknown] Raspberry Pi Downloads Signing Key
+	sub   rsa4096/0x532141F79FA30644 2025-11-24 [E] [expires: 2027-01-01]
+
 	```
 
 	**rpi-imager**
@@ -519,8 +529,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	# Ensure jq is installed, on Ubuntu / Debian use apt
 	sudo apt update; sudo apt install -y jq
 
-	# Obtain the signing key
-	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys '54C3 DD61 0D9D 1B4A F82A 3775 8738 CD6B 956F 460C'
+	# Obtain the latest signing key
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 'F4AADD86C4687D69AE04543E796C114AD12B2292'
 
 	# Set the version information using GitHub's API to obtain the latest release tag version
 	gh_release_info="$(curl -Lf 'https://api.github.com/repos/raspberrypi/rpi-imager/releases/latest')"
