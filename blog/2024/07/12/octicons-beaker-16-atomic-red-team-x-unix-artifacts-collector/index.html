@@ -1,0 +1,3104 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/">
+      
+      
+        <link rel="prev" href="../../../05/29/octicons-terminal-16-custom-shell-profiles/">
+      
+      
+        <link rel="next" href="../../19/material-powershell-get-started-with-powerstig/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Atomic Red Team x Unix Artifacts Collector - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Atomic Red Team x Unix Artifacts Collector - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Atomic Red Team x Unix Artifacts Collector - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#atomic-red-team-x-unix-artifacts-collector" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Atomic Red Team x Unix Artifacts Collector
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-invoke-atomicredteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Invoke-AtomicRedTeam
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provision-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provision Targets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-static-binaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiling Static Binaries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compiling Static Binaries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coreutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        coreutils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        binutils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chkrootkit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chkrootkit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhunter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rkhunter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yara
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gathering-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gathering Artifacts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linpeas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        linPEAS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-internals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Internals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Internals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chkrootkit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chkrootkit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhunter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rkhunter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filesystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yara_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        YARA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kunai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kunai
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence Collection
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-07-12 00:00:00+00:00" class="md-ellipsis">July 12, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              21 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-invoke-atomicredteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Invoke-AtomicRedTeam
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provision-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provision Targets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-static-binaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiling Static Binaries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compiling Static Binaries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coreutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        coreutils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binutils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        binutils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chkrootkit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chkrootkit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhunter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rkhunter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yara
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gathering-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gathering Artifacts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linpeas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        linPEAS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-internals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Internals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Internals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chkrootkit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chkrootkit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhunter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rkhunter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filesystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yara_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        YARA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kunai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kunai
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence Collection
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="atomic-red-team-x-unix-artifacts-collector"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5 5.782V2.5h-.25a.75.75 0 0 1 0-1.5h6.5a.75.75 0 0 1 0 1.5H11v3.282l3.666 5.76C15.619 13.04 14.543 15 12.767 15H3.233c-1.776 0-2.852-1.96-1.899-3.458Zm-2.4 6.565a.75.75 0 0 0 .633 1.153h9.534a.75.75 0 0 0 .633-1.153L12.225 10.5h-8.45ZM9.5 2.5h-3V6c0 .143-.04.283-.117.403L4.73 9h6.54L9.617 6.403A.75.75 0 0 1 9.5 6Z"/></svg></span> Atomic Red Team x Unix Artifacts Collector</h1>
+<p>An overview of spinning up a test environment, and extracting evidence from any unix-like endpoint. This is mostly for personal reference, as it's just pointing to all the existing (and vast) documentation in a sequence that's useful for me -- and hopefully for you as well.</p>
+<!-- more -->
+
+<div class="admonition abstract">
+<p class="admonition-title">Deploy, Attack, Detect</p>
+<p>This covers topics in the following order:</p>
+<ul>
+<li>Creating a "tester" node used to execute atomics remotely towards "target" nodes.</li>
+<li>Connecting to targets via PSRemoting over SSH</li>
+<li>Compiling static binaries for <code>coreutils</code>, <del><code>binutils</code></del>, <code>chkrootkit</code>, <code>rkhunter</code>, and <code>yara</code> to use with <code>uac</code>.</li>
+<li>Collecting artifacts from "target" nodes.</li>
+<li>Sorting through artifacts</li>
+</ul>
+<p>In these tests, static binaries were compiled on an Ubuntu 22.04 server, and copied to an Ubuntu 20.04 server for use.</p>
+</div>
+<p>Before getting started, you can follow the steps below or use any of the Ansible roles built while writing this post to deploy everything and refer to this post should you encounter any issues.</p>
+<div class="admonition tip">
+<p class="admonition-title">Automate Deployment with Ansible</p>
+<p>Much of this has been automated with my Ansible roles:</p>
+<ul>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/build_atomic_node">build_atomic_node</a>: Deploy both a "tester" and "targets" using groups in your inventory file</li>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/manage_keys">manage_keys</a>: Deploy or revoke SSH private and public keys on endpoints</li>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/deploy_uac">deploy_uac</a>: Drop UAC on each endpoint using groups in your inventory file</li>
+</ul>
+</div>
+<h2 id="install-invoke-atomicredteam">Install Invoke-AtomicRedTeam</h2>
+<p><a href="https://github.com/redcanaryco/invoke-atomicredteam">Invoke-AtomicReadTeam</a> is an execution framework in PowerShell to run <a href="https://github.com/redcanaryco/atomic-red-team/wiki/Getting-Started#choose-a-test">Atomic Tests</a>, which are adversary emulation tests mapped to MITRE ATT&amp;CK.</p>
+<p>There are two clean and easy ways to do this.</p>
+<p><strong>Windows Sandbox (Hyper-V)</strong></p>
+<p>Basically all you need is the <code>.wsb</code> file, just execute it with PowerShell like: <code>PS&gt; .\art.wsb</code> to start Windows Sandbox with Atomic Red Team provisioned.</p>
+<ul>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/blob/master/sandbox/art.wsb">WSB Config File</a>: Double-clicking the file or executing with PowerShell will spawn a Windows Sandbox instance.</li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/blob/master/sandbox/setupsandbox.ps1">Setup Script</a>: The WSB file executes PowerShell within the sandbox to retrieve this script and execute it, installing ART.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Windows Sandbox: How Does It Work?</p>
+<p><a href="https://straysheep.dev/blog/2024/05/08/windows/#windows-sandbox">Windows Sandbox</a> is a temporary, Hyper-V-isolated environment. Any changes made here will not directly affect your host. Of course if you can ping your host's network interface from the Sanbox, be aware of exposure there. There's a setting called <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-configure-using-wsb-file#protected-client">Protected Client mode</a>, which (to my understanding) further isolates the RDP-like Sandbox process that runs on your "host" desktop environment through which you interact with the sandbox instance. Windows Sandbox itself is still running as it's own Hyper-V isolated environment separate from your host in either case. You may also want to adjust other settings in the wsb file, which are <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-configure-using-wsb-file">detailed here</a>.</p>
+</div>
+<p><strong>Linux Server (terraform, vagrant, proxmox)</strong></p>
+<p><em>This is the route I went. Using PowerShell on Linux for the examples below, and for better or worse you can run as root on the tester node for simplicity.</em></p>
+<ul>
+<li><a href="https://github.com/straysheep-dev/terraform-configs">Spin up a Linux server (locally with proxmox, vagrant, or in the cloud)</a></li>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/install_powershell">Install PowerShell (using Ansible)</a></li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/Installing-Invoke-AtomicRedTeam#install-execution-framework-and-atomics-folder">Install the execution framework <strong>AND</strong> atomics folder</a></li>
+</ul>
+<p>In summary, once you're SSH'd into your Linux machine, start PowerShell and install Atomic Red Team with:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">PowerShell</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">pwsh</span>  <span class="c"># Start PowerShell</span>
+<span class="nb">IEX </span><span class="p">(</span><span class="nb">IWR </span><span class="s1">&#39;https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1&#39;</span> <span class="n">-UseBasicParsing</span><span class="p">);</span>
+<span class="nb">Install-AtomicRedTeam</span> <span class="n">-getAtomics</span> <span class="n">-Force</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="provision-targets">Provision Targets</h2>
+<p>On the "target" machines, the following changes must be made to <a href="https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/ssh-remoting-in-powershell?view=powershell-7.4">allow PSRemoting over SSH</a>.</p>
+<p><strong>Linux</strong></p>
+<p>This assumes sshd is already running and configured.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Subsystem powershell sudo /usr/bin/pwsh -sshs -NoLogo&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/ssh/sshd_config
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><strong>Windows</strong>:</p>
+<ul>
+<li><a href="https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1">Install OpenSSH Server</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4#install-powershell-using-winget-recommended">Install the latest version of PowerShell (7.X+)</a> <code>winget install --id Microsoft.Powershell --source winget</code></li>
+<li>Confirm <code>SSHHost</code> and <code>SSHHostHashParam</code> are available with <code>(Get-Command New-PSSession).ParameterSets.Name</code></li>
+<li>Append the subsystem configuration to sshd_config</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">PowerShell</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">echo </span><span class="s1">&#39;Subsystem powershell c:/progra~1/powershell/7/pwsh.exe -sshs -nologo&#39;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-Path</span> <span class="nv">$env:ProgramData</span><span class="p">\</span><span class="n">ssh</span><span class="p">\</span><span class="n">sshd_config</span> <span class="n">-Encoding</span> <span class="n">ASCII</span> <span class="n">-Append</span>
+<span class="nb">Restart-Service</span> <span class="n">sshd</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>With that, each endpoint is ready for executing atomic tests.</p>
+<h2 id="running-tests">Running Tests</h2>
+<p>The <a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki">documentation for Invoke-AtomicTest is extensive</a>, and you can <a href="https://github.com/redcanaryco/atomic-red-team/wiki/Getting-Started#choose-a-test">browse individual tests per-OS in the wiki</a>. I suggest walking through each section of the <a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki">invoke-atomicredteam wiki</a> first.</p>
+<ul>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/List-Atomic-Tests#show-details-brief"><code>-ShowDetailsBrief</code></a> will list the names of each test.</li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/List-Atomic-Tests#show-details-verbose"><code>-ShowDetails</code></a> is best used to learn more about a single technique.</li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/Check-or-Get-Prerequisites-for-Atomic-Tests"><code>-CheckPrereqs</code></a> will see if the system has the components to execute the tests.</li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/Check-or-Get-Prerequisites-for-Atomic-Tests#get-prerequisites"><code>-GetPrereqs</code></a> will attempt to obtain missing prerequisites, for example compiling the requires source code for the test.</li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/Execute-Atomic-Tests-(Local)">Executing Atomics Locally</a></li>
+<li><a href="https://github.com/redcanaryco/invoke-atomicredteam/wiki/Execute-Atomic-Tests-(Remote)">Executing Atomics Remotely</a></li>
+</ul>
+<p>The last item above is what we want to replicate. It links to the <a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/ssh-remoting-in-powershell-core">Microsoft documentation for enabling PSRemoting over SSH</a>. By terraforming multiple cloud / proxmox servers, and installing PowerShell with Ansible, we're nearly done.</p>
+<p>From your atomic red team "tester" node, Import the module (on a Linux tester node):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">PowerShell</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">Import-Module</span> <span class="s2">&quot;/root/AtomicRedTeam/invoke-atomicredteam/Invoke-AtomicRedTeam.psd1&quot;</span> <span class="n">-Force</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Create an SSH key and distribute the public key to each target node.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-f<span class="w"> </span>~/.ssh/id_ed25519<span class="w"> </span>-q<span class="w"> </span>-N<span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># Append this to ~/.bashrc</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$HOME</span>/.ssh/id_ed25519<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="k">$(</span>ssh-agent<span class="w"> </span>-s<span class="k">)</span>
+<span class="w">    </span>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
+<span class="k">fi</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Deploying Keys</p>
+<p><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/manage_keys">manage_keys</a> can help do this.</p>
+</div>
+<p>Open a PSRemoting Session from the tester node <em>to</em> the target node(s):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">PowerShell</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nv">$sess</span> <span class="p">=</span> <span class="nb">New-PSSession</span> <span class="n">-HostName</span> <span class="p">&lt;</span><span class="n">target-ip</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="n">root</span> <span class="n">-KeyFilePath</span> <span class="p">~/.</span><span class="n">ssh</span><span class="p">/</span><span class="n">id_ed25519</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>To execute all Linux rootkit tests againts the remote target:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">PowerShell</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-AtomicTest</span> <span class="n">T1014</span> <span class="n">-ShowDetailsBrief</span> <span class="n">-Session</span> <span class="nv">$sess</span>
+<span class="nb">Invoke-AtomicTest</span> <span class="n">T1014</span> <span class="n">-GetPrereqs</span> <span class="n">-Session</span> <span class="nv">$sess</span>
+<span class="nb">Invoke-AtomicTest</span> <span class="n">T1014</span> <span class="n">-CheckPrereqs</span> <span class="n">-Session</span> <span class="nv">$sess</span>
+<span class="nb">Invoke-AtomicTest</span> <span class="n">T1014</span> <span class="n">-Session</span> <span class="nv">$sess</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>This example focuses on techniques T1014-3 and T1014-4.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_T1014.png" /></p>
+<h2 id="compiling-static-binaries">Compiling Static Binaries</h2>
+<p><a href="https://tclahr.github.io/uac-docs/#using-your-binary-files"><code>uac</code> will use any binaries in the following folder(s)</a> instead of the system's binaries. This gives you the option to compile static binaries from a trusted host for use on a compromised system.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">PowerShell</label><label for="__tabbed_8_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c"># [uac_directory]\bin\linux\x86_64\chkrootkit</span>
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="p">~/</span><span class="n">uac</span><span class="p">/</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">linux</span><span class="p">/</span><span class="n">x86_64</span> <span class="n">-Type</span> <span class="n">Directory</span> <span class="n">-Force</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/uac/uac-<span class="nv">$uac_version</span>/bin/linux/x86_64
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Strategy and Reasoning</p>
+<p>The following five seem like the first candidates for static binaries to bring to a compromised system during IR:</p>
+<ul>
+<li>coreutils ✅</li>
+<li>binutils ⚠️</li>
+<li>chkrootkit ✅</li>
+<li>rkhunter ❔</li>
+<li>yara ✅</li>
+</ul>
+<p>Ideally you'd be doing this from a mounted forensic image of a system that's been taken offline. In this case we'll assume you have to do this on a live system currently under adversary control.</p>
+</div>
+<h3 id="prepare-environment">Prepare Environment</h3>
+<p><strong>Ubuntu</strong></p>
+<p>Enable the source repositories, and install any missing development packages (this is based on my test with Ubuntu 22.04 server).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">PowerShell</label><label for="__tabbed_9_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="p">~/</span><span class="n">src</span> <span class="n">-Type</span> <span class="n">Directory</span>
+<span class="n">sudo</span> <span class="n">sed</span> <span class="n">-i_bkup</span> <span class="s1">&#39;s/# deb-src/deb-src/g&#39;</span> <span class="p">/</span><span class="n">etc</span><span class="p">/</span><span class="n">apt</span><span class="p">/</span><span class="n">sources</span><span class="p">.</span><span class="n">list</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="c"># Essentials</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">make</span> <span class="n">automake</span> <span class="n">texinfo</span> <span class="n">flex</span>
+<span class="c"># For yara</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">bison</span> <span class="n">libtool</span> <span class="n">pkg-config</span> <span class="n">libprotobuf-c-dev</span> <span class="n">libssl-dev</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">mkdir</span> <span class="p">~/</span><span class="n">src</span>
+<span class="n">sudo</span> <span class="n">sed</span> <span class="n">-i_bkup</span> <span class="s1">&#39;s/# deb-src/deb-src/g&#39;</span> <span class="p">/</span><span class="n">etc</span><span class="p">/</span><span class="n">apt</span><span class="p">/</span><span class="n">sources</span><span class="p">.</span><span class="n">list</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="c"># Essentials</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">make</span> <span class="n">automake</span> <span class="n">texinfo</span> <span class="n">flex</span>
+<span class="c"># For yara</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">bison</span> <span class="n">libtool</span> <span class="n">pkg-config</span> <span class="n">libprotobuf-c-dev</span> <span class="n">libssl-dev</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><strong>Fedora</strong></p>
+<p><em>⚠️ Although not completely covered in this post, this is useful to jump in with Fedora.</em></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">PowerShell</label><label for="__tabbed_10_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="p">~/</span><span class="n">src</span> <span class="n">-Type</span> <span class="n">Directory</span>
+<span class="n">sudo</span> <span class="n">dnf</span> <span class="n">upgrade</span> <span class="n">-y</span>
+<span class="n">sudo</span> <span class="n">dnf</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">make</span> <span class="n">kernel-devel</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>~/src
+sudo<span class="w"> </span>dnf<span class="w"> </span>upgrade<span class="w"> </span>-y
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>make<span class="w"> </span>kernel-devel
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Now we're ready to compile the source code.</p>
+<h3 id="coreutils">coreutils</h3>
+<p><a href="https://lists.gnu.org/archive/html/coreutils/2019-04/msg00001.html">This mailing list archive</a> details how to build coreutils binaries statically. In my tests on an Ubuntu 22.04 server, the files contained within the already uncompressed <code>coreutils-8.32/</code> folder seem to have issues compiling. <code>rm -rf</code> removing this directory and extracting everything again from the source tar file yields better results.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:1"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">PowerShell &amp; Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="p">~/</span><span class="n">src</span>
+<span class="n">apt-get</span> <span class="n">source</span> <span class="n">coreutils</span>
+<span class="nb">rm </span><span class="n">-rf</span> <span class="p">~/</span><span class="n">src</span><span class="p">/</span><span class="n">coreutils</span><span class="p">-</span><span class="n">8</span><span class="p">.</span><span class="n">32</span>
+<span class="nb">cd </span><span class="p">~/</span><span class="n">src</span>
+<span class="n">tar</span> <span class="n">-xvf</span> <span class="p">./</span><span class="n">coreutils_8</span><span class="p">.</span><span class="n">32</span><span class="p">.</span><span class="n">orig</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">xz</span>
+<span class="nb">cd </span><span class="p">./</span><span class="n">coreutils</span><span class="p">-</span><span class="n">8</span><span class="p">.</span><span class="n">32</span>
+<span class="p">./</span><span class="n">configure</span> <span class="n">LDFLAGS</span><span class="p">=</span><span class="s2">&quot;-static&quot;</span> <span class="n">FORCE_UNSAFE_CONFIGURE</span><span class="p">=</span><span class="n">1</span> <span class="p">-</span><span class="n">-disable-xattr</span> <span class="p">-</span><span class="n">-disable-libcap</span> <span class="p">-</span><span class="n">-disable-libsmack</span> <span class="p">-</span><span class="n">-without-selinux</span> <span class="p">-</span><span class="n">-without-gmp</span>
+<span class="n">make</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>You'll find the resulting binaries completely usable, and statically-linked under the project's <code>src/</code> folder. Copy them out to <code>uac</code>'s bin path with the following.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">PowerShell</label><label for="__tabbed_12_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c"># Get an array list of created binaries</span>
+<span class="nb">cd </span><span class="p">~/</span><span class="n">src</span><span class="p">/</span><span class="n">coreutils</span><span class="p">-</span><span class="n">8</span><span class="p">.</span><span class="n">32</span><span class="p">/</span><span class="n">src</span>
+<span class="nb">ls </span><span class="p">|</span> <span class="n">sed</span> <span class="n">-E</span> <span class="s1">&#39;s/\s+/\n/g&#39;</span> <span class="p">|</span> <span class="n">grep</span> <span class="n">-Pv</span> <span class="s2">&quot;(.c|.o|.h|\[|README|Makefile|COPYRIGHT|ACKNOWLEDGMENTS|debian)&quot;</span> <span class="p">|</span> <span class="n">sed</span> <span class="n">-E</span> <span class="s1">&#39;s/(^|$)/&quot;/g&#39;</span> <span class="p">|</span> <span class="n">tr</span> <span class="s1">&#39;\n&#39;</span> <span class="s1">&#39;,&#39;</span>
+<span class="nv">$file_list</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;b2sum&quot;</span><span class="p">,</span><span class="s2">&quot;base32&quot;</span><span class="p">,</span><span class="s2">&quot;base64&quot;</span><span class="p">,</span><span class="s2">&quot;basename&quot;</span><span class="p">,</span><span class="s2">&quot;blake2&quot;</span><span class="p">,</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span><span class="s2">&quot;cksum&quot;</span><span class="p">,</span><span class="s2">&quot;cp&quot;</span><span class="p">,</span><span class="s2">&quot;csplit&quot;</span><span class="p">,</span><span class="s2">&quot;cut&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span><span class="s2">&quot;df&quot;</span><span class="p">,</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span><span class="s2">&quot;dirname&quot;</span><span class="p">,</span><span class="s2">&quot;du&quot;</span><span class="p">,</span><span class="s2">&quot;env&quot;</span><span class="p">,</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span><span class="s2">&quot;expr&quot;</span><span class="p">,</span><span class="s2">&quot;false&quot;</span><span class="p">,</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span><span class="s2">&quot;getlimits&quot;</span><span class="p">,</span><span class="s2">&quot;ginstall&quot;</span><span class="p">,</span><span class="s2">&quot;head&quot;</span><span class="p">,</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;kill&quot;</span><span class="p">,</span><span class="s2">&quot;libver.a&quot;</span><span class="p">,</span><span class="s2">&quot;link&quot;</span><span class="p">,</span><span class="s2">&quot;ln&quot;</span><span class="p">,</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span><span class="s2">&quot;make-prime-list&quot;</span><span class="p">,</span><span class="s2">&quot;md5sum&quot;</span><span class="p">,</span><span class="s2">&quot;mkdir&quot;</span><span class="p">,</span><span class="s2">&quot;mktemp&quot;</span><span class="p">,</span><span class="s2">&quot;mv&quot;</span><span class="p">,</span><span class="s2">&quot;nl&quot;</span><span class="p">,</span><span class="s2">&quot;numfmt&quot;</span><span class="p">,</span><span class="s2">&quot;od&quot;</span><span class="p">,</span><span class="s2">&quot;paste&quot;</span><span class="p">,</span><span class="s2">&quot;pinky&quot;</span><span class="p">,</span><span class="s2">&quot;pr&quot;</span><span class="p">,</span><span class="s2">&quot;printenv&quot;</span><span class="p">,</span><span class="s2">&quot;printf&quot;</span><span class="p">,</span><span class="s2">&quot;ptx&quot;</span><span class="p">,</span><span class="s2">&quot;pwd&quot;</span><span class="p">,</span><span class="s2">&quot;readlink&quot;</span><span class="p">,</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span><span class="s2">&quot;rmdir&quot;</span><span class="p">,</span><span class="s2">&quot;seq&quot;</span><span class="p">,</span><span class="s2">&quot;single-binary.mk&quot;</span><span class="p">,</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span><span class="s2">&quot;split&quot;</span><span class="p">,</span><span class="s2">&quot;stat&quot;</span><span class="p">,</span><span class="s2">&quot;stty&quot;</span><span class="p">,</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span><span class="s2">&quot;tail&quot;</span><span class="p">,</span><span class="s2">&quot;tee&quot;</span><span class="p">,</span><span class="s2">&quot;test&quot;</span><span class="p">,</span><span class="s2">&quot;tr&quot;</span><span class="p">,</span><span class="s2">&quot;true&quot;</span><span class="p">,</span><span class="s2">&quot;tty&quot;</span><span class="p">,</span><span class="s2">&quot;uname&quot;</span><span class="p">,</span><span class="s2">&quot;unexpand&quot;</span><span class="p">,</span><span class="s2">&quot;uniq&quot;</span><span class="p">,</span><span class="s2">&quot;unlink&quot;</span><span class="p">,</span><span class="s2">&quot;uptime&quot;</span><span class="p">,</span><span class="s2">&quot;users&quot;</span><span class="p">,</span><span class="s2">&quot;vdir&quot;</span><span class="p">,</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$file</span> <span class="k">in</span> <span class="nv">$file_list</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Copy-Item</span> <span class="nv">$file</span> <span class="n">-Destination</span> <span class="p">~/</span><span class="n">uac</span><span class="p">/</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">linux</span><span class="p">/</span><span class="n">x86_64</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Get a space-separate string of created binaries</span>
+<span class="nb">cd</span><span class="w"> </span>~/src/coreutils-8.32/src
+ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/\s+/\n/g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-Pv<span class="w"> </span><span class="s2">&quot;(.c|.o|.h|\[|README|Makefile|COPYRIGHT|ACKNOWLEDGMENTS|debian)&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="s1">&#39; &#39;</span>
+<span class="nv">file_list</span><span class="o">=</span><span class="s1">&#39;b2sum base32 base64 basename blake2 cat cksum cp csplit cut date dd df dir dirname du env expand expr false fmt getlimits ginstall head id kill libver.a link ln ls make-prime-list md5sum mkdir mktemp mv nl numfmt od paste pinky pr printenv printf ptx pwd readlink rm rmdir seq single-binary.mk sleep split stat stty sum tail tee test tr true tty uname unexpand uniq unlink uptime users vdir yes&#39;</span>
+
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$file_list</span>
+<span class="k">do</span>
+<span class="w">    </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>~/uac/uac-<span class="nv">$uac_version</span>/bin/linux/x86_64/
+<span class="k">done</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="binutils">binutils</h3>
+<div class="admonition warning">
+<p class="admonition-title">Check Back Later</p>
+<p>Unfortunately, the static binaries produced by binutils following the steps below don't seem to work on other machines.</p>
+<p>At the very least, the <strong>strings-static</strong> binary that <code>chkrootkit</code> builds will work on other systems (compiled on Ubuntu 22.04, copied to Ubuntu 20.04).</p>
+</div>
+<p><a href="https://github.com/andrew-d/static-binaries/blob/master/binutils/build.sh">This repo</a> is often cited for obtaining the <code>socat</code> static binary. It was used for reference while trying the following build. Similar to the coreutils source code, I had better luck when <code>rm -rf</code> removing the uncompressed folder it downloads, and extracting the <code>binutils_2.38.orig.tar.xz</code> files.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:1"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">PowerShell &amp; Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/src
+apt-get<span class="w"> </span><span class="nb">source</span><span class="w"> </span>binutils
+rm<span class="w"> </span>-rf<span class="w"> </span>./binutils-2.38/
+tar<span class="w"> </span>-xvf<span class="w"> </span>./binutils_2.38.orig.tar.xz
+
+<span class="nb">cd</span><span class="w"> </span>binutils-2.38/
+./configure<span class="w"> </span><span class="nv">FORCE_UNSAFE_CONFIGURE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>--with-static-standard-libraries
+make
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>Without these working on other systems, they were not copied to the <code>uac</code> folder. Lets move on to <code>chkrootkit</code>.</em></p>
+<h3 id="chkrootkit">chkrootkit</h3>
+<p>All we need to do (according to the README) is run <code>make sense</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:1"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">PowerShell &amp; Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="p">~/</span><span class="n">src</span>
+<span class="n">apt-get</span> <span class="n">source</span> <span class="n">chkrootkit</span>
+<span class="nb">cd </span><span class="p">~/</span><span class="n">src</span><span class="p">/</span><span class="n">chkrootkit</span><span class="p">-</span><span class="n">0</span><span class="p">.</span><span class="n">55</span><span class="p">/</span>
+<span class="n">make</span> <span class="n">sense</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>You'll find everything built right in the project's main directory. Copy the resulting files to <code>uac</code>'s bin path.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">PowerShell</label><label for="__tabbed_15_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c"># Get an array list of created files</span>
+<span class="nb">ls </span><span class="p">|</span> <span class="n">sed</span> <span class="n">-E</span> <span class="s1">&#39;s/\s+/\n/g&#39;</span> <span class="p">|</span> <span class="n">grep</span> <span class="n">-Pv</span> <span class="s2">&quot;(\.c|README|Makefile|COPYRIGHT|ACKNOWLEDGMENTS|debian|patch)&quot;</span> <span class="p">|</span> <span class="n">sed</span> <span class="n">-E</span> <span class="s1">&#39;s/(^|$)/&quot;/g&#39;</span> <span class="p">|</span> <span class="n">tr</span> <span class="s1">&#39;\n&#39;</span> <span class="s1">&#39;,&#39;</span>
+<span class="nv">$file_list</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;check_wtmpx&quot;</span><span class="p">,</span><span class="s2">&quot;chkdirs&quot;</span><span class="p">,</span><span class="s2">&quot;chklastlog&quot;</span><span class="p">,</span><span class="s2">&quot;chkproc&quot;</span><span class="p">,</span><span class="s2">&quot;chkrootkit&quot;</span><span class="p">,</span><span class="s2">&quot;chkrootkit.lsm&quot;</span><span class="p">,</span><span class="s2">&quot;chkutmp&quot;</span><span class="p">,</span><span class="s2">&quot;chkwtmp&quot;</span><span class="p">,</span><span class="s2">&quot;ifpromisc&quot;</span><span class="p">,</span><span class="s2">&quot;strings-static&quot;</span><span class="p">)</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$file</span> <span class="k">in</span> <span class="nv">$file_list</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Copy-Item</span> <span class="nv">$file</span> <span class="n">-Destination</span> <span class="p">~/</span><span class="n">uac</span><span class="p">/</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">linux</span><span class="p">/</span><span class="n">x86_64</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Get a space-separate string of created binaries</span>
+ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/\s+/\n/g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-Pv<span class="w"> </span><span class="s2">&quot;(.c|.o|.h|\[|README|Makefile|COPYRIGHT|ACKNOWLEDGMENTS|debian)&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="s1">&#39; &#39;</span>
+<span class="nv">file_list</span><span class="o">=</span><span class="s1">&#39;check_wtmpx chkdirs chklastlog chkproc chkrootkit chkrootkit.lsm chkutmp chkwtmp ifpromisc strings-static&#39;</span>
+
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$file_list</span>
+<span class="k">do</span>
+<span class="w">    </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>~/uac/uac-<span class="nv">$uac_version</span>/bin/linux/x86_64/
+<span class="k">done</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="rkhunter">rkhunter</h3>
+<p><em>⚠️ TO DO, check back later!</em></p>
+<h3 id="yara">yara</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:1"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/src
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/VirusTotal/yara
+<span class="nb">cd</span><span class="w"> </span>yara
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Modifying build.sh</p>
+<p>You'll need to change the <code>build.sh</code> script to target a static binary. ChatGPT saved a lot of time pointing me to a number of options which I narrowed down over trial and error. See the references below for details.</p>
+<ul>
+<li><a href="https://github.com/NLnetLabs/unbound/issues/91#issuecomment-539994817">Build a Fully Static <code>unbound</code></a></li>
+<li><a href="https://stackoverflow.com/questions/49733534/enable-static-vs-disable-shared"><code>--enable-static</code> vs <code>--disable-shared</code></a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+
+./bootstrap.sh
+./configure<span class="w"> </span>--enable-static<span class="w"> </span>--disable-shared
+
+make<span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-all-static&quot;</span>
+</code></pre></div>
+</div>
+<p>You should end up with a static <code>yara</code> binary in the project root.</p>
+<div class="highlight"><pre><span></span><code>root@host#<span class="w"> </span>file<span class="w"> </span>yara
+yara:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>executable,<span class="w"> </span>x86-64,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>GNU/Linux<span class="o">)</span>,<span class="w"> </span>statically<span class="w"> </span>linked,<span class="w"> </span>BuildID<span class="o">[</span>sha1<span class="o">]=</span>6031a7a9a98aea1fe22563543dd7fdae36a7915b,<span class="w"> </span><span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">3</span>.2.0,<span class="w"> </span>not<span class="w"> </span>stripped
+</code></pre></div>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_yara.png" /></p>
+<p>Now we can begin collecting evidence.</p>
+<h2 id="gathering-artifacts">Gathering Artifacts</h2>
+<p>The <a href="https://github.com/tclahr/uac">Unix-like Artifacts Collector</a> is an excellent tool for gathering evidence from a non-Windows machine.</p>
+<div class="admonition quote">
+<p class="admonition-title">uac/README</p>
+<p>UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, Android, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">What It Can and Can't Do</p>
+<p>UAC is primarily an <strong>evidence collection tool</strong>. This isn't something like <a href="https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS">linpeas</a> that will alert you to possible leads as it's gathering evidence. It's a ton of output, and is a haystack in which you'd be trying to find a very small needle if you didn't already have an idea of what you're looking for. With this in mind, there are a few effective ideas on how to leverage this tool:</p>
+<ul>
+<li>Assume you're compromised, hit each endpoint with UAC and pull the resulting evidence back to your IR machine</li>
+<li>Investigate supsicious activity with system internals, using what you know while UAC runs</li>
+<li>Use <a href="https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS">linpeas</a> to assess endpoints, it's not just a hacking tool, it will find IOC's</li>
+</ul>
+<p>If you have a possible lead or IOC, then your UAC evidence becomes invaluable. With the evidence back on your IR machine:</p>
+<ul>
+<li>You can of course dig into specific evidence based on your potential IOC's</li>
+<li>You could also use <strong><a href="https://github.com/VirusTotal/yara">YARA</a></strong> to hit the entire UAC evidence folder for IOC's, which is incredibly fast</li>
+</ul>
+<p><em>More on YARA in <a href="#yara_1">this</a> section below.</em></p>
+</div>
+<p>Download and unpack the latest release of <code>uac</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">PowerShell</label><label for="__tabbed_17_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">mkdir</span> <span class="n">uac</span>
+<span class="nb">cd </span><span class="p">./</span><span class="n">uac</span><span class="p">/</span>
+
+<span class="nv">$author_repo</span> <span class="p">=</span> <span class="s2">&quot;tclahr/uac&quot;</span>
+<span class="nv">$url</span> <span class="p">=</span> <span class="s2">&quot;https://api.github.com/repos/$author_repo/releases/latest&quot;</span>
+<span class="nv">$response_json</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="nv">$url</span>
+<span class="nv">$uac_version</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$response_json</span><span class="p">.</span><span class="n">name</span> <span class="n">-split</span> <span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="n">1</span><span class="p">]</span>
+
+<span class="c"># The $response_json.assets.browser_download_url key will show all available release files as [PSCustomObject] objects</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$link</span> <span class="k">in</span> <span class="nv">$response_json</span><span class="p">.</span><span class="n">assets</span><span class="p">.</span><span class="n">browser_download_url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$basename</span> <span class="p">=</span> <span class="nv">$link</span> <span class="p">|</span> <span class="nb">Split-Path</span> <span class="n">-leaf</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Downloading $basename...&quot;</span>
+    <span class="nb">iwr </span><span class="n">-Uri</span> <span class="nv">$link</span> <span class="n">-Out</span> <span class="nv">$basename</span>
+<span class="p">}</span>
+
+<span class="c"># https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_split?view=powershell-7.4</span>
+<span class="c"># https://devblogs.microsoft.com/powershell/parsing-text-with-powershell-2-3/</span>
+<span class="nv">$file_hash</span> <span class="p">=</span> <span class="p">((</span><span class="nb">Get-Content</span> <span class="p">./</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span><span class="p">.</span><span class="n">sha256</span><span class="p">)</span> <span class="n">-Split</span> <span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="n">0</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">Get-FileHash</span> <span class="p">./</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">Hash</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="nv">$file_hash</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span> <span class="s2">&quot;[OK] SHA256SUM&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span> <span class="s2">&quot;[WARNING] SHA256SUM MISMATCH&quot;</span>
+<span class="p">}</span>
+
+<span class="n">tar</span> <span class="n">-xzvf</span> <span class="p">./</span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>uac
+<span class="nb">cd</span><span class="w"> </span>./uac/
+
+<span class="nv">AUTHOR_REPO_LIST</span><span class="o">=</span><span class="s1">&#39;tclahr/uac&#39;</span>
+
+<span class="nv">TARBALL_FILE</span><span class="o">=</span><span class="s1">&#39;.tar.gz$&#39;</span>
+<span class="nv">CHECKSUM_FILE</span><span class="o">=</span><span class="s1">&#39;.sha256$&#39;</span>
+
+<span class="k">for</span><span class="w"> </span>AUTHOR_REPO<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$AUTHOR_REPO_LIST</span>
+<span class="k">do</span>
+<span class="w">    </span><span class="nv">ARTIFACTS</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/<span class="s2">&quot;</span><span class="nv">$AUTHOR_REPO</span><span class="s2">&quot;</span>/releases/latest<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="s1">&#39;/browser_download_url/{print $4}&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>URL<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$ARTIFACTS</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">ARCHIVE</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">        </span><span class="c1"># Download files first</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[*]Downloading </span><span class="nv">$ARCHIVE</span><span class="s2">...&quot;</span>
+<span class="w">        </span>curl<span class="w"> </span>--silent<span class="w"> </span>-L<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="c1"># Check the sha256sum</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CHECKSUM_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">(</span>sha256sum<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span><span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[OK] SHA256SUM&quot;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[WARNING] SHA256SUM MISMATCH&quot;</span>
+<span class="w">                </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span><span class="c1"># Unpack the archive</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="nv">$IGNORE_LIST</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span>tar<span class="w"> </span>-xzvf<span class="w"> </span>./uac-<span class="nv">$uac_version</span>.tar.gz
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="k">done</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>You can list all the artifacts <code>uac</code> can obtain with:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:1"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">PowerShell &amp; Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">uac</span><span class="p">-</span><span class="nv">$uac_version</span>
+<span class="p">./</span><span class="n">uac</span> <span class="p">-</span><span class="n">-artifacts</span> <span class="n">list</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Run it, collecting <strong>all</strong> artifacts based on the incident response profile:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:1"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">PowerShell &amp; Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="p">./</span><span class="n">uac</span> <span class="n">-p</span> <span class="n">ir_triage</span> <span class="p">./</span><span class="n">results</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Run it, specifying artifacts to collect:</p>
+<div class="admonition info">
+<p class="admonition-title">Choosing Your Focus</p>
+<p>This selecton of artifacts focuses on producing information that can point us to a rootkit.</p>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">PowerShell</label><label for="__tabbed_20_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>results
+
+<span class="nv">$artifacts_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;chkrootkit/chkrootkit.yaml,</span>
+<span class="s1">live_response/system/ebpf.yaml,</span>
+<span class="s1">live_response/system/kernel_modules.yaml,</span>
+<span class="s1">live_response/system/modinfo.yaml,</span>
+<span class="s1">live_response/system/lsmod.yaml,</span>
+<span class="s1">live_response/system/hidden_files.yaml,</span>
+<span class="s1">live_response/system/sys_modules.yaml,</span>
+<span class="s1">live_response/hardware/dmesg.yaml,</span>
+<span class="s1">live_response/process/strings_running_processes.yaml,</span>
+<span class="s1">live_response/process/procstat.yaml&#39;</span>
+
+./uac<span class="w"> </span>-a<span class="w"> </span><span class="nv">$artifacts_list</span>.Replace<span class="o">(</span><span class="s2">&quot;`n&quot;</span>,<span class="s2">&quot;&quot;</span><span class="o">)</span><span class="w"> </span>./results
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>results
+
+<span class="nv">artifacts_list</span><span class="o">=</span><span class="s1">&#39;chkrootkit/chkrootkit.yaml,</span>
+<span class="s1">live_response/system/ebpf.yaml,</span>
+<span class="s1">live_response/system/kernel_modules.yaml,</span>
+<span class="s1">live_response/system/modinfo.yaml,</span>
+<span class="s1">live_response/system/lsmod.yaml,</span>
+<span class="s1">live_response/system/hidden_files.yaml,</span>
+<span class="s1">live_response/system/sys_modules.yaml,</span>
+<span class="s1">live_response/hardware/dmesg.yaml,</span>
+<span class="s1">live_response/process/strings_running_processes.yaml,</span>
+<span class="s1">live_response/process/procstat.yaml&#39;</span>
+
+./uac<span class="w"> </span>-a<span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$artifacts_list</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/\s+//g&#39;</span><span class="k">)</span><span class="w"> </span>./results
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_rootkits.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Next Steps</p>
+<p>While UAC is running on one or all of your endpoints, we can begin looking for IOC's and suspicious activity.</p>
+</div>
+<h2 id="initial-assessment">Initial Assessment</h2>
+<p><em>You will get further ahead by performing an initial triage of the system's internals while UAC is gathering artifacts in the background</em>.</p>
+<div class="admonition info">
+<p class="admonition-title">The Scenario, the Scope</p>
+<p><strong>Scenario</strong>: In this case we control all of the variables. If you followed along it's a basic cloud / server environment with default logging, and default system state (aside from a few extra packages).</p>
+<p><strong>Scope</strong>: In this case we have minimal visibiltiy, no auditd or sysmonforlinux logs, and no endpoint agent. We need to find the malicious activity with little to go on other than system internals.</p>
+<p>📝 Our IR to do list:</p>
+<ul>
+<li>✅ Run UAC in the background and collect artifacts, exfiltrate artifacts when done</li>
+<li>🟦 System activity (LastWriteTime / mtime) <code>chkrootkit</code>, <code>rkhunter</code>, <code>linpeas</code>, <code>lsof</code>, <code>ss</code>/<code>netstat</code>, <code>ps</code> for initial triage</li>
+<li>🟦 Parse and pivot with YARA, observe with kunai, UAC produces a ton of info, how do you know what to look for?</li>
+<li>🟦 <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/deploy_uac">Run UAC across your inventory and check for the same artifacts</a></li>
+</ul>
+</div>
+<h2 id="linpeas">linPEAS</h2>
+<p>This should be the first thing you do on an endpoint (whether you're pentesting it or threat hunting):</p>
+<ul>
+<li>Execute it in memory</li>
+<li>Pipe the output to a log file</li>
+<li>Send it to the background to continue working</li>
+<li>Review it when it's done running</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:1"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="p">/</span><span class="n">dev</span><span class="p">/</span><span class="n">shm</span>
+<span class="nb">curl </span><span class="n">-L</span> <span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">peass-ng</span><span class="p">/</span><span class="n">PEASS-ng</span><span class="p">/</span><span class="n">releases</span><span class="p">/</span><span class="n">latest</span><span class="p">/</span><span class="n">download</span><span class="p">/</span><span class="n">linpeas</span><span class="p">.</span><span class="n">sh</span> <span class="p">|</span> <span class="n">sh</span> <span class="p">|</span> <span class="nb">tee </span><span class="n">linpeas</span><span class="p">.</span><span class="n">log</span> <span class="p">&gt;</span> <span class="p">/</span><span class="n">dev</span><span class="p">/</span><span class="n">null</span> <span class="p">&amp;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>It turns out <a href="https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS">linpeas</a> is great at finding suspicious activity in a semi-interactive way. The output is better suited to manually reviewing what's happening. It shouldn't be a surprise that linpeas was able to find evidence of the Diamorphine rootkit in <code>dmesg</code> by looking for kernel modules that failed signature verification.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_linpeas.png" /></p>
+<h2 id="system-internals">System Internals</h2>
+<p>Similar to Microsoft's Sysinternals, knowing how the system works even at a basic level is likely going to lead us to something.</p>
+<p>Since we have <code>chkrootkit</code> and <code>rkhunter</code> with us, run those to look for low hanging fruit.</p>
+<div class="admonition note">
+<p><em>The screenshots below were taken using the system's binaries, however the chkrootkit compiled statically does work. rkhunter still needs tested.</em></p>
+</div>
+<h3 id="chkrootkit_1">chkrootkit</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:1"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>chkrootkit<span class="w"> </span>-q
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>chkrootkit</code> was able to find the leftover shared object file from the libprocesshider technique (T1014-3).</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_chkrootkit.png" /></p>
+<h3 id="rkhunter_1">rkhunter</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:1"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>rkhunter<span class="w"> </span>--sk<span class="w"> </span>--rwo<span class="w"> </span>--check
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>rkhunter</code> also identifies <strong>both</strong> libprocesshider (T1014-3) and Diamorphine (T1014-4).</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_rkhunter.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Use Multiple Tools</p>
+<p>Interestingly the way UAC runs chkrootkit, it fails to find either Diamorphine, <strong>or</strong> libprocesshider.</p>
+<div class="highlight"><pre><span></span><code>chkrootkit<span class="w"> </span>-n<span class="w"> </span>-r<span class="w"> </span>-x
+</code></pre></div>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_rootkits_1.png" /></p>
+<p>This is a good example of using multiple tools to validate your findings. One tool may miss something, some of the time.</p>
+<p>Knowing how a tool works and what to look for when it doesn't is just as important as knowing your system internals.</p>
+</div>
+<h3 id="filesystem">Filesystem</h3>
+<p>In this case, both rootkits hide themselves from the process listing (<code>ps axjf</code>) and aren't performing any real network-based C2-like actions. Imagine they ping home once every two days to remain in place undetected. With that in mind, we can begin our search.</p>
+<div class="admonition tip">
+<p class="admonition-title">Hunting Suspicious Activity</p>
+<p>While it's possible attackers hide their tracks on the filesystem, sorting files by their modification time (especially in paths like <code>/etc</code>, <code>/usr/local/bin</code>, or <code>/boot</code>) can point to suspicious activity. Some of those paths should have files that rarely change without an administrator performing the update in an expected way or time.</p>
+<p>The first stops you should make in the filesystem are:</p>
+<div class="highlight"><pre><span></span><code>/etc
+/boot
+/home
+/root
+/usr (includes /bin, /sbin)
+/bin (if not linked under /usr)
+/sbin (if not linked under /usr)
+/tmp
+/var/tmp
+/dev/shm
+/var/www/
+/srv
+/opt
+</code></pre></div>
+<p>Past that you could be looking in more specific places. For instance it may make more sense to take a memory dump instead of scanning <code>/proc/[0-9]+</code>.</p>
+</div>
+<p>Search <code>/etc</code> recursively for the most recently modified files:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">PowerShell</label><label for="__tabbed_24_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">gci </span><span class="n">-Path</span> <span class="p">/</span><span class="n">etc</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="o">-File</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">-Property</span> <span class="n">LastWriteTime</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">10</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># find works a little differently than PowerShell&#39;s gci</span>
+<span class="c1"># -cmin -X/ -ctime -X returns all files modified more recently than -X</span>
+<span class="c1"># -cmin works in -X minutes</span>
+<span class="c1"># -ctime works in -X days</span>
+<span class="c1"># X must have a minus - prepended to it</span>
+<span class="c1"># ctime/min means file status changes, like inode, which includes content</span>
+<span class="c1"># mtime/min means the file content itself changed</span>
+find<span class="w"> </span>/etc<span class="w"> </span>-mmin<span class="w"> </span>-360<span class="w"> </span>-ls<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $10, &quot; &quot;, $11}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">1</span><span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+find<span class="w"> </span>/etc<span class="w"> </span>-mtime<span class="w"> </span>-1<span class="w"> </span>-ls<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $10, &quot; &quot;, $11}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">1</span><span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>With this technique we catch the /etc/ld.so.preload file's modification. This is a critical file to keep in mind for <a href="https://attack.mitre.org/techniques/T1574/006/">shared object hijacking</a>.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_filesystem_1.png" /></p>
+<p>Repeating the same for <code>/tmp</code>, we can pick out leftover artifacts from the atomic test compiling Diamorphine.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_filesystem_2.png" /></p>
+<p>Finally jumping into the <code>/usr</code> path, we can find exactly where these rootkits found their home on the filesystem.</p>
+<div class="admonition note">
+<p class="admonition-title">PowerShell Syntax</p>
+<p>Wrapping the command like <code>(this).FullName</code> will return the FullName (aka file path, and only the file path) of the resulting objects.</p>
+</div>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_filesystem_3.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">The Scenario, Continued</p>
+<p>📝 Our IR to do list:</p>
+<ul>
+<li>✅ Run UAC in the background and collect artifacts, exfiltrate artifacts when done</li>
+<li>✅ System activity (LastWriteTime / mtime) <code>chkrootkit</code>, <code>rkhunter</code>, <code>linpeas</code>, <code>lsof</code>, <code>ss</code>/<code>netstat</code>, <code>ps</code> for initial triage</li>
+<li>🟦 Parse and pivot with YARA, observe with kunai, UAC produces a ton of info, how do you know what to look for?</li>
+<li>🟦 <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/deploy_uac">Run UAC across your inventory and check for the same artifacts</a></li>
+</ul>
+</div>
+<h2 id="yara_1">YARA</h2>
+<p><a href="https://github.com/VirusTotal/yara">YARA</a> is effectively a swiss army knife of malware identification. This includes actively hunting for malware on systems.</p>
+<div class="admonition quote">
+<p class="admonition-title">yara/README</p>
+<p>YARA is a tool aimed at (but not limited to) helping malware researchers to identify and classify malware samples. With YARA you can create descriptions of malware families (or whatever you want to describe) based on textual or binary patterns. Each description, a.k.a. rule, consists of a set of strings and a boolean expression which determine its logic.</p>
+</div>
+<p>To do this, you need a rule file to feed YARA, so it knows what to look for.</p>
+<div class="admonition tip">
+<p class="admonition-title">YARA Rules</p>
+<p>See the <a href="https://yara.readthedocs.io/en/latest/writingrules.html">YARA documentation on how to create YARA rules</a>.</p>
+<p><a href="https://github.com/InQuest/awesome-yara?tab=readme-ov-file#rules">InQuest/awesome-yara</a> is a comprehensive list of resources for rules and YARA-based tools.</p>
+<p>Two that stand out that we could begin to reference:</p>
+<ul>
+<li><a href="https://github.com/Neo23x0/signature-base/tree/master/yara">Neo23x0/signature-base</a></li>
+<li><a href="https://github.com/Yara-Rules/rules">Yara-Rules/rules</a></li>
+</ul>
+<p><strong>The more rules, and the more complex each rule file is, the longer it will take to scan a target.</strong></p>
+<p>We can start with <a href="https://github.com/Neo23x0/god-mode-rules/raw/master/godmode.yar">Neo23x0/god-mode-rules</a> as a base, which is primarily for Windows, but looking at it we can think of how we could convert this to work with Linux to catch common payloads.</p>
+</div>
+<p>For the sake of this demo, we'll add the following lines to the bottom of <code>godmode.yar</code> to look for what we've already determined to be on our comrpomised system.</p>
+<div class="highlight"><pre><span></span><code>&lt;SNIP&gt;
+<span class="w">      </span><span class="p">$</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;diamorphine&quot;</span><span class="w"> </span><span class="nb">ascii</span>
+<span class="w">      </span><span class="p">$</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;libprocesshider&quot;</span><span class="w"> </span><span class="nb">ascii</span>
+<span class="w">   </span><span class="k">condition</span><span class="p">:</span>
+<span class="w">      </span>1<span class="w"> </span><span class="nb">of</span><span class="w"> </span><span class="nb">them</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>On the Target</strong></p>
+<p>Scan with YARA:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:1"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>yara
+curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s1">&#39;https://github.com/Neo23x0/god-mode-rules/raw/master/godmode.yar&#39;</span>
+<span class="c1"># modify godmode.yar</span>
+
+<span class="c1"># Try usual folders</span>
+yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span>/tmp
+yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span>/usr
+yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span>/home
+yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span>/root
+yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span>/etc
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>You'll find <code>yara</code> is incredibly fast at pulling signatures from binaries and files. This returned a few more files in <code>/usr/lib/modules</code> that <strong>we may not have suspected before</strong>, as well as of course our PowerShell history.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_yara_1.png" /></p>
+<div class="admonition tip">
+<p class="admonition-title">Being Thorough</p>
+<p>This should underline the importance of being thorough with searching a system, even if your belive you've identified the obvious implant.</p>
+<p><code>modules.dep</code> and <code>modules.dep.bin</code> were among other files that came back in our filesystem search. These blended in with the other files, <strong>but YARA identified that they contained the string <code>diamorphine</code></strong>.</p>
+<p>In a real scenario, unless you have time to reverse engineer, you're taking the system(s) offline and wiping them once evidence is collected. To continue the investigation, you'd want to try and fully understand the rootkit's capabilties. What else could it have possibly done or hidden from our investigative tools? Is this rootkit just a distraction? It's also important to know enough to determine that it didn't find its way into your backups, reviving it unintentionally during the restore process.</p>
+</div>
+<p>Running against <code>/etc</code> also confirms libprocesshider's existence in the <code>ld.so.preload</code> file.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_yara_3.png" /></p>
+<div class="admonition example">
+<p class="admonition-title">Scanning Live Processes</p>
+<p>Scanning all running processes on Windows is possible with YARA and PowerShell. While it's possible to script this out to do the same on Linux, in my tests it appears to hang up on the first process. There's likely something happening under the hood that is causing it to scan infinitely.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:1"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Try all running processes</span>
+<span class="nv">live_processes</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>/proc<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-regex<span class="w"> </span><span class="s1">&#39;/proc/[0-9]+&#39;</span><span class="k">)</span>
+<span class="k">for</span><span class="w"> </span>process<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$live_processes</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Scanning </span><span class="nv">$process</span><span class="s2">...&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>yara<span class="w"> </span>./godmode.yar<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$process</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>On the UAC Results</strong></p>
+<p>One of the most effective ways of parsing through your UAC evidence folder is with YARA. It will be able to look in all of the compressed strings files as well, for potential signatures.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:1"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">PowerShell + Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>yara<span class="w"> </span>/tmp/godmode.yar<span class="w"> </span>-r<span class="w"> </span>./results/
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_yara_2.png" /></p>
+<h2 id="kunai">Kunai</h2>
+<p><a href="https://github.com/kunai-project/kunai">Kunai</a> is a fairly new project leveraging eBPF to replicate what <code>sysmonforlinux</code> does. It was covered in a <a href="https://isc.sans.edu/diary/Kunai+Keep+an+Eye+on+your+Linux+Hosts+Activity/31054/">recent SANS diary</a>, and appears to run using <strong>a single standalone binary</strong>. This alone makes it worth checking out, especially showing up to systems without <code>auditd</code> or <code>sysmonforlinux</code> installed.</p>
+<div class="admonition quote">
+<p class="admonition-title">kunai/README</p>
+<p>The goal behind this project is to bring relevant events to achieve various monitoring tasks ranging from security monitoring to Threat Hunting on Linux based systems. If you are familiar with Sysmon on Windows, you can think of Kunai as being a Sysmon equivalent for Linux.</p>
+</div>
+<p>There are amd64, and aarch64 binaries available. Pull the latest release files with the following:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">PowerShell</label><label for="__tabbed_28_2">Bash</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">mkdir</span> <span class="n">kunai</span>
+<span class="nb">cd </span><span class="p">./</span><span class="n">kunai</span><span class="p">/</span>
+
+<span class="nv">$author_repo</span> <span class="p">=</span> <span class="s2">&quot;kunai-project/kunai&quot;</span>
+<span class="nv">$url</span> <span class="p">=</span> <span class="s2">&quot;https://api.github.com/repos/$author_repo/releases/latest&quot;</span>
+<span class="nv">$response_json</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="nv">$url</span>
+<span class="nv">$uac_version</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$response_json</span><span class="p">.</span><span class="n">name</span> <span class="n">-split</span> <span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="n">1</span><span class="p">]</span>
+
+<span class="c"># The $response_json.assets.browser_download_url key will show all available release files as [PSCustomObject] objects</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$link</span> <span class="k">in</span> <span class="nv">$response_json</span><span class="p">.</span><span class="n">assets</span><span class="p">.</span><span class="n">browser_download_url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$basename</span> <span class="p">=</span> <span class="nv">$link</span> <span class="p">|</span> <span class="nb">Split-Path</span> <span class="n">-leaf</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Downloading $basename...&quot;</span>
+    <span class="nb">iwr </span><span class="n">-Uri</span> <span class="nv">$link</span> <span class="n">-Out</span> <span class="nv">$basename</span>
+<span class="p">}</span>
+
+<span class="c"># https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_split?view=powershell-7.4</span>
+<span class="c"># https://devblogs.microsoft.com/powershell/parsing-text-with-powershell-2-3/</span>
+<span class="nv">$file_hash</span> <span class="p">=</span> <span class="p">((</span><span class="nb">Get-Content</span> <span class="p">./</span><span class="n">sha512</span><span class="p">.</span><span class="n">txt</span><span class="p">)</span> <span class="n">-Split</span> <span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="n">0</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">Get-FileHash</span> <span class="n">-Algorithm</span> <span class="n">SHA512</span> <span class="p">./</span><span class="n">kunai</span><span class="p">-*</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">Hash</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="nv">$file_hash</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span> <span class="s2">&quot;[OK] SHA256SUM&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span> <span class="s2">&quot;[WARNING] SHA256SUM MISMATCH&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>kunai
+<span class="nb">cd</span><span class="w"> </span>./kunai/
+
+<span class="nv">AUTHOR_REPO_LIST</span><span class="o">=</span><span class="s1">&#39;kunai-project/kunai&#39;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="k">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;x86_64&#39;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">EXECUTABLE_FILE</span><span class="o">=</span><span class="s1">&#39;kunai-amd64&#39;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nv">EXECUTABLE_FILE</span><span class="o">=</span><span class="s2">&quot;kunai-</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="nv">CHECKSUM_FILE</span><span class="o">=</span><span class="s1">&#39;sha512.txt&#39;</span>
+
+<span class="k">for</span><span class="w"> </span>AUTHOR_REPO<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$AUTHOR_REPO_LIST</span>
+<span class="k">do</span>
+<span class="w">    </span><span class="nv">ARTIFACTS</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/<span class="s2">&quot;</span><span class="nv">$AUTHOR_REPO</span><span class="s2">&quot;</span>/releases/latest<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="s1">&#39;/browser_download_url/{print $4}&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>URL<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$ARTIFACTS</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">ARCHIVE</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">        </span><span class="c1"># Download files first</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">(</span><span class="nv">$CHECKSUM_FILE</span><span class="p">|</span><span class="nv">$EXECUTABLE_FILE</span><span class="o">)</span>$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[*]Downloading </span><span class="nv">$ARCHIVE</span><span class="s2">...&quot;</span>
+<span class="w">            </span>curl<span class="w"> </span>--silent<span class="w"> </span>-L<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="k">done</span>
+<span class="c1"># Check the sha512sum</span>
+<span class="k">if</span><span class="w"> </span><span class="o">(</span>sha512sum<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CHECKSUM_FILE</span><span class="s2">&quot;</span><span class="w"> </span>--ignore-missing<span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[OK] SHA512SUM&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[WARNING] SHA512SUM MISMATCH&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><strong>Rules</strong></p>
+<p>Kunai has two types of rules: <a href="https://why.kunai.rocks/docs/advanced/rule_configuration#detection-rules">detection</a>, and <a href="https://why.kunai.rocks/docs/advanced/rule_configuration#filtering-rules">filtering</a>. They essentially function the same, with detection rules working best as a rule that lives on a system to create alerts, where filtering seems more suited for the manual investigation of a system. For simplicity we'll focus on filtering.</p>
+<p>Rules are YAML files. The example below copies <a href="https://why.kunai.rocks/docs/advanced/rule_configuration#example-1">the sample filtering rule from the documentation</a>, with a few comments added for context and filtering out <code>sshd</code> events in our case (with PSRemoting over SSH it will flood your screen).</p>
+<div class="highlight"><pre><span></span><code>name: log.execve_connect
+params:
+    # flag to set so that the rule is used as a filter
+    filter: true
+match-on:
+    events:
+        # event id&#39;s, these are found under info.event.id
+        # think of them as the sysmon event id equivalent
+        # https://why.kunai.rocks/docs/events/generalities
+        # list of id&#39;s to report on (execve=1, connect=60)
+        kunai: [ 1,60 ]
+matches:
+    # exe matches regex
+    $sshd_connection: .data.exe.file ~= &#39;/usr/sbin/sshd&#39;
+# if exe is NOT sshd, then report event to stdout
+condition: not $sshd_connection
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>Running kunai we can see how it will detect our hidden process.</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>./kunai-amd64
+sudo<span class="w"> </span>./kunai-amd64<span class="w"> </span>-r<span class="w"> </span>rules.yml<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+</code></pre></div>
+<p>This will allow us to visualize the process hiding from <code>ps</code>.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_kunai_2.png" /></p>
+<p>Which is caught by kunai.</p>
+<p><img alt="" src="../../../../media/art_x_uac/art_x_uac_artifacts_kunai_3.png" /></p>
+<h2 id="evidence-collection">Evidence Collection</h2>
+<p><a href="https://tclahr.github.io/uac-docs/#sftp-arguments">UAC has a number of options to retrieve and send the evidence once it's collected</a>.</p>
+<p>Aside from <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/deploy_uac">the deploy_uac Ansible role</a> mentioned up top, much of this is hands-on-keyboard, which is often necessary to begin and dig deeper into a scenario. Doing this at any sort of scale may require more than Ansible and scripting. You may need an agent to actively collect and run assessments on the targets.</p>
+<p>Interestingly any C2 like <a href="https://github.com/BishopFox/sliver">sliver</a> could achieve this, and possibly even stay under the radar if deployed correctly when adversaries are monitoring processes. However two projects exist specifically for IR usage.</p>
+<div class="admonition example">
+<p class="admonition-title">Agent-based Collection</p>
+<p>Two projects are worth mentioning that specialize in this, and include built in <code>yara</code> scanning on endpoints:</p>
+<ul>
+<li><a href="https://github.com/google/grr">google/grr</a></li>
+<li><a href="https://github.com/Velocidex/velociraptor">Velocidex/velociraptor</a></li>
+</ul>
+<p>Ideally this post will be updated once both are installed and tested in a lab.</p>
+</div>
+<p>At this point in the IR journey, if you already haven't done so, the next course of action is collecting artifacts from every possibly affected endpoint, and reviewing them for simialr IOC's to those you've already found.</p>
+<div class="admonition info">
+<p class="admonition-title">The Scenario, Concluded</p>
+<p>📝 Our IR to do list:</p>
+<ul>
+<li>✅ Run UAC in the background and collect artifacts, exfiltrate artifacts when done</li>
+<li>✅ System activity (LastWriteTime / mtime) <code>chkrootkit</code>, <code>rkhunter</code>, <code>linpeas</code>, <code>lsof</code>, <code>ss</code>/<code>netstat</code>, <code>ps</code> for initial triage</li>
+<li>✅ Parse and pivot with YARA, observe with kunai, UAC produces a ton of info, how do you know what to look for?</li>
+<li>🟦 <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/deploy_uac">Run UAC across your inventory and check for the same artifacts</a></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

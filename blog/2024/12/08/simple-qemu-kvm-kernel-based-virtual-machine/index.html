@@ -1,0 +1,3182 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/">
+      
+      
+        <link rel="prev" href="../../01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/">
+      
+      
+        <link rel="next" href="../../28/material-code-tags-check-linting-code/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>KVM (Kernel-based Virtual Machine) - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="KVM (Kernel-based Virtual Machine) - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="KVM (Kernel-based Virtual Machine) - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kvm-kernel-based-virtual-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KVM (Kernel-based Virtual Machine)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#virt-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virt-Manager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virt-Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#snapshot-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snapshot Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-network-traffic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filtering Network Traffic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filtering Network Traffic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-block-tailnet-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Block Tailnet Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPICE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPICE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clipboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clipboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-guests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Guests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Guests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rdp-remmina" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDP + Remmina
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openssh-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSSH-Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QEMU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="QEMU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#blank-gui-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blank GUI (Boot)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blank-or-frozen-gui-vm-lockup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blank or Frozen GUI (VM Lockup)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secureboot-and-qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SecureBoot and QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoinstall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autoinstall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup-and-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-12-08 00:00:00+00:00" class="md-ellipsis">December 8, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              19 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#virt-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virt-Manager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virt-Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#snapshot-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snapshot Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-network-traffic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filtering Network Traffic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filtering Network Traffic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-block-tailnet-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Block Tailnet Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPICE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPICE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clipboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clipboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-guests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Guests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Guests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rdp-remmina" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDP + Remmina
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openssh-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSSH-Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QEMU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="QEMU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#blank-gui-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blank GUI (Boot)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blank-or-frozen-gui-vm-lockup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blank or Frozen GUI (VM Lockup)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secureboot-and-qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SecureBoot and QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autoinstall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autoinstall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup-and-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="kvm-kernel-based-virtual-machine"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.003.064C5.376.064 0 5.407 0 12s5.376 11.936 12.003 11.936c2.169 0 4.2-.57 5.955-1.57l.624 1.57h4.841l-1.893-4.679A11.85 11.85 0 0 0 24 12C24 5.407 18.63.064 12.003.064M8.818 2.03c.398.339.324.198.86.134.61-.397.893.942 1.147.195.748.097 1.542.34 2.25.584a3.45 3.45 0 0 1 1.859 1.128l-.014.007.35.463c.045.08.082.164.12.248.142 1.205 1.48 1.19 2.377 1.625.767.272 1.69.686 1.785 1.611-.193-.042-.941-.921-1.53-1.007a4 4 0 0 1-1.094-.255L14.86 6.38v-.007a3 3 0 0 1-.309-.053v.013l-2.927-.362c.048.033.1.077.148.12l3 .585v-.007l.209.053.839.188c.166.016.334.043.47.067.856.236 1.868.194 2.571.792-.184.352-1.21.153-1.719.108-.062-.012-.131-.023-.194-.034l-.034-.007c-.696-.113-1.411-.12-2.081.088h-.007a3.2 3.2 0 0 0-.671.302c-.968.563-2.164.767-2.967 1.577-.787.847-.739 2.012-.604 3.095h.033v.275q.02.143.04.282c.41 2.19 1.5 4.2 1.84 6.412.065.843.203 1.932.309 2.618-.306-.091-.475-1.462-.544-1.007a38 38 0 0 0-3.565-5.25c-.853-1.004-1.697-2.06-2.712-2.894-.685-.528-.468-1.55-.537-2.302-.23-.926-.094-1.848.06-2.773.313-.963.418-1.968.846-2.893.653-.581.669-1.63 1.303-2.135.094.058.157.085.2.1l.068.008h.007c.09-.095-.888-1.116.02-.712.035-.537.854-.128.866-.597m3.847 2.182c-.323.009-.574.13-.645.335-.114.33.273.755.866.96.594.205 1.168.109 1.282-.221s-.272-.762-.866-.967a1.8 1.8 0 0 0-.637-.107"/></svg></span> KVM (Kernel-based Virtual Machine)</h1>
+<p>KVM is a type 1 hypervisor technology built into the Linux kernel, using components like QEMU, libvirt, and virt-manager to orchestrate virtual machines. This reference aims to cover everything you'd need to have a basic understanding of KVM and QEMU, how to use <code>virt-manager</code>, networking configuration options, and the various components such as SPICE.</p>
+<div class="admonition abstract">
+<p class="admonition-title"><a href="https://www.redhat.com/en/topics/virtualization/what-is-KVM">What is KVM?</a></p>
+<ul>
+<li><code>virt-manager</code> acts as one possible GUI / CLI frontend to managing VM's.</li>
+<li><code>qemu</code> is the virtualization / emulation technology that technologies like virt-manager call to run VM's.</li>
+<li>QEMU can be used via the CLI on its own.</li>
+</ul>
+<p>KVM relates to QEMU when you run VM's with hardware acceleration rather than pure software emulation, KVM provides the hardware translation and acceleration component. This is the difference when starting VM's with <code>kvm</code> instead of <code>qemu-system-x86_64</code>.</p>
+<p><code>kvm</code> is the equivalent of running <code>qemu-system-x86_64 -machine accel=kvm:tcg</code> (see <code>man kvm</code>).</p>
+<p><code>libvirt</code> is an API, daemon, and management tool that ties all of the components you want to use together, and is used by KVM, Xen, VMware ESXi, and QEMU when performing virtualization tasks.</p>
+</div>
+<!-- more -->
+
+<h2 id="virt-manager">Virt-Manager</h2>
+<p><em>Virt-Manager is a GUI application. Think of Virt-Manager as an equivlent to Hyper-V, VMware Workstation, or VirtualBox.</em></p>
+<ul>
+<li><a href="https://virt-manager.org/">https://virt-manager.org/</a></li>
+<li><a href="https://github.com/virt-manager/virt-manager">https://github.com/virt-manager/virt-manager</a></li>
+</ul>
+<h3 id="install">Install</h3>
+<p>Install the utilties and add your user(s) you want to access the VM's to the libvirtd group.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>virt-manager
+sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>libvirtd<span class="w"> </span><span class="nv">$USER</span>
+</code></pre></div>
+<h3 id="paths">Paths</h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/etc/libvirt/qemu</code></td>
+<td>VM XML configs</td>
+</tr>
+<tr>
+<td><code>/var/lib/libvirt/images</code></td>
+<td>VM disks</td>
+</tr>
+<tr>
+<td><code>/var/lib/libvirt/qemu/nvram</code></td>
+<td>EFI Vars</td>
+</tr>
+<tr>
+<td><code>/var/lib/libvirt/qemu/snapshot/&lt;vm-name&gt;/&lt;snapshot-name&gt;.xml</code></td>
+<td>Snapshot XML configs</td>
+</tr>
+<tr>
+<td><code>/etc/libvirt/qemu/networks/</code></td>
+<td>Network configurations</td>
+</tr>
+<tr>
+<td><code>/etc/libvirt/nwfilter/</code></td>
+<td>Network filtering configurations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="permissions">Permissions</h3>
+<p>On Ubuntu 22.04 and higher, these are the default path permissions. Essentially <code>/var/lib/libvirt</code> itself and everything below should owned by <code>root:root</code> <em>except</em> for <code>/var/lib/libvirt/qemu</code> which is owned by <code>libvirt-qemu:kvm</code>.</p>
+<div class="highlight"><pre><span></span><code>drwxr-xr-x  2 root         root 4096 Mar 13  2025 .
+drwxr-xr-x  2 root         root 4096 Sep 10  2025 ..
+drwxr-x---  2 root         root 4096 Jul  5  2025 boot
+drwxr-xr-x  2 root         root 4096 Mar 13  2025 dnsmasq
+drwxr-x---  2 root         root 4096 Mar 13  2025 images
+drwxr-x---  2 libvirt-qemu kvm  4096 Mar 13  2025 qemu
+drwx------  2 root         root 4096 Jul  5  2025 sanlock
+drwxr-x---  2 root         root 4096 Mar 11  2025 swtpm
+</code></pre></div>
+<p>This is important to know if you want to store virtual machines in non-default paths.</p>
+<h3 id="commands">Commands</h3>
+<p><code>virsh</code> allows you to automate and control virtual machine behavior from the CLI.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>virsh list --all</code></td>
+<td>List all VMs</td>
+</tr>
+<tr>
+<td><code>virsh [start|stop|shutdown|reset] &lt;vm-name&gt;</code></td>
+<td>Control VM state</td>
+</tr>
+</tbody>
+</table>
+<h4 id="snapshot-commands">Snapshot Commands</h4>
+<div class="admonition note">
+<p class="admonition-title">Snapshot Requirements</p>
+<p>VMs must have a disk image associated with them to take and modify snapshots.*</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>virsh snapshot-list &lt;vm-name&gt;</code></td>
+<td>List all snapshots of <code>&lt;vm-name&gt;</code></td>
+</tr>
+<tr>
+<td><code>virsh snapshot-create-as &lt;vm-name&gt; &lt;snapshot-name&gt; --description "&lt;description&gt;"</code></td>
+<td>Take a snapshot</td>
+</tr>
+<tr>
+<td><code>virsh snapshot-revert &lt;vm-name&gt; &lt;snapshot-name&gt;</code></td>
+<td>Revert to <code>&lt;snapshot-name&gt;</code></td>
+</tr>
+<tr>
+<td><code>virsh snapshot-delete &lt;vm-name&gt; &lt;snapshot-name&gt;</code></td>
+<td>Delete a snapshot</td>
+</tr>
+</tbody>
+</table>
+<h4 id="networking-commands">Networking Commands</h4>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>virsh net-list --all</code></td>
+<td>List all available <code>&lt;network-name&gt;</code>s</td>
+</tr>
+<tr>
+<td><code>virsh net-dhcp-leases &lt;network-name&gt;</code></td>
+<td>List all current DHCP leases on <code>&lt;network-name&gt;</code> if it's managed via virt-manager / dnsmasq</td>
+</tr>
+<tr>
+<td><code>virsh domiflist &lt;vm-name&gt;</code></td>
+<td>List all network interfaces attached to <code>&lt;vm-name&gt;</code></td>
+</tr>
+<tr>
+<td><code>virsh domifaddr &lt;vm-name&gt; [--source agent|arp|lease]</code></td>
+<td>Get IP information from <code>&lt;vm-name&gt;</code>, optionally using one of three methods</td>
+</tr>
+<tr>
+<td><code>virsh net-dumpxml &lt;network&gt;</code></td>
+<td>Output the virtual network information as an XML dump to stdout.</td>
+</tr>
+<tr>
+<td><code>virsh net-create &lt;network&gt; [--validate]</code></td>
+<td>Create a transient (temporary) virtual network from an XML file and instantiate (start) the network.</td>
+</tr>
+<tr>
+<td><code>virsh net-define &lt;network&gt; [--validate]</code></td>
+<td>Define an inactive persistent virtual network or modify an existing persistent one from the XML file.</td>
+</tr>
+<tr>
+<td><code>virsh net-undefine &lt;network&gt;</code></td>
+<td>Undefine the configuration for a persistent network. If the network is active, make it transient.</td>
+</tr>
+<tr>
+<td><code>virsh net-edit &lt;network&gt;</code></td>
+<td>Edit the XML configuration file for a network.</td>
+</tr>
+<tr>
+<td><code>virsh net-list [--all]</code></td>
+<td>Returns the list of active networks.</td>
+</tr>
+<tr>
+<td><code>virsh net-start &lt;network&gt;</code></td>
+<td>Start a (previously defined) inactive network.</td>
+</tr>
+<tr>
+<td><code>virsh net-destroy &lt;network&gt;</code></td>
+<td>Destroy (stop) a given transient or persistent virtual network specified by its name or UUID. This takes effect immediately.</td>
+</tr>
+<tr>
+<td><code>virsh nwfilter-define &lt;filter&gt; [--validate]</code></td>
+<td>Define or update a network filter from an XML file</td>
+</tr>
+<tr>
+<td><code>virsh nwfilter-undefine &lt;filter&gt;</code></td>
+<td>Undefine a network filter</td>
+</tr>
+<tr>
+<td><code>virsh nwfilter-dumpxml &lt;filter&gt;</code></td>
+<td>Network filter information in XML</td>
+</tr>
+<tr>
+<td><code>virsh nwfilter-list</code></td>
+<td>List network filters</td>
+</tr>
+<tr>
+<td><code>virsh nwfilter-edit &lt;filter&gt;</code></td>
+<td>Edit XML configuration for a network filter</td>
+</tr>
+</tbody>
+</table>
+<h3 id="networking">Networking</h3>
+<div class="admonition warning">
+<p class="admonition-title">Tailscale and Exit Nodes</p>
+<p>If you use tailscale and force all traffic out of an exit node, this may break routing on your libvirtd instance. Simply unset the exit node to verify this.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tailscale<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--exit-node<span class="o">=</span><span class="s1">&#39;&#39;</span>
+</code></pre></div>
+</div>
+<p>libvirtd VM's appear under <code>ip a</code> as <code>vnetX</code>, which you can observe under <code>kern.log</code> when a VM comes online.</p>
+<h4 id="internal-networking">Internal Networking</h4>
+<p>These can be created under Edit &gt; Connection Details &gt; Virtual Networks</p>
+<div class="admonition tip">
+<p class="admonition-title">pfSense with Virtual Networks</p>
+<p>The examples below are for a pfSense router VM to have it's own internal LAN and OPT interfaces that are purely virutal, and cannot be seen by or talk to the host's networking interfaces.</p>
+</div>
+<ul>
+<li>Choose "Add"</li>
+<li>Name: <code>pfsense_lan</code> (<code>pfsense_opt1</code>, <code>pfsense_opt2</code>...)</li>
+<li>Mode: Isolated</li>
+<li>Enable IPv4<ul>
+<li>Disable DHCP</li>
+<li>Delete all the other IPv4 information (this can be provisioned by pfSense)</li>
+<li>DNS can be "Custom: <code>&lt;blank&gt;</code>"</li>
+</ul>
+</li>
+<li><em>IPv6 must remain disabled for now, it requires a hard-coded address</em></li>
+<li>Once created you should see "Autostart On Boot" checked as well</li>
+</ul>
+<p>Ultimately your pfSense VM is routing via NAT through the <code>default</code> virt-manager network, and has its own, virtual (isolated) pfsense_lan, pfsense_opt1, and pfsense_opt2, etc. addresses available to it. To connect a VM to pfSense, attach it to any of the virtual (isolated) network interfaces.</p>
+<h4 id="troubleshooting">Troubleshooting</h4>
+<p>This example deletes the generated xml config under <code>/etc/libvirt/qemu</code>, and uses the built in template from <code>/usr/share/libvirt</code> to reprovision a totally new default NAT network.</p>
+<p>Once you've powered down or paused all VMs, quit <code>virt-manager</code> and its system tray icon. The entire bash block below is safe to copy and paste.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>libvirtd
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-list<span class="w"> </span>--all
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-undefine<span class="w"> </span>default
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-destroy<span class="w"> </span>default
+sudo<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>/etc/libvirt/qemu/networks/default.xml
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-define<span class="w"> </span>/usr/share/libvirt/networks/default.xml
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-start<span class="w"> </span>default
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-autostart<span class="w"> </span>default
+sudo<span class="w"> </span>virsh<span class="w"> </span>net-list<span class="w"> </span>--all
+systemctl<span class="w"> </span>status<span class="w"> </span>libvirtd
+</code></pre></div>
+<h4 id="filtering-network-traffic">Filtering Network Traffic</h4>
+<div class="admonition abstract">
+<p class="admonition-title">nwfilter vs Host Firewall</p>
+<p>Instead of using a host utility like <code>iptables</code> or <code>ufw</code> to manage virtual machine network filtering, it's better to use libvirt's built-in <code>nwfilter</code> directly to ensure rules are being applied to machines correctly. This is most useful when VM's are either bridged, or NAT'd without a router / firewall in front of them.</p>
+</div>
+<ul>
+<li><a href="https://libvirt.org/firewall.html#the-network-filter-driver">libvirt.org/firewall</a></li>
+<li><a href="https://libvirt.org/formatnwfilter.html">libvirt.org/formatnwfilter</a></li>
+<li><a href="https://libvirt.org/formatnwfilter.html#command-line-tools"><code>nwfilter</code> CLI</a></li>
+<li><a href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-virtual_networking-applying_network_filtering">RedHat: Apply Network Filtering</a></li>
+</ul>
+<p>There are a number of pre-built example rules. According to the documentation:</p>
+<div class="admonition quote">
+<p>They are all stored in <code>/etc/libvirt/nwfilter</code>, but don't edit the files there directly. Use <code>virsh nwfilter-define</code> to update them. This ensures the guests have their iptables/ebtables rules recreated.</p>
+</div>
+<p>To apply nwfilter rules, we need to:</p>
+<ul>
+<li>Create the XML file, defaults are under <code>/etc/libvirt/nwfilter/&lt;rule-name&gt;.xml</code></li>
+<li>Define the new file as a rule with <code>virsh nwfilter-define</code></li>
+<li>Add a <code>&lt;filterref/&gt;</code> reference to this rule in a VM's network configuration XML</li>
+<li>Verify the rules are working</li>
+</ul>
+<hr />
+<h5 id="example-block-tailnet-access">Example: Block Tailnet Access</h5>
+<p>This is useful if for example your host has access to Tailnet resources that an untrusted guest VM should not be able to reach.</p>
+<p>Create a custom rule by referencing <a href="https://libvirt.org/formatnwfilter.html#writing-your-own-filters">the custom rule examples</a>. We can build one that uses the existing <code>clean-traffic</code> filter as a base reference, and adds a "drop" rule to all outbound traffic destined for <code>100.64.0.0/10</code> to prevent VM's from accessing Tailnet endpoints they shouldn't be able to see.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/libvirt/nwfilter/no-tailnet-traffic.xml
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Generate a UUID</p>
+<p>In Linux you can create a UUID using a proc path. Credit to <a href="https://github.com/rpinz">rpinz</a> for this:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/proc/sys/kernel/random/uuid
+dc48344d-99fa-42c2-8db8-4eeaea0116f6
+</code></pre></div>
+</div>
+<p>The priority values are left as the defaults described in the documentation.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;filter</span><span class="w"> </span><span class="na">name=</span><span class="s">&#39;no-tailnet-traffic&#39;</span><span class="w"> </span><span class="na">chain=</span><span class="s">&#39;ipv4&#39;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&#39;-700&#39;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;uuid&gt;</span>dc48344d-99fa-42c2-8db8-4eeaea0116f6<span class="nt">&lt;/uuid&gt;</span>
+<span class="w">  </span><span class="cm">&lt;!-- Reference the clean traffic filter to prevent</span>
+<span class="cm">       MAC, IP and ARP spoofing. By not providing</span>
+<span class="cm">       and IP address parameter, libvirt will detect the</span>
+<span class="cm">       IP address the VM is using.</span>
+
+<span class="cm">       https://libvirt.org/formatnwfilter.html#writing-your-own-filters</span>
+<span class="cm">  --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;filterref</span><span class="w"> </span><span class="na">filter=</span><span class="s">&#39;clean-traffic&#39;</span><span class="nt">/&gt;</span>
+
+<span class="w">  </span><span class="cm">&lt;!-- Drop all outbound traffic to the CGNAT ranges, or</span>
+<span class="cm">       100.64.0.0/10, which is also used in Tailnets.</span>
+<span class="cm">       This prevents VM&#39;s from talking to endpoints that</span>
+<span class="cm">       hosts can reach over Tailnets.</span>
+
+<span class="cm">       By referencing the clean-traffic filter above, the</span>
+<span class="cm">       rule is dynamically obtaining each VM&#39;s $IP address</span>
+<span class="cm">       when this filter applies. That&#39;s why a srcipaddr and</span>
+<span class="cm">       srcipmask aren&#39;t used here.</span>
+
+<span class="cm">       Since CGNAT ranges are exclusively IPv4, this only</span>
+<span class="cm">       applies to the &lt;ip/&gt; protocol in libvirt&#39;s nwfilter.</span>
+
+<span class="cm">       https://libvirt.org/formatnwfilter.html#reserved-variables</span>
+<span class="cm">  --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;rule</span><span class="w"> </span><span class="na">action=</span><span class="s">&#39;drop&#39;</span><span class="w"> </span><span class="na">direction=</span><span class="s">&#39;out&#39;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&#39;500&#39;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;ip</span><span class="w"> </span><span class="na">dstipaddr=</span><span class="s">&#39;100.64.0.0&#39;</span><span class="w"> </span><span class="na">dstipmask=</span><span class="s">&#39;255.192.0.0&#39;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/rule&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Nested Filter References</p>
+<p>As you can probably tell from the example, you can build rules by referencing other rules, that reference other rules, and so on.</p>
+</div>
+<p>Save it, then define it as a new <code>nwfilter</code> rule. <code>--validate</code> ensures there are no syntax issues.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>virsh<span class="w"> </span>nwfilter-define<span class="w"> </span>/etc/libvirt/nwfilter/no-tailnet-traffic.xml<span class="w"> </span>--validate
+</code></pre></div>
+<p>Add the following into the <code>&lt;interface/&gt;</code> block within a guest VM's NIC XML data.</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;filterref</span><span class="w"> </span><span class="na">filter=</span><span class="s">&#39;no-tailnet-traffic&#39;</span><span class="nt">/&gt;</span>
+</code></pre></div>
+<p>Reboot the VM if necessary and verify that the rules are working.</p>
+<div class="admonition note">
+<p class="admonition-title">Adding Filters to Networks</p>
+<p>Initially adding a <code>&lt;filterref/&gt;</code> block to a network such as the <code>default</code> network was tried. It appears these rules must be applied per-machine. Until a way is found to apply this globally per-network, assume this is true.</p>
+</div>
+<h2 id="spice">SPICE</h2>
+<p>Some machines will install the <code>spice-vdagent</code> by default, however others (Kali) may require you install it after you install the guest.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>spice-vdagent
+</code></pre></div>
+<p>Sometimes the SPICE connection will go completely blank after some time. This could either be from <strong>Power Saver settings on the guest</strong>, or an issue with the SPICE agent / server.</p>
+<div class="admonition tip">
+<p class="admonition-title">Blank or frozen SPICE connection on guest sleep</p>
+<p>You should configure QEMU guests to never fall asleep or go blank if this is happening frequently. Alternatively pause the guest when it's not in use.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Blank or frozen SPICE connection on host wake</p>
+<p>Simply leave QEMU VM's running when putting the host to sleep. They'll continue to be running and operating as normal when the host wakes again.</p>
+</div>
+<p>Restart the SPICE server on the host for that VM:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># TO DO</span>
+</code></pre></div>
+<h3 id="clipboard">Clipboard</h3>
+<p>If you're concerned about guests being able to steal the clipboard data from your host during use, you can temporarily pause the guest while you copy / paste credentials from your clipboard. Once a guest is paused it will no longer have access to the clipboard contents.</p>
+<p>You can also of course just close the SPICE window and reopen it later.</p>
+<h3 id="windows-guests">Windows Guests</h3>
+<p>Windows does not come with the drivers for libvirt or the spice-agent process installed. This means guest enhancements don't work out of the box.</p>
+<ul>
+<li><a href="https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe">SPICE Guest Tools (Windows, Latest)</a></li>
+<li><a href="https://www.spice-space.org/spice-user-manual.html">SPICE User Manual (See "Windows guest" section)</a></li>
+<li><a href="https://github.com/chef/bento?tab=readme-ov-file#kvmqemu-support-for-windows">chef/bento KVM/QEMU Support for Windows Templates</a></li>
+</ul>
+<p>If you follow the links through the Fedora project, eventually it points from <a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html">here</a> to <a href="https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md">here</a>. Basically, without a RedHat machine + subscription, you won't have access to signed drivers for Windows to load without allowing test drivers to load (not ideal if this VM will be battle-tested or exposed to threats).</p>
+<div class="admonition tip">
+<p class="admonition-title">Windows GUI Alternatives</p>
+<p>Given the requirement for the unsigned drivers to leverage the SPICE connection, there are a few clever alternatives:</p>
+<ul>
+<li>The new Windows App may offer some interesting solutions for networked or cloud machines on your Microsoft account</li>
+<li>You could use remmina to RDP into the Windows guest (remmina can be installed as a snap or flatpak for security sandboxing the client)</li>
+<li>You could SSH into Windows</li>
+<li>In virtual networks where you'd need a jump host to connect from your host to the guest, you could RDP from a neighboring Linux guest in that subnet</li>
+</ul>
+</div>
+<h4 id="rdp-remmina">RDP + Remmina</h4>
+<p>Enable RDP on the Windows Guest.</p>
+<ul>
+<li>Settings &gt; System &gt; Remote Desktop &gt; Enabled Remote Desktop: "On"</li>
+</ul>
+<p>Install Remmina on your host:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>snap<span class="w"> </span>install<span class="w"> </span>remmina
+</code></pre></div>
+<ul>
+<li>Configure user, password, and server IP</li>
+<li>Set resolution to "Use initial window size" and after connecting for the first time, resize the window as needed, then reconnect once more</li>
+<li>Advanced &gt; Quality &gt; Set to "Best" (great for local VM's)</li>
+<li>Optionally disable Clipboard synchronization if you don't want the remote machine to "see" your clipboard</li>
+</ul>
+<h4 id="openssh-server">OpenSSH-Server</h4>
+<p>An alternative solution is installing <a href="https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1">OpenSSH-Server on Windows</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">winget with the program</p>
+<p>If installing winget on an evaluation copy of Windows Server, you will need to download the msixbundle file and license xml file from GitHub's release page. Otherwise you'll get a license error.</p>
+<p>See <a href="https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714">winget-cli issue #700</a>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c"># Download the msixbundle and xml license file from the latest releases.</span>
+<span class="c"># https://github.com/microsoft/winget-cli/releases</span>
+<span class="c"># Use Add-AppxProvisionedPackage to use the -LicensePath argument.</span>
+<span class="nb">Add-AppxProvisionedPackage</span> <span class="n">-Online</span> <span class="n">-PackagePath</span> <span class="p">.\</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">DesktopAppInstaller_</span><span class="p">*.</span><span class="n">msixbundle</span> <span class="n">-LicensePath</span> <span class="p">.\*</span><span class="n">_License1</span><span class="p">.</span><span class="n">xml</span> <span class="n">-Verbose</span>
+</code></pre></div>
+<p>Install the latest PowerShell + OpenSSH Server, optionally Windows Terminal</p>
+<div class="highlight"><pre><span></span><code><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span> <span class="n">-e</span> <span class="p">-</span><span class="n">-source</span> <span class="n">winget</span>
+<span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">OpenSSH</span><span class="p">.</span><span class="n">Beta</span> <span class="n">-e</span> <span class="p">-</span><span class="n">-source</span> <span class="n">winget</span>
+<span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">WindowsTerminal</span> <span class="n">-e</span>
+</code></pre></div>
+<p>Allow SSH through the firewall.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">New-NetFirewallRule</span> <span class="n">-Name</span> <span class="s1">&#39;OpenSSH-Server-In-TCP&#39;</span> <span class="n">-DisplayName</span> <span class="s1">&#39;OpenSSH Server (sshd)&#39;</span> <span class="n">-Enabled</span> <span class="n">True</span> <span class="n">-Direction</span> <span class="n">Inbound</span> <span class="n">-Protocol</span> <span class="n">TCP</span> <span class="n">-Action</span> <span class="n">Allow</span> <span class="n">-LocalPort</span> <span class="n">22</span> <span class="p">&gt;</span> <span class="nv">$null</span>
+</code></pre></div>
+<h2 id="qemu">QEMU</h2>
+<p>QEMU is what virt-manager uses under the hood to run Virtal Machines, however you can use QEMU entirely on its own.</p>
+<ul>
+<li><a href="https://www.qemu.org/docs/master/system/introduction.html">QEMU Introduction and Essential Commands</a></li>
+<li><a href="https://superuser.com/questions/1706286/qemu-configuration-to-host-a-linux-with-ssh-and-http-on-windows">superuser: Forwarding Ports to QEMU Guest</a></li>
+</ul>
+<h3 id="install_1">Install</h3>
+<p>To install QEMU on Debian-based systems:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">my_arch</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>qemu-system-<span class="s2">&quot;</span><span class="nv">$my_arch</span><span class="s2">&quot;</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Windows and macOS Support</p>
+<p>See the documentation for Windows and macOS instructions.</p>
+</div>
+<h3 id="usage">Usage</h3>
+<p>There may be reasons why you want to create and launch a VM entirely via the CLI interface with KVM / QEMU.</p>
+<p>Use these steps to do so.</p>
+<div class="admonition note">
+<p class="admonition-title">Credit &amp; Thanks</p>
+<p>Much of this section was learned from the steps under <a href="https://canonical-subiquity.readthedocs-hosted.com/en/latest/howto/autoinstall-quickstart.html#autoinstall-quick-start">Ubuntu: Autoinstall Quick Start</a>. This guide expands upon those, to get more options working like EFI boot and SecureBoot.</p>
+</div>
+<p>Create a virtual disk.</p>
+<div class="highlight"><pre><span></span><code>truncate<span class="w"> </span>-s<span class="w"> </span>10G<span class="w"> </span>ubuntu.img
+</code></pre></div>
+<p>First launch, walk through the installer (minimal, BIOS):</p>
+<div class="highlight"><pre><span></span><code>kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cdrom<span class="w"> </span>~/path/to/ubuntu-&lt;version-number&gt;-live-server-amd64.iso
+</code></pre></div>
+<p>Second launch, start the installed machine.</p>
+<div class="highlight"><pre><span></span><code>kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio
+</code></pre></div>
+<p>Alternatively if you want to launch an ISO using EFI boot:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Copy an EFI vars template file to write to</span>
+cp<span class="w"> </span>/usr/share/OVMF/OVMF_VARS_4M.fd<span class="w"> </span>.
+
+<span class="c1"># Boot the machine pointing to the EFI ROM and your writable vars file</span>
+kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">4096</span><span class="w"> </span>-smp<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cpu<span class="w"> </span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-machine<span class="w"> </span>q35,smm<span class="o">=</span>on,accel<span class="o">=</span>kvm:hvf:whpx:tcg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-global<span class="w"> </span><span class="nv">driver</span><span class="o">=</span>cfi.pflash01,property<span class="o">=</span>secure,value<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0,hostfwd<span class="o">=</span>tcp::2222-:22<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-object<span class="w"> </span>rng-random,filename<span class="o">=</span>/dev/urandom,id<span class="o">=</span>rng0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cdrom<span class="w"> </span>~/path/to/ubuntu-&lt;version-number&gt;-live-server-amd64.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,readonly<span class="o">=</span>on,file<span class="o">=</span>/usr/share/OVMF/OVMF_CODE_4M.secboot.fd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,file<span class="o">=</span>efivars.fd
+</code></pre></div>
+<h4 id="blank-gui-boot">Blank GUI (Boot)</h4>
+<p>This was discovered while <a href="https://github.com/straysheep-dev/packer-configs/tree/main/ubuntu-2204-desktop">building Ubuntu desktop images with packer</a>. On boot of a working disk image, sometimes you will just see a blank screen. Try hitting <code>Esc</code> a few times to cycle between the CLI view and the GUI view in the QEMU or virt-manager GUI window. This may reveal that the system is actually booting and functional, just waiting for you to login.</p>
+<h4 id="blank-or-frozen-gui-vm-lockup">Blank or Frozen GUI (VM Lockup)</h4>
+<p>This was noticed when running Ubuntu 24.04 with Wayland, on both the guest and host. The lockup can require a full power cycle of the host, or just be temporary.</p>
+<p>The fix in that specific case was to update the host's graphics driver packages; specifically, to the new open-kernel drivers for Nvidia. In most cases this is a good set of steps to take before troubleshooting further: update all host packages, the firmware, and GPU drivers.</p>
+<p>During the initial search on this issue, Gemini and GPT o4-mini both started pointing to the <code>vgamem</code> value of the QXL video driver.</p>
+<ul>
+<li><a href="https://www.ovirt.org/develop/internal/video-ram.html">ovirt.org: QXL and Video RAM</a></li>
+<li><a href="https://libvirt.org/formatdomain.html#video-devices">libvirt.org: Video Devices</a></li>
+<li><a href="https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-video-qxl/+bug/1972914">launchpad.net: Frequent 15-sec guest freeze with Ubuntu 22.04 host and guest</a></li>
+</ul>
+<p>It's suggested that setting <code>vgamem="65536"</code>, or at least a higher value, in the XML config of the QXL video device in virt-manager provides enough video-ram to prevent this type of freeze.</p>
+<h4 id="networking_1">Networking</h4>
+<p>You can choose between numerous networking interface devices. List all available to you with the following. Note that some OS's are only compatible with certain devices.</p>
+<p>Generally, <code>e1000</code> seems to work across any guest, while <code>virtio-net-pci</code> is the most performant, but may only work on unix-like guests.</p>
+<div class="highlight"><pre><span></span><code>qemu-system-x86_64<span class="w"> </span>-nic<span class="w"> </span><span class="nv">model</span><span class="o">=</span><span class="nb">help</span>
+Supported<span class="w"> </span>NIC<span class="w"> </span>models:
+e1000
+e1000-82544gc
+e1000-82545em
+e1000e
+i82550
+i82551
+i82557a
+i82557b
+i82557c
+i82558a
+i82558b
+i82559a
+i82559b
+i82559c
+i82559er
+i82562
+i82801
+ne2k_pci
+pcnet
+pvrdma
+rtl8139
+tulip
+virtio-net-pci
+virtio-net-pci-non-transitional
+virtio-net-pci-transitional
+vmxnet3
+</code></pre></div>
+<h4 id="secureboot-and-qemu">SecureBoot and QEMU</h4>
+<div class="admonition tip">
+<p class="admonition-title">Required Settings</p>
+<p>You'll need to specify the same settings you'd use in virt-manager to configure a VM for SecureBoot.</p>
+<ul>
+<li><a href="https://superuser.com/questions/1703377/qemu-kvm-uefi-secure-boot-doesnt-work">superuser/qemu-kvm-uefi-secure-boot-doesnt-work</a></li>
+<li><a href="https://wiki.debian.org/SecureBoot/VirtualMachine">debian.org/SecureBoot/VirtualMachine</a></li>
+</ul>
+</div>
+<p>Practically what you need are 3 items:</p>
+<ul>
+<li>The Q35 chipset</li>
+<li>The EFI firmware ROM (read-only)</li>
+<li>The EFI variables (writable)</li>
+</ul>
+<p>The EFI variables file can be copied to a place for use with that VM from <code>/usr/share/OVMF/OVMF_VARS_*</code>.</p>
+<p>Which of those files you need depends on which EFI ROM you used to provision the VM.</p>
+<ul>
+<li><code>-machine q35,smm=on</code> handles the chipset, and supports SecureBoot</li>
+<li><code>accel=kvm:hvf:whpx:tcg</code> tells QEMU what accelerator to use in that order, depending on what's available</li>
+<li><code>-drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.secboot.fd</code> points to the EFI ROM</li>
+<li><code>-drive if=pflash,format=raw,file=efivars.fd</code> points to a local, writable, copy of the EFI variables.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/path/to/ubuntu-2204.qcow2<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">4096</span><span class="w"> </span>-smp<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cpu<span class="w"> </span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-machine<span class="w"> </span>q35,smm<span class="o">=</span>on,accel<span class="o">=</span>kvm:hvf:whpx:tcg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-global<span class="w"> </span><span class="nv">driver</span><span class="o">=</span>cfi.pflash01,property<span class="o">=</span>secure,value<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0,hostfwd<span class="o">=</span>tcp::2222-:22<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-object<span class="w"> </span>rng-random,filename<span class="o">=</span>/dev/urandom,id<span class="o">=</span>rng0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu-2204.qcow2,format<span class="o">=</span>qcow2,if<span class="o">=</span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,readonly<span class="o">=</span>on,file<span class="o">=</span>/usr/share/OVMF/OVMF_CODE_4M.secboot.fd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,format<span class="o">=</span>raw,file<span class="o">=</span>efivars.fd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-vga<span class="w"> </span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-display<span class="w"> </span>gtk
+</code></pre></div>
+<h4 id="autoinstall">Autoinstall</h4>
+<p>Autoinstall, cloud-init, and user-data together can be confusing to delineate. The following links (in order) do a good job of framing what autoinstall is, and how it uses cloud-init.</p>
+<ul>
+<li><a href="https://cloudinit.readthedocs.io/en/latest/reference/faq.html#autoinstall">Subiquity autoinstaller uses cloud-init</a></li>
+<li><a href="https://canonical-subiquity.readthedocs-hosted.com/en/latest/intro-to-autoinstall.html">Intro to Subiquity autoinstaller</a></li>
+<li><a href="https://canonical-subiquity.readthedocs-hosted.com/en/latest/explanation/cloudinit-autoinstall-interaction.html#cloudinit-autoinstall-interaction">Cloud-init and autoinstaller interaction</a></li>
+<li><a href="https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/providing-autoinstall.html#providing-autoinstall">Providing autoinstall</a></li>
+<li><a href="https://docs.cloud-init.io/en/latest/reference/datasources/nocloud.html#datasource-nocloud">The NoCloud datasource</a></li>
+<li><a href="https://docs.cloud-init.io/en/latest/explanation/format.html#user-data-formats-cloud-config">Cloud-config user-data formats</a></li>
+<li><a href="https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html#user-data">Subiquity autoinstaller user-data ✨</a></li>
+</ul>
+<p><strong>That final link (star'd) has the syntax reference you need for an autoinstall user-data file.</strong></p>
+<div class="admonition tip">
+<p class="admonition-title">Subiquity autoinstaller user-data?</p>
+<p>This is the best way I can summarize this; <code>autoinstall:</code> is a "parent" to the <code>user-data:</code> file of a cloud-init cloud-config. Replace the user-data file with your <code>autoinstall:</code> data, which has <code>user-data:</code> embedded within it.</p>
+<p>In other words, you still have a user-data file. It's required for cloud-init to successfully provision a machine. However, all of your original user-data text now lives under a <code>user-data:</code> yaml block, along side other optional <code>autoinstall:</code> blocks.</p>
+<p>This can be incredibly confusing when trying to debug what's wrong with your config. More often than not, you're looking at the wrong examples.</p>
+</div>
+<p>Autoinstall has been available since 20.04.</p>
+<ul>
+<li><a href="https://cloudinit.readthedocs.io/en/latest/tutorial/qemu.html">Cloud-init QEMU Tutorial</a> (this section builds off of these steps)</li>
+<li>Ubuntu Server 20.04+ (<a href="https://github.com/canonical/autoinstall-desktop">It's possible to use server to install <code>ubuntu-desktop</code></a>)</li>
+<li>Ubuntu Desktop 24.04+</li>
+</ul>
+<p>The GitHub project referenced is specifically for using Ubuntu's Autoinstall provisioning method. There are reasons why you might want to try this method yourself and observe the process via the console.</p>
+<p>Here are some additional copy-paste-ready snippets to help you replicate those steps that are more implied or specific to your environment, and aren't mentioned in that tutorial. This example installs Ubuntu 22.04 desktop, which requires the Ubuntu 22.04 server image to start with since Desktop doesn't have Autoinstall until 24.04.</p>
+<div class="admonition tip">
+<p class="admonition-title">How does this work with QEMU?</p>
+<p>This example prefers serving the autoinstall data over the (localhost) network instead of using the <code>cloud-image-utils</code> package, which is exclusive to Ubuntu. This is so you can replicate the same steps on other OS's. You can create any directory for serving the autoinstall files, <strong>as long as you point to them via <code>kvm</code>/<code>qemu</code> or <code>packer</code></strong>.</p>
+<p>QEMU will default to creating an ephemeral NAT network on <code>10.0.2.2/24</code> when you spin up the VM. When you bind a python web server to <code>0.0.0.0</code> or all interfaces, it will be reachable on <code>10.0.2.2:&lt;port&gt;</code>.</p>
+<p>The syntax for running <code>kvm</code> / <code>qemu</code> interactively are basically the same when doing this through <code>packer</code>'s <code>boot_command</code>.</p>
+<ul>
+<li>QEMU: <code>'autoinstall ds=nocloud-net;s=http://_gateway:3000/'</code></li>
+<li>Packer: <code>" autoinstall ds=nocloud-net\\;s=http://10.0.2.2:{{ .HTTPPort }}/",</code></li>
+</ul>
+</div>
+<p>First, make a directory you'll serve the autoinstall files from.</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Public/http<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="nb">cd</span><span class="w"> </span>~/Public/http<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+touch<span class="w"> </span>meta-data<span class="p">;</span><span class="w"> </span><span class="se">\</span>
+wget<span class="w"> </span>https://github.com/canonical/autoinstall-desktop/raw/refs/heads/main/autoinstall.yaml<span class="w"> </span>-O<span class="w"> </span>user-data
+<span class="c1"># This autoinstall.yaml file is short enough to manually inspect and modify</span>
+</code></pre></div>
+<p>Modify and save your <code>user-data</code> content, then serve it.</p>
+<div class="admonition note">
+<p class="admonition-title">What goes in <code>user-data</code>?</p>
+<p>This is a complete reference to writing the user-data file.</p>
+<ul>
+<li><a href="https://cloudinit.readthedocs.io/en/latest/reference/examples.html">All cloud-config examples</a></li>
+<li><a href="https://cloudinit.readthedocs.io/en/latest/reference/examples_library.html#examples-library">Examples library</a></li>
+</ul>
+<p>The example here is a very minimal config. You'll eventually want to modify this to fit your needs.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#cloud-config</span>
+<span class="nt">autoinstall</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># version is an Autoinstall required field.</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">    </span><span class="c1"># User creation can occur in one of 3 ways:</span>
+<span class="w">    </span><span class="c1"># 1. Create a user using this `identity` section.</span>
+<span class="w">    </span><span class="c1"># 2. Create users as documented in cloud-init inside the user-data section,</span>
+<span class="w">    </span><span class="c1">#    which means this single-user identity section may be removed.</span>
+<span class="w">    </span><span class="c1"># 3. Prompt for user configuration on first boot.  Remove this identity</span>
+<span class="w">    </span><span class="c1">#    section and see the &quot;Installation without a default user&quot; section.</span>
+<span class="w">    </span><span class="nt">identity</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">realname</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ubuntu&#39;</span>
+<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
+<span class="w">        </span><span class="c1"># A password hash is needed. `mkpasswd --method=SHA-512` can help.</span>
+<span class="w">        </span><span class="c1"># mkpasswd can be found in the package &#39;whois&#39;</span>
+<span class="w">        </span><span class="c1"># The hash below represents a password of just &quot;ubuntu&quot; without the quotes</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;$6$IEXNBzIlhRd2lR2e$ygPi2XMmQtKDKm3Z40xKUtEc00HIL9rUzJx7Hx9Xe.wqpiSIvHPC3RGEgvy7jfrydTNdlVsoHmUCShzQQtl5B0&#39;</span>
+<span class="w">        </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-2204</span>
+
+<span class="w">    </span><span class="c1"># Controls password authentication with the SSH daemon; the default here</span>
+<span class="w">    </span><span class="c1"># prevents logging into SSH with a password. Changing this is a security risk</span>
+<span class="w">    </span><span class="c1"># and you should at the very least ensure a different default password is</span>
+<span class="w">    </span><span class="c1"># specified above</span>
+<span class="w">    </span><span class="nt">ssh_pwauth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Firewall rules</p>
+<p>If you have default-deny inbound rules in place on your firewall, you'll need to make an allowance for the <code>10.0.2.0/24</code> subnet, or whatever static IP you assign the VM, to be able to reach <code>10.0.2.2</code> on an optionally specified port to obtain the autoinstall files.</p>
+</div>
+<p>Ensure your inbound firewall rules are scoped to the default QEMU network, so only the VM can talk to your python web server. Of course you'll need to adjust the QEMU default network if your LAN overlaps with 10.0.2.0/24.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">your_ip</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">www_port</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">qemu_subnet</span><span class="o">=</span><span class="s1">&#39;10.0.2.0/24&#39;</span><span class="w"> </span><span class="c1"># Common default subnet used by KVM/QEMU</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$your_ip</span><span class="s2">&quot;</span><span class="w"> </span>proto<span class="w"> </span>tcp<span class="w"> </span>port<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$www_port</span><span class="s2">&quot;</span><span class="w"> </span>from<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$qemu_subnet</span><span class="s2">&quot;</span><span class="w"> </span>comment<span class="w"> </span><span class="s1">&#39;qemu autoinstall&#39;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Serving autoinstall files</p>
+<p>Packer will automatically serve those files to itself using a webserver tied to the packer gateway IP.</p>
+<p>If you use QEMU on its own, you will have to spin up a python3 webserver to serve the autoinstall files.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/Public/http
+python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">3000</span>
+</code></pre></div>
+</div>
+<p>Create a mount point to reference the vmlinuz and initrd files within the ISO. This only appears to be necessary in some cases, when running QEMU itself outside of Packer.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/mnt/ubuntu_iso
+sudo<span class="w"> </span>mount<span class="w"> </span>-r<span class="w"> </span>~/iso/ubuntu-22.04/ubuntu-22.04.4-desktop-amd64.iso<span class="w"> </span>/mnt/ubuntu_iso
+</code></pre></div>
+<p>Create a virtual disk.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/src/packer_tutorial
+truncate<span class="w"> </span>-s<span class="w"> </span>10G<span class="w"> </span>ubuntu.img
+</code></pre></div>
+<p>Now boot the ISO with KVM, and direct it to use the proper options for Autoinstall.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/src/packer_tutorial
+
+kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-cdrom<span class="w"> </span>~/iso/ubuntu-22.04/ubuntu-22.04.4-live-server-amd64.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-kernel<span class="w"> </span>/mnt/ubuntu_iso/casper/vmlinuz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-initrd<span class="w"> </span>/mnt/ubuntu_iso/casper/initrd<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-append<span class="w"> </span><span class="s1">&#39;autoinstall ds=nocloud-net;s=http://_gateway:3000/&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-boot<span class="w"> </span>d
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">vmlinuz and initrd files</p>
+<p>In older versions of Ubuntu, where you'd use preseed.cfg instead of Autoinstall, the vmlinuz and initrd files may be named differently (e.g. initrd.gz) and in different directories.</p>
+<p>Do a <code>find</code> to see where they are and change those paths accordingly.</p>
+</div>
+<p>This will start QEMU, and kick off the Autoinstall process for the live server 22.04 image, which ultimately installs all of the desktop tools and environment for 22.04. This is a way around 22.04 having no Autoinstall capability. The entire process can be observed in the QEMU console window.</p>
+<p>When the installation completes the system will shutdown and you can boot into the new install.</p>
+<div class="highlight"><pre><span></span><code>kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio
+</code></pre></div>
+<p>Unless you configure persistent networking, it's not always possible to route from your host into the QEMU subnet. If you want to forward localhost:2222 into the guest:22, you can do this:</p>
+<div class="highlight"><pre><span></span><code>kvm<span class="w"> </span>-no-reboot<span class="w"> </span>-m<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>ubuntu.img,format<span class="o">=</span>raw,cache<span class="o">=</span>none,if<span class="o">=</span>virtio<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0,hostfwd<span class="o">=</span>tcp::2222-:22<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>e1000,netdev<span class="o">=</span>net0
+<span class="w">  </span><span class="c1"># Here e1000 is used as the network card instead of virtio</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Gave up waiting for root file system device</p>
+<p>This warning appears to happen anytime a QEMU VM is installed via Autoinstall, where initrd and vmlinuz need specified from the mounted ISO.</p>
+<div class="highlight"><pre><span></span><code>Gave up waiting for root file system device. Common problems:
+- Boot args (cat /proc/cmdline)
+    - Check rootdelay= (did the system wait long enough?)
+- Missing modules (cat /proc/modules: ls /dev)P &lt;unique-string&gt;
+ALERT! /dev/mapper/ubuntu--vg--ubuntu--lv does not exist. Dropping to a shell!
+
+BusyBox v1.30.1 (Ubuntu 1:1.30.1-7ubuntu3.1) built-in shell (ash)
+Enter &#39;help&#39; for a list of built-in commands.
+
+(initramfs) _
+</code></pre></div>
+<p>It's unclear how to resolve this, or why it's happening. The ubuntu.img disk can be chrooted into from the host, so this needs investigated further.</p>
+</div>
+<h3 id="security">Security</h3>
+<p>Under the hood, virt-manager and libvirt are run by QEMU / KVM.</p>
+<div class="admonition note">
+<p class="admonition-title">Security Overview</p>
+<p><a href="https://www.qemu.org/docs/master/system/security.html">QEMU considers the following to be <em>untrusted</em></a>:</p>
+<ul>
+<li>Guest</li>
+<li>User-facing interfaces (e.g. VNC, SPICE, WebSocket)</li>
+<li>Network protocols (e.g. NBD, live migration)</li>
+<li>User-supplied files (e.g. disk images, kernels, device trees)</li>
+<li>Passthrough devices (e.g. PCI, USB)</li>
+</ul>
+<p>It's recommended to read through that entire page if you plan to leverage QEMU / KVM or similar technologies like Proxmox to run untrusted code.</p>
+</div>
+<h3 id="backup-and-restore">Backup and Restore</h3>
+<div class="admonition warning">
+<p class="admonition-title"><em>Section under construction</em></p>
+<p>This section is informational and untested. Check back later for more information.</p>
+</div>
+<ul>
+<li><a href="https://www.reddit.com/r/VFIO/comments/l4mpph/how_do_you_make_a_full_backup_of_a_virtmanager/">Reddit: How do you make a backup of virt-manager?</a></li>
+<li>
+<p><a href="https://github.com/abbbi/virtnbdbackup">github: virtnbdbackup</a></p>
+</li>
+<li>
+<p><code>/var/lib/libvirt/images</code> VM disks</p>
+</li>
+<li><code>/etc/libvirt/qemu</code>: VM xml configs</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rsync<span class="w"> </span>-arv<span class="w"> </span>--delete<span class="w"> </span>--safe-links<span class="w"> </span>/var/lib/libvirt/images/<span class="w"> </span>/media/user/external/Virtual-Machines/libvirt/var_lib_libvirt_images/
+sudo<span class="w"> </span>rsync<span class="w"> </span>-arv<span class="w"> </span>--delete<span class="w"> </span>--safe-links<span class="w"> </span>/etc/libvirt/qemu/<span class="w"> </span>/media/user/external/Virtual-Machines/libvirt/etc_libvirt_qemu/
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

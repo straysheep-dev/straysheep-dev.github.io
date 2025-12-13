@@ -1,0 +1,2214 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/">
+      
+      
+        <link rel="prev" href="../../04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/">
+      
+      
+        <link rel="next" href="../../../07/25/simple-ansible-ansible-molecule/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Compile Static Binaries - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Compile Static Binaries - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/06/15/fontawesome-solid-square-binary-compile-static-binaries.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Compile Static Binaries - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/06/15/fontawesome-solid-square-binary-compile-static-binaries.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#compile-static-binaries" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Compile Static Binaries
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        openssl
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Socat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pspy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yara
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#busybox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        busybox
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-23 00:00:00+00:00" class="md-ellipsis">June 23, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              9 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        openssl
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Socat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pspy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yara
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#busybox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        busybox
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="compile-static-binaries"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M0 96c0-35.3 28.7-64 64-64h320c35.3 0 64 28.7 64 64v320c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64zm144 4c-24.3 0-44 19.7-44 44v48c0 24.3 19.7 44 44 44h32c24.3 0 44-19.7 44-44v-48c0-24.3-19.7-44-44-44zm-4 44c0-2.2 1.8-4 4-4h32c2.2 0 4 1.8 4 4v48c0 2.2-1.8 4-4 4h-32c-2.2 0-4-1.8-4-4zm140-44c-11 0-20 9-20 20 0 9.7 6.9 17.7 16 19.6V216c0 11 9 20 20 20s20-9 20-20v-96c0-11-9-20-20-20zM132 296c0 9.7 6.9 17.7 16 19.6V392c0 11 9 20 20 20s20-9 20-20v-96c0-11-9-20-20-20h-16c-11 0-20 9-20 20m96 24v48c0 24.3 19.7 44 44 44h32c24.3 0 44-19.7 44-44v-48c0-24.3-19.7-44-44-44h-32c-24.3 0-44 19.7-44 44m44-4h32c2.2 0 4 1.8 4 4v48c0 2.2-1.8 4-4 4h-32c-2.2 0-4-1.8-4-4v-48c0-2.2 1.8-4 4-4"/></svg></span> Compile Static Binaries</h1>
+<p>Creating static binaries easily, repeatably, and on your own.</p>
+<!-- more -->
+
+<p>Each section was originally part of other notes taken over the last few years. Initially these were put together to build static binaries when competing in a live cyber attack-defense event, where systems are already assumed to be compromised in some way. Bringing your own static binaries along with <a href="https://github.com/tclahr/uac">uac</a> is a really effective IR technique.</p>
+<p>Eventually static builds came up again, recently with <a href="https://github.com/DominicBreuker/pspy">pspy</a>, just to understand golang and using Docker to build software. This is an effort to centralize all of these notes for public reference.</p>
+<div class="admonition question">
+<p class="admonition-title">Why?</p>
+<p>The first time ever using <a href="https://github.com/projectdiscovery/naabu">naabu</a> and seeing how it could work after being moved to other systems, was what prompted creating the notes in this post. It's also a great way to learn more about reviewing and modifying code.</p>
+<ol>
+<li>Binaries linked to shared libraries will often only run on the system(s) they were compiled on. Static binaries bake in those dependencies and have a level of portability to them.</li>
+<li>Static binaries of common tools are often most useful for pivoting, where you have shell access to a system and you need the capability to do something local to that machine without the ability to compile anything on it.</li>
+<li>Customization and signature evasion</li>
+<li>Compiling for other architectures and systems</li>
+<li>Most importantly, to trust the tool. For some tools, you can pull the source directly from the Linux repositories which already have to be trusted to some degree. Almost none of those projects release static binaries by default, and this is easier than reverse engineering existing unofficial binaries from third-parties if any exist.</li>
+</ol>
+</div>
+<h2 id="getting-started"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0m4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215"/></svg></span> Getting Started</h2>
+<div class="admonition warning">
+<p class="admonition-title">Work in Progress</p>
+<p>The notes in this post as of right now are close to their original state, and need to be updated to use musl and Docker in the build process.</p>
+</div>
+<p>These resources are necessary starting points to succeed here.</p>
+<ul>
+<li><a href="https://musl.libc.org/">musl-libc</a></li>
+<li><a href="https://github.com/andrew-d/static-binaries">andrew-d/static-binaries</a></li>
+<li><a href="https://stackoverflow.com/questions/983515/how-to-statically-link-a-complex-program#983604">How to compile a static binary</a></li>
+<li><a href="https://docs.docker.com/">Docker</a></li>
+<li><a href="https://www.kali.org/docs/general-use/kali-linux-sources-list-repositories/#source-repositories">Kali Linux Source Repos</a></li>
+</ul>
+<p>The <a href="https://github.com/andrew-d/static-binaries">andrew-d/static-binaries</a> repository has a great approach that's fairly easy to understand and learn from. Familiarity with docker, CICD, and devops in general also helps; a lot of modern projects will include a <a href="https://docs.docker.com/reference/dockerfile/">dockerfile</a> among other build tools to help you compile things from source. Part of the purpose of this post is to help unwind and determine how these are working, to modify and use them, and ultimately build our own.</p>
+<p><strong>Using makefiles <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Essentially, these are the steps you'll encounter with makefiles:</p>
+<div class="highlight"><pre><span></span><code>./configure<span class="w"> </span><span class="c1"># There&#39;s often a configuration shell script</span>
+make<span class="w">        </span><span class="c1"># Compiles the code</span>
+make<span class="w"> </span>clean<span class="w">  </span><span class="c1"># Revert project directory to state before running make, great if you encounter errors or want to reconfigure and build again</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Handling Compile Errors</p>
+<p>When handling errors note:</p>
+<ul>
+<li>Which header file, or library, is causing the error(s)</li>
+<li>Does it require different dependancies</li>
+<li>Does something specific in the configuration of the build need to be changed</li>
+</ul>
+</div>
+<p><strong>musl-libc <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<div class="admonition note">
+<p class="admonition-title">What uses musl?</p>
+<p>In addition to the andrew-d/static-binaries project, <a href="https://github.com/threathunters-io/laurel">threathunters-io/laurel</a> also uses musl to build static binaries for laurel.</p>
+</div>
+<p>⚠️ TO DO ⚠️</p>
+<h2 id="openssl"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1.961 13.532a2 2 0 0 1-.818-.157 1.75 1.75 0 0 1-.616-.437 2 2 0 0 1-.389-.664A2.4 2.4 0 0 1 0 11.442q0-.448.137-.832t.389-.664a1.8 1.8 0 0 1 .617-.438q.365-.157.818-.157.454 0 .818.157t.616.437.389.664.137.832-.137.832a2 2 0 0 1-.389.664 1.74 1.74 0 0 1-.616.437 2 2 0 0 1-.818.158m0-.443q.353 0 .622-.126c.269-.126.331-.199.454-.345q.185-.219.277-.521t.092-.656-.092-.656a1.5 1.5 0 0 0-.277-.524q-.185-.221-.454-.347c-.269-.126-.386-.125-.622-.125q-.353 0-.622.126a1.3 1.3 0 0 0-.454.347 1.5 1.5 0 0 0-.277.524q-.092.302-.092.656 0 .353.092.656.093.303.277.521t.454.345q.27.125.622.125m2.494-2.538h.454v.409h.011q.162-.224.387-.35.224-.126.544-.126.274 0 .504.104t.392.297.255.479.092.644q0 .348-.087.63a1.4 1.4 0 0 1-.249.482 1.1 1.1 0 0 1-.398.305 1.3 1.3 0 0 1-.527.106q-.297 0-.516-.095a1 1 0 0 1-.398-.331h-.01v1.557h-.454zm1.345 2.6a.74.74 0 0 0 .625-.325q.103-.151.154-.359.05-.207.05-.454a2 2 0 0 0-.05-.451 1.1 1.1 0 0 0-.154-.364.75.75 0 0 0-.258-.241.7.7 0 0 0-.361-.087.9.9 0 0 0-.412.09.8.8 0 0 0-.289.247 1.1 1.1 0 0 0-.168.364 1.902 1.902 0 0 0-.006.886q.05.207.16.361a.8.8 0 0 0 .283.244.9.9 0 0 0 .426.089m3.037.375a1.4 1.4 0 0 1-.591-.12q-.26-.12-.44-.328-.18-.207-.275-.485a1.8 1.8 0 0 1-.095-.591q0-.314.098-.591t.28-.485a1.287 1.287 0 0 1 .994-.448q.325 0 .574.12t.417.336.255.516.087.658h-2.24q.011.219.078.409t.185.331a.84.84 0 0 0 .673.297.86.86 0 0 0 .521-.148.78.78 0 0 0 .28-.445h.443q-.1.471-.426.723-.326.25-.818.251m-.028-2.689a.9.9 0 0 0-.359.07.76.76 0 0 0-.266.196 1 1 0 0 0-.179.297 1.3 1.3 0 0 0-.092.367h1.743q-.022-.436-.238-.684-.218-.246-.609-.246m2.311.095h.011q.158-.207.378-.328.222-.12.541-.12.455 0 .714.238.261.238.261.692v2.034h-.454v-1.995q0-.286-.174-.437-.173-.151-.482-.151a.9.9 0 0 0-.319.059.8.8 0 0 0-.252.163.7.7 0 0 0-.165.252.9.9 0 0 0-.059.328v1.782h-.454v-2.897h.454zm4.289 2.598q-.823 0-1.271-.347-.449-.347-.47-.989h.8q.045.366.259.521t.648.155q.158 0 .299-.028a.8.8 0 0 0 .248-.09.5.5 0 0 0 .172-.161.43.43 0 0 0 .065-.24.4.4 0 0 0-.07-.242.56.56 0 0 0-.2-.161 1.6 1.6 0 0 0-.313-.113q-.183-.048-.414-.099a8 8 0 0 1-.521-.138 1.6 1.6 0 0 1-.44-.206 1 1 0 0 1-.304-.332 1.04 1.04 0 0 1-.116-.518q0-.299.116-.524.115-.225.321-.378.206-.152.487-.228t.62-.076q.682 0 1.096.321t.459.935h-.783q-.034-.304-.248-.456a.9.9 0 0 0-.53-.152q-.332 0-.53.13a.39.39 0 0 0-.197.344q0 .124.054.206t.163.144.273.107.389.096q.31.068.583.149.273.082.479.217t.324.344.118.535q0 .304-.118.544t-.327.4a1.5 1.5 0 0 1-.496.245 2.2 2.2 0 0 1-.625.085m3.759 0q-.823 0-1.271-.347c-.448-.347-.456-.561-.47-.989h.8q.045.366.259.521t.648.155q.158 0 .299-.028a.8.8 0 0 0 .248-.09.5.5 0 0 0 .172-.161.43.43 0 0 0 .065-.24.4.4 0 0 0-.07-.242.56.56 0 0 0-.2-.161 1.6 1.6 0 0 0-.313-.113q-.183-.048-.414-.099a8 8 0 0 1-.521-.138 1.6 1.6 0 0 1-.44-.206 1 1 0 0 1-.304-.332 1.04 1.04 0 0 1-.116-.518q0-.299.116-.524t.321-.378.487-.228.62-.076q.681 0 1.096.321.414.321.459.935h-.783q-.034-.304-.248-.456a.9.9 0 0 0-.53-.152q-.332 0-.53.13a.39.39 0 0 0-.197.344q0 .124.054.206t.163.144.273.107.389.096q.31.068.583.149.273.082.479.217t.324.344.118.535q0 .304-.118.544-.119.24-.327.4a1.5 1.5 0 0 1-.496.245q-.287.084-.625.085m2.122-4.12h.817v3.347H24v.682h-2.71z"/></svg></span> openssl</h2>
+<p>OpenSSL is a protocol implementation and library for cryptography. Specifically from the project README:</p>
+<div class="admonition quote">
+<p>OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit for the TLS (formerly SSL), DTLS and QUIC protocols.</p>
+<p>The protocol implementations are based on a full-strength general purpose cryptographic library, which can also be used stand-alone. Also included is a cryptographic module validated to conform with FIPS standards.</p>
+<p>OpenSSL is descended from the SSLeay library developed by Eric A. Young and Tim J. Hudson.</p>
+<p>The official Home Page of the OpenSSL Project is www.openssl.org.</p>
+</div>
+<p>These are the main resources we'll need for reference to build OpenSSL:</p>
+<ul>
+<li><a href="https://www.openssl.org/">openssl.org</a></li>
+<li><a href="https://openssl-library.org/">openssl-library.org</a> / <a href="https://github.com/openssl/openssl">github.com/openssl/openssl</a></li>
+<li><a href="https://wiki.openssl.org/index.php/Compilation_and_Installation#Configure_Options">Compilation Options</a></li>
+<li><a href="https://github.com/andrew-d/static-binaries/blob/master/nmap/build.sh">andrew-d/static-binaries Example for Compiling nmap</a></li>
+<li><a href="https://openssl-library.org/source/">OpenSSL PGP Signing Key Information</a></li>
+<li><a href="https://openssl-library.org/source/pubkeys.asc">OpenSSL PGP Signing Keys</a></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Where to download from?</p>
+<p>The downloads on <a href="https://openssl-library.org/source/">https://openssl-library.org/source/</a> point to <a href="https://github.com/openssl/openssl/releases">https://github.com/openssl/openssl/releases</a>.</p>
+</div>
+<p>Clone the library source, detached signature, checksums, and finally obtain the signing key to verify the file integrity.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install jq, if you want to use this block</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>jq<span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>jq<span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+
+<span class="c1"># Obtain the latest release info</span>
+<span class="nv">gh_release_info</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-Lf<span class="w"> </span>https://api.github.com/repos/openssl/openssl/releases/latest<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">latest_version</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$gh_release_info</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.tag_name&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="c1"># Download the files</span>
+curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s2">&quot;https://github.com/openssl/openssl/releases/download/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s2">&quot;https://github.com/openssl/openssl/releases/download/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz.asc&quot;</span>
+curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s2">&quot;https://github.com/openssl/openssl/releases/download/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz.sha256&quot;</span>
+
+<span class="c1"># Obtain the signing key</span>
+<span class="c1"># pub   rsa4096/0x216094DFD0CB81EF 2024-04-08 [SC] [expires: 2026-04-08]</span>
+<span class="c1">#       Key fingerprint = BA54 73A2 B058 7B07 FB27  CF2D 2160 94DF D0CB 81EF</span>
+<span class="c1"># uid                   [ unknown] OpenSSL &lt;openssl@openssl.org&gt;</span>
+gpg<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;BA5473A2B0587B07FB27CF2D216094DFD0CB81EF&#39;</span>
+
+<span class="c1"># Integrity checks</span>
+sha256sum<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz.sha256&quot;</span><span class="w"> </span>--ignore-missing
+gpg<span class="w"> </span>--verify<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz.asc&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+
+<span class="c1"># Build the library</span>
+tar<span class="w"> </span>-xvzf<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">latest_version</span><span class="si">}</span><span class="s2">&quot;</span>
+./Configure<span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-static<span class="w"> </span>no-shared
+make
+</code></pre></div>
+<p>This will result in a static binary for OpenSSL under <code>apps/openssl</code>,</p>
+<h2 id="nmap"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M192 64c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32h-8v64h120c39.8 0 72 32.2 72 72v56h8c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32v-64c0-17.7 14.3-32 32-32h8v-56c0-13.3-10.7-24-24-24H280v80h8c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32v-64c0-17.7 14.3-32 32-32h8v-80H112c-13.3 0-24 10.7-24 24v56h8c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32v-64c0-17.7 14.3-32 32-32h8v-56c0-39.8 32.2-72 72-72h120v-64h-8c-17.7 0-32-14.3-32-32z"/></svg></span> nmap</h2>
+<div class="admonition note">
+<p class="admonition-title">OpenSSL Dependancy</p>
+<p>You may want to compile a static version of OpenSSL first and point to it with <code>--with-openssl=&lt;directoryname&gt;</code> when building a static nmap binary.</p>
+</div>
+<ul>
+<li><a href="https://nmap.org/download.html">nmap: Release and Build Information</a></li>
+<li><a href="https://nmap.org/book/inst-source.html">nmap: Compile Instructions</a></li>
+<li><a href="https://github.com/andrew-d/static-binaries/blob/master/nmap/build.sh">andrew-d/static-binaries Example for Compiling nmap</a></li>
+<li><a href="https://nmap.org/dist/">nmap: Release Archive</a></li>
+<li><a href="https://nmap.org/dist/sigs/">nmap: Detached Signatures</a></li>
+<li><a href="https://nmap.org/book/install.html#inst-integrity">nmap: Verifying archive integrity</a></li>
+<li><a href="https://github.com/nmap/nmap/issues/2648">nmap GitHub Issue 2648: Fails to build with lua 5.4.6</a></li>
+<li><a href="https://github.com/nmap/nmap/issues/145">nmap GitHub Issue 145: --with-liblua=included fix</a></li>
+<li><a href="https://github.com/nmap/nmap/issues/425">nmap GitHub Issue 425: FEATURE REQUEST: single-exe 'portable' nmap</a></li>
+<li><a href="https://askubuntu.com/questions/92328/how-do-i-uncompress-a-tarball-that-uses-xz">askubuntu: Decompress an .xz tarball in one command</a></li>
+</ul>
+<p><strong><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8zm-2 17-4-4h2.5v-3h3v3H16zm1-10V3.5L18.5 9z"/></svg></span> Obtain and verify source (nmap.org)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set which versions you&#39;d like to compile</span>
+<span class="nv">nmap_version</span><span class="o">=</span><span class="s1">&#39;7.97&#39;</span>
+<span class="nv">openssl_version</span><span class="o">=</span><span class="s1">&#39;3.5.0&#39;</span>
+
+<span class="c1"># Download the source archive, and signature information</span>
+wget<span class="w"> </span><span class="s2">&quot;https://nmap.org/dist/nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span>
+wget<span class="w"> </span><span class="s2">&quot;https://nmap.org/dist/sigs/nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2.asc&quot;</span>
+wget<span class="w"> </span><span class="s2">&quot;https://nmap.org/dist/sigs/nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2.digest.txt&quot;</span>
+
+<span class="c1"># If you don&#39;t already have nmap&#39;s signing key, you&#39;ll see the abbreviated signature you can use to obtain it</span>
+<span class="c1"># Check these places to verify the signature fingerprint:</span>
+<span class="c1"># https://nmap.org/book/install.html#inst-integrity</span>
+<span class="c1"># https://svn.nmap.org/nmap/docs/nmap_gpgkeys.txt</span>
+<span class="c1"># https://keyserver.ubuntu.com/pks/lookup?search=436D66AB9A798425FDA0E3F801AF9F036B9355D0&amp;fingerprint=on&amp;op=index</span>
+<span class="c1">#</span>
+<span class="c1"># pub   dsa1024/0x01AF9F036B9355D0 2005-04-24 [SC]</span>
+<span class="c1">#       Key fingerprint = 436D 66AB 9A79 8425 FDA0  E3F8 01AF 9F03 6B93 55D0</span>
+<span class="c1"># uid                   [ unknown] Nmap Project Signing Key (http://www.insecure.org/)</span>
+<span class="c1"># sub   elg2048/0x44AEF5D7A50A6A94 2005-04-24 [E]</span>
+
+<span class="c1"># Obtain the key with:</span>
+gpg<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;436D 66AB 9A79 8425 FDA0 E3F8 01AF 9F03 6B93 55D0&#39;</span>
+
+<span class="c1"># Verify:</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2.asc&quot;</span><span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span>
+
+<span class="c1"># Compare hashes:</span>
+cat<span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2.digest.txt&quot;</span>
+gpg<span class="w"> </span>--print-md<span class="w"> </span>sha256<span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span>
+</code></pre></div>
+<p><strong><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8zm-2 17-4-4h2.5v-3h3v3H16zm1-10V3.5L18.5 9z"/></svg></span> Obtain and verify source (apt)</strong></p>
+<p><em>This may not work, try obtaining nmap from nmap.org if it fails.</em></p>
+<div class="admonition tip">
+<p class="admonition-title">Instructions in Kali</p>
+<p>Interestingly, as of Kali in 2025 and possibly earlier, you'll get a message for some packages when downloading the source code via <code>apt</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>apt<span class="w"> </span><span class="nb">source</span><span class="w"> </span>nmap
+NOTICE:<span class="w"> </span><span class="s1">&#39;nmap&#39;</span><span class="w"> </span>packaging<span class="w"> </span>is<span class="w"> </span>maintained<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;Git&#39;</span><span class="w"> </span>version<span class="w"> </span>control<span class="w"> </span>system<span class="w"> </span>at:
+https://gitlab.com/kalilinux/packages/nmap.git
+Please<span class="w"> </span>use:
+git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/kalilinux/packages/nmap.git
+to<span class="w"> </span>retrieve<span class="w"> </span>the<span class="w"> </span>latest<span class="w"> </span><span class="o">(</span>possibly<span class="w"> </span>unreleased<span class="o">)</span><span class="w"> </span>updates<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>package.
+</code></pre></div>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add the source repo in Kali, adjust this based on the Linux distro</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb-src http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/apt/sources.list
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+
+<span class="c1"># Download the source code</span>
+<span class="nb">cd</span><span class="w"> </span>~/Download
+apt<span class="w"> </span><span class="nb">source</span><span class="w"> </span>nmap
+sudo<span class="w"> </span>apt-get<span class="w"> </span>build-dep<span class="w"> </span>nmap
+
+<span class="c1"># Check the gpg and sha256 signatures:</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span><span class="s2">&quot;nmap_</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">+dfsg1-1kali1.dsc&quot;</span>
+<span class="c1"># If you&#39;re missing the key, get it from the ubuntu keyserver and verify again</span>
+gpg<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;&lt;key-id&gt;&#39;</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span><span class="s2">&quot;nmap_</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">+dfsg1-1kali1.dsc&quot;</span>
+cat<span class="w"> </span><span class="s2">&quot;nmap_</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">+dfsg1-1kali1.dsc&quot;</span><span class="w"> </span><span class="c1"># Take the signature for the archive you want to verify</span>
+sha256sum<span class="w"> </span>nmap_&lt;version&gt;.tar.xz<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>&lt;sha256sum&gt;
+</code></pre></div>
+<p>Prepare and compile nmap:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># If you obtained it from apt:</span>
+tar<span class="w"> </span>-xf<span class="w"> </span><span class="s2">&quot;nmap_</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">+dfsg1.orig.tar.xz&quot;</span>
+<span class="c1"># If you obtained it from nmap.org:</span>
+bzip2<span class="w"> </span>-cd<span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tar<span class="w"> </span>xvf<span class="w"> </span>-
+
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;nmap-</span><span class="si">${</span><span class="nv">nmap_version</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Don&#39;t build the libpcap.so file, this was discovered from andrew-d/static-binaries</span>
+sed<span class="w"> </span>-i<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/shared\: /shared\: #/&#39;</span><span class="w"> </span>libpcap/Makefile
+
+./configure<span class="w"> </span>--help<span class="w"> </span><span class="c1"># See the configuration options</span>
+./configure<span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-static<span class="w"> </span>--with-liblua<span class="o">=</span>included<span class="w"> </span>--with-openssl<span class="o">=</span>../openssl-<span class="si">${</span><span class="nv">openssl_version</span><span class="si">}</span><span class="w"> </span>--with-pcap<span class="o">=</span>linux<span class="w"> </span>--without-ndiff<span class="w"> </span>--without-zenmap<span class="w"> </span>--withou-nmap-update
+make<span class="w"> </span>-j4
+</code></pre></div>
+<p>If you encounter an error and need to attempt another build be sure to run:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>clean
+</code></pre></div>
+<h2 id="socat"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 3v4.59L7.59 15H3v6h6v-4.58L16.42 9H21V3m-4 2h2v2h-2M5 17h2v2H5"/></svg></span> Socat</h2>
+<ul>
+<li><a href="https://packages.debian.org/bookworm/socat">Debian Package</a></li>
+<li><a href="https://www.kali.org/docs/general-use/kali-linux-sources-list-repositories/#source-repositories">Kali Linux Source Repos</a></li>
+<li><a href="https://stackoverflow.com/questions/983515/how-to-statically-link-a-complex-program#983604">How to compile a static binary</a></li>
+</ul>
+<p>Add the Kali source repo:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb-src http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/apt/sources.list
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+</code></pre></div>
+<p>Download the source code</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/Download
+apt<span class="w"> </span><span class="nb">source</span><span class="w"> </span>socat
+sudo<span class="w"> </span>apt-get<span class="w"> </span>build-dep<span class="w"> </span>socat
+</code></pre></div>
+<p>Check the gpg and sha256 signatures:</p>
+<div class="highlight"><pre><span></span><code>gpg<span class="w"> </span>--verify<span class="w"> </span>socat_1.7.4.4-2.dsc
+<span class="c1"># If you&#39;re missing the key, get it from the ubuntu keyserver and verify again</span>
+gpg<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;&lt;key-id&gt;&#39;</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span>socat_1.7.4.4-2.dsc
+cat<span class="w"> </span>socat_1.7.4.4-2.dsc<span class="w"> </span><span class="c1"># Take the signature for the archive you want to verify</span>
+sha256sum<span class="w"> </span>socat_&lt;version&gt;.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>&lt;sha256sum&gt;
+</code></pre></div>
+<p>Compile a static binary:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>socat_&lt;version&gt;<span class="w"> </span><span class="c1"># We want to unpack and use files from the archive we verified hashes on</span>
+tar<span class="w"> </span>-xzf<span class="w"> </span>socat_&lt;version&gt;.tar.gz
+<span class="nb">cd</span><span class="w"> </span>socat_&lt;version&gt;
+./configure<span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-static<span class="w"> </span><span class="c1"># This works here, while --enable-static does not</span>
+make
+</code></pre></div>
+<p>After some errors and warnings, you'll have a static <code>socat</code> binary for transfer.</p>
+<h2 id="pspy"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7l126.6 126.7c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.1-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208m-312 8v64c0 13.3 10.7 24 24 24s24-10.7 24-24v-64c0-13.3-10.7-24-24-24s-24 10.7-24 24m80-96v160c0 13.3 10.7 24 24 24s24-10.7 24-24V120c0-13.3-10.7-24-24-24s-24 10.7-24 24m80 64v96c0 13.3 10.7 24 24 24s24-10.7 24-24v-96c0-13.3-10.7-24-24-24s-24 10.7-24 24"/></svg></span> pspy</h2>
+<div class="admonition quote">
+<p>pspy is a command line tool designed to snoop on processes without need for root permissions. It allows you to see commands run by other users, cron jobs, etc. as they execute. Great for enumeration of Linux systems in CTFs. Also great to demonstrate your colleagues why passing secrets as arguments on the command line is a bad idea.</p>
+<p>The tool gathers the info from procfs scans. Inotify watchers placed on selected parts of the file system trigger these scans to catch short-lived processes.</p>
+</div>
+<ul>
+<li><a href="https://github.com/DominicBreuker/pspy">github.com/DominicBreuker/pspy</a></li>
+<li><a href="https://www.kali.org/tools/pspy/">kali.org/tools/pspy</a></li>
+<li><a href="https://gitlab.com/kalilinux/packages/pspy">gitlab.com/kalilinux/pspy</a></li>
+</ul>
+<p>Go uses <a href="https://go.dev/doc/modules/gomod-ref">go.mod to version-pin dependencies</a>. The <a href="https://go.dev/ref/mod#checksum-database">go.sum file is the cryptographic signature of each dependency, which is also mirrored in a global signature database hosted by Google</a>. This should help with understanding how dependencies can be verified.</p>
+<p>The <a href="https://github.com/DominicBreuker/pspy/blob/master/README.md#build">build instructions in the README</a> don't seem to be current, as there is no <code>build-buid-image</code> in the Makefile. Instead, <a href="https://github.com/DominicBreuker/pspy/blob/f9e6a1590a4312b9faa093d8dc84e19567977a6d/Makefile#L44">line 44 is what builds the "build" container, and it's commented out</a>. We can change the variables to work with bash, and create the build container:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone the Kali fork, or the upstream source on GitHub if you prefer</span>
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:DominicBreuker/pspy.git<span class="w"> </span>pspy-github
+git<span class="w"> </span>clone<span class="w"> </span>git@gitlab.com:kalilinux/packages/pspy.git<span class="w"> </span>pspy-gitlab
+<span class="nb">cd</span><span class="w"> </span>pspy-gitlab/
+
+<span class="c1"># Build the build image, you have to run this manually, it&#39;s commented out in the Makefile</span>
+<span class="nv">BUILD_IMAGE</span><span class="o">=</span><span class="s1">&#39;local/pspy-build:latest&#39;</span>
+<span class="nv">BUILD_DOCKERFILE</span><span class="o">=</span><span class="s2">&quot;docker/Dockerfile.build&quot;</span>
+docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BUILD_DOCKERFILE</span><span class="s2">&quot;</span><span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BUILD_IMAGE</span><span class="s2">&quot;</span><span class="w"> </span>.
+
+<span class="c1"># Build all 4 binaries</span>
+make<span class="w"> </span>build
+</code></pre></div>
+<p>Now if we want to <a href="https://github.com/DominicBreuker/pspy/issues/23">build binaries to work on arm</a>, it's very easy to do so by duplicating one of the build sections, and setting <code>GOARCH=arm64</code> or <code>GOARM=5 GOARCH=arm</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Go and ARM</p>
+<p><a href="https://go.dev/wiki/GoArm">https://go.dev/wiki/GoArm</a></p>
+<blockquote>
+<p>Go is fully supported on Linux and Darwin. Any Go program that you can compile for x86/x86_64 should work on Arm. Besides Linux and Darwin, Go is also experimentally supported on FreeBSD, OpenBSD and NetBSD.</p>
+</blockquote>
+</div>
+<p>With that in mind, here's a section that was copied to swap out amd64 for arm64, while also renaming the output file to <code>bin/pspy64a</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="err">docker</span><span class="w"> </span><span class="err">run</span><span class="w"> </span><span class="err">-it</span><span class="w"> </span><span class="err">\</span>
+<span class="w">            </span><span class="err">--rm</span><span class="w"> </span><span class="err">\</span>
+<span class="w">            </span><span class="nf">-v $(PROJECT_DIR)</span><span class="o">:</span>/<span class="n">go</span>/<span class="n">src</span>/<span class="n">github</span>.<span class="n">com</span>/<span class="n">dominicbreuker</span>/<span class="n">pspy</span> \
+            -<span class="n">w</span> &quot;/<span class="n">go</span>/<span class="n">src</span>/<span class="n">github</span>.<span class="n">com</span>/<span class="n">dominicbreuker</span>/<span class="n">pspy</span>&quot; \
+            --<span class="n">env</span> <span class="n">CGO_ENABLED</span>=0 \
+            --<span class="n">env</span> <span class="n">GOOS</span>=<span class="n">linux</span> \
+            --<span class="n">env</span> <span class="n">GOARCH</span>=<span class="n">arm</span>64 \
+            <span class="k">$(</span><span class="nv">BUILD_IMAGE</span><span class="k">)</span> /<span class="n">bin</span>/<span class="n">sh</span> -<span class="n">c</span> &quot;<span class="n">go</span> <span class="n">build</span> -<span class="n">a</span> -<span class="n">ldflags</span> &#39;-<span class="n">s</span> -<span class="n">w</span> -<span class="n">X</span> <span class="n">main</span>.<span class="n">version</span>=${<span class="n">VERSION</span>} -<span class="n">X</span> <span class="n">main</span>.<span class="n">commit</span>=${<span class="n">BUILD_SHA</span>} -<span class="n">extldflags</span> \&quot;-<span class="n">static</span>\&quot;&#39; -<span class="n">o</span> <span class="n">bin</span>/<span class="n">pspy</span>64<span class="n">a</span> <span class="n">main</span>.<span class="n">go</span>&quot;
+</code></pre></div>
+<p>Add this to the Makefile, and run <code>make build</code> to compile a static arm64 binary in addition to the others.</p>
+<p>⚠️ TO DO ⚠️</p>
+<h2 id="yara"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M7-24.9c9.4-9.4 24.6-9.4 33.9 0L241.8 176H344c14.2 0 27.7 2.8 40 8l108.8-81.6c14.1-10.6 34.2-7.7 44.8 6.4s7.7 34.2-6.4 44.8l-97.8 73.3c5.3 8.9 9.3 18.7 11.8 29.1H544c17.7 0 32 14.3 32 32s-14.3 32-32 32h-96v32c0 9.5-.8 18.7-2.4 27.8L569 503.1c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 9.1c-9.3-9.4-9.3-24.6 0-34M398.2 468c-23.2 22.1-53 37.2-86.2 42.2V381.8zM264 333.8v176.4c-51.2-7.7-94.5-39.7-117.7-83.9l-63.1 47.3c-14.1 10.6-34.2 7.7-44.8-6.4s-7.7-34.2 6.4-44.8l83.4-62.5c-.1-2.6-.2-5.2-.2-7.9v-32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h98.8c3.3-13.9 9.3-26.7 17.6-37.8zM355.6 128h-82.4l-72.3-72.3C216.1 22.8 249.4 0 288 0c53 0 96 43 96 96v3.6c0 15.7-12.7 28.4-28.4 28.4"/></svg></span> yara</h2>
+<p>⚠️ TO DO ⚠️</p>
+<h2 id="busybox"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.75.75 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.75.75 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l2.25 2.25c.141.14.22.331.22.53m1.5 1.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5"/></svg></span> busybox</h2>
+<p>⚠️ TO DO ⚠️</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

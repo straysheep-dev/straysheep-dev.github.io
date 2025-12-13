@@ -1,0 +1,2858 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/">
+      
+      
+        <link rel="prev" href="../../../08/13/simple-proxmox-proxmox/">
+      
+      
+        <link rel="next" href="../../08/simple-qemu-kvm-kernel-based-virtual-machine/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>nzyme x [ Raspberry Pi + Proxmox + Tailscale] - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="nzyme x [ Raspberry Pi + Proxmox + Tailscale] - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="nzyme x [ Raspberry Pi + Proxmox + Tailscale] - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nzyme-x-raspberry-pi-proxmox-tailscale" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tailscale-acls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailscale ACLs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tailscale-authkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailscale Authkey
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write-an-os-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Write an OS Image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raspberry Pi OS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspberry Pi OS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-boot-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-boot Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-first-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After First Boot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloud-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-config
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless Drivers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzyme-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nzyme-node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="nzyme-node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxmox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzyme-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nzyme-tap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-nzyme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating nzyme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-nzyme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring nzyme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wifi-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WiFi Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bluetooth-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bluetooth Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trilateration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trilateration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#going-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Going Forward
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-12-01 00:00:00+00:00" class="md-ellipsis">December 1, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              18 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tailscale-acls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailscale ACLs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tailscale-authkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailscale Authkey
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write-an-os-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Write an OS Image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raspberry Pi OS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspberry Pi OS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-boot-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-boot Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-first-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After First Boot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloud-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-config
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless Drivers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzyme-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nzyme-node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="nzyme-node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxmox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nzyme-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nzyme-tap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-nzyme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating nzyme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-nzyme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring nzyme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wifi-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WiFi Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bluetooth-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bluetooth Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trilateration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trilateration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#going-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Going Forward
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="nzyme-x-raspberry-pi-proxmox-tailscale"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.24 5H18v2.25A15 15 0 0 0 12 6C8.62 6 5.5 7.12 3 9L1.2 6.6C4.21 4.34 7.95 3 12 3c2.97 0 5.77.73 8.24 2M8.4 16.2 12 21l3.6-4.8c-1-.75-2.25-1.2-3.6-1.2s-2.6.45-3.6 1.2m-3.6-4.8 1.8 2.4C8.1 12.67 9.97 12 12 12s3.9.67 5.4 1.8l.6-.8v-2.38A11.87 11.87 0 0 0 12 9c-2.7 0-5.19.89-7.2 2.4M20 17h2v-2h-2zm0-10v6h2V7z"/></svg></span> nzyme x [<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.896 10.896-.173-.303c.007-2.174-1.002-3.06-2.179-3.734.356-.094.724-.172.825-.619.611-.156.74-.44.8-.74.16-.106.696-.406.64-.92.3-.207.467-.473.382-.85.322-.35.407-.641.27-.909.387-.48.215-.73.05-.982.29-.525.034-1.088-.776-.994-.322-.473-1.024-.366-1.133-.364-.121-.152-.281-.282-.775-.219-.32-.285-.677-.236-1.046-.096-.438-.34-.727-.068-1.058.036-.53-.171-.652.063-.912.158-.578-.12-.754.141-1.03.418l-.323-.006c-.872.506-1.305 1.536-1.459 2.066-.153-.53-.586-1.56-1.457-2.066l-.323.006C9.942.501 9.766.239 9.19.36 8.927.265 8.806.03 8.276.202 8.059.134 7.86-.007 7.624 0a.7.7 0 0 0-.405.166c-.37-.14-.727-.189-1.046.096-.494-.063-.654.068-.776.22-.108-.003-.81-.11-1.133.363-.81-.094-1.065.47-.776.994-.165.252-.336.502.05.982-.136.268-.051.558.27.91-.084.376.083.642.383.849-.056.515.48.814.639.92.061.3.19.584.801.74.1.448.469.525.825.619-1.177.673-2.186 1.56-2.18 3.735l-.172.302c-1.349.809-2.562 3.406-.664 5.517.124.661.332 1.136.517 1.661.277 2.117 2.084 3.108 2.56 3.226.699.524 1.443 1.02 2.45 1.37.948.963 1.976 1.33 3.01 1.33h.046c1.034 0 2.062-.367 3.01-1.33 1.007-.35 1.751-.847 2.45-1.37.476-.118 2.284-1.109 2.56-3.226.186-.525.394-1 .517-1.66 1.899-2.112.685-4.71-.664-5.518m-1.04-.371c-.07.876-4.635-3.05-3.846-3.181 2.139-.356 3.919.896 3.847 3.18m-2.015 4.365c-1.148.74-2.802.262-3.695-1.069s-.686-3.01.462-3.75 2.803-.263 3.696 1.068c.892 1.33.686 3.01-.463 3.75M13.66 1.372c.04.197.084.321.135.358.254-.272.462-.55.788-.813.001.154-.077.321.117.443a2.3 2.3 0 0 1 .727-.624c-.152.26-.026.34.055.448.24-.206.468-.414.91-.576-.12.148-.29.292-.11.461.247-.154.496-.309 1.083-.418-.132.147-.406.295-.24.442Q17.59.915 18.158.84c-.182.15-.334.296-.184.412.332-.102.79-.24 1.237-.121l-.283.285c-.032.038.662.03 1.12.036-.167.232-.338.456-.437.855.045.046.272.02.486 0-.22.462-.6.578-.69.776.135.101.32.075.524.006-.158.325-.49.548-.751.812.066.047.182.075.456.043a4.2 4.2 0 0 1-.88.703c.06.07.272.068.467.072-.313.307-.717.466-1.095.667.188.13.323.1.467.097-.267.22-.722.335-1.144.467.08.125.16.159.332.194-.447.247-1.087.134-1.268.26.044.125.167.206.314.274-.72.041-2.688-.027-3.065-1.516.737-.81 2.081-1.76 4.394-2.934-1.8.602-3.423 1.405-4.782 2.51-1.598-.744-.496-2.62.283-3.365m-1.613 5.372c1.133-.012 2.536.832 2.53 1.629-.005.702-.985 1.271-2.52 1.26-1.505-.017-2.518-.715-2.514-1.395.002-.56 1.228-1.527 2.504-1.494m-5.764-.6c.172-.036.252-.07.332-.195-.422-.132-.877-.247-1.145-.466.145.001.28.031.468-.097-.378-.201-.782-.36-1.095-.667.195-.005.406-.002.467-.073a4.2 4.2 0 0 1-.88-.703c.274.032.39.004.456-.043-.262-.264-.593-.487-.751-.812.203.069.389.095.523-.006-.089-.198-.47-.314-.69-.776.215.02.442.046.487 0-.1-.399-.27-.623-.437-.855.458-.007 1.152.002 1.12-.036l-.283-.285c.447-.119.905.019 1.237.121.15-.116-.002-.263-.184-.412q.569.076 1.034.254C7.106.946 6.833.798 6.7.651c.587.11.836.264 1.083.418.18-.17.01-.313-.111-.46.443.161.67.37.911.575.081-.108.207-.187.055-.448.315.178.552.389.727.624.194-.122.116-.289.117-.442.326.261.534.54.788.812.05-.037.095-.161.135-.358.78.745 1.88 2.621.283 3.365C9.33 3.633 7.707 2.83 5.909 2.228c2.312 1.174 3.656 2.124 4.392 2.933-.377 1.49-2.345 1.558-3.065 1.516.147-.068.27-.149.314-.273-.18-.126-.821-.013-1.268-.26m2.817 1.133c.788.13-3.777 4.056-3.847 3.18C5.18 8.174 6.96 6.922 9.1 7.278m-4.847 8.756c-1.109-.879-1.466-3.453.59-4.61 1.24-.327.419 5.052-.59 4.61m4.266 4.6c-.626.371-2.145.218-3.225-1.31-.729-1.282-.635-2.587-.123-2.97.765-.46 1.946.16 2.856 1.2.792.94 1.153 2.592.492 3.08m-1.242-5.61c-1.148-.74-1.355-2.42-.462-3.75s2.547-1.81 3.695-1.068c1.148.74 1.355 2.42.463 3.75-.893 1.331-2.547 1.81-3.695 1.069m4.795 8.229c-1.376.058-2.726-1.11-2.708-1.516-.02-.594 1.676-1.058 2.782-1.03 1.113-.049 2.607.352 2.61.884.018.517-1.355 1.684-2.684 1.662m2.759-5.858c.008 1.39-1.226 2.522-2.757 2.53-1.53.007-2.777-1.114-2.785-2.504v-.026c-.008-1.39 1.226-2.523 2.756-2.53s2.778 1.113 2.786 2.503zm3.855 2.003c-1.186 1.62-2.792 1.684-3.39 1.232-.625-.58-.148-2.385.71-3.374.98-1.092 2.03-1.804 2.76-1.248.492.483.78 2.301-.08 3.39m1.072-3.43c-1.009.44-1.83-4.938-.59-4.61 2.057 1.157 1.7 3.73.59 4.61m-.026-8.328h.299v-.53h.299c.15 0 .205.062.226.205.015.108.011.239.048.325h.298c-.053-.076-.052-.236-.057-.321-.01-.138-.051-.28-.198-.318v-.004c.15-.06.215-.18.215-.34 0-.206-.154-.375-.397-.375h-.732zm.299-1.126h.327c.133 0 .205.058.205.188 0 .137-.072.194-.205.194h-.327zm-1.034.464a1.27 1.27 0 1 0 2.54 0 1.27 1.27 0 0 0-2.54 0m2.328 0a1.058 1.058 0 1 1-2.116 0 1.058 1.058 0 0 1 2.116 0"/></svg></span> Raspberry Pi + <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.928 1.825c-1.09.553-1.09.64-.07 1.78 5.655 6.295 7.004 7.782 7.107 7.782.139.017 7.971-8.542 8.058-8.801.034-.07-.208-.312-.519-.536-.415-.312-.864-.433-1.712-.467-1.59-.104-2.144.242-4.115 2.455-.899 1.003-1.66 1.833-1.66 1.833-.017 0-.76-.813-1.642-1.798S8.473 2.1 8.127 1.91c-.796-.45-2.421-.484-3.2-.086zM1.297 4.367C.45 4.695 0 5.007 0 5.248c0 .121 1.331 1.678 2.94 3.459 1.625 1.78 2.939 3.268 2.939 3.302s-1.331 1.522-2.94 3.303C1.314 17.11.017 18.683.035 18.822c.086.467 1.504 1.055 2.541 1.055 1.678-.018 2.058-.312 5.603-4.202 1.78-1.954 3.233-3.614 3.233-3.666 0-.069-1.435-1.694-3.199-3.63-2.3-2.508-3.423-3.632-3.96-3.874-.812-.398-2.126-.467-2.956-.138m18.467.12c-.502.26-1.764 1.505-3.943 3.891-1.763 1.937-3.199 3.562-3.199 3.631 0 .07 1.453 1.712 3.234 3.666 3.544 3.89 3.925 4.184 5.602 4.202 1.038 0 2.455-.588 2.542-1.055.017-.156-1.28-1.712-2.905-3.493-1.608-1.78-2.94-3.285-2.94-3.32s1.332-1.539 2.94-3.32C22.72 6.91 24.017 5.352 24 5.214c-.087-.45-1.366-.968-2.473-1.038-.795-.034-1.21.035-1.763.312zM7.954 16.973c-2.144 2.369-3.908 4.374-3.943 4.46-.034.07.208.312.52.537.414.311.864.432 1.711.467 1.574.103 2.161-.26 4.15-2.508.864-.968 1.608-1.78 1.625-1.78s.761.812 1.643 1.798c2.023 2.248 2.559 2.576 4.132 2.49.848-.035 1.297-.156 1.712-.467.311-.225.553-.467.519-.536-.087-.26-7.92-8.819-8.058-8.801-.069 0-1.867 1.954-4.011 4.34"/></svg></span> Proxmox + <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0m0-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0m6-6a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M3 24a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m18 .5a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M6 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0m9-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-3 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M3 5.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/></svg></span> Tailscale]</h1>
+<p>This guide walks through deploying <a href="https://github.com/nzymedefense/nzyme">nzyme</a> on a Raspberry Pi (4B or 5) leveraging autoconfiguration tools available on each system. For Raspberry Pi OS this includes writing additional files into the bootfs and rootfs partitions. For Ubuntu server images cloud-init or Ansible could be used.</p>
+<p>The result is nzyme running as either a stand-alone system, or as a distributed node + tap where the nzyme-node lives on a server like Proxmox with the nzyme-tap sending data back to it from the external Raspberry Pi. Tailscale is also brought into focus for secure remote access.</p>
+<p>This guide doesn't offer anything new in terms of nzyme usage that the official documentation doesn't already answer, but more of what you might run into and steps on how to achieve certain deployments if your goal is anything like what's described below.</p>
+<!-- more -->
+
+<div class="admonition abstract">
+<p class="admonition-title">Prerequisites</p>
+<p>This a short list of items you may want to use, or mix and match, to follow along. Required items are in green, while optional items are in blue.</p>
+<p><strong>Software</strong>:</p>
+<ul>
+<li>🟢 SSH keys</li>
+<li>🟢 Tailscale account</li>
+<li>🔵 Hypervisor (Proxmox, VMware, Hyper-V, QEMU)</li>
+</ul>
+<p><strong>Hardware</strong>:</p>
+<ul>
+<li>🟢 Raspberry Pi 4B or 5 (one or more)</li>
+<li>🟢 External wireless card (Alfa adapters)</li>
+<li>🟢 USB 32GB or more, or an external SSD for the Raspberry Pi</li>
+</ul>
+</div>
+<h2 id="references">References</h2>
+<p>External links to referenced software and services you may need as you follow along.</p>
+<ul>
+<li><a href="https://github.com/nzymedefense/nzyme">github.com/nzymedefense</a></li>
+<li><a href="https://docs.nzyme.org/">nzyme Documentation</a></li>
+<li><a href="https://docs.nzyme.org/getting-started/requirements/#wifi-adapters">nzyme Wireless Adapter Compatability</a></li>
+<li><a href="https://github.com/nzymedefense/nzyme/discussions">GitHub Discussion Forum</a></li>
+<li><a href="https://www.raspberrypi.com/documentation/">Raspberry Pi Documentation</a></li>
+<li><a href="https://cloudinit.readthedocs.io/en/latest/index.html">cloud-init Documentation</a></li>
+<li><a href="https://tailscale.com/">Tailscale</a></li>
+<li><a href="https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh">Tailscale installer.sh</a></li>
+<li><a href="https://www.proxmox.com/en/proxmox-virtual-environment/overview">Proxmox-VE</a></li>
+<li><a href="https://github.com/r4ulcl/WiFiChallengeLab-docker">WiFi Challenge Lab</a></li>
+</ul>
+<h2 id="tailscale-acls">Tailscale ACLs</h2>
+<p>If you're planning to use Tailscale to securely access the nzyme dashboard from anywhere (as well as allow the tap(s) to securely communicate to the node(s), you'll need to define the following ACL's in your Tailnet. These allow you as the nzyme-admin to access all nzyme endpoints over SSH, as well as the WebUI on all nzyme-nodes. It also allows nzyme-tap endpoints to connect back to nzyme-nodes to send data.</p>
+<pre class="mermaid"><code>graph LR
+    A{💻 nzyme-admin};
+    B(🛜 nzyme-tap);
+    C(📦 nzyme-node:22,22900);
+    A --&gt;| SSH | B;
+    A --&gt;| SSH, HTTPS | C;
+    B --&gt;| Wireless Data via HTTPS | C;
+</code></pre>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// Define the tags which can be applied to devices and by which users.</span>
+<span class="w">    </span><span class="nt">&quot;tagOwners&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// SNIP</span>
+<span class="w">        </span><span class="nt">&quot;tag:nzyme-node&quot;</span><span class="p">:</span><span class="w">     </span><span class="p">[</span><span class="s2">&quot;autogroup:admin&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;tag:nzyme-tap&quot;</span><span class="p">:</span><span class="w">      </span><span class="p">[</span><span class="s2">&quot;autogroup:admin&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;tag:nzyme-admin&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;autogroup:admin&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="p">},</span>
+
+<span class="w">    </span><span class="c1">// SNIP</span>
+<span class="w">        </span><span class="c1">// Allow nzyme endpoint WebUI and SSH access</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accept&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;src&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;tag:nzyme-admin&quot;</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;dst&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;tag:nzyme-node:22,22900&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tag:nzyme-tap:22&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="c1">// Allow nzyme-taps to send data to nzyme-nodes</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accept&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;src&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;tag:nzyme-tap&quot;</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;dst&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="s2">&quot;tag:nzyme-node:22900&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="c1">//SNIP</span>
+</code></pre></div>
+<h2 id="tailscale-authkey">Tailscale Authkey</h2>
+<p>If you don't know what an authkey is, it allows you to authenticate a device to a Tailnet programmatically, without the browser involved. See the <a href="https://tailscale.com/kb/1085/auth-keys">official documentation</a>, or <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/#tailnet-access">Tailnet Access</a> for steps to generate an authkey.</p>
+<p>The resulting string looks like <code>tskey-auth-1234567890-ABCDEF1234567890ABCDEF1234567890</code></p>
+<h2 id="write-an-os-image">Write an OS Image</h2>
+<p>This is a brief overview of what you may need to write the OS images to an external device for your Raspberry Pi to boot.</p>
+<ul>
+<li><a href="https://github.com/raspberrypi/rpi-imager">Raspberry Pi Imager</a></li>
+<li><a href="https://github.com/pbatard/rufus">Rufus</a></li>
+<li><a href="https://github.com/balena-io/etcher">Etcher</a></li>
+</ul>
+<p><a href="https://cdimage.ubuntu.com/releases/"><strong>Ubuntu Server Images</strong></a></p>
+<ul>
+<li>Download the <code>.img.xz</code>, <code>SHA256SUMS</code>, and the <code>SHA256SUMS.gpg</code> files</li>
+<li>GPG Fingerprint: <a href="https://keyserver.ubuntu.com/pks/lookup?search=8439+38DF+228D+22F7+B374++2BC0+D94A+A3F0+EFE2+1092&amp;fingerprint=on&amp;op=index">8439 38DF 228D 22F7 B374  2BC0 D94A A3F0 EFE2 1092</a></li>
+<li>Verify the signature: <code>gpg --verify SHA256SUMS.gpg SHA256SUMS</code> (this validates the checksums)</li>
+<li>Verify the checksum: <code>sha256sum -c SHA256SUMS --ignore-missing</code> (these validate the image)</li>
+</ul>
+<p><a href="https://www.raspberrypi.com/software/operating-systems/"><strong>Raspberry Pi Images</strong></a></p>
+<ul>
+<li>You'll want the "Raspberry Pi OS Lite" image</li>
+<li>Use the <a href="https://downloads.raspberrypi.com/raspios_lite_arm64/images/">Archive</a> link to download the <code>.img.xz</code>, <code>.sha256</code>, and <code>.sig</code> files (<a href="https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/">Example</a>)</li>
+<li>GPG Fingerprint: <a href="https://keyserver.ubuntu.com/pks/lookup?search=54C3DD610D9D1B4AF82A37758738CD6B956F460C&amp;fingerprint=on&amp;op=index">54C3 DD61 0D9D 1B4A F82A  3775 8738 CD6B 956F 460C</a></li>
+<li>Verify the signature: <code>gpg --verify 2024-11-19-raspios-bookworm-arm64-lite.img.xz.sig 2024-11-19-raspios-bookworm-arm64-lite.img.xz</code></li>
+<li>Unlike the Ubuntu images, you use the <code>.sig</code> file to validate the OS image file, not the checksum file</li>
+<li>Verify the checksum: <code>sha256sum -c 2024-11-19-raspios-bookworm-arm64-lite.img.xz.sha256</code></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Obtaining signing keys</p>
+<p>You can generally obtain GPG keys from <a href="https://keyserver.ubuntu.com/">https://keyserver.ubuntu.com/</a></p>
+<p>If you have the fingerprint you can also try: <code>gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys '&lt;fingerprint&gt;'</code></p>
+<p>The Raspbery Pi OS key is also indexed here: <a href="https://www.raspberrypi.org/raspberrypi_downloads.gpg.key">https://www.raspberrypi.org/raspberrypi_downloads.gpg.key</a></p>
+</div>
+<p>It's recommended to use either a small form-factor USB 3.2 drive (for example the SanDisk ultra fit thumb drives) with 32GB of space or more. This is the most convenient option. You can go further and have the OS installed on an SD card or USB stick, <em>and then add an external SSD</em>. This won't be covered here (yet).</p>
+<p>This guide will focus primarily on the setup of each component and infrastructure involved. You can achieve this using the <a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager</a> (for macOS, Windows, or Linux), something like <a href="https://github.com/pbatard/rufus">Rufus</a> or <a href="https://github.com/balena-io/etcher">Etcher</a>, the <code>usb-creator-gtk</code> package on Ubuntu, or even <code>dd</code>.</p>
+<p>However you write the  image to the external storage device, you'll want to browse or <code>cd</code> into the one of the following partitions after it's created on that device.</p>
+<ul>
+<li><code>system-boot</code> (Ubuntu Server)</li>
+<li><code>rootfs/home/pi/</code> and <code>bootfs</code> (Raspberry Pi OS)</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">xz utils</p>
+<p>Etcher may do this automatically for you, however if you use <code>usb-creator-gtk</code> on Ubuntu, you'll need to extract the raw <code>.img</code> file first. You can decompress <code>.xz</code> files, while preserving the original xz archive, with progress printed to the terminal, using the following command.</p>
+<div class="highlight"><pre><span></span><code>xz<span class="w"> </span>-dkv<span class="w"> </span>./2024-11-19-raspios-bookworm-arm64-lite.img.xz
+</code></pre></div>
+</div>
+<h2 id="raspberry-pi-os">Raspberry Pi OS</h2>
+<p>After writing the image file to external media, you'll see two partitions:</p>
+<ul>
+<li><code>bootfs/</code></li>
+<li><code>rootfs/</code></li>
+</ul>
+<p>Raspbery Pi OS has no Debian style preseed.cfg or cloud-init system built in by default. Although there are projects out there and ways to do this, we'll take the most straight forward <em>and</em> universal approach, giving us the initial access we need to do really anything we'd want for any use case.</p>
+<p>It's worth noting the <a href="https://github.com/raspberrypi/rpi-imager"><code>rpi-imager</code></a> utility can configure all of the following. Lets assume you want to stick with a built in tool like <code>dd</code>, or another utility for some reason. No matter how you write the RaspiOS image to disk, these steps will work (as of November 2024 / Bookworm).</p>
+<div class="admonition tip">
+<p class="admonition-title">rpi-imager Command Line Output</p>
+<p>If you're curious what the rpi-imager utility is doing, when you run the AppImage via bash it will print the customization it's doing to stdout. It may look like the following three lines, where the <code>firstrun.sh</code> script is a very long block of shell commands you can visualize in VSCode or <code>vim</code> doing a find-replace for <code>\n</code> newlines.</p>
+<ul>
+<li>Custom config.txt entries: ""</li>
+<li>Custom cmdline.txt entries: " cfg80211.ieee80211_regdom=GB"</li>
+<li>Custom firstrun.sh: <code>&lt;shell-scripting&gt;</code></li>
+</ul>
+<p>If you do choose to write the image with <code>rpi-imager</code>, choose to leave the USB mounted after imaging so you can write the tailscale installer and authkey text file to the home directory.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Auto-connect to WiFi?</p>
+<p><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#connect-to-a-wireless-network-2">/bootfs/wpa_supplicant.conf</a> no longer works as of Debian Bookworm (see the link)</p>
+<p>NetworkManager likely has a way to be preconfigured to do this. This post will be updated after a solution is found or not.</p>
+</div>
+<h3 id="pre-boot-setup">Pre-boot Setup</h3>
+<p>There are a few files we can create within the <code>rootfs</code> and <code>bootfs</code> partitions.</p>
+<p><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#ssh-or-ssh-txt">/bootfs/ssh.txt</a> is an empty file that simply enables SSH on boot by being present.</p>
+<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>bootfs/ssh.txt
+</code></pre></div>
+<p><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#remote-access">/bootfs/userconf.txt</a> defines the initial user.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate a password hash</span>
+openssl<span class="w"> </span>passwd<span class="w"> </span>-6
+
+<span class="c1"># Write this to the userconf.txt file</span>
+<span class="nb">echo</span><span class="w"> </span><span class="sb">`</span>pi:&lt;password-hash&gt;<span class="sb">`</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span><span class="sb">`</span>bootfs/userconf.txt<span class="sb">`</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">$HOME Path</p>
+<p><code>/rootfs/home/pi</code> is the path of the default "pi" user.</p>
+<p>Here you can drop scripts or files you'd like to have available, <strong>they become owned by <code>pi:pi</code></strong></p>
+</div>
+<p>Write the <a href="https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh">Tailscale installer.sh</a> file here.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>./rootfs/home/pi
+curl<span class="w"> </span>-Lf<span class="w"> </span>https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh<span class="w"> </span>&gt;<span class="w"> </span>tailscale-installer.sh
+</code></pre></div>
+<p>Also write a key.txt file containing your Tailscale authkey, so you don't have to type it.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Paste your tailscale authkey here for script use later</span>
+nano<span class="w"> </span>./rootfs/home/pi/key.txt
+</code></pre></div>
+<p>Create <code>/home/pi/.ssh/authorized_keys</code> with your public key.</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>./rootfs/home/pi/.ssh
+nano<span class="w"> </span>./rootfs/home/pi/.ssh/authorized_keys
+</code></pre></div>
+<p>Now move the USB over to the Raspberry Pi device and power it on.</p>
+<h3 id="after-first-boot">After First Boot</h3>
+<div class="admonition note">
+<p class="admonition-title">Manual Setup</p>
+<p>You will need a keyboard and monitor to interact with the device for the remaining steps. This may change in the future.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Keyboard Locale</p>
+<p>You may run into issues with the keyboard locale, for instance when entering the WiFi password. To resolve this you'll need to ensure your keyboard is mapped to the expected country code, just like your WLAN setting.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>raspi-config
+<span class="c1"># Choose &quot;5 Localisation Options&quot;</span>
+<span class="c1"># Choose &quot;L3 Keyboard&quot;</span>
+<span class="c1"># Choose &quot;Keyboard, Generic&quot; or simply hit Enter</span>
+<span class="c1"># Then eventually under &quot;Keyboard layout&quot; change to your locale using &quot;Other&quot; if it&#39;s not listed</span>
+<span class="c1"># TAB to OK, then OK, and allow all the defaults from here on</span>
+</code></pre></div>
+</div>
+<p>The file generated at <code>/etc/NetworkManage/system-connections/&lt;ESSID&gt;.nmconnection</code> will contain your WiFi connection information once you setup networking. If you're planning to network the Pi via an ethernet cable, you can skip this part.</p>
+<ul>
+<li><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#enable-wireless-networking">Enable Wireless Networking</a></li>
+<li><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#connect-to-a-network">Connect to a Wireless Network</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Enable wireless networking by going to Localisation optons and choosing a WLAN country code</span>
+sudo<span class="w"> </span>raspi-config
+
+<span class="c1"># Check if your radio is enabled</span>
+nmcli<span class="w"> </span>radio<span class="w"> </span>wifi
+
+<span class="c1"># Enable your radio</span>
+nmcli<span class="w"> </span>radio<span class="w"> </span>wifi<span class="w"> </span>on
+
+<span class="c1"># Scan the local area for available wifi networks</span>
+nmcli<span class="w"> </span>dev<span class="w"> </span>wifi<span class="w"> </span>list
+
+<span class="c1"># Connect to a wireless network</span>
+sudo<span class="w"> </span>nmcli<span class="w"> </span>--ask<span class="w"> </span>dev<span class="w"> </span>wifi<span class="w"> </span>connect<span class="w"> </span>&lt;example_ssid&gt;
+</code></pre></div>
+<p>This is what the <code>&lt;ESSID&gt;.nmconnection</code> file looks like for reference, using WPA2:</p>
+<div class="highlight"><pre><span></span><code>[connection]
+id=&lt;essid-here&gt;
+uuid=&lt;unique-uuid-here&gt;
+type=wifi
+interface-name=wlan0
+
+[wifi]
+mode=infrastructure
+ssid=&lt;essid-here&gt;
+
+[wifi-security]
+auth-alg=open
+key-mgmt=wpa-psk
+psk=&lt;wifi-password-here&gt;
+
+[ipv4]
+method=auto
+
+[ipv6]
+addr-gen-mode=default
+method=auto
+
+[proxy]
+</code></pre></div>
+<p>You can generate a UUID with:</p>
+<div class="highlight"><pre><span></span><code>uuidgen
+<span class="c1"># or</span>
+cat<span class="w"> </span>/proc/sys/kernel/random/uuid
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">What is wlan0?</p>
+<p>In this case <code>wlan0</code> will always be the built in wireless card of the Raspberry Pi. Since we're using an external wireless card as the nzyme-tap monitoring interface, we end up using the onboard card to provided us a way to connect to a network, and this provides us access from other devices either locally on that subnet, or remotely via Tailscale.</p>
+<p>Connecting over WiFi was used as an example 1) because it's trickier to visualize and execute without doing it before instead of simply connecting via an ethernet cable, and 2) to keep in the spirit of all-things-wireless, it wouldn't make sense to leave this out of the guide.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Additional Steps</p>
+<p>The remaining steps are mostly preference, but were part of the initial setup when drafting this guide.</p>
+</div>
+<p>On first login, you may have issues with the timesync being off.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>systemd-timesyncd
+</code></pre></div>
+<p>Once that's done, update the system.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reboot
+</code></pre></div>
+<p>Finally, run the Tailscale installer and authenticate to your Tailnet.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/pi/
+sudo<span class="w"> </span>bash<span class="w"> </span>./installer.sh
+sudo<span class="w"> </span>tailscale<span class="w"> </span>up<span class="w"> </span>--authkey<span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>key.txt<span class="k">)</span>
+sudo<span class="w"> </span>tailscale<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--accept-dns<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>It's also not a bad idea to configure a firewall.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ufw
+sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>ssh
+<span class="c1"># This can be configured further remotely over Tailscale</span>
+</code></pre></div>
+<h2 id="ubuntu">Ubuntu</h2>
+<p>After writing the Ubuntu image to  your USB or SD card, you'll see two partitions were created; a <code>system-boot</code> and <code>writable</code> partition. Browse into the <code>system-boot</code> directory. Here you'll find two files we can use to automate the setup process; <code>user-data</code>, and <code>network-config</code>.</p>
+<h3 id="cloud-config">cloud-config</h3>
+<p><strong>user-data</strong></p>
+<p>You can either replace the <code>user-data</code> file completely, using  the contents below, or comment out the few existing lines and append the YAML contents (below). Either way, this file will contain all of our required changes. It will:</p>
+<ul>
+<li>Initialize our user, with our SSH public key for secure remote access</li>
+<li>Install Tailscale and authenticate to our Tailnet, by embedding a Tailscale authkey into the user-data file</li>
+<li>This is kept as generic as possible to be reusable for more than just an nzyme-tap or node</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Make the config your own</p>
+<p>Replace all values encapsulated in <code>{{ Jinja2 syntax }}</code> below with your own.</p>
+<p>See <a href="https://cloudinit.readthedocs.io/en/latest/reference/examples.html">https://cloudinit.readthedocs.io/en/latest/reference/examples.html</a> for a complete reference of <code>user-data</code> examples.</p>
+</div>
+<div class="highlight"><pre><span></span><code># On first boot, set the (default) ubuntu user&#39;s password to &quot;ubuntu&quot; and
+# expire user passwords
+chpasswd:
+    expire: true
+    users:
+    - name: {{ username }}
+        password: ubuntu
+        type: text
+
+
+# Set system hostname
+hostname: nzyme-tap
+
+
+# Require public key auth
+ssh_pwauth: false
+
+
+# User definitions
+users:
+    - default
+    - name: {{ username }}
+        primary_group: {{ username }}
+        groups:
+            - users
+            - sudo
+        shell: /bin/bash
+        # Allows sudo use, requiring a password
+        sudo:
+            - ALL=(ALL) ALL
+        # Import an SSH public key from GH or LP
+        ssh_import_id:
+            - lp:{{ your-launchpab-username }}
+            - gh:{{ your-github-username }}
+        # Manually add a public SSH key if it&#39;s not available on GH or LP
+        ssh_authorized_keys:
+            - {{ your-public-key }}
+        lock_passwd: false
+        # Optional, create with mkpasswd --method=SHA-512 --rounds=4096
+        passwd: {{ create-passwd-with-mkpasswd }}
+
+
+## Update apt database and upgrade packages on first boot
+package_update: true
+package_upgrade: true
+
+
+## Install additional packages on first boot, optional
+#packages:
+#- curl
+#- pipx
+
+
+## Write arbitrary files to system
+write_files:
+- path: /usr/local/bin/tailscale-installer.sh
+    owner: root:root
+    permissions: &#39;0755&#39;
+    content: |
+        {{ replace with raw, plaintext
+        data of the installer.sh for
+        tailscale }}
+
+
+## Commands to run on first boot
+runcmd:
+    # Note: Don&#39;t write files to /tmp from cloud-init use /run/somedir instead.
+    # Early boot environments can race systemd-tmpfiles-clean LP: #1707222.
+
+    # Optional, if you didn&#39;t write the installer file as a base64 encoded file
+    # to disk earlier in user-data
+    #- wget &quot;https://github.com/tailscale/tailscale/raw/refs/heads/main/scripts/installer.sh&quot; -O /usr/local/bin/tailscale-installer.sh
+    #- sha256sum /usr/local/bin/tailscale-installer.sh | grep -i &quot;{{ sha256sum-of-tailscale-installer }}&quot;
+
+
+    # Install Tailscale
+    - /usr/local/bin/tailscale-installer.sh
+
+
+    # Authenticate to Tailnet, replace with a real authkey you generate just for this device
+    - tailscale up --authkey {{ tailscale_authkey }}
+    - tailscale set --accept-dns=false
+</code></pre></div>
+<p><strong>network-config</strong></p>
+<p>Now open <code>network-config</code> and replace (or duplicate and modify) the baked-in example with your real connection information.</p>
+<div class="admonition note">
+<p class="admonition-title">What is wlan0?</p>
+<p>In this case <code>wlan0</code> will always be the built in wireless card of the Raspberry Pi. Since we're using an external wireless card as the nzyme-tap monitoring interface, we end up using the onboard card to provided us a way to connect to a network, and this provides us access from other devices either locally on that subnet, or remotely via Tailscale.</p>
+<p>Connecting over WiFi was used as an example 1) because it's trickier to visualize and execute without doing it before instead of simply connecting via an ethernet cable, and 2) to keep in the spirit of all-things-wireless, it wouldn't make sense to leave this out of the guide.</p>
+</div>
+<p>Below is a slightly modified and commented version of that example block for you to use.</p>
+<div class="highlight"><pre><span></span><code>    wifis:
+        wlan0:
+            dhcp4: true
+            optional: true
+            access-points:
+                # WPA2/3 Example
+                myhomewifi:
+                    password: &quot;S3kr1t&quot;
+                # EAP/TLS Example
+                workssid:
+                    auth:
+                        key-management: eap
+                        method: peap
+                        identity: &quot;me@example.com&quot;
+                        password: &quot;passw0rd&quot;
+                        ca-certificate: /etc/my_ca.pem
+
+            # Change to your local country code
+            regulatory-domain: GB
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Convert tabs to spaces</p>
+<p>In VSCode it's easy, and going to help you after manually writing the YAML config files for cloud-init, to ensure there are no invisible tabs or spaces that will break your entire config.</p>
+<p>Simply follow the <a href="https://stackoverflow.com/questions/33974681/how-can-i-convert-tabs-to-spaces-and-vice-versa-in-an-existing-file">advice in this post</a> to open the command list and type "Convert Indentation to Spaces", finally clicking that command to execute it.</p>
+</div>
+<p>Finally, you can <a href="https://cloudinit.readthedocs.io/en/latest/howto/debug_user_data.html">validate your config</a> with:</p>
+<div class="highlight"><pre><span></span><code>cloud-init<span class="w"> </span>schema<span class="w"> </span>--config-file<span class="o">=</span>/media/user/system-boot/user-data<span class="w"> </span>--annotate
+<span class="c1"># You want &quot;Valid schema /media/user/system-boot/user-data&quot; at the bottom of the output</span>
+</code></pre></div>
+<p>Move the USB or SD card over to the Raspberry Pi. It's useful to have a video connection to a monitor available should anything go wrong. Otherwise you'll see your Pi connect to your Tailnet via the Tailscale web console.</p>
+<p>At this point ensure you can SSH in, and update all packages, perform a reboot, then confirm you can still SSH in.</p>
+<h2 id="wireless-drivers">Wireless Drivers</h2>
+<p>If you're using an external card mentioned <a href="https://docs.nzyme.org/getting-started/requirements/#wifi-adapters">here</a> in the nzyme documentation, you should already be able to see it with the following commands.</p>
+<div class="highlight"><pre><span></span><code>lsusb
+ip<span class="w"> </span>link
+</code></pre></div>
+<p>You should see <code>wlan0</code> connected to your WiFi network of choice (or not if you're using an ethernet cable), and an <code>wlx00...</code> device. This is your wireless usb adapter. If you don't see it listed in the output of the above two commands, you'll need to check which drivers are available in the Ubuntu package repos for your card.</p>
+<p>If you <em>can</em> see your external wireless adapter, you can proceed.</p>
+<h2 id="nzyme-node">nzyme-node</h2>
+<p>If your plan is to provision a node, with or without the tap, follow the steps here:</p>
+<ul>
+<li><a href="https://docs.nzyme.org/getting-started/installation/ubuntu-server-2204/#installing-a-nzyme-node">Ubuntu 22.04</a></li>
+<li><a href="https://docs.nzyme.org/getting-started/installation/ubuntu-server-2404/#installing-a-nzyme-node">Ubuntu 24.04</a></li>
+</ul>
+<p>Generally you're downloading and installing the deb file from <a href="https://go.nzyme.org/downloads">GitHub's latest release</a>, modifying the settings under <code>/etc/nzyme/nzyme.conf</code>, and starting the service.</p>
+<p>The only point worth mentioning here is, when it comes to Tailscale, set both:</p>
+<ul>
+<li><code>rest_listen_uri</code></li>
+<li><code>http_external_uri</code></li>
+</ul>
+<p>... to bind to your device's tailscale0 IP address if you want to lock access to the Tailnet. Otherwise bind to all interfaces with <code>0.0.0.0</code> and ensure the proper firewall rules are in place.</p>
+<h3 id="proxmox">proxmox</h3>
+<div class="admonition warning">
+<p class="admonition-title">Under Construction</p>
+<p>This section will be updated in the future after further testing.</p>
+<p>Generally you want:</p>
+<ul>
+<li>4 vCPU cores</li>
+<li>8 GB RAM</li>
+<li>32GB Storage</li>
+</ul>
+</div>
+<h2 id="nzyme-tap">nzyme-tap</h2>
+<div class="admonition tip">
+<p class="admonition-title">Physical Hardware</p>
+<p>Unlike an nzyme-node without a tap, any tap provisioned must have some type of hardware involved. Even if you're passing through an external wireless adapter to a VM, you will need the adapter listening in the real world to send data to the node.</p>
+<p>This is why the Raspberry Pi is ideal to act as a tap, whether you have another Pi as a node, or a dedicated VM as a node.</p>
+<p>If you're interesting in fully virtualizing and testing nzyme, look at <a href="https://github.com/r4ulcl/WiFiChallengeLab-docker">WiFi Challenge Lab</a> which gives you a complete wireless environment to explore within a VM.</p>
+</div>
+<p>Once the tap device is up and running, <a href="https://go.nzyme.org/downloads">download and install the nzyme-tap deb package</a> following these instructions:</p>
+<ul>
+<li><a href="https://docs.nzyme.org/getting-started/installation/ubuntu-server-2204/#installing-a-nzyme-tap">Ubuntu 22.04</a></li>
+<li><a href="https://docs.nzyme.org/getting-started/installation/ubuntu-server-2404/#installing-a-nzyme-tap">Ubuntu 24.04</a></li>
+</ul>
+<p>Next configure the lines referenced in <code>/etc/nzyme/nzyme-tap.conf</code>. As mentioned above in the nzyme-node seciton, point this to the Tailnet address of your nzyme-node if using Tailscale.</p>
+<p>Finally you may see that the service fails on the first start of <code>sudo systemctl start nzyme-tap</code>. What you'll want to do is modify the <code>wifi_interfaces</code> section of the /etc/nzyme/nzyme-tap.conf file to use what channels your external wireless adapter can see.</p>
+<p>In other words, this assumes the built-in wireless card (<code>wlan0</code>) is being used to connect to a WiFi AP for internet access. Of course if you're connected over ethernet, you could use both cards to monitor wrieless activity.</p>
+<p><a href="https://docs.nzyme.org/wifi/concepts/channel_hopping/#what-channels-do-my-wifi-adapters-support">To generate a list of channels and bands your device can listen on, do</a>:</p>
+<div class="highlight"><pre><span></span><code>nzyme-tap<span class="w"> </span>--generate-channels
+</code></pre></div>
+<p>This will give you a configuration block that can be swapped in for the existing blocks under nzyme-tap.conf. You should add <code>channel_width_hopping_mode = "full"</code> <a href="https://docs.nzyme.org/wifi/concepts/channel_hopping/#channel-width-hopping-mode">which is a recommended default</a>, to have something that looks like this in your conf file.</p>
+<div class="highlight"><pre><span></span><code>[wifi_interfaces.wlan1]
+active = true
+channel_width_hopping_mode = &quot;full&quot;
+channels_2g = [&lt;list-of-channels&gt;]
+channels_5g = [&lt;list-of-channels&gt;]
+channels_6g = [&lt;list-of-channels&gt;]
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Debugging with journalctl</p>
+<p>In my case I ran into an instance where even the generated channels list had a channel that didn't work when run as part of the nzyme-tap.conf file. Checking <code>sudo journalctl -xe</code> to see exactly what was wrong pointed to this channel not being understood by nzyme. Removing that channel from the config for that interface resulted in a successful start from nzyme-tap.</p>
+</div>
+<p>After making these adjustments, <code>sudo systemctl restart nzyme-tap</code> should result in a successful run.</p>
+<h2 id="updating-nzyme">Updating nzyme</h2>
+<p>The <a href="https://go.nzyme.org/downloads">GitHub releases page</a> (which points to <a href="https://github.com/nzymedefense/nzyme/releases">https://github.com/nzymedefense/nzyme/releases</a>) always has the latest update instructions for each verison.</p>
+<div class="admonition important">
+<p class="admonition-title">Update Process</p>
+<p>Generally, you want to upgrade your <strong>node first, then all your taps</strong>.</p>
+</div>
+<p>To upgrade an <strong>nzyme-node</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># As of 2.0.0-alpha.16</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>nzyme
+wget<span class="w"> </span>&lt;release-link&gt;
+sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>nzyme-node_<span class="o">[</span>version<span class="o">]</span>.deb
+sudo<span class="w"> </span>nzyme<span class="w"> </span>--migrate-database
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nzyme
+</code></pre></div>
+<p>To upgrade an <strong>nzyme-tap</strong>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>nzyme-tap
+wget<span class="w"> </span>&lt;release-link&gt;
+sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>nzyme-tap_<span class="o">[</span>version<span class="o">]</span>.deb
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nzyme-tap
+</code></pre></div>
+<h2 id="configuring-nzyme">Configuring nzyme</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resources Available</p>
+<p>It can't be overstated how useful the <a href="https://docs.nzyme.org/">documentation</a>, <a href="https://github.com/nzymedefense/nzyme/discussions">community forums</a>, <strong><em>and</em></strong> the <a href="https://discord.gg/9W2tVtXUny">Discord Server</a> are to search through for reference, as the platform grows and develops over time.</p>
+<p>There's also <a href="https://connect.nzyme.org/">nzyme Connect</a>, which is the free API to enrich your data with the following:</p>
+<ul>
+<li>MAC address vendor (OUI) information</li>
+<li>Bluetooth vendor and device information</li>
+<li>GeoIP and ASN information. (Powered by IPinfo.io)</li>
+<li>UAV (Unmanned Aerial Vehicle) model and classification information</li>
+</ul>
+<p>This API isn't enabled by default, and you need an account. nzyme doesn't collect any unique information. <a href="https://connect.nzyme.org/faq">You can even inspect the code your local nzyme nodes are using the talk to the API</a>. The API data is incredibly useful, especially for Bluetooth monitoring.</p>
+</div>
+<h2 id="wifi-monitoring">WiFi Monitoring</h2>
+<p>The value of this system comes from taking a few days to really configure monitoring for your location.</p>
+<div class="admonition tip">
+<p>This is done by <strong>defining your own assets first</strong>, starting with AP's, followed by clients. Then, <strong>observing what's "normal" for your local wireless traffic</strong>. In other words, neighboring devices and networks.</p>
+</div>
+<p>All of this is detailed <a href="https://docs.nzyme.org/wifi/monitoring/network-monitoring/">here</a>, but it can be overwhelming initially based on the amount of alerts and data. The best way I have found to sort through the initial configuration:</p>
+<ul>
+<li>The majority of what you do will be under WiFi &gt; Monitoring<ul>
+<li><strong>Add the SSIDs of your own devices</strong> to monitor under "<strong>Monitored Networks</strong>"</li>
+<li>Once you're under WiFi/Monitoring/Monitored Networks/Your Network, you can configure <strong>Alert Status</strong> and more</li>
+<li>Enable all alert types that make sense, if you have dynamic channel hopping configured, "Expected Channels" won't be useful</li>
+<li>You can use the "<strong>Configure</strong>" column to define things like <strong>Allowed Clients</strong></li>
+<li>Define the BSSID (MAC) of your AP</li>
+<li>Define the cipher suites (pull those from the AP's info under WiFi &gt; Access Points &gt; <code>${MAC}</code> &gt; SSIDs &gt; <code>${SSID}</code>)</li>
+<li>Define the fingerprint, which is a hash of the device's unique details (the alert and the BSSID pages will have this)</li>
+</ul>
+</li>
+</ul>
+<p>From here you'll want to continue reviewing Alerts &gt; Overview and ensure you're not seeing any for your own AP's anymore. If there are any, work on those first.</p>
+<ul>
+<li>Check WiFi &gt; Monitoring &gt; SSIDs, "<strong>approve</strong>" your own assets, "<strong>ignore</strong>" any you see consistently <strong>and know about</strong> that aren't yours</li>
+<li>Check if WiFi &gt; Monitoring &gt; Monitored Networks shows all green (OK) under Status</li>
+</ul>
+<p>This should limit the types of alerts you're seeing once all assets are defined in nzyme. This is an ideal starting point.</p>
+<h2 id="bluetooth-monitoring">Bluetooth Monitoring</h2>
+<p>Follow the documentation <a href="https://docs.nzyme.org/bluetooth/">here</a>. You're obtaining your bluetooth interface information with <code>hciconfig</code> similar to <code>ifconfig</code>. Ensure any bluetooth interfaces you want monitoring have their own block in <code>/etc/nzyme/nzyme-tap.conf</code>, same as each wireless interface.</p>
+<div class="highlight"><pre><span></span><code># Example
+&lt;SNIP&gt;
+[bluetooth_interfaces.hci0]
+active = true
+bt_classic_enabled = true
+bt_le_enabled = true
+discovery_period_seconds = 30
+dbus_method_call_timeout_seconds = 2
+&lt;SNIP&gt;
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Bluetooth still isn't working?</p>
+<p>You'll need to enable the bluetooth subsystem in three places for it to work: on the node itself at the system level, at the organization level, and at the tenant level.</p>
+<p>If you search the nzyme Discord for help with enabling bluetooth monitoring, for example you've set the appropriate changes in <code>/etc/nzyme/nzyme-tap.conf</code> (above) and still see something like the following in the journalctl or systemctl status logs:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>ERROR<span class="o">][</span><span class="m">2024</span>-12-06<span class="w"> </span><span class="m">01</span>:02:03<span class="o">][</span>bluetooth::tables::bluetooth_table<span class="o">]</span><span class="w"> </span>Could<span class="w"> </span>not<span class="w"> </span>submit<span class="w"> </span>Bluetooth<span class="w"> </span>devices<span class="w"> </span>report:<span class="w"> </span>...
+</code></pre></div>
+<p>...you'll find this post from the nzyme founder:</p>
+<blockquote>
+<p>You have to enable it for the organization first and then it should  be possible to enable it for the tenant as well</p>
+</blockquote>
+</div>
+<p>To enable bluetooth for the Node at the system level:</p>
+<ul>
+<li>System &gt; Subsystems</li>
+<li>Here you'll see a subsystem settings pane where you can enable bluetooth</li>
+</ul>
+<p>To enable bluetooth at the Organization level:</p>
+<ul>
+<li>System &gt; Authentication &gt; Your-Organization-Name (Often "Default Organization")</li>
+<li>Choose "Edit Organization" on the top right</li>
+<li>Here you'll see a subsystem settings pane where you can enable bluetooth</li>
+</ul>
+<p>To enable bluetooth at the Tenant level:</p>
+<ul>
+<li>System &gt; Authentication &gt; Your-Organization-Name (Often "Default Organization")</li>
+<li>Under "Tenants" click on your Tenant (Often "Default Tenant")</li>
+<li>Choose "Edit Tenant" on the top right</li>
+<li>Here you'll see a subsystem settings pane where you can enable bluetooth</li>
+</ul>
+<h2 id="trilateration">Trilateration</h2>
+<p>WiFi trilateration is described <a href="https://docs.nzyme.org/wifi/trilateration/">here</a>. This allows you to visualize where wireless signals are appearing within a custom floorplan. You will need to create and upload the image file for the floorplan first.</p>
+<p>Some useful points if you're lost:</p>
+<p><strong>Creating the Floorplan</strong></p>
+<p>Both <a href="https://inkscape.org">inkscape</a> and <a href="https://www.gimp.org/">GIMP</a> are easy to install and effective at creating a basic floorplan quickly.</p>
+<p>You can do so using one of the sandboxed packaging frameworks:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># If you use snap</span>
+sudo<span class="w"> </span>snap<span class="w"> </span>install<span class="w"> </span>inkscape
+
+<span class="c1"># If you use flatpak</span>
+flatpak<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">AI Usage</p>
+<p>It's also easy enough for any of the AI tools to create a floorplan mock-up to use.</p>
+</div>
+<p><strong>Uploading a Floorplan</strong></p>
+<ul>
+<li>System/Authentication &amp; Authorization/Organizations/Your Organization/Tenants/Your Tenant</li>
+<li>Choose "Locations"</li>
+<li>Create location</li>
+<li>Create a floor</li>
+<li>Upload the floorpan image file</li>
+</ul>
+<p><strong>Assign Taps</strong></p>
+<ul>
+<li>System/Authentication &amp; Authorization/Organizations/Your Organization/Tenants/Your Tenant</li>
+<li>Choose "Taps"</li>
+<li>Select a tap, and set the location</li>
+</ul>
+<p><strong>Place Taps</strong></p>
+<ul>
+<li>System/Authentication &amp; Authorization/Organizations/Your Organization/Tenants/Your Tenant</li>
+<li>Locations</li>
+<li>Your location</li>
+<li>Floors</li>
+<li>Your floor</li>
+<li>Drag and drop the taps around the floorplan</li>
+<li>Save and exit</li>
+</ul>
+<div class="admonition question">
+<p class="admonition-title">Where are the maps?</p>
+<p>To see the trilateration maps, you must go into the details of an AP or a client. Scroll down to see the new "Physical Location / Trilateration" section.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Bug when rendering trilateration maps</p>
+<p>You may find after enabling this feature, the detailed information page for BSSID's (where the trilateration map will show) fails to load, or will load to a blank page.</p>
+<p>This is being tracked under <a href="https://github.com/nzymedefense/nzyme/issues/1257">Errors displaying BSSID Details page #1257</a>.</p>
+<p>A work-around (as of the time of writing this) is to change the global filter at the top, so instead of "All Taps", only select the view from one tap, apply, and the pages should render again. If not, try refreshing and waiting for a 30-60 seconds.</p>
+</div>
+<h2 id="going-forward">Going Forward</h2>
+<div class="admonition warning">
+<p class="admonition-title">Under Construction</p>
+<p>Sections to include in a future draft of this guide:</p>
+<ul>
+<li>Configure monitoring</li>
+<li>Additional automated provisioning of Raspberry Pi OS (Bookworm and later)</li>
+<li>Compiling arm64 tap packages for Ubuntu Server on Raspberry Pi</li>
+<li>Sending alerts to Discord and Slack from nzyme-nodes</li>
+<li>How to set log retention</li>
+<li>Possible SIEM integration (targeting Wazuh)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

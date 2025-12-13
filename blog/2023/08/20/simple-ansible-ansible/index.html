@@ -1,0 +1,2581 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2023/08/20/simple-ansible-ansible/">
+      
+      
+        <link rel="prev" href="../../../../2022/08/29/material-magnify-scan-nessus/">
+      
+      
+        <link rel="next" href="../../../../2024/05/02/simple-pfsense-pfsense-administration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Ansible - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ansible - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2023/08/20/simple-ansible-ansible.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2023/08/20/simple-ansible-ansible/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Ansible - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2023/08/20/simple-ansible-ansible.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ansible" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ansible
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-project-ansible-configs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Project: ansible-configs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-2310-fedora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu 23.10+, Fedora:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-2204-and-older" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu 22.04 and Older
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-multiple-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Multiple Versions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install Multiple Versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#older-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Older Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#better-cli-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Better CLI Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-testing-plays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start: Testing Plays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-ansible-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Ansible Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-inventories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables and Inventories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Provisioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Vault
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ansible-Vault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vault-password-file-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vault Password File + Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-manage-remote-hosts-with-unique-sudo-passwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case: Manage Remote Hosts with Unique Sudo Passwords
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Lint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-galaxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Galaxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2023-08-20 00:00:00+00:00" class="md-ellipsis">August 20, 2023</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-07-31 00:00:00+00:00" class="md-ellipsis">July 31, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              13 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-project-ansible-configs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Project: ansible-configs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-2310-fedora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu 23.10+, Fedora:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-2204-and-older" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubuntu 22.04 and Older
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-multiple-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Multiple Versions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install Multiple Versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#older-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Older Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#better-cli-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Better CLI Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-testing-plays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start: Testing Plays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-ansible-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Ansible Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-inventories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables and Inventories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Provisioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Vault
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ansible-Vault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vault-password-file-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vault Password File + Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-manage-remote-hosts-with-unique-sudo-passwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case: Manage Remote Hosts with Unique Sudo Passwords
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Lint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-galaxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible-Galaxy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="ansible"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.617 11.473 4.686 3.695-3.102-7.662zM12 0C5.371 0 0 5.371 0 12s5.371 12 12 12 12-5.371 12-12S18.629 0 12 0m5.797 17.305a.85.85 0 0 1-.875.83c-.236 0-.416-.09-.664-.293l-6.19-5-2.079 5.203H6.191L11.438 5.44a.79.79 0 0 1 .764-.506.76.76 0 0 1 .742.506l4.774 11.494c.045.111.08.234.08.348z"/></svg></span> Ansible</h1>
+<p>Getting started with Ansible. If you don't know what Ansible is or what it's used for:</p>
+<div class="admonition quote">
+<p class="admonition-title">What is Ansible?</p>
+<p>Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy and maintain. Automate everything from code deployment to network configuration to cloud management, in a language that approaches plain English, using SSH, with no agents to install on remote systems. <a href="https://docs.ansible.com">https://docs.ansible.com</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">About this Post</p>
+<p>This post is a mirror of <a href="https://github.com/straysheep-dev/ansible-configs">straysheep-dev/ansible-configs</a>'s README. It's being added here as both, a searchable reference within this mkdocs site, and because the recent post on <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/">Molecule</a> needed to be split off into it's own post due to the amount of examples and details. This may end up being the primary source to maintain these notes going forward, with the ansible-configs project README linking back to this post.</p>
+</div>
+<p><strong>Resources</strong></p>
+<ul>
+<li><a href="https://github.com/ansible/ansible">https://github.com/ansible/ansible</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/index.html">https://docs.ansible.com/ansible/latest/index.html</a></li>
+</ul>
+<!-- more -->
+
+<h2 id="example-project-ansible-configs">Example Project: ansible-configs</h2>
+<p>The <a href="https://github.com/straysheep-dev/ansible-configs">ansible-conifgs</a> project is a monorepo of every Ansible role I've created or forked for my own use. Since this post was originally just the README for that project, you can use it to follow along below and get started in a test VM to learn about Ansible. The only reason this might be useful to anyone getting started is because when the monorepo was created, I was also just getting started. A lot of the notes here and roles were created from that perspective.</p>
+<div class="admonition example">
+<p class="admonition-title"><a href="https://github.com/straysheep-dev/ansible-configs">ansible-conifgs</a></p>
+<p>A collection of ansible roles.</p>
+<p>This repo is both a set of various roles to mirror my own bash scripts, and my notes on using Ansible for easy reference.</p>
+<p>It's structured to be easy to clone, modify, and run only the roles you need. In most cases all you need to change is:</p>
+<ul>
+<li><code>playbook.yml</code>'s roles</li>
+<li>Your preferred <code>inventory/</code> file's hosts + users</li>
+</ul>
+<p>Use whichever inventory format works best for you. The <code>.ini</code> files allow specifying users as inline variables per host, which is useful if each host in a group has different users you'll be connecting as.</p>
+<p>Each inventory example connects to the ansible controller (the localhost of the machine you're running ansible from) by default. Modify these files to add your own remote connections.</p>
+<p>When you're done, run the playbook with one of the following:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For using sudo on the remote host, where you aren&#39;t using the root account</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/inventory.ini<span class="w"> </span><span class="o">[</span>-b<span class="o">]</span><span class="w"> </span>--ask-become-pass<span class="w"> </span>-v<span class="w"> </span>playbook.yml
+
+<span class="c1"># For using the root account on the remote host, typically to deploy and provision cloud resources</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/inventory.ini<span class="w"> </span>-v<span class="w"> </span>playbook.yml
+</code></pre></div>
+<ul>
+<li><code>-b</code> will automatically elevate all tasks so you don't need to specify "become sudo" across every task (don't do this unless you need to)</li>
+<li><code>--ask-become-pass</code> takes the sudo password for the remote user</li>
+<li><code>-v</code> will show a useful amount of information without being too verbose</li>
+</ul>
+<p>To do: how to specify each remote user's password (if there are multiple remote users listed, each with a unique password).</p>
+</div>
+<h2 id="setup">Setup</h2>
+<p>Install Ansible:</p>
+<ul>
+<li><a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible-with-pipx">Install Ansible via pipx</a></li>
+<li><a href="https://pipx.pypa.io/stable/#install-pipx">pipx: Install</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#ensuring-pip-is-available">Install Ansible via pip</a></li>
+<li><a href="https://packaging.python.org/en/latest/tutorials/installing-packages/#ensure-pip-setuptools-and-wheel-are-up-to-date">Ensure pip, setuptools, wheel are up to date</a></li>
+<li><a href="https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#debian-ubuntu-and-derivatives">Install pip on Debian/Ubuntu</a></li>
+</ul>
+<h3 id="ubuntu-2310-fedora">Ubuntu 23.10+, Fedora:</h3>
+<p>It's recommended to use <code>pipx</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>pipx
+
+<span class="c1"># Fedora</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>pipx
+
+pipx<span class="w"> </span>ensurepath
+sudo<span class="w"> </span>pipx<span class="w"> </span>ensurepath<span class="w"> </span>--global<span class="w"> </span><span class="c1"># optional to allow pipx actions with --global argument</span>
+</code></pre></div>
+<p>Install Ansible using pipx:</p>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>--include-deps<span class="w"> </span>ansible
+</code></pre></div>
+<p><a href="https://github.com/pypa/pipx?tab=readme-ov-file#inject-a-package">Inject additional libraries with pipx</a>, like <code>passlib</code> to generate Unix password hashes:</p>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>inject<span class="w"> </span>ansible<span class="w"> </span>passlib
+</code></pre></div>
+<p>Upgrade Ansible:</p>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>upgrade<span class="w"> </span>--include-injected<span class="w"> </span>ansible
+</code></pre></div>
+<h3 id="ubuntu-2204-and-older">Ubuntu 22.04 and Older</h3>
+<p>If you're missing <code>pip</code>, the recommended way to install it on Ubuntu, or other Debian derivitives is through apt (Ansible's documentation also mentions the <code>python3-pip</code> package):</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip
+</code></pre></div>
+<p>Install Ansible using pip:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ansible
+</code></pre></div>
+<p>Upgrade Ansible:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--user<span class="w"> </span>ansible
+</code></pre></div>
+<h3 id="install-multiple-versions">Install Multiple Versions</h3>
+<p>See: <a href="https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-community-changelogs">Ansible Community Changelogs</a></p>
+<p>Using <a href="https://github.com/pypa/pipx/pull/445">pipx you can install multiple versions of packages side by side</a>. This is useful when you want the latest version of a package, and also a specific version of a package on the same system for testing.</p>
+<p>To install all of the <code>ansible-</code> tools, <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pipx-install">you need to specify <code>ansible-core</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">version_number</span><span class="o">=</span><span class="s2">&quot;1.2.3&quot;</span>
+<span class="nv">package_name</span><span class="o">=</span><span class="s1">&#39;ansible-lint&#39;</span><span class="w"> </span><span class="c1"># or ansible-core</span>
+pipx<span class="w"> </span>install<span class="w"> </span>--suffix<span class="o">=</span>_<span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$package_name</span><span class="s2">&quot;</span><span class="o">==</span><span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Call the version-pinned installation using the suffix:</p>
+<div class="highlight"><pre><span></span><code>ansible-lint_1.2.3<span class="w"> </span>--version<span class="w"> </span><span class="c1"># If installing ansible-lint==1.2.3</span>
+ansible-playbook_1.2.3<span class="w"> </span>--version<span class="w">  </span><span class="c1"># If installing ansible-core==1.2.3</span>
+</code></pre></div>
+<p>Remove any versions you may have installed through <code>pipx</code> by following the steps above for testing:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">version_number</span><span class="o">=</span><span class="s2">&quot;2.12.10&quot;</span>
+<span class="nv">package_name</span><span class="o">=</span><span class="s1">&#39;ansible-core&#39;</span><span class="w"> </span><span class="c1"># or ansible-core</span>
+pipx<span class="w"> </span>uninstall<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$package_name</span><span class="s2">&quot;</span>_<span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span>
+</code></pre></div>
+<h4 id="older-systems">Older Systems</h4>
+<p>The latest versions of Ansible will not execute on systems with older versions of python3 installed. You will see an error similar to this, where it isn't even able to print the required version information:</p>
+<div class="highlight"><pre><span></span><code>fatal:<span class="w"> </span><span class="o">[</span><span class="m">10</span>.10.10.55<span class="o">]</span>:<span class="w"> </span>FAILED!<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">{</span><span class="s2">&quot;ansible_facts&quot;</span>:<span class="w"> </span><span class="o">{}</span>,<span class="w"> </span><span class="s2">&quot;changed&quot;</span>:<span class="w"> </span>false,<span class="w"> </span><span class="s2">&quot;failed_modules&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;ansible.legacy.setup&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;ansible_facts&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;discovered_interpreter_python&quot;</span>:<span class="w"> </span><span class="s2">&quot;/usr/bin/python3&quot;</span><span class="o">}</span>,<span class="w"> </span><span class="s2">&quot;exception&quot;</span>:<span class="w"> </span><span class="s2">&quot;Traceback (most recent call last):</span>
+
+<span class="s2">&lt;SNIP&gt;</span>
+
+<span class="s2">  File \&quot;/tmp/ansible_ansible.legacy.setup_payload_zlebszdb/ansible_ansible.legacy.setup_payload.zip/ansible/module_utils/basic.py\&quot;, line 17</span>
+<span class="s2">    msg=f\&quot;ansible-core requires a minimum of Python version {&#39;.&#39;.join(map(str, _PY_MIN))}. Current version: {&#39;&#39;.join(sys.version.splitlines())}\&quot;,</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Ansible 2.13.0</p>
+<p>The versions found to be the most successful for these use cases are Ansible 2.13.0 or above.</p>
+</div>
+<h3 id="better-cli-output">Better CLI Output</h3>
+<p>By default, Ansible will write output from playbooks and tasks without newlines interpretted. This makes reading playbooks executed with <code>-v</code> difficult.</p>
+<ul>
+<li><a href="https://www.jeffgeerling.com/blog/2018/use-ansibles-yaml-callback-plugin-better-cli-experience">jeffgeerling.com: Ansible YAML Callback Plugin for a Better CLI Experience</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/plugins/callback.html#setting-a-callback-plugin-for-ansible-playbook">Ansible: Setting a Callback Plugin</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/plugins/callback.html#plugin-list"><code>ansible-doc -t callback -l</code></a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/collections/community/general/yaml_callback.html#deprecated">Ansible: ansible.builtin.default Now Supports YAML</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/default_callback.html#parameter-result_format">Ansible: ansible.builtin.default <code>result_format</code> Options</a></li>
+</ul>
+<p>You can list all of the built-in (or available) callbacks with <code>ansible-doc -t callback -l</code>, then print similar examples to what's available on Anisble's online documentation with something like <code>ansible-doc -t callback ansible.builtin.default</code>.</p>
+<p>Not all of these callbacks are specifically for affecting stderr and stdout. You'll want to review callbacks that seem interesting and check for options or environment variables that can be applied.</p>
+<div class="admonition tip">
+<p class="admonition-title">ansible.cfg Search Order Priority</p>
+<p><a href="https://docs.ansible.com/ansible/latest/reference_appendices/config.html">ansible.cfg file search order priority</a>:</p>
+<ul>
+<li><code>ANSIBLE_CONFIG</code> (environment variable if set)</li>
+<li><code>ansible.cfg</code> (in the current directory)</li>
+<li><code>~/.ansible.cfg</code> (in the home directory)</li>
+<li><code>/etc/ansible/ansible.cfg</code></li>
+</ul>
+<p>You can set just one option in your environment, and Ansible will <a href="https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html#general-precedence-rules">still use the defaults or whatever is in your <code>ansible.cfg</code> file, for everything else</a>.</p>
+</div>
+<p>To simply have more human-readable CLI output, use the YAML <code>result_format</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_CALLBACK_RESULT_FORMAT</span><span class="o">=</span><span class="s1">&#39;yaml&#39;</span>
+<span class="c1"># Now execute a playbook in the same shell environment</span>
+</code></pre></div>
+<h2 id="quick-start-testing-plays">Quick Start: Testing Plays</h2>
+<p><a href="https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html">Creating a playbook</a></p>
+<p>Use this yaml block as a copy-and-paste starting point when developing and testing plays on a single machine "locally" with ansible installed.</p>
+<p>This is useful to run only certain parts of a playbook or isolate certain tasks to debug them.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Write as: playbook.yml</span>
+<span class="c1"># Run with: ansible-playbook ./playbook.yml</span>
+<span class="c1"># https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html</span>
+<span class="c1"># https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html#running-against-localhost</span>
+<span class="c1"># https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Debug Playbook</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">user_defined_var</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prints message only if user_defined_var variable is set to True</span>
+<span class="w">      </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;User</span><span class="nv"> </span><span class="s">defined</span><span class="nv"> </span><span class="s">variable</span><span class="nv"> </span><span class="s">set</span><span class="nv"> </span><span class="s">to:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">user_defined_var</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user_defined_var == True</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ping localhost</span>
+<span class="w">      </span><span class="nt">ansible.builtin.ping</span><span class="p">:</span>
+</code></pre></div>
+<h2 id="how-ansible-works">How Ansible Works</h2>
+<p>It's important to remember, for example, the <code>ansible.builtin.copy</code> module copies files <em>from</em> <strong>the control node</strong> <em>to</em> <strong>managed nodes</strong>, unless <a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src"><code>remote_src: yes</code></a> is set.</p>
+<p>If <code>remote_src: yes</code> is set, <code>ansible.builtin.copy</code> will only use source paths on the remote host and not the control node.</p>
+<p>Basically, <em>all tasks are typically executed on remote targets</em>. This means using <code>ansible.builtin.find</code> + registering a variable + <code>ansible.builtin.copy</code>, to copy arbitrary files <em>from</em> the control node won't work.</p>
+<p>In that case, <code>ansible.builtin.find</code> will execute on the remote host, and not find the files. <code>ansible.builtin.copy</code> will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.</p>
+<h2 id="variables-and-inventories">Variables and Inventories</h2>
+<p><em>Currently, most roles in this repo have variables defined in <code>vars/main.yml</code>. This file takes precedence in most cases. Using <code>defaults/main.yml</code> for variables instead allows you to define the default there, and override those defaults in your inventory file(s) on a per-host or per-group level. This note will be removed and changed when all current roles are revised to reflect this.</em></p>
+<p>Example default value for a variable in <code>defaults/main.yml</code>:</p>
+<div class="highlight"><pre><span></span><code>some_var: &quot;false&quot;
+</code></pre></div>
+<p>Ansible has modular ways of approaching and maintaining both, variables and an inventory at the same time.</p>
+<ul>
+<li><a href="https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#assigning-a-variable-to-one-machine-host-variables">Assign variables per-machine</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#assigning-a-variable-to-many-machines-group-variables">Assign variables to machine groups</a></li>
+</ul>
+<p>Change <code>some_var</code> to <code>"true"</code> for just one host in your inventory:</p>
+<div class="highlight"><pre><span></span><code><span class="na">10.0.0.40:22 ansible_user=user some_var</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+</code></pre></div>
+<p>Change <code>some_var</code> to <code>"true"</code> for all hosts in a specific inventory group:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[remotegroup]</span>
+<span class="na">10.0.0.41</span><span class="o">:</span><span class="s">22 ansible_user=user</span>
+<span class="na">10.0.0.42</span><span class="o">:</span><span class="s">22 ansible_user=user</span>
+<span class="na">10.0.0.43</span><span class="o">:</span><span class="s">22 ansible_user=user</span>
+
+<span class="k">[remotegroup:vars]</span>
+<span class="na">some_var</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+</code></pre></div>
+<p>Finally, be sure your <code>playbook.yml</code> file allows for either <code>all</code> groups, or the groups defined in your inventory file(s). If using <code>all</code>, you must ensure each inventory file has unique definitions to avoid collisions.</p>
+<div class="highlight"><pre><span></span><code>- name: &quot;Default Playbook&quot;
+  hosts:
+    # List groups from your inventory here
+    # You could also use the built in &quot;all&quot; or &quot;ungrouped&quot;
+    # &quot;all&quot; is necessary when Vagrant is auto-generating the inventory
+    all
+    #localgroup
+    #remotegroup
+    #tester_nodes
+    #target_nodes
+  roles:
+  &lt;SNIP&gt;
+</code></pre></div>
+<p>See the following reference:</p>
+<ul>
+<li><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#tips-on-where-to-set-variables">Playbook Variables: Tips on where to set variables</a></li>
+</ul>
+<h2 id="windows-provisioning">Windows Provisioning</h2>
+<p>You effectively have two options for opening Windows endpoints to Ansible provisioning:</p>
+<ul>
+<li>WinRM (Domain-Joined, ideally with Kerberos auth, <a href="https://github.com/ansible/ansible-documentation/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1">otherwise there's a less secure work around</a>)</li>
+<li><a href="https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1">SSH (Best for non-domain-joined endpoints)</a></li>
+</ul>
+<p><em><a href="https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/ssh-remoting-in-powershell?view=powershell-7.4">There's also PSRemoting over SSH, available to Windows, Linux, and macOS. The PowerShell version installed must be 7.X or later</a>.</em></p>
+<p>Update your <code>inventory.ini</code> file by appending the following options to your Windows endpoints:</p>
+<ul>
+<li><code>cmd</code> is the default shell for SSH on Windows</li>
+<li>Change this to <code>powershell</code> if you've defined PowerShell as the default SSH login shell</li>
+<li><code>ansible_become_user</code> is better to be specified per host in the inventory file</li>
+<li><code>ansible_become_password</code> may be necessary (with LAPS), use an ansible-vault to store these values</li>
+<li><code>ansible_become_method: runas</code> can be specified per task just like <code>sudo</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">[remotehosts]</span>
+<span class="c1"># &quot;Minimum&quot; possible settings, if tasks specify `become_method: runas`</span>
+<span class="na">10.55.55.30</span><span class="o">:</span><span class="s">22 ansible_user=User ansible_become_user=User ansible_connection=ssh ansible_shell_type=cmd</span>
+
+<span class="c1"># Additional settings for password, and become_method</span>
+<span class="na">10.55.55.31:22 ansible_user=User ansible_become_user=User ansible_become_password</span><span class="o">=</span><span class="s">&#39;{{ User_runas_pass }}&#39;</span><span class="w"> </span><span class="na">ansible_connection</span><span class="o">=</span><span class="s">ssh ansible_shell_type=cmd ansible_become_method=runas</span>
+</code></pre></div>
+<p>Your tasks will have to reflect these kinds of settings as well, using <code>runas</code> instead of <code>sudo</code> when Windows is detected.</p>
+<p>See the following references:</p>
+<ul>
+<li><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_privilege_escalation.html#become-connection-variables">Ansible Privilege Escalation: <code>become</code> Connection Variables</a></li>
+<li><a href="https://devops.stackexchange.com/questions/16532/ansible-playbook-fails-on-windows-server">Ansible Playbook Fails on Windows</a></li>
+<li><a href="https://stackoverflow.com/questions/66671945/ansible-playbook-error-the-powershell-shell-family-is-incompatible-with-the-sud">Ansible Playbook Become Error</a></li>
+</ul>
+<p>Execute with:</p>
+<div class="highlight"><pre><span></span><code>~/.local/bin/ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory.ini<span class="w"> </span>-v<span class="w"> </span>./playbook.yml
+</code></pre></div>
+<h2 id="ansible-vault">Ansible-Vault</h2>
+<ul>
+<li><a href="https://docs.ansible.com/ansible/latest/cli/ansible-vault.html">ansible-vault</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_privilege_escalation.html#become-connection-variables">become-connection-variables</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/vault_guide/vault_using_encrypted_content.html#playbooks-vault">playbooks-vault</a></li>
+</ul>
+<p>This utility is included with <code>ansible</code>, and allows you to create encyrpted ansible <code>.yml</code> files. It's primarily used for encrypting secrets used for plays, but can even be used to encrypt an entire role.</p>
+<p>Create an encrypted file (called a vault):
+<div class="highlight"><pre><span></span><code>ansible-vault<span class="w"> </span>create<span class="w"> </span>vault.yml
+<span class="c1"># Enter a password, then edit / write the file in the default text editor (vim)</span>
+</code></pre></div></p>
+<h3 id="vault-password-file-environment-variables">Vault Password File + Environment Variables</h3>
+<p>In cases where you're running multiple playbooks, it can be tedious to repeatedly enter the vault password. Ansible has a <code>--vault-pass-file</code> option that can read the password from a file. <em>Unfortunately, Ansible doesn't have a built in environment variable you can pass to it for this purpose.</em> Writing this secret in a plaintext file isn't the best idea, and interestingly enough <strong>you can specify commands or scripts as the vault-pass-file</strong>. This means you can use a similar trick to <a href="https://github.com/straysheep-dev/terraform-configs#quick-start-environment-variables">configuring terraform environment variables</a> and read the vault password from an environment variable.</p>
+<p>See these references for a full breakdown, they're summarized below:</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/77622261/how-to-pass-a-password-to-the-vault-id-in-a-bash-script">Enter Vault Password Once for Multiple Playbooks</a></li>
+<li><a href="https://stackoverflow.com/questions/62690097/how-to-pass-ansible-vault-password-as-an-extra-var/76236662">How to Pass an Ansible Vault a Password</a></li>
+<li><a href="https://stackoverflow.com/questions/33794842/forcing-curl-to-get-a-password-from-the-environment/33818945#33818945">Get Password from the Environment with <code>curl</code></a></li>
+<li><a href="https://stackoverflow.com/questions/3980668/how-to-get-a-password-from-a-shell-script-without-echoing#3980904">Get Password from Shell Script without Echoing</a></li>
+</ul>
+<p>First, enter the vault password with <code>read</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Enter Vault Password&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>-s<span class="w"> </span>vault_pass<span class="p">;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_VAULT_PASSWORD</span><span class="o">=</span><span class="nv">$vault_pass</span>
+</code></pre></div>
+<ul>
+<li><code>-s</code> hides the text as you type</li>
+<li><code>-r</code> interprets any backslashes correctly, see <a href="https://www.shellcheck.net/wiki/SC2162">SC2162</a></li>
+<li>The environment variable only appears in the <code>env</code> of that shell session</li>
+<li>It does not appear in the history of that shell</li>
+<li>Another shell running under the same user context cannot see that environment variable without a process dump</li>
+</ul>
+<p>Execute with:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>&lt;inventory&gt;<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;@~/secrets/auth.yml&quot;</span><span class="w"> </span>--vault-pass-file<span class="w"> </span>&lt;<span class="o">(</span>cat<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="nv">$ANSIBLE_VAULT_PASSWORD</span><span class="o">)</span><span class="w"> </span>-v<span class="w"> </span>./playbook.yml
+</code></pre></div>
+<ul>
+<li>Uses <code>&lt;(cat &lt;&lt;&lt;$VARIABLE)</code> process substitution and creates a here-string</li>
+<li>The raw value will not appear in your process list</li>
+<li>Using <a href="https://github.com/DominicBreuker/pspy">pspy</a> you can verify this</li>
+<li>Be sure <code>kernel.yama.ptrace_scope</code> is set to <code>1</code> or higher, as <code>0</code> will allow process dumping without root</li>
+</ul>
+<h3 id="use-case-manage-remote-hosts-with-unique-sudo-passwords">Use Case: Manage Remote Hosts with Unique Sudo Passwords</h3>
+<p>This covers the following scenario:</p>
+<ul>
+<li>You have two or more remote hosts with a normal user using <code>sudo</code> instead of root</li>
+<li>You need to update all of them weekly</li>
+<li>You do not want plain text passwords in yaml files</li>
+<li>Each remote host's <code>sudo</code> user has your ssh public key, and only accepts public key authentication</li>
+</ul>
+<p>A clear way to manage this and illustrate how this works is by creating a new vault file (we'll call it <code>auth.yml</code>) containing all of the remote user passwords.</p>
+<div class="highlight"><pre><span></span><code>ansible-vault<span class="w"> </span>create<span class="w"> </span>auth.yml
+<span class="c1"># Specify a vault password, generate and save this to a password manager</span>
+</code></pre></div>
+<p>The content of auth.yml could look like this:</p>
+<div class="highlight"><pre><span></span><code>admin_sudo_pass: 53Zbr3DPpfzGKSbWxNgWareBgNptKt5s
+sql_admin_sudo_pass: 3KYRoAndmF53XDu33No7jfsNv2jrrpLi
+</code></pre></div>
+<p>Then the contents of <code>inventory/inventory.ini</code> could look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="na">10.20.30.40:2222 ansible_user=admin ansible_become_password</span><span class="o">=</span><span class="s">&#39;{{ admin_sudo_pass }}&#39;</span>
+<span class="na">10.20.30.41:2222 ansible_user=sql_admin ansible_become_password</span><span class="o">=</span><span class="s">&#39;{{ sql_admin_sudo_pass }}&#39;</span>
+</code></pre></div>
+<p>To execute the playbook, specifying the <code>auth.yml</code> file with <code>-e "@auth.yml"</code>, and instead of <code>--ask-become-pass</code>, use <code>--ask-vault-pass</code>. Ansible will check the vaulted <code>auth.yml</code> file for the sudo passwords now instead of expecting them to be passed right after executing this command where typically it will only accept one input string for <code>become_pass</code>, which is the problem this solves.</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/inventory.ini<span class="w"> </span>--ask-vault-pass<span class="w"> </span>--extra-vars<span class="w"> </span><span class="s2">&quot;@auth.yml&quot;</span><span class="w"> </span>-v<span class="w"> </span>playbook.yml
+</code></pre></div>
+<p>This can be taken further by also encrypting the usernames as variables in <code>auth.yml</code>.</p>
+<h2 id="ansible-lint">Ansible-Lint</h2>
+<p>For guidance on writing Ansible code, reference the <a href="https://ansible.readthedocs.io/projects/lint/">Ansible Lint Documentation</a>.</p>
+<p><code>ansible-lint</code> can be used on your playbooks, roles, or collections to check for common mistakes when writing ansible code.</p>
+<ul>
+<li><a href="https://ansible.readthedocs.io/projects/lint/installing/#installing-the-latest-version">Installing <code>ansible-lint</code></a></li>
+<li><a href="https://github.com/marketplace/actions/run-ansible-lint">GitHub Action: run-ansible-lint</a></li>
+<li><a href="https://github.com/ansible/ansible-lint?tab=readme-ov-file#using-ansible-lint-as-a-github-action">GitHub Action: ansible-lint.yml Example</a></li>
+</ul>
+<p>There are a number of ways to do this, but you can install <code>ansible-lint</code> just like <code>ansible</code>.</p>
+<p>With <code>pipx</code>:</p>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>ansible-lint
+</code></pre></div>
+<p>With <code>pipx</code>, using a specific version:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">version_number</span><span class="o">=</span><span class="s2">&quot;1.2.3&quot;</span>
+<span class="nv">package_name</span><span class="o">=</span><span class="s1">&#39;ansible-lint&#39;</span>
+pipx<span class="w"> </span>install<span class="w"> </span>--suffix<span class="o">=</span>_<span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$package_name</span><span class="s2">&quot;</span><span class="o">==</span><span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>With <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ansible-lint
+</code></pre></div>
+<ul>
+<li><a href="https://ansible.readthedocs.io/projects/lint/configuring/">Configuring ansible-lint</a></li>
+</ul>
+<p>The "new" way to do this, if you also intend to leverage the <a href="https://github.com/ansible/ansible-lint">latest GitHub action</a> in your CI/CD pipeline, is to use a configuration file to specify what <code>ansible-lint</code> should be checking. <code>ansible-lint</code> will look in the current directory, and then ascend directories, until getting to the git project root, <a href="https://ansible.readthedocs.io/projects/lint/configuring/#using-local-configuration-files">looking for one of the following filenames</a>:</p>
+<ul>
+<li><code>.ansible-lint</code>, this file lives in the project root</li>
+<li><code>.config/ansible-lint.yml</code>, this file exists within a <code>.config</code> folder</li>
+<li><code>.config/ansible-lint.yaml</code>, same as the previous file</li>
+</ul>
+<div class="admonition note">
+<p><em>When using the <code>.config/</code> path, any paths specified in the <code>ansible-lint.yml</code> config file must have <code>../</code> prepended so ansible-lint can find them correctly.</em></p>
+</div>
+<p>The easiest way to start, is with a <a href="https://ansible.readthedocs.io/projects/lint/profiles/">profile</a>, and excluding the <code>meta/</code> and <code>tests/</code> paths in roles. This is a less verbose version of the <code>.ansible-lint</code> file used in this repo.</p>
+<div class="highlight"><pre><span></span><code># .ansible-lint
+
+# Full list of configuration options:
+# https://ansible.readthedocs.io/projects/lint/configuring/
+
+# Profiles: null, min, basic, moderate, safety, shared, production
+# From left to right, the requirements to pass the profile checks become more strict.
+# Safety is a good starting point.
+profile: safety
+
+# Shell globs are supported for exclude_paths:
+# - https://github.com/ansible/ansible-lint/pull/1425
+# - https://github.com/ansible/ansible-lint/discussions/1424
+exclude_paths:
+  - .cache/      # implicit unless exclude_paths is defined in config
+  - .git/        # always ignore
+  - .github/     # always ignore
+  - &quot;*/tests/&quot;   # ignore tests/ folder for all roles
+  - &quot;*/meta/&quot;    # ignore meta/ folder for all roles
+
+# These are checks that may often cause errors / failures.
+# If you need to make exceptions for any check, add it here.
+warn_list:
+  - yaml[line-length]
+
+# Offline mode disables installation of requirements.yml and schema refreshing
+offline: true
+</code></pre></div>
+<p>Over time you may want to shift the profile to <code>shared</code> or <code>production</code>, and also tell <code>ansible-lint</code> to check the <code>tests/</code> and <code>meta/</code> paths for each role if you intend to publish them to ansible-galaxy.</p>
+<p><strong>Errors</strong></p>
+<p>Older versions of ansible-lint may produces errors that are difficult to diagnose. When this happens, use a very simple main.yml file, and start slowly adding tasks or vars to this file. Once you identify a task that creates an error, you can begin narrowing down which line(s) in the task or vars are producing the error.</p>
+<p>One example of this is new versions of ansible lint will want you to use <code>become_method: ansible.builtin.sudo</code>, while older versions require <code>become_method: sudo</code> and will generate a <code>schema[tasks]</code> error in this case.</p>
+<h2 id="ansible-galaxy">Ansible-Galaxy</h2>
+<p>This is the suggested way to share and run roles or collections. Though you <strong><em>can</em></strong> run them using local paths, you're meant to reference them using a fully-qualified-name (FQN in Ansible terms).</p>
+<ul>
+<li><a href="https://galaxy.ansible.com/ui/">Ansible-Galaxy</a></li>
+<li><a href="https://docs.ansible.com/ansible/devel/galaxy/user_guide.html">Ansible-Galaxy User Guide (<code>ansible-galaxy</code>)</a></li>
+<li><a href="https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide.html#servers">Ansible-Galaxy User Guide (Platform and API)</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html#role-init">Create Ansible Roles or Collections</a></li>
+<li><a href="https://docs.ansible.com/ansible/devel/dev_guide/developing_collections_structure.html#roles-directory">Role Naming Conventions</a></li>
+</ul>
+<p>When creating roles that will be published, you'll need to fill out the <code>meta.yml</code> details:</p>
+<ul>
+<li><a href="https://github.com/ansible/galaxy/issues/52">Role Meta: Supported Platforms (GH Issue: 52)</a></li>
+<li><a href="https://github.com/ansible/ansible-lint/blob/main/src/ansiblelint/schemas/meta.json">Role Meta: Supported Platforms (<code>ansible-lint</code> schema)</a></li>
+</ul>
+<p>The documentation (at the time of writing) suggested making an <code>~/.ansible.cfg</code> to target the beta galaxy_ng server, however this is no longer working (in other words, the galaxy_ng server is no longer in beta and is now the default). It seems the best way to do this is by providing your API key on the command line, through an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Enter Galaxy API Token&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>-s<span class="w"> </span>ansible_galaxy_token<span class="p">;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_GALAXY_TOKEN</span><span class="o">=</span><span class="nv">$ansible_galaxy_token</span>
+<span class="c1"># [type or paste your key, it won&#39;t echo or show up in your bash history]</span>
+ansible-galaxy<span class="w"> </span>role<span class="w"> </span>import<span class="w"> </span>-vvv<span class="w"> </span>--token<span class="w"> </span><span class="nv">$ANSIBLE_GALAXY_TOKEN</span><span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>&lt;ansible-role-my_repo&gt;
+</code></pre></div>
+<p>The above command will add (import) a role from your GitHub, to your own Ansible-Galaxy namespace, so that others can download and install it directly from the <code>ansible-galaxy</code> command.</p>
+<h2 id="references">References</h2>
+<p>This repo was inspired by, and created after learning from <a href="https://github.com/IppSec/parrot-build">IppSec's parrot-build</a> repo and video.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

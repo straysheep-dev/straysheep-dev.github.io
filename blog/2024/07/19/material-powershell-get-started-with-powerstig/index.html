@@ -1,0 +1,2257 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Use PowerSTIG to automate STIG compliance and document changes.">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/07/19/material-powershell-get-started-with-powerstig/">
+      
+      
+        <link rel="prev" href="../../12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/">
+      
+      
+        <link rel="next" href="../material-dns-bind9-dns/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Get Started with PowerSTIG - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Get Started with PowerSTIG - straysheep.dev" />
+<meta property="og:description" content="Use PowerSTIG to automate STIG compliance and document changes." />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/07/19/material-powershell-get-started-with-powerstig.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/07/19/material-powershell-get-started-with-powerstig/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Get Started with PowerSTIG - straysheep.dev" />
+<meta property="twitter:description" content="Use PowerSTIG to automate STIG compliance and document changes." />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/07/19/material-powershell-get-started-with-powerstig.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#get-started-with-powerstig" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Get Started with PowerSTIG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#winrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WinRM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#psremoting-over-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PSRemoting over SSH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile-mof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile MOF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-and-revert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and Revert
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audit-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit a Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apply-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply a Policy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apply a Policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remote Automation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-07-19 00:00:00+00:00" class="md-ellipsis">July 19, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              8 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#winrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WinRM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#psremoting-over-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PSRemoting over SSH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile-mof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile MOF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-and-revert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and Revert
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audit-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit a Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apply-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply a Policy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apply a Policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remote Automation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="get-started-with-powerstig"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.83 4c.49 0 .8.4.67.89l-3.16 14.22c-.11.49-.59.89-1.08.89H2.17c-.49 0-.8-.4-.67-.89L4.66 4.89C4.77 4.4 5.25 4 5.74 4zm-6 12h-4c-.46 0-.83.38-.83.84 0 .47.37.85.83.85h4c.47 0 .85-.38.85-.85 0-.46-.38-.84-.85-.84m-10.05.28a.87.87 0 0 0-.21 1.22c.28.42.84.5 1.24.23 7.35-5.17 7.4-5.23 7.45-5.26.18-.16.27-.38.28-.6.01-.2-.04-.37-.16-.56L9.46 6.03A.867.867 0 0 0 8.21 6c-.36.32-.38.88-.05 1.24l4.15 4.44z"/></svg></span> Get Started with PowerSTIG</h1>
+<p>Use PowerSTIG to automate STIG compliance across a number of  items like WindowsServer, IIS, Adobe, Chrome, RHEL, Ubuntu, Vsphere, SqlServer, and more, while maintaining documentation of the state as a PowerShell configuration file. This is similar to my approach of <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/inventory_openscap_utils">using Ansible tags to maintain and combine machine states</a>.</p>
+<!-- more -->
+
+<ul>
+<li><a href="https://github.com/Microsoft/PowerStig/wiki/home">PowerSTIG: Wiki</a></li>
+<li><a href="https://github.com/Microsoft/PowerStig">PowerSTIG: GitHub</a></li>
+</ul>
+<p>The documentation is fairly in depth, but if you don't know how to use <a href="https://learn.microsoft.com/en-us/powershell/dsc/getting-started/wingettingstarted?view=dsc-1.1">DSC</a> or the related Windows-centric DevOps tools, the documentation can become incredibly hard to follow and non-linear. This walkthrough is meant to show you how to install PowerSTIG and get a machine into the required state in a clean, easy to understand way.</p>
+<h2 id="install">Install</h2>
+<p>Install the module from the PowerShell gallery. You'll be prompted to trust the PSGallery (all remote repos are untrusted by default). Then <a href="https://github.com/Microsoft/PowerStig/wiki/DscGettingStarted">install the required DSC resources</a>. Use this exact command block on the "controller node" (if you're used to Ansible's language) as well as all remote nodes you're applying changes to via PSRemoting. <strong><em>PowerSTIG must be installed on each endpoint that will be configured</em></strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Install-Module</span> <span class="n">PowerSTIG</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
+
+<span class="p">(</span><span class="nb">Get-Module</span> <span class="n">PowerStig</span> <span class="n">-ListAvailable</span><span class="p">).</span><span class="n">RequiredModules</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span>
+   <span class="nv">$PSItem</span> <span class="p">|</span> <span class="nb">Install-Module</span> <span class="n">-Force</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="paths">Paths</h2>
+<p>You'll find everything in the following paths:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># PowerSTIG Base Path</span>
+<span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Administrator</span><span class="p">\</span><span class="n">Documents</span><span class="p">\</span><span class="n">WindowsPowerShell</span><span class="p">\</span><span class="n">Modules</span><span class="p">\</span><span class="n">PowerSTIG</span>
+
+<span class="c"># Raw STIG XML Data, where 4.22.0 is this PowerSTIG version</span>
+<span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Administrator</span><span class="p">\</span><span class="n">Documents</span><span class="p">\</span><span class="n">WindowsPowerShell</span><span class="p">\</span><span class="n">Modules</span><span class="p">\</span><span class="n">PowerSTIG</span><span class="p">\</span><span class="n">4</span><span class="p">.</span><span class="n">22</span><span class="p">.</span><span class="n">0</span><span class="p">\</span><span class="n">StigData</span><span class="p">\</span><span class="n">Processed</span>
+</code></pre></div>
+<p>Under <code>StigData\Processed</code> you'll find each policy has two related files:</p>
+<ul>
+<li><code>POLICY_NAME.org.default.xml</code>: Commented options, where there's no one default value. Copy this file to a central location</li>
+<li><code>POLICY_NAME.xml</code>: The rest of the rules in the policy with default values</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Working Folder for Custom Policy Files</p>
+<p>A good way to store these is by creating a folder for each policy. The DSC script modules expect paths to files, rather than the files themselves. Separating these configurations by folder will reduce headaches when working with multiple policies.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c"># List all unique policies</span>
+<span class="nv">$PowerStigVersion</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Module</span> <span class="n">PowerStig</span> <span class="n">-ListAvailable</span><span class="p">).</span><span class="n">Version</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span>
+<span class="nv">$StigDataPath</span> <span class="p">=</span> <span class="s2">&quot;C:\Users\Administrator\Documents\WindowsPowerShell\Modules\PowerSTIG\$PowerStigVersion\StigData\Processed\&quot;</span>
+<span class="c">#(gci -Path $StigDataPath | Split-Path -Leaf).Replace(&quot;.xml&quot;,&quot;&quot;).Replace(&quot;.org.default&quot;,&quot;&quot;) | sort -Unique</span>
+
+<span class="c"># Create a folder for WindowsServer-2022-MS-1.5, WindowsDefender-All-2.4, WindowsFirewall-All-2.2</span>
+<span class="nv">$PolicyFileList</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;WindowsServer-2022-MS-1.5&quot;</span><span class="p">,</span><span class="s2">&quot;WindowsServer-2022-DC-1.5&quot;</span><span class="p">,</span><span class="s2">&quot;WindowsDefender-All-2.4&quot;</span><span class="p">,</span><span class="s2">&quot;WindowsFirewall-All-2.2&quot;</span><span class="p">)</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$PolicyFile</span> <span class="k">in</span> <span class="nv">$PolicyFileList</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$DevPath</span> <span class="p">=</span> <span class="s2">&quot;C:\Tools\PowerSTIGDev\$PolicyFile&quot;</span>
+    <span class="nb">New-Item</span> <span class="n">-Type</span> <span class="n">Directory</span> <span class="n">-Path</span> <span class="nv">$DevPath</span> <span class="n">2</span><span class="p">&gt;</span><span class="nv">$nul</span>
+    <span class="nb">Copy-Item</span> <span class="nv">$StigDataPath$PolicyFile</span><span class="p">.</span><span class="n">org</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">xml</span> <span class="n">-Destination</span> <span class="nv">$DevPath</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Organizational Settings</p>
+<p>This is a customized <a href="https://github.com/microsoft/PowerStig/blob/dev/source/StigData/Processed/MS-Edge-1.8.org.default.xml">organization file example for Microsoft Edge</a>. It uses DuckDuckGo and Google as the defined search engines.</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!--</span>
+<span class="cm">    The organizational settings file is used to define the local organizations</span>
+<span class="cm">    preferred setting within an allowed range of the STIG.</span>
+
+<span class="cm">    Each setting in this file is linked by STIG ID and the valid range is in an</span>
+<span class="cm">    associated comment.</span>
+
+<span class="cm">    Modified to use DuckDuckGo instead of Bing</span>
+<span class="cm">--&gt;</span>
+<span class="nt">&lt;OrganizationalSettings</span><span class="w"> </span><span class="na">fullversion=</span><span class="s">&quot;1.8&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Ensure &#39;V-235719&#39; is reviewed for needed configuration settings --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;OrganizationalSetting</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;V-235719&quot;</span><span class="w"> </span><span class="na">ValueData=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Ensure all of the search URLs in the list begin with &quot;https&quot; --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;OrganizationalSetting</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;V-235726&quot;</span><span class="w"> </span><span class="na">ValueData=</span><span class="s">&#39;[{&quot;allow_search_engine_discovery&quot;: false},{&quot;is_default&quot;: true,&quot;name&quot;: &quot;DuckDuckGo&quot;,&quot;keyword&quot;: &quot;duckduckgo&quot;,&quot;search_url&quot;: &quot;https://duckduckgo.com/?q={searchTerms}&quot;},{&quot;name&quot;: &quot;Google&quot;,&quot;keyword&quot;: &quot;google&quot;,&quot;search_url&quot;: &quot;https://www.google.com/search?q={searchTerms}&quot;}]&#39;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Ensure &#39;V-235752&#39; is 1 or 2 or 3 --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;OrganizationalSetting</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;V-235752&quot;</span><span class="w"> </span><span class="na">ValueData=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Ensure &#39;V-235766&#39; is 2 or 3 --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;OrganizationalSetting</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;V-235766&quot;</span><span class="w"> </span><span class="na">ValueData=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/OrganizationalSettings&gt;</span>
+</code></pre></div>
+</div>
+<h2 id="winrm">WinRM</h2>
+<p>Configure each node for WinRM with the following. <strong><em>This will open the machine to external connections with a firewall rule</em></strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Set basic winrm settings</span>
+<span class="n">winrm</span> <span class="n">quickconfig</span>
+
+<span class="c"># Get the name of the public profile</span>
+<span class="nb">Get-NetConnectionProfile</span>
+
+<span class="c"># Update the InterfaceAlias parameter with the name of the profile from above</span>
+<span class="nb">Set-NetConnectionProfile</span> <span class="n">-InterfaceAlias</span> <span class="s1">&#39;Ethernet&#39;</span> <span class="n">-NetworkCategory</span> <span class="n">Private</span>
+
+<span class="c"># Update the WSMAN MaxEnvelopeSizekb</span>
+<span class="nb">Set-Item</span> <span class="n">-Path</span> <span class="n">WSMan</span><span class="p">:\</span><span class="n">localhost</span><span class="p">\</span><span class="n">MaxEnvelopeSizekb</span> <span class="n">-Value</span> <span class="n">8192</span>
+</code></pre></div>
+<div class="admonition error">
+<p class="admonition-title">MaxEnvelopeSizekb</p>
+<p>See the bottom of <a href="https://github.com/Microsoft/PowerStig/wiki/DscGettingStarted">this page</a> for details.</p>
+<p>You may receive the error (especially after applying a STIG):</p>
+<div class="highlight"><pre><span></span><code>The WinRM client sent a request to the remote WS-Management service and was notified that the request size exceeded the configured MaxEnvelopeSize quota.
+</code></pre></div>
+<p>To resolve this, do:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Update the WSMAN MaxEnvelopeSizekb</span>
+<span class="nb">Set-Item</span> <span class="n">-Path</span> <span class="n">WSMan</span><span class="p">:\</span><span class="n">localhost</span><span class="p">\</span><span class="n">MaxEnvelopeSizekb</span> <span class="n">-Value</span> <span class="n">8192</span>
+</code></pre></div>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Access Denied / The user name or password is incorrect</p>
+<p>PSRemoting can be tricky to get working. Be sure in additon to the above steps you're using an FQDN for the <code>-ComputerName</code>, as well as checking if the HTTP SPN exists for that machine.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Where HOSTNAME is the target machine you&#39;re trying to remote into</span>
+<span class="n">setspn</span> <span class="n">-A</span> <span class="n">HTTP</span><span class="p">/</span><span class="n">HOSTNAME</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">internal</span> <span class="n">HOSTNAME</span>
+<span class="n">setspn</span> <span class="n">-A</span> <span class="n">HTTP</span><span class="p">/</span><span class="n">HOSTNAME</span> <span class="n">HOSTNAME</span>
+</code></pre></div>
+</div>
+<h2 id="psremoting-over-ssh">PSRemoting over SSH</h2>
+<p><em>⚠️ This section still needs tested. Theoretically it works since later versions of PowerShell understand PSRemoting over SSH.</em></p>
+<ol>
+<li><a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/#install-winget-on-windows-sandbox">Install winget</a> (Copy / paste the entire block)</li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4#install-powershell-using-winget-recommended">Install the latest version of PowerShell</a> <code>winget install --id Microsoft.Powershell --source winget</code></li>
+<li><a href="https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1">Install OpenSSH-Server</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/ssh-remoting-in-powershell?view=powershell-7.4">Enable the PowerShell subsystem in OpenSSH-Server</a> (see the code snippet below)</li>
+<li>Create a public / private keypair and load it into your ssh-agent</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c"># Enable the PowerShell subsystem in OpenSSH-Server</span>
+<span class="nb">echo </span><span class="s1">&#39;Subsystem powershell c:/progra~1/powershell/7/pwsh.exe -sshs -nologo&#39;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-Path</span> <span class="nv">$env:ProgramData</span><span class="p">\</span><span class="n">ssh</span><span class="p">\</span><span class="n">sshd_config</span> <span class="n">-Encoding</span> <span class="n">ASCII</span> <span class="n">-Append</span>
+<span class="nb">Restart-Service</span> <span class="n">sshd</span>
+</code></pre></div>
+<h2 id="compile-mof">Compile MOF</h2>
+<p>To compile and maintain MOF-based (<a href="https://learn.microsoft.com/en-us/windows/win32/wmisdk/managed-object-format--mof-">Managed Object Format</a>) resources, <a href="https://learn.microsoft.com/en-us/powershell/dsc/how-tos/resources/authoring/mof-based?view=dsc-2.0#writing-the-script-module">use a PowerShell script module</a>. This script module was created from one of the examples for <a href="https://github.com/Microsoft/PowerStig/wiki/WindowsServer">WindowsServer</a> under the wiki's <a href="https://github.com/Microsoft/PowerStig/wiki/CompositeResources">Composite Resources</a>.</p>
+<ul>
+<li><a href="https://github.com/Microsoft/PowerStig/wiki/WindowsDefender#examples">WindowsDefender Configuration Script Module Examples</a></li>
+<li><a href="https://github.com/Microsoft/PowerStig/wiki/WindowsFirewall#examples">WindowsFirewall Configuration Script Module Examples</a></li>
+</ul>
+<p>Write this to a file such as <code>C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\WindowsServer2022-MS-1.5.ps1</code> and run it to generate the MOF file of <code>localhost.mof</code>. The MOF file is written to the <code>OutputPath</code> based on the line at the bottom of the script: <code>Example -OutputPath C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;#</span>
+<span class="cm">    Use embedded STIG data while skipping rules and inject exception data.</span>
+<span class="cm">    Example for baselining WindowsServer 2022 that isn&#39;t a DC.</span>
+<span class="cm">#&gt;</span>
+
+<span class="n">configuration</span> <span class="n">Example</span>
+<span class="p">{</span>
+    <span class="k">param</span>
+    <span class="p">(</span>
+        <span class="p">[</span><span class="k">parameter</span><span class="p">()]</span>
+        <span class="no">[string]</span>
+        <span class="nv">$NodeName</span> <span class="p">=</span> <span class="s1">&#39;localhost&#39;</span>
+    <span class="p">)</span>
+
+    <span class="nb">Import-DscResource</span> <span class="n">-ModuleName</span> <span class="n">PowerStig</span>
+
+    <span class="n">Node</span> <span class="nv">$NodeName</span>
+    <span class="p">{</span>
+        <span class="n">WindowsServer</span> <span class="n">BaseLine</span>
+        <span class="p">{</span>
+            <span class="n">OsVersion</span>   <span class="p">=</span> <span class="s1">&#39;2022&#39;</span>
+            <span class="n">OsRole</span>      <span class="p">=</span> <span class="s1">&#39;MS&#39;</span>
+            <span class="n">StigVersion</span> <span class="p">=</span> <span class="s1">&#39;1.5&#39;</span>
+            <span class="c"># Domain and Forest don&#39;t need specified if you&#39;re already domain joined, unless you&#39;re scanning cross-forest</span>
+            <span class="c">#DomainName  = &#39;sample.test&#39;</span>
+            <span class="c">#ForestName  = &#39;sample.test&#39;</span>
+            <span class="c">#Exception   = @{&#39;V-1075&#39;= @{&#39;ValueData&#39;=&#39;1&#39;} }</span>
+            <span class="c"># Rules &#39;254442-4&#39; Involve DoD certificates which we won&#39;t have access to</span>
+            <span class="c"># Rule &#39;V-254254.c&#39; breaks on WindowsServer 2022: https://github.com/microsoft/PowerStig/issues/1360#issuecomment-2176146847</span>
+            <span class="c"># Rule &#39;V-254439&#39; denies interactive logon for Enterprise Admins,Domain Admins,Local account,Guests this can interfere when testing</span>
+            <span class="n">SkipRule</span> <span class="p">=</span> <span class="p">@(</span><span class="s1">&#39;V-254442&#39;</span><span class="p">,</span><span class="s1">&#39;V-254443&#39;</span><span class="p">,</span><span class="s1">&#39;V-254444&#39;</span><span class="p">,</span><span class="s1">&#39;V-254254.c&#39;</span><span class="p">,</span><span class="s1">&#39;V-254439&#39;</span><span class="p">)</span>
+            <span class="n">OrgSettings</span> <span class="p">=</span> <span class="s2">&quot;C:\Tools\PowerSTIGDev\WindowsServer-2022-MS-1.5\WindowsServer-2022-MS-1.5.org.default.xml&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Example</span> <span class="n">-OutputPath</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Encountering Errors</p>
+<p>In writing this guide, an issue was encountered with the WindowsServer2022 MS STIG 1.5 policy. <a href="https://github.com/microsoft/PowerStig/issues/1360#issuecomment-2176146847">The fix was to skip rule <code>V-254254.c</code></a>, as this should only apply to Domain Controllers (DC, not MS). Any easy way to <code>tail -F /var/log/syslog</code> and get a sense of what's happening is with <a href="https://github.com/straysheep-dev/windows-configs/blob/main/Tail-EventLogs.ps1">Tail-EventLogs.ps1</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">iex</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://github.com/straysheep-dev/windows-configs/raw/main/Tail-EventLogs.ps1&#39;</span><span class="p">);</span>
+<span class="n">Tail-EventLog</span> <span class="n">-LogName</span> <span class="n">Microsoft-Windows-DSC</span><span class="p">/</span><span class="n">Operational</span>
+</code></pre></div>
+<p>Have this running in another PowerShell tab to monitor logs related to DSC.</p>
+<p>Similarly, if using the DC 1.5 policy, be sure your machine's <code>hostname</code> is valid, and use your DC's FQDN below for <code>-ComputerName</code> when running audits or setting the state.</p>
+</div>
+<p>Here's what your working folder should look like now:</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">Directory</span><span class="p">:</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span>
+
+
+<span class="n">Mode</span>                 <span class="n">LastWriteTime</span>         <span class="n">Length</span> <span class="n">Name</span>
+<span class="p">----</span>                 <span class="p">-------------</span>         <span class="p">------</span> <span class="p">----</span>
+<span class="n">-a</span><span class="p">----</span>         <span class="n">7</span><span class="p">/</span><span class="n">13</span><span class="p">/</span><span class="n">2024</span>  <span class="n">11</span><span class="p">:</span><span class="n">46</span> <span class="n">PM</span>         <span class="n">312314</span> <span class="n">localhost</span><span class="p">.</span><span class="n">mof</span>
+<span class="n">-a</span><span class="p">----</span>         <span class="n">7</span><span class="p">/</span><span class="n">13</span><span class="p">/</span><span class="n">2024</span>  <span class="n">11</span><span class="p">:</span><span class="n">30</span> <span class="n">PM</span>           <span class="n">5775</span> <span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">org</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">xml</span>
+<span class="n">-a</span><span class="p">----</span>         <span class="n">7</span><span class="p">/</span><span class="n">13</span><span class="p">/</span><span class="n">2024</span>  <span class="n">11</span><span class="p">:</span><span class="n">46</span> <span class="n">PM</span>            <span class="n">812</span> <span class="n">WindowsServer2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<h2 id="backup-and-revert">Backup and Revert</h2>
+<p>After you compile the MOF file, <a href="https://github.com/Microsoft/PowerStig/wiki/Backup-and-Revert">PowerSTIG 4.10.0 and later has the ability to create a backup reference point based on a STIG profile you'll be applying, so it knows what to revert to</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Test Reverts</p>
+<p>While writing this guide, PowerSTIG did not always completely undo its changes. Be sure to review all of this in a test environment first.</p>
+</div>
+<p>Create the backup.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$DevPath</span> <span class="p">=</span> <span class="s2">&quot;C:\Tools\PowerSTIGDev&quot;</span>
+<span class="nv">$Policy</span> <span class="p">=</span> <span class="s2">&quot;WindowsServer-2022-DC-1.5&quot;</span>
+<span class="nb">Backup-StigSettings</span> <span class="n">-BackupLocation</span> <span class="nv">$DevPath</span><span class="p">\</span><span class="nv">$Policy</span>  <span class="n">-StigName</span> <span class="nv">$Policy</span><span class="s1">&#39;.xml&#39;</span>
+</code></pre></div>
+<p>This creates a <code>.csv</code> backup file under the <code>$DevPath$Policy</code> path.</p>
+<p>Revert the system's state.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$Policy</span> <span class="p">=</span> <span class="s2">&quot;WindowsServer-2022-DC-1.5&quot;</span>
+<span class="nb">Restore-StigSettings</span> <span class="n">-StigName</span> <span class="nv">$Policy</span><span class="s1">&#39;.xml&#39;</span> <span class="nv">$DevPath$Policy</span><span class="p">\</span><span class="n">PowerSTIG_backup_WindowsServer</span><span class="p">-</span><span class="n">2022-DC</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">xml_08_16_2024_01_02_03</span><span class="p">.</span><span class="n">csv</span>
+</code></pre></div>
+<h2 id="audit-a-policy">Audit a Policy</h2>
+<p>Check the localhost's current state against the policy, and load the results into a variable called <code>$audit</code>. This is useful to do first, so you can check which rules will need applied to your machine. Then you can determine if they will impact functionality or not.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Local mof file</span>
+<span class="nv">$audit</span> <span class="p">=</span> <span class="nb">Test-DscConfiguration</span> <span class="n">-ComputerName</span> <span class="n">localhost</span> <span class="n">-ReferenceConfiguration</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">\</span><span class="n">localhost</span><span class="p">.</span><span class="n">mof</span>
+<span class="c"># Shared mof file, must be scripted and automated or done interactively from client</span>
+<span class="nv">$audit</span> <span class="p">=</span> <span class="nb">Test-DscConfiguration</span> <span class="n">-ComputerName</span> <span class="n">localhost</span> <span class="n">-ReferenceConfiguration</span> <span class="p">\\</span><span class="n">dc01</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">internal</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsClient</span><span class="p">-</span><span class="n">11</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">6</span><span class="p">\</span><span class="n">localhost</span><span class="p">.</span><span class="n">mof</span>
+
+<span class="c"># View compliant settings</span>
+<span class="nv">$audit</span><span class="p">.</span><span class="n">ResourcesInDesiredState</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+
+<span class="c"># View non-compliant settings</span>
+<span class="nv">$audit</span><span class="p">.</span><span class="n">ResourcesNotInDesiredState</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+
+<span class="c"># Save results</span>
+<span class="nv">$audit</span><span class="p">.</span><span class="n">ResourcesInDesiredState</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">\</span><span class="n">ResourcesInDesiredState</span><span class="p">.</span><span class="n">log</span> <span class="n">-Encoding</span> <span class="n">ASCII</span>
+<span class="nv">$audit</span><span class="p">.</span><span class="n">ResourcesNotInDesiredState</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">\</span><span class="n">ResourcesNotInDesiredState</span><span class="p">.</span><span class="n">log</span> <span class="n">-Encoding</span> <span class="n">ASCII</span>
+</code></pre></div>
+<p>This is an example of what the <code>Out-GridView</code> looks like (behind the MS Edge window).</p>
+<p><img alt="" src="../../../../media/powerstig/powerstig_ms_edge_1.png" /></p>
+<h2 id="apply-a-policy">Apply a Policy</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/powershell/dsc/getting-started/wingettingstarted?view=dsc-1.1&amp;viewFallbackFrom=powershell-5.1#apply-the-configuration-to-the-machine">Apply a configuration (MOF) document to a machine</a></li>
+</ul>
+<p>What can be confusing is <code>-Path</code> requires a path to where the <code>.mof</code> file lives, not a full path of the <code>.mof</code> file.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Start-DscConfiguration</span> <span class="n">-ComputerName</span> <span class="n">localhost</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-MS</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span> <span class="n">-Wait</span> <span class="n">-Verbose</span>
+</code></pre></div>
+<p>This will start a background job and apply the machine state. You may need to reboot to apply every change.</p>
+<h3 id="remote-automation">Remote Automation</h3>
+<p>This can also be confusing if you're familiar with Ansible, which uses the locally installed copy of python over ssh on each endpoint to perform module tasks without an agent. In this sense, PSRemoting can't leverage the "controller" node's PowerSTIG module. <strong>PowerSTIG must exist on each endpoint to work</strong>. Deployment ultimately could be done with a GPO to pull the MOF file from the DC (or a fileshare). Interactively trying to test your actions and reach the DC via PSRemoting results in the double-hop problem. You'll have to test this over RDP from one client.</p>
+<ul>
+<li>Each endpoint needs PowerSTIG installed</li>
+<li>The <a href="https://github.com/Microsoft/PowerStig/wiki/GettingStarted#deploy-dsc-resources">DSCEA tool mentioned</a> is only for auditing and reporting, not configuring states</li>
+<li>You're effectively configuring each endpoint to pull the MOF file and run it on "localhost", vs running a module on an inventory</li>
+</ul>
+<p>Create the SMB share.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$Parameters</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="s1">&#39;PowerSTIGDev&#39;</span>
+    <span class="n">Path</span> <span class="p">=</span> <span class="s1">&#39;C:\Tools\PowerSTIGDev&#39;</span>
+    <span class="n">FullAccess</span> <span class="p">=</span> <span class="s1">&#39;Contoso\Administrator&#39;</span><span class="p">,</span> <span class="s1">&#39;Contoso\Contoso-DEV1$&#39;</span>
+    <span class="n">ReadAccess</span> <span class="p">=</span> <span class="s1">&#39;Everyone&#39;</span>
+<span class="p">}</span>
+<span class="nb">New-SmbShare</span> <span class="nv">@Parameters</span>
+</code></pre></div>
+<p>Write the deployment script to <code>\\DOMAIN\SYSVOL</code>, or in some format so a GPO can tell each domain-joined host in scope to pull these files, and run PowerSTIG locally based on the machine's role. The example below is a very simplified way of doing this, checking if the machine is a Workstation or DomainController before applying a STIG policy.</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;#</span>
+<span class="cm">  Applies STIG states to domain-joined endpoints.</span>
+<span class="cm">  Can be configured to run via a logon script with a GPO or similar.</span>
+<span class="cm">#&gt;</span>
+
+
+<span class="k">if</span> <span class="p">((</span><span class="nb">Get-ComputerInfo</span><span class="p">).</span><span class="n">OsProductType</span> <span class="o">-eq</span> <span class="s2">&quot;Workstation&quot;</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nb">Start-DscConfiguration</span> <span class="n">-ComputerName</span> <span class="n">localhost</span> <span class="n">-Path</span> <span class="p">\\</span><span class="n">dc01</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">internal</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsClient</span><span class="p">-</span><span class="n">11</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">6</span><span class="p">\</span>
+
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">((</span><span class="nb">Get-ComputerInfo</span><span class="p">).</span><span class="n">OsProductType</span> <span class="o">-eq</span> <span class="s2">&quot;DomainController&quot;</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nb">Start-DscConfiguration</span> <span class="n">-ComputerName</span> <span class="n">localhost</span> <span class="n">-Path</span> <span class="p">\\</span><span class="n">dc01</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">internal</span><span class="p">\</span><span class="n">PowerSTIGDev</span><span class="p">\</span><span class="n">WindowsServer</span><span class="p">-</span><span class="n">2022-DC</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">5</span><span class="p">\</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Group Policy</p>
+<p>This is much better handled through an organized Group Policy. For instance if you have all of your DNS servers grouped together, then create a GPO linked to only that OU to execute PowerSTIG's DNS profile.</p>
+<p>In this case you don't need any script logic, the machines just need access to the correct MOF / PowerSTIG files.</p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

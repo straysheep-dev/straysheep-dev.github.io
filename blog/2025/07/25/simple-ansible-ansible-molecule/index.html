@@ -1,0 +1,2272 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2025/07/25/simple-ansible-ansible-molecule/">
+      
+      
+        <link rel="prev" href="../../../06/15/fontawesome-solid-square-binary-compile-static-binaries/">
+      
+      
+        <link rel="next" href="../../../10/16/material-wifi-cog-wifichallenge-exam--course-review/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Ansible Molecule - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ansible Molecule - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/07/25/simple-ansible-ansible-molecule.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2025/07/25/simple-ansible-ansible-molecule/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Ansible Molecule - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/07/25/simple-ansible-ansible-molecule.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ansible-molecule" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ansible Molecule
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-molecule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing Molecule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Scenario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-molecule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Molecule
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Molecule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-the-role-your_role-was-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERROR: The role 'your_role' was not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idempotence-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotence Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd in Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci-cd-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI / CD Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-07-25 00:00:00+00:00" class="md-ellipsis">July 25, 2025</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-07-26 00:00:00+00:00" class="md-ellipsis">July 26, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              8 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-molecule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing Molecule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Scenario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-molecule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Molecule
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Molecule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-the-role-your_role-was-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERROR: The role 'your_role' was not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idempotence-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotence Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd in Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci-cd-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI / CD Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="ansible-molecule"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.617 11.473 4.686 3.695-3.102-7.662zM12 0C5.371 0 0 5.371 0 12s5.371 12 12 12 12-5.371 12-12S18.629 0 12 0m5.797 17.305a.85.85 0 0 1-.875.83c-.236 0-.416-.09-.664-.293l-6.19-5-2.079 5.203H6.191L11.438 5.44a.79.79 0 0 1 .764-.506.76.76 0 0 1 .742.506l4.774 11.494c.045.111.08.234.08.348z"/></svg></span> Ansible Molecule</h1>
+<p>Molecule is part of the Ansible project. It's effectively a way to orchestrate containers or VM's to automate the testing of roles and collections in various environments. For example, using Docker with custom Dockerfiles or QEMU with Vagrant templates, to build the environments to run roles on. Combining this with CI workflows in GitHub or GitLab allows you to automate the process.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use Cases</p>
+<p>In theory molecule could be used to automate the testing of really anything within a container or VM as long as the playbook is configured to handle it.</p>
+</div>
+<p>This post tries to fill in any blanks between what the documentation doesn't need to say, and what you'll see when reviewing public examples of projects using molecule. There are a few areas where it's not immediately clear "what" or "how", so this post will be a point of reference from that perspective. Once you see it working and are interacting with it, it all makes sense.</p>
+<!-- more -->
+
+<h2 id="references">References</h2>
+<p>The links below are in the order to follow if you're just getting started with Molecule.</p>
+<ul>
+<li><a href="https://github.com/ansible/molecule">github.com/ansible/molecule</a></li>
+<li><a href="https://ansible.readthedocs.io/projects/molecule/guides/custom-image.html">Molecule: Customizing a Docker Image in Molecule</a></li>
+<li><a href="https://ansible.readthedocs.io/projects/molecule/configuration.html">Molecule: molecule.yml Configuration</a></li>
+<li><a href="https://github.com/geerlingguy/ansible-for-devops/blob/master/molecule/molecule/default/converge.yml">Ansible for DevOps: converge.yml Example</a></li>
+<li><a href="https://github.com/geerlingguy/docker-fedora42-ansible/blob/master/Dockerfile">github.com/geerlingguy/docker-fedora42-ansible Dockerfile</a></li>
+<li><a href="https://github.com/geerlingguy/docker-rockylinux10-ansible/blob/master/Dockerfile">github.com/geerlingguy/docker-rockylinux10-ansible Dockerfile</a></li>
+<li><a href="https://github.com/geerlingguy/docker-ubuntu2404-ansible/blob/master/Dockerfile">github.com/geerlingguy/docker-ubuntu2404-ansible Dockerfile</a></li>
+<li><a href="https://github.com/geerlingguy/docker-debian12-ansible/blob/master/Dockerfile">github.com/geerlingguy/docker-debian12-ansible Dockerfile</a></li>
+<li><a href="https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/">Docker: Writing a Dockerfile</a></li>
+<li><a href="https://docs.docker.com/reference/dockerfile/">Docker: Dockerfile Reference</a></li>
+<li><a href="https://hub.docker.com/_/fedora/tags">Docker Hub: Fedora</a></li>
+<li><a href="https://hub.docker.com/r/rockylinux/rockylinux">Docker Hub: Rocky</a></li>
+</ul>
+<h2 id="installing-molecule">Installing Molecule</h2>
+<p><a href="https://ansible.readthedocs.io/projects/molecule/installation/">Molecule: Install Documentation</a></p>
+<div class="admonition tip">
+<p class="admonition-title">pipx vs venvs</p>
+<p>You'll likely want to use a <code>venv</code> or <code>--user</code> to install molecule in a dev VM (or similar environment).</p>
+<p>Ideally, install <code>ansible-dev-tools</code> to have everything available to work with.</p>
+<p>Alternatively, you can use <code>pipx</code> with <code>inject</code> to ensure the virtual environment pipx creates for molecule has access to <code>docker</code> and <code>molecule-plugins[docker]</code></p>
+</div>
+<p>Install Ansible's dev tools, Molecule, and the Docker Python SDK:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">pip</label><label for="__tabbed_1_2">pipx</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a virtual environment</span>
+mkdir<span class="w"> </span>~/venv
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venv
+<span class="nb">source</span><span class="w"> </span>~/venv/bin/activate
+
+<span class="c1"># Install the dev tools if possible</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ansible-dev-tools
+
+<span class="c1"># Minimally, install molecule, ansible, and any necessary container plugins</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>molecule<span class="w"> </span>ansible<span class="w"> </span>ansible-lint<span class="w"> </span><span class="s2">&quot;molecule-plugins[docker]&quot;</span>
+
+<span class="c1"># Install the docker python SDK</span>
+<span class="c1"># https://github.com/docker/docker-py</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>docker
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Install the latest version of pipx</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>pipx
+python3<span class="w"> </span>-m<span class="w"> </span>pipx<span class="w"> </span>ensurepath
+
+<span class="c1"># Install each tool into an isolated environment with pipx</span>
+pipx<span class="w"> </span>install<span class="w"> </span>molecule<span class="w"> </span>ansible-lint
+pipx<span class="w"> </span>install<span class="w"> </span>--include-deps<span class="w"> </span>ansible
+
+<span class="c1"># Inject the docker libraries into molecule&#39;s pipx environment</span>
+pipx<span class="w"> </span>inject<span class="w"> </span>molecule<span class="w"> </span><span class="s2">&quot;molecule-plugins[docker]&quot;</span><span class="w"> </span>docker
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Finally, install Docker itself if you already haven't.</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/install/">Docker Install Instructions</a></li>
+<li><a href="https://github.com/geerlingguy/ansible-role-docker">Ansible Role to Install Docker</a></li>
+</ul>
+<h2 id="creating-a-scenario">Creating a Scenario</h2>
+<div class="admonition note">
+<p class="admonition-title">A scenario?</p>
+<p>A <a href="https://ansible.readthedocs.io/projects/molecule/getting-started/#molecule-scenarios">scenario</a> is the term for running tests through molecule.</p>
+</div>
+<p>The Molecule documentation has examples for Ansible Collections. To create a molecule scenario for a single role, you can do so from the root of the role's project folder. See <a href="https://github.com/geerlingguy?tab=repositories&amp;q=ansible-role-&amp;type=&amp;language=&amp;sort=">geerlingguy</a>'s <code>ansible-role-*</code> repos for examples of this.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Move to the root of your role&#39;s project folder</span>
+<span class="nb">cd</span><span class="w"> </span>~/src/ansible-role-my_role
+
+<span class="c1"># Initialize the scenario</span>
+molecule<span class="w"> </span>init<span class="w"> </span>scenario
+</code></pre></div>
+<p>This creates a <code>molecule/default/</code> folder with all of the <a href="https://ansible.readthedocs.io/projects/molecule/getting-started/#the-scenario-layout">default scenario files</a> necessary to run tests.</p>
+<div class="highlight"><pre><span></span><code>$ molecule init scenario
+INFO     Initializing new scenario default...
+
+PLAY [Create a new molecule scenario] ******************************************
+
+TASK [Check if destination folder exists] **************************************
+changed: [localhost]
+
+TASK [Check if destination folder is empty] ************************************
+ok: [localhost]
+
+TASK [Fail if destination folder is not empty] *********************************
+skipping: [localhost]
+
+TASK [Expand templates] ********************************************************
+changed: [localhost] =&gt; (item=molecule/default/molecule.yml)
+changed: [localhost] =&gt; (item=molecule/default/create.yml)
+changed: [localhost] =&gt; (item=molecule/default/converge.yml)
+changed: [localhost] =&gt; (item=molecule/default/destroy.yml)
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Initialized scenario in /home/user/src/ansible-role-my_role/molecule/default successfully.
+</code></pre></div>
+<p>The most important files here are these two (from <a href="https://ansible.readthedocs.io/projects/molecule/getting-started/#the-scenario-layout">Scenario Layout</a>):</p>
+<blockquote>
+<ul>
+<li><code>molecule.yml</code> is the central configuration entry point for Molecule per scenario. With this file, you can configure each tool that Molecule will employ when testing your role.</li>
+<li><code>converge.yml</code> is the playbook file that contains the call for your role. Molecule will invoke this playbook with ansible-playbook and run it against an instance created by the driver.</li>
+</ul>
+</blockquote>
+<div class="admonition note">
+<p>In other words <a href="https://ansible.readthedocs.io/projects/molecule/getting-started/#inspecting-the-moleculeyml"><code>molecule.yml</code></a> configures Molecule itself; what driver it will use, how it will run, and more. Think of <code>converge.yml</code> as your playbook file that Molecule will execute against each instance it creates. Use <code>converge.yml</code> to configure and include the roles or collections you want to assess.</p>
+</div>
+<h2 id="running-molecule">Running Molecule</h2>
+<p>To simply run a scenario, from your role's project folder:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Specify a driver with -d|--driver-name</span>
+molecule<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">[</span>-d<span class="w"> </span>docker<span class="o">]</span>
+</code></pre></div>
+<p>For additional debugging output from molecule:</p>
+<div class="highlight"><pre><span></span><code>molecule<span class="w"> </span>-vvv<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">[</span>-d<span class="w"> </span>docker<span class="o">]</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">What's happening here?</p>
+<p>In the most default setup, there are two things happening:</p>
+<ol>
+<li>Converge tests are executing your role(s) / collection / playbook(s)</li>
+<li>Idempotence tests are running everything again in the same instances, ensuring nothing changes or fails</li>
+</ol>
+<p>As you'll see (below) this can create issues when some tasks aren't meant to be "idempotent" from Ansible's perspective.</p>
+</div>
+<h3 id="error-the-role-your_role-was-not-found">ERROR: The role 'your_role' was not found</h3>
+<p>If you encounter this error, there are some lines you may need to ensure you have specified in <code>meta/main.yml</code> of a role:</p>
+<ul>
+<li><code>namespace</code></li>
+<li><code>author</code></li>
+<li><code>role_name</code></li>
+</ul>
+<p>If Molecule can't find your role locally (because let's say it doesn't exist in Ansible-Galaxy or GitHub yet), you may see the following error:</p>
+<div class="highlight"><pre><span></span><code>ERROR! the role &#39;my_role&#39; was not found in /home/user/src/ansible-role-my_role/molecule/default/roles:/home/user/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:/home/user/src/ansible-role-my_role/molecule/default
+
+The error appears to be in &#39;/home/user/src/ansible-role-my_role/molecule/default/converge.yml&#39;: line 17, column 7, but may be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  roles:
+    - role: my_role
+      ^ here
+</code></pre></div>
+<p>In this case there a few ways to resolve this.</p>
+<p><strong>Option 1: Symlink</strong></p>
+<p>If you're not using a namespace or plan to publish to Ansible-Galaxy, symlink your role's project path with:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The symlink points to the role&#39;s project folder</span>
+ln<span class="w"> </span>-s<span class="w"> </span>~/src/ansible-role-my_role<span class="w"> </span>~/.ansible/roles/my_role
+</code></pre></div>
+<p><strong>Option 2: Namespace + Role Name (Recommended)</strong></p>
+<p>Ensure you have those 3 fields (<code>author</code>, <code>namespace</code>, <code>role_name</code>) filled out in <code>meta/main.yml</code>.</p>
+<p>Then specify the namespace + role name in your <code>converge.yml</code> file:</p>
+<div class="highlight"><pre><span></span><code>- name: Converge
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Enumerate Ansible Facts
+      ansible.builtin.debug:
+        # msg: &quot;This is the effective test&quot;
+        var: ansible_facts[&#39;system&#39;]
+  roles:
+    - role: my_namespace.my_role
+</code></pre></div>
+<h3 id="idempotence-tests">Idempotence Tests</h3>
+<p>There are really 2 main tests molecule runs if you're just going with the most default settings. <code>converge.yml</code> tests execute your tasks on the target containers, and <em>idempotence</em> tests run the converge test once more to check if tasks return as anything other than OK. A "changed" or "failed" state indicates the playbook was not idempotent.</p>
+<p>These resources go into more detail around this topic:</p>
+<ul>
+<li><a href="https://github.com/ansible/molecule/issues/816">Disable idempotence check on certain tasks #816</a></li>
+<li><a href="https://github.com/ansible/molecule/pull/1663">Add <code>--molecule-idempotence-notest</code> tag to skip-tags during idempotence... #1663</a></li>
+<li><a href="https://ansible.readthedocs.io/projects/molecule/configuration/#ansible">Molecule: Skip Idempotence with Tags</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html#adding-tags-to-individual-tasks">Ansible: Adding Tags to Tasks</a></li>
+</ul>
+<p>Ultimately, if you need to exclude a task from idempotence tests, there's now a tag that supports this: <code>molecule-idempotence-notest</code>. Simply add this tag to any tasks that will always return as "changed", so that they can be excluded without any work arounds or skipping idempotence testing entirely.</p>
+<div class="highlight"><pre><span></span><code>- name: &quot;Ensure temporary working folder exists&quot;
+  ansible.builtin.file:
+    path: &quot;{{ uac_outfolder }}&quot;
+    state: directory
+    mode: &#39;0700&#39;
+  tags:
+    - molecule-idempotence-notest
+</code></pre></div>
+<h3 id="systemd-in-docker">systemd in Docker</h3>
+<p>By default, Docker containers are minimal environments that do not have systemd out of the box in many cases.</p>
+<p>To achieve this, there are a few resources I've found that demonstrate this in an understandable way:</p>
+<ul>
+<li><a href="https://ansible.readthedocs.io/projects/molecule/guides/systemd-container.html">Molecule Docs: systemd-container Guide</a></li>
+<li><a href="https://hub.docker.com/r/rockylinux/rockylinux#systemd-integration">rockylinux's Docker image systemd Integration Notes</a></li>
+<li><a href="https://github.com/geerlingguy/ansible-role-docker/blob/94b787389dd028d6397abf27dd7e996912e059de/molecule/default/converge.yml#L6">geerlingguy's Docker role <code>converge.yml</code> file</a></li>
+</ul>
+<p>SELinux may add complexity in some case, but generally you're:</p>
+<ul>
+<li>Sharing the host's <code>/sys/fs/cgroup</code> with the container</li>
+<li>Run the container with <code>SYS_ADMIN</code> capabilities or <code>privileged</code> mode.</li>
+<li>Installing systemd using the container OS's package manager</li>
+<li>Running / starting systemd</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Docker Notes</p>
+<p>This section was taken directly from the <a href="https://github.com/straysheep-dev/docker-configs?tab=readme-ov-file#usage">docker-configs README</a>.</p>
+</div>
+<p><strong>Building Images with Dockerfiles</strong></p>
+<p>See <a href="https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/">build, tag, and publish an image</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Tag the file with any name you want, and point to the dockerfile with -f</span>
+<span class="c1"># This also assumes you&#39;re in the cwd of the dockerfile with the &quot;.&quot; on the end</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>local/my-image-name<span class="w"> </span>-f<span class="w"> </span>./some.Dockerfile<span class="w"> </span>.
+</code></pre></div>
+<p><strong>Interactively Running Images</strong></p>
+<p>If you just want to jump into a standard image pulled from Docker Hub, or one you've built:</p>
+<div class="admonition tip">
+<p>See <a href="https://www.kali.org/docs/containers/using-kali-docker-images/">Using Kali Linux Docker Images</a>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example</span>
+docker<span class="w"> </span>run<span class="w"> </span>--tty<span class="w"> </span>--interactive<span class="w"> </span>&lt;tag/image-name&gt;
+
+<span class="c1"># Download and run Kali</span>
+docker<span class="w"> </span>run<span class="w"> </span>--tty<span class="w"> </span>--interactive<span class="w"> </span>kalilinux/kali-rolling
+
+<span class="c1"># Download and run Fedora</span>
+docker<span class="w"> </span>run<span class="w"> </span>--tty<span class="w"> </span>--interactive<span class="w"> </span>fedora:latest
+</code></pre></div>
+<p>If the image you built uses systemd, you need to start it with <code>systemd</code> executed in the background first. The arguments required are the <a href="https://ansible.readthedocs.io/projects/molecule/guides/systemd-container/#systemd-container">same that you'd use for running molecule containers with systemd support</a>. You can see an example of this in <a href="https://github.com/geerlingguy/docker-rockylinux9-ansible/blob/4c366b8059f5bf993e30b7d38da37b9900b6f17f/.github/workflows/build.yml#L26">geerlingguy's build.yml using GitHub actions to build and test Docker containers</a>.</p>
+<ul>
+<li>See the <a href="https://docs.docker.com/reference/cli/docker/container/run/#description"><code>docker run</code> command reference</a></li>
+<li><code>-d</code> is most important here, it runs as a daemon in the background so <code>systemd</code> can start within the container as PID 1</li>
+<li><code>--name</code> can be anything you want to name that instance of the running container</li>
+<li><code>--hostname</code> is also independant of the container image name</li>
+<li><code>local/kali-molecule</code> is the same arg as <code>-t &lt;tag/name&gt;</code> when you either pulled or built the image</li>
+</ul>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>kali-molecule<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>kali-molecule<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--privileged<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cgroupns<span class="o">=</span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tmpfs<span class="w"> </span>/run<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tmpfs<span class="w"> </span>/tmp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>/sys/fs/cgroup:/sys/fs/cgroup:rw<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">container</span><span class="o">=</span>docker<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>local/kali-molecule<span class="w"> </span>/sbin/init
+</code></pre></div>
+<p><em>Then</em> interactively execute a shell in the running container once it starts:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>kali-molecule<span class="w"> </span>/bin/bash
+</code></pre></div>
+<h2 id="ci-cd-use">CI / CD Use</h2>
+<p>Molecule has <a href="https://ansible.readthedocs.io/projects/molecule/ci/">examples</a> for various CI platforms.</p>
+<div class="admonition tip">
+<p class="admonition-title">Change working-directory</p>
+<p>Something worth noting for GitHub Actions specifically is using <code>working-directory: 'your_role'</code> to ensure your shell is running from within the root of your project folder when executing <code>molecule test</code>.</p>
+</div>
+<p>Here's the CI file I put together for <a href="https://github.com/straysheep-dev/ansible-role-deploy_uac">deploy_uac</a>, using the references noted in the comments as a starting point:</p>
+<div class="highlight"><pre><span></span><code># .github/workflows/molecule.yml
+# SPDX-License-Identifier: MIT
+
+# Taken from the following examples:
+# - https://ansible.readthedocs.io/projects/molecule/ci/#github-actions
+# - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml
+# - https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/set-default-values-for-jobs
+
+# Additional Notes:
+# - Docker already exists on GitHub&#39;s runner images and does not need to be installed
+# - https://github.com/actions/runner-images?tab=readme-ov-file#available-images
+# - actions/setup-python@v5 can be used to install a specific version of python if needed
+# - https://github.com/actions/setup-python
+
+name: molecule
+on:
+  push:
+    branches: [&quot;main&quot;]
+  pull_request:
+    branches: [&quot;main&quot;]
+defaults:
+  run:
+    working-directory: &#39;deploy_uac&#39;
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: deploy_uac
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip ansible molecule molecule-plugins[docker] docker
+      - name: Test with molecule
+        run: |
+          molecule test -d docker
+        env:
+          PY_COLORS: &#39;1&#39;
+          ANSIBLE_FORCE_COLOR: &#39;1&#39;
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

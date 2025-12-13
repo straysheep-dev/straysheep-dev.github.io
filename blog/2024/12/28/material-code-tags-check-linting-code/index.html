@@ -1,0 +1,2970 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/12/28/material-code-tags-check-linting-code/">
+      
+      
+        <link rel="prev" href="../../08/simple-qemu-kvm-kernel-based-virtual-machine/">
+      
+      
+        <link rel="next" href="../../../../2025/01/20/fontawesome-solid-gears-cicd/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Linting Code - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Linting Code - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/28/material-code-tags-check-linting-code.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/12/28/material-code-tags-check-linting-code/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Linting Code - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/12/28/material-code-tags-check-linting-code.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linting-code" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linting Code
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#actionscheckout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        actions/checkout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pylint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pylint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flake8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flake8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mypy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bash
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shellcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shellcheck
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#psscriptanalyzer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PSScriptAnalyzer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        YAML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yamllint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yamllint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jq
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ansible-lint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terraform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terraform
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-12-28 00:00:00+00:00" class="md-ellipsis">December 28, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-12-13 00:00:00+00:00" class="md-ellipsis">December 13, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              13 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#actionscheckout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        actions/checkout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pylint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pylint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flake8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flake8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mypy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bash
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shellcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shellcheck
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#psscriptanalyzer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PSScriptAnalyzer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        YAML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yamllint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        yamllint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jq
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ansible-lint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terraform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terraform
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="linting-code"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.59 3.41 2 8l4.59 4.6L8 11.18 4.82 8 8 4.82zm5.82 0L11 4.82 14.18 8 11 11.18l1.41 1.42L17 8zm9.18 8.18-8.09 8.09L9.83 16l-1.41 1.41 5.08 5.09L23 13z"/></svg></span> Linting Code</h1>
+<p>Linting is running documented checks to statically analyze code for common mistakes and errors.</p>
+<p>It can also be a great way to learn a new programming language as you'll be pointed to coding conventions, often in the form of the problematic code snippet, suggestions on how to refactor it, and the reasoning behind why.</p>
+<p>Not every language has a standard linter, and some languages have multiple linters that are popular to use.</p>
+<p>This guide is meant to get you started with linting, from "how to install" to "how to use" linters. It contains examples for both interactive CLI and automated CI/CD-focused workflows in Python, bash, PowerShell, Ansible, Packer, Terraform, with more to be added over time.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Additional Resources</p>
+<p>The following resources will be useful if you're getting started with linting or CI/CD.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Lint_(software)">Wikipedia: Linting</a></li>
+<li><a href="https://owasp.org/www-project-devsecops-guideline/latest/01b-Linting-Code">OWASP: Linting</a></li>
+<li><a href="https://www.redhat.com/en/topics/devops/what-is-ci-cd">CI/CD</a></li>
+<li><a href="https://devblogs.microsoft.com/python/python-linting-video/">VSCode</a></li>
+<li><a href="https://github.com/features/actions">GitHub Actions</a></li>
+</ul>
+</div>
+<!-- more -->
+
+<hr />
+<h2 id="actionscheckout">actions/checkout</h2>
+<div class="admonition abstract">
+<p class="admonition-title">The First Step</p>
+<p>This action is core to basically every GitHub workflow, by checking out the necessary repositories using any specific arguments, all defined as a GitHub action.</p>
+<blockquote>
+<p>Checkout a Git repository at a particular version</p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/actions/checkout">https://github.com/actions/checkout</a></li>
+<li><a href="https://github.com/marketplace/actions/checkout">https://github.com/marketplace/actions/checkout</a></li>
+</ul>
+</div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># https://github.com/actions/checkout?tab=readme-ov-file#checkout-multiple-repos-side-by-side</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v6</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout another repo</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v6</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-org/my-tools</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-tools</span>
+</code></pre></div>
+<h2 id="python">Python</h2>
+<div class="admonition success">
+<p class="admonition-title">actions/setup-python</p>
+<blockquote>
+<p>Set up a specific version of Python and add the command-line tools to the PATH</p>
+</blockquote>
+<p>This action is used to test, build, and publish numerous official python packages. See the <a href="https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/">Python packaging documentaiton for examples</a>. It has also been verified by GitHub.</p>
+<ul>
+<li><a href="https://github.com/actions/setup-python">github.com/actions/setup-python</a></li>
+<li><a href="https://github.com/marketplace/actions/setup-python">GitHub Marketplace</a></li>
+</ul>
+<p><a href="https://github.com/marketplace/actions/setup-python#basic-usage">Basic usage</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v6</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python my_script.py</span>
+</code></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Virtual Environments</p>
+<p>In most cases you'll want to use a <a href="https://docs.python.org/3/library/venv.html"><code>venv</code></a> (virtual environment) or <a href="https://github.com/pypa/pipx?tab=readme-ov-file#install-pipx"><code>pipx</code></a>, which achieves the same.</p>
+<ul>
+<li>Use virtual environments for programming projects, or installing libraries</li>
+<li>Use <code>pipx</code> when you're installing a python package that will run as a program would from the CLI</li>
+<li>You can use either to version-pin python packages, or have multiple versions of a package installed</li>
+</ul>
+<p>See <a href="#ansible-lint">ansible-lint</a> below for an example.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>pip install --user</code></p>
+<p>In cases where a virtual environment or pipx isn't practical, such as an ephemeral developer VM or a system dedicated to running a specific workload, you can avoid polluting your system libraries by using the <code>--user</code> option when installing pip packages. In the worst case scenario, these only break other packages installed locally for that user, and can be removed / reinstalled with a higher chance of success than if these replaced system-level packages.</p>
+</div>
+<h3 id="pylint">pylint</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>Pylint is a static code analyser for Python 2 or 3. The latest version supports Python 3.10.0 and above.</p>
+<p>Pylint analyses your code without actually running it. It checks for errors, enforces a coding standard, looks for code smells, and can make suggestions about how the code could be refactored.</p>
+</blockquote>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/stable/">Website / Documentation</a></li>
+<li><a href="https://github.com/pylint-dev/pylint">GitHub</a></li>
+<li><a href="https://pylint.readthedocs.io/en/stable/user_guide/configuration/index.html">Configuration</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.pylint">VS Marketplace Extension</a></li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">pylint vs flake8</p>
+<p><code>pylint</code> is generally much more strict than <code>flake8</code>.</p>
+</div>
+<p><strong>Install</strong></p>
+<p>Install via pip, in a venv, or possibly with pipx:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pylint
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>This will run recursively in the current directory:</p>
+<div class="highlight"><pre><span></span><code>pylint<span class="w"> </span>.
+</code></pre></div>
+<p><strong>Configure</strong></p>
+<p>To configure, you can auto-generate an INI file, and save it in the project root as <code>.pylintrc</code>:</p>
+<div class="highlight"><pre><span></span><code>pylint<span class="w"> </span>--disable<span class="o">=</span>bare-except,invalid-name<span class="w"> </span>--class-rgx<span class="o">=</span><span class="s1">&#39;[A-Z][a-z]+&#39;</span><span class="w"> </span>--generate-rcfile<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>.pylintrc<span class="w"> </span>&gt;/dev/null
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/pylint.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://www.shellcheck.net/wiki/GitHub-Actions</span>
+<span class="c1"># - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pylint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v6</span>
+<span class="w">    </span><span class="c1">#  with:</span>
+<span class="w">    </span><span class="c1">#    python-version: &#39;3.13&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run pylint</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">python3 -m pip install pylint</span>
+<span class="w">        </span><span class="no">pylint .</span>
+</code></pre></div>
+<h3 id="flake8">flake8</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>flake8 is a python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the style and quality of some python code.</p>
+</blockquote>
+<ul>
+<li><a href="https://flake8.pycqa.org/en/latest/">Website / Documentation</a></li>
+<li><a href="https://github.com/PyCQA/flake8">GitHub</a></li>
+<li><a href="https://flake8.pycqa.org/en/latest/user/configuration.html">Configuration</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8">VS Marketplace Extension</a></li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">pylint vs flake8</p>
+<p><code>pylint</code> is generally much more strict than <code>flake8</code>.</p>
+</div>
+<p><strong>Install</strong></p>
+<p>Install via pip, in a venv, or possibly with pipx:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>flake8
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>This will run recursively in the current directory:</p>
+<div class="highlight"><pre><span></span><code>flake8<span class="w"> </span>.
+</code></pre></div>
+<p><strong>Configure</strong></p>
+<p>To configure, create an INI file in the project root titled <code>.flake8</code>:</p>
+<div class="highlight"><pre><span></span><code>[flake8]
+extend-ignore = E203
+exclude =
+    .git,
+    __pycache__,
+    docs/source/conf.py,
+    old,
+    build,
+    dist
+max-complexity = 10
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/flake8.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://www.shellcheck.net/wiki/GitHub-Actions</span>
+<span class="c1"># - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flake8</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">flake8</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flake8</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v6</span>
+<span class="w">    </span><span class="c1">#  with:</span>
+<span class="w">    </span><span class="c1">#    python-version: &#39;3.13&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run flake8</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">python3 -m pip install flake8</span>
+<span class="w">        </span><span class="no">flake8 .</span>
+</code></pre></div>
+<h3 id="mypy">mypy</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>Mypy is a static type checker for Python.</p>
+<p>Type checkers help ensure that you're using variables and functions in your code correctly. With mypy, add type hints (PEP 484) to your Python programs, and mypy will warn you when you use those types incorrectly.</p>
+<p>Python is a dynamic language, so usually you'll only see errors in your code when you attempt to run it. Mypy is a static checker, so it finds bugs in your programs without even running them!</p>
+</blockquote>
+<ul>
+<li><a href="https://www.mypy-lang.org/">Website</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/">Documentation</a></li>
+<li><a href="https://github.com/python/mypy">GitHub</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker">VS Marketplace Extension</a></li>
+</ul>
+</div>
+<p><strong>Install</strong></p>
+<p>Install via pip, in a venv, or possibly with pipx:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>mypy
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<div class="highlight"><pre><span></span><code>mypy<span class="w"> </span>program.py
+</code></pre></div>
+<hr />
+<h2 id="bash">Bash</h2>
+<h3 id="shellcheck">shellcheck</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>ShellCheck is a GPLv3 tool that gives warnings and suggestions for bash/sh shell scripts.</p>
+<p>The goals of ShellCheck are:</p>
+<ul>
+<li>To point out and clarify typical beginner's syntax issues that cause a shell to give cryptic error messages.</li>
+<li>To point out and clarify typical intermediate level semantic problems that cause a shell to behave strangely and counter-intuitively.</li>
+<li>To point out subtle caveats, corner cases and pitfalls that may cause an advanced user's otherwise working script to fail under future circumstances.</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href="https://github.com/koalaman/shellcheck">GitHub</a></li>
+<li><a href="https://www.shellcheck.net/">Website</a></li>
+<li><a href="https://www.shellcheck.net/wiki/Azure-Pipelines">Azure Pipelines</a></li>
+<li><a href="https://www.shellcheck.net/wiki/GitHub-Actions">GitHub Actions</a></li>
+<li><a href="https://www.shellcheck.net/wiki/GitLab-CI">GitLab CI</a></li>
+<li><a href="https://www.shellcheck.net/wiki/Ignore">Ignoring Errors</a></li>
+</ul>
+</div>
+<p><strong>Install</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>shellcheck
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<div class="highlight"><pre><span></span><code>shellcheck<span class="w"> </span>./some-script.sh
+</code></pre></div>
+<p><strong>Configure</strong></p>
+<p>The most common way to tune <code>shellcheck</code> output is with exclusions directly within each script.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck disable=SC2059</span>
+some_function<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>&lt;SNIP&gt;
+</code></pre></div>
+<p>You could also create a <code>~/.shellcheckrc</code> with the same directives.</p>
+<div class="highlight"><pre><span></span><code># ~/.shellcheckrc
+disable=SC2059,SC2034 # Disable individual error codes
+disable=SC1090-SC1100 # Disable a range of error codes
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/worflows/shellcheck.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://github.com/koalaman/shellcheck/wiki/GitHub-Actions</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ShellCheck&quot;</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">shellcheck</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ShellCheck</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run ShellCheck</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">find . -type f -name &quot;*.sh&quot; -exec shellcheck {} +</span>
+</code></pre></div>
+<hr />
+<h2 id="powershell">PowerShell</h2>
+<h3 id="psscriptanalyzer">PSScriptAnalyzer</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>PSScriptAnalyzer is a static code checker for PowerShell modules and scripts. PSScriptAnalyzer checks the quality of PowerShell code by running a set of rules. The rules are based on PowerShell best practices identified by PowerShell Team and the community. It generates DiagnosticResults (errors and warnings) to inform users about potential code defects and suggests possible solutions for improvements.</p>
+</blockquote>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/powershell/utility-modules/psscriptanalyzer/overview?view=ps-modules">Installation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/utility-modules/psscriptanalyzer/using-scriptanalyzer?view=ps-modules">Usage</a></li>
+<li><a href="https://github.com/PowerShell/PSScriptAnalyzer">GitHub</a></li>
+<li><a href="https://github.com/microsoft/psscriptanalyzer-action">GitHub Actions</a> (this may no longer be maintained, the example below does not use it)</li>
+</ul>
+</div>
+<div class="admonition quote">
+<p class="admonition-title">Install &amp; Usage</p>
+<p>Supported PowerShell Versions and Platforms</p>
+<ul>
+<li>
+<p>Windows PowerShell 5.1 or greater</p>
+</li>
+<li>
+<p>PowerShell 7.2.11 or greater on Windows/Linux/macOS</p>
+</li>
+</ul>
+<p>Install using PowerShellGet 2.x:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">PSScriptAnalyzer</span> <span class="n">-Force</span>
+</code></pre></div>
+<p>Install using PSResourceGet 1.x:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Install-PSResource</span> <span class="n">-Name</span> <span class="n">PSScriptAnalyzer</span> <span class="n">-Reinstall</span>
+</code></pre></div>
+<p>The <strong>Force</strong> or <strong>Reinstall</strong> parameters are only necessary when you have an older version of</p>
+<p><code>PSScriptAnalyzer</code> installed. These parameters also work even when you don't have a previous version</p>
+<p>installed.</p>
+<p>To lint PowerShell code, you can use various built-in presets via the <code>-Settings &lt;Preset&gt;</code> option:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-ScriptAnalyzer</span> <span class="n">-Path</span> <span class="p">/</span><span class="n">path</span><span class="p">/</span><span class="n">to</span><span class="p">/</span><span class="n">module</span><span class="p">/</span> <span class="n">-Settings</span> <span class="n">PSGallery</span> <span class="n">-Recurse</span>
+</code></pre></div>
+</div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/worflows/psscriptanalyzer.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://github.com/koalaman/shellcheck/wiki/GitHub-Actions</span>
+<span class="c1"># - https://learn.microsoft.com/en-us/powershell/utility-modules/psscriptanalyzer/overview?view=ps-modules</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PSScriptAnalyzer&quot;</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">psscriptanalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PSScriptAnalyzer</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run PSScriptAnalyzer</span>
+<span class="w">    </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">Install-Module -Name PSScriptAnalyzer -Force</span>
+<span class="w">      </span><span class="no">Invoke-ScriptAnalyzer -Path .</span>
+</code></pre></div>
+<hr />
+<h2 id="yaml">YAML</h2>
+<h3 id="yamllint">yamllint</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>A linter for YAML files.</p>
+<p>yamllint does not only check for syntax validity, but for weirdnesses like key repetition and cosmetic problems such as lines length, trailing spaces, indentation, etc.</p>
+</blockquote>
+<ul>
+<li><a href="https://yamllint.readthedocs.io/en/stable/quickstart.html">yamllint Docs: Quick Start</a></li>
+<li><a href="https://yamllint.readthedocs.io/en/stable/configuration.html">Configuring yamllint</a></li>
+<li><a href="https://github.com/adrienverge/yamllint/">github.com/adrienverge/yamllint</a></li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">What uses yamllint?</p>
+<p><a href="https://yamllint.readthedocs.io">yamllint</a> is <a href="https://docs.ansible.com/projects/lint/rules/yaml/">used by ansible-lint</a> to validate Ansible code.</p>
+</div>
+<p><strong>Install</strong></p>
+<p><a href="https://yamllint.readthedocs.io/en/stable/quickstart.html#installing-yamllint">Install via your package manager, or pip / pipx</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># apt, Debian 8+ / Ubuntu 16.04+</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>yamllint
+
+<span class="c1"># dnf</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>yamllint
+
+<span class="c1"># pip / pipx</span>
+pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>yamllint
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p><a href="https://yamllint.readthedocs.io/en/stable/quickstart.html#running-yamllint">Running yamllint</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Target specific files</span>
+yamllint<span class="w"> </span>file.yml<span class="w"> </span>other-file.yaml
+
+<span class="c1"># Run on project folder</span>
+yamllint<span class="w"> </span>.
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/yamllint.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://www.shellcheck.net/wiki/GitHub-Actions</span>
+<span class="c1"># - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YAML</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">lint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lint YAML files</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v6</span>
+<span class="w">    </span><span class="c1">#  with:</span>
+<span class="w">    </span><span class="c1">#    python-version: &#39;3.13&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run yamllint</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">python3 -m pip install yamllint</span>
+<span class="w">        </span><span class="no">yamllint .</span>
+</code></pre></div>
+<hr />
+<h2 id="json">JSON</h2>
+<h3 id="jq">jq</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<p><a href="https://github.com/jqlang/jq">jq</a> is the most common way to parse JSON data.</p>
+<blockquote>
+<p><code>jq</code> is a lightweight and flexible command-line JSON processor akin to <code>sed</code>,<code>awk</code>,<code>grep</code>, and friends for JSON data. It's written in portable C and has zero runtime dependencies, allowing you to easily slice, filter, map, and transform structured data.</p>
+</blockquote>
+<ul>
+<li><a href="https://github.com/jqlang/jq">github.com/jqlang/jq</a> (previously https://github.com/stedolan/jq)</li>
+<li><a href="https://github.com/jqlang/jq/wiki">jq Wiki</a></li>
+<li><a href="https://jqlang.org/">Homepage</a> (redirect from http://jqlang.github.io/jq)</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Not jQuerry</p>
+<p>This is a CLI parser like <code>sed</code> or <code>awk</code> but for JSON. It's not related to the <a href="https://en.wikipedia.org/wiki/JQuery">jQuerry</a> JavaScript library.</p>
+</div>
+<p><strong>Install</strong></p>
+<p>It's common to use package managers to install it, such as <code>apt</code>, <code>brew</code>, or even Docker.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>jq
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>The <a href="https://jqlang.org/tutorial/">tutorial</a> is the best way to visualize this. <code>jq</code> requires a filter, and the input data, at a minimum.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># jq [options...] filter [files...]</span>
+jq<span class="w"> </span><span class="s1">&#39;.&#39;</span><span class="w"> </span>file.json
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/json.yml</span>
+
+<span class="c1"># Built from the following examples:</span>
+<span class="c1"># - https://www.shellcheck.net/wiki/GitHub-Actions</span>
+<span class="c1"># - https://www.shellcheck.net/wiki/SC2013</span>
+<span class="c1"># - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">JSON</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">lint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lint JSON files</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install jq</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apt update; apt install -y jq</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Process files</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">find . -type f -name &quot;*.json&quot; | while IFS= read -r file</span>
+<span class="w">        </span><span class="no">do</span>
+<span class="w">            </span><span class="no">echo &quot;[*]Parsing $file&quot;</span>
+<span class="w">            </span><span class="no">if ! jq &#39;.&#39; &quot;$file&quot; &gt;/dev/null</span>
+<span class="w">            </span><span class="no">then</span>
+<span class="w">                </span><span class="no">echo &quot;[-]Error processing $file&quot;</span>
+<span class="w">                </span><span class="no">break</span>
+<span class="w">            </span><span class="no">fi</span>
+<span class="w">        </span><span class="no">done</span>
+</code></pre></div>
+<hr />
+<h2 id="ansible">Ansible</h2>
+<h3 id="ansible-lint">ansible-lint</h3>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<p>For guidance on writing Ansible code, reference the <a href="https://ansible.readthedocs.io/projects/lint/">Ansible Lint Documentation</a>.</p>
+<p><code>ansible-lint</code> can be used on your playbooks, roles, or collections to check for common mistakes when writing Ansible code.</p>
+<ul>
+<li><a href="https://ansible.readthedocs.io/projects/lint/installing/#installing-the-latest-version">Installing ansible-lint</a></li>
+<li><a href="https://github.com/marketplace/actions/run-ansible-lint">GitHub Action: run-ansible-lint</a></li>
+<li><a href="https://github.com/ansible/ansible-lint?tab=readme-ov-file#using-ansible-lint-as-a-github-action">GitHub Action: ansible-lint.yml Example</a></li>
+</ul>
+</div>
+<p><strong>Install</strong></p>
+<p>There are a number of ways to do this, but you can install <code>ansible-lint</code> just like <code>ansible</code>.</p>
+<p>With <code>pipx</code>:</p>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>ansible-lint
+</code></pre></div>
+<p>With <code>pipx</code>, using a specific version:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">version_number</span><span class="o">=</span><span class="s2">&quot;1.2.3&quot;</span>
+<span class="nv">package_name</span><span class="o">=</span><span class="s1">&#39;ansible-lint&#39;</span>
+pipx<span class="w"> </span>install<span class="w"> </span>--suffix<span class="o">=</span>_<span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$package_name</span><span class="s2">&quot;</span><span class="o">==</span><span class="s2">&quot;</span><span class="nv">$version_number</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>With <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ansible-lint
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>This will operate recursively on the current directory:</p>
+<div class="highlight"><pre><span></span><code>ansible-lint<span class="w"> </span>.
+</code></pre></div>
+<p><strong>Configure</strong></p>
+<ul>
+<li><a href="https://ansible.readthedocs.io/projects/lint/configuring/">Configuring ansible-lint</a></li>
+</ul>
+<p>The "new" way to do this, if you also intend to leverage the latest <a href="https://github.com/ansible/ansible-lint">GitHub action</a> in your CI/CD pipeline, is to use a configuration file to specify what <code>ansible-lint</code> should be checking. <code>ansible-lint</code> will look in the current directory, and then ascend directories, until getting to the git project root, <a href="https://ansible.readthedocs.io/projects/lint/configuring/#using-local-configuration-files">looking for one of the following filenames</a>:</p>
+<ul>
+<li>
+<p><code>.ansible-lint</code>, this file lives in the project root</p>
+</li>
+<li>
+<p><code>.config/ansible-lint.yml</code>, this file exists within a <code>.config</code> folder</p>
+</li>
+<li>
+<p><code>.config/ansible-lint.yaml</code>, same as the previous file</p>
+</li>
+</ul>
+<p><em><strong>NOTE</strong>: When using the <code>.config/</code> path, any paths specified in the <code>ansible-lint.yml</code> config file must have <code>../</code> prepended so ansible-lint can find them correctly.</em></p>
+<p>The easiest way to start, is with a <a href="https://ansible.readthedocs.io/projects/lint/profiles/">profile</a>, and excluding the <code>meta/</code> and <code>tests/</code> paths in roles. This is a less verbose version of the <code>.ansible-lint</code> file used in this repo.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .ansible-lint</span>
+
+<span class="c1"># Full list of configuration options:</span>
+<span class="c1"># https://ansible.readthedocs.io/projects/lint/configuring/</span>
+
+<span class="c1"># Profiles: null, min, basic, moderate, safety, shared, production</span>
+<span class="c1"># From left to right, the requirements to pass the profile checks become more strict.</span>
+<span class="c1"># Safety is a good starting point.</span>
+<span class="nt">profile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">safety</span>
+
+<span class="c1"># Shell globs are supported for exclude_paths:</span>
+<span class="c1"># - https://github.com/ansible/ansible-lint/pull/1425</span>
+<span class="c1"># - https://github.com/ansible/ansible-lint/discussions/1424</span>
+<span class="nt">exclude_paths</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.cache/</span><span class="w">      </span><span class="c1"># implicit unless exclude_paths is defined in config</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.git/</span><span class="w">        </span><span class="c1"># always ignore</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.github/</span><span class="w">     </span><span class="c1"># always ignore</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*/tests/&quot;</span><span class="w">   </span><span class="c1"># ignore tests/ folder for all roles</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*/meta/&quot;</span><span class="w">    </span><span class="c1"># ignore meta/ folder for all roles</span>
+
+<span class="c1"># These are checks that may often cause errors / failures.</span>
+<span class="c1"># If you need to make exceptions for any check, add it here.</span>
+<span class="nt">warn_list</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yaml[line-length]</span>
+
+<span class="c1"># Offline mode disables installation of requirements.yml and schema refreshing</span>
+<span class="nt">offline</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Over time you may want to shift the profile to <code>shared</code> or <code>production</code>, and also tell <code>ansible-lint</code> to check the <code>tests/</code> and <code>meta/</code> paths for each role if you intend to publish them to ansible-galaxy.</p>
+<p><strong>GitHub Actions</strong></p>
+<p>This is an example file that runs <code>ansible-lint</code> on your GitHub repo when a new commit or PR is made to the "main" branch.</p>
+<div class="admonition warning">
+<p class="admonition-title">GitHub Actions Version vs Pip</p>
+<p>Sometimes the version of <code>ansible-lint</code> installed by the GitHub Actions workflow is aheads of the latest stable release you'd get from pip. This may cause failures that you may not see while running the version installed via <code>pip</code>/<code>pipx</code> locally.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/ansible-lint.yml</span>
+
+<span class="c1"># Taken from the following example:</span>
+<span class="c1"># https://github.com/ansible/ansible-lint?tab=readme-ov-file#using-ansible-lint-as-a-github-action</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible-lint</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ansible Lint</span><span class="w"> </span><span class="c1"># Naming the build is important to use it as a status check</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run ansible-lint</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible/ansible-lint@main</span><span class="w"> </span><span class="c1"># or version tag instead of &#39;main&#39;</span>
+</code></pre></div>
+<p><strong>Errors</strong></p>
+<p>Older versions of ansible-lint may produces errors that are difficult to diagnose. When this happens, use a very simple main.yml file, and start slowly adding tasks or vars to this file. Once you identify a task that creates an error, you can begin narrowing down which line(s) in the task or vars are producing the error.</p>
+<p>One example of this is new versions of Ansible lint will want you to use <code>become_method: ansible.builtin.sudo</code>, while older versions require <code>become_method: sudo</code> and will generate a <code>schema[tasks]</code> error in this case.</p>
+<hr />
+<h2 id="packer">Packer</h2>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>Packer is a tool for building identical machine images for multiple platforms from a single source configuration.</p>
+<p>Packer is lightweight, runs on every major operating system, and is highly performant, creating machine images for multiple platforms in parallel. Packer supports various platforms through external plugin integrations, the full list of which can be found at <a href="https://developer.hashicorp.com/packer/integrations">https://developer.hashicorp.com/packer/integrations</a>.</p>
+<p>The images that Packer creates can easily be turned into Vagrant boxes.</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli">Packer Install</a></li>
+<li><a href="https://developer.hashicorp.com/packer/docs/commands">Packer Commands</a></li>
+<li><a href="https://github.com/hashicorp/setup-packer">GitHub Actions: setup-packer</a></li>
+</ul>
+</div>
+<p><strong>Install</strong></p>
+<p>This downloads the HashiCorp GPG key, adds the repo information, and installs <code>packer</code> on Debian/Ubuntu.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://apt.releases.hashicorp.com/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
+sudo<span class="w"> </span>apt-add-repository<span class="w"> </span><span class="s2">&quot;deb [arch=amd64] https://apt.releases.hashicorp.com </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> main&quot;</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>packer
+</code></pre></div>
+<p>For reference, this is the current HashiCorp GPG key data:</p>
+<div class="highlight"><pre><span></span><code>pub   rsa4096/0xAA16FCBCA621E701 2023-01-10 [SC] [expires: 2028-01-09]
+      Key fingerprint = 798A EC65 4E5C 1542 8C8E  42EE AA16 FCBC A621 E701
+uid                             HashiCorp Security (HashiCorp Package Signing) &lt;security+packaging@hashicorp.com&gt;
+sub   rsa4096/0x706E668369C085E9 2023-01-10 [S] [expires: 2028-01-09]
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<p>Initialize a packer template. This downloads any missing plugins described in the <code>packer {}</code> block to your local machine.</p>
+<div class="admonition warning">
+<p class="admonition-title">Malicious Plugins</p>
+<p><strong>Review plugins described in the <code>packer {}</code> block of any template before executing this</strong>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/path/to/my-packer-project
+packer<span class="w"> </span>init<span class="w"> </span>.
+</code></pre></div>
+<p>Format the packer templates. Rewrites HCL2 config files to canonical format. <em>Run this after making edits to your templates or as part of CI/CD</em>.</p>
+<div class="highlight"><pre><span></span><code>packer<span class="w"> </span>fmt<span class="w"> </span>.
+</code></pre></div>
+<p>Validate the Packer templates. <em>Run this after making edits to your templates or as part of CI/CD</em>.</p>
+<div class="highlight"><pre><span></span><code>packer<span class="w"> </span>validate<span class="w"> </span>.
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<p>This is an example file that runs packer code validation on your GitHub repo when a new commit or PR is made to the "main" branch.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/packer.yml</span>
+
+<span class="c1"># Taken from:</span>
+<span class="c1"># https://github.com/hashicorp/setup-packer</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">packer</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">PRODUCT_VERSION</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;latest&quot;</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">packer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Packer</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup `packer`</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hashicorp/setup-packer@main</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">setup</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.PRODUCT_VERSION }}</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run `packer init`</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">init</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">packer init .</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run `packer validate`</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">packer validate .</span>
+</code></pre></div>
+<hr />
+<h2 id="terraform">Terraform</h2>
+<div class="admonition abstract">
+<p class="admonition-title">Overview</p>
+<blockquote>
+<p>Terraform is a tool for building, changing, and versioning infrastructure safely and efficiently. Terraform can manage existing and popular service providers as well as custom in-house solutions.</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.hashicorp.com/terraform/install">Terraform Install</a></li>
+<li><a href="https://developer.hashicorp.com/terraform/cli/commands">Terraform CLI</a></li>
+<li><a href="https://github.com/hashicorp/setup-terraform">GitHub Actions: setup-terraform</a></li>
+</ul>
+</div>
+<p><strong>Install</strong></p>
+<p>This downloads the HashiCorp GPG key, adds the repo information, and installs <code>terraform</code> on Debian/Ubuntu.</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>https://apt.releases.hashicorp.com/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/usr/share/keyrings/hashicorp-archive-keyring.gpg
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/hashicorp.list
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>terraform
+</code></pre></div>
+<p>For reference, this is the current HashiCorp GPG key data:</p>
+<div class="highlight"><pre><span></span><code>pub   rsa4096/0xAA16FCBCA621E701 2023-01-10 [SC] [expires: 2028-01-09]
+      Key fingerprint = 798A EC65 4E5C 1542 8C8E  42EE AA16 FCBC A621 E701
+uid                             HashiCorp Security (HashiCorp Package Signing) &lt;security+packaging@hashicorp.com&gt;
+sub   rsa4096/0x706E668369C085E9 2023-01-10 [S] [expires: 2028-01-09]
+</code></pre></div>
+<p><strong>Usage</strong></p>
+<blockquote>
+<p>Initialize a working directory for validation without accessing any configured backend, use:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span>-backend<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>Format the Terraform templates. Rewrites Terraform config files to canonical format. <em>Run this after making edits to your templates or as part of CI/CD</em>.</p>
+<div class="highlight"><pre><span></span><code>terraform<span class="w"> </span>fmt
+</code></pre></div>
+<p>Validate the Terraform templates. <em>Run this after making edits to your templates or as part of CI/CD</em>.</p>
+<div class="highlight"><pre><span></span><code>terraform<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</code></pre></div>
+<p><strong>GitHub Actions</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/packer.yml</span>
+
+<span class="c1"># Taken from:</span>
+<span class="c1"># https://github.com/hashicorp/setup-packer</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">terraform</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Terraform</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v5</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Terraform</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hashicorp/setup-terraform@v3</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Terraform fmt</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fmt</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform fmt -check</span>
+<span class="w">        </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Terraform Init</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">init</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform init -input=false</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Terraform Validate</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform validate -no-color</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

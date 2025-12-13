@@ -1,0 +1,3397 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/05/07/simple-openwrt-openwrt/">
+      
+      
+        <link rel="prev" href="../simple-snapcraft-snap/">
+      
+      
+        <link rel="next" href="../simple-flatpak-flatpak/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>OpenWrt - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="OpenWrt - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/07/simple-openwrt-openwrt.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/05/07/simple-openwrt-openwrt/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="OpenWrt - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/07/simple-openwrt-openwrt.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openwrt" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenWrt
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openwrt-wiki-license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenWrt Wiki License:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#factory-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factory Reset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshoot-connecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshoot Connecting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-openwrt-on-a-raspberry-pi-4b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing OpenWrt on a Raspberry Pi 4B:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-openwrt-on-a-unifi-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing OpenWrt on a UniFi AP:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-to-new-release-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading to New Release Targets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading to New Release Targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backup-your-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backup your configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-perform-the-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Perform the upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-restore-your-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Restore your configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UCI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Administration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Administration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remote Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wireless">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#country-code-and-regulatory-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Country Code and Regulatory Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wireless-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qemu-utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        qemu-utils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VMware &amp; VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bridged-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bridged AP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vlan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VLAN
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-05-07 00:00:00+00:00" class="md-ellipsis">May 7, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              24 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openwrt-wiki-license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenWrt Wiki License:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#factory-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Factory Reset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshoot-connecting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshoot Connecting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-openwrt-on-a-raspberry-pi-4b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing OpenWrt on a Raspberry Pi 4B:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-openwrt-on-a-unifi-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing OpenWrt on a UniFi AP:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-to-new-release-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading to New Release Targets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading to New Release Targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backup-your-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backup your configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-perform-the-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Perform the upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-restore-your-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Restore your configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UCI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Administration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Administration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remote Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wireless">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#country-code-and-regulatory-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Country Code and Regulatory Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wireless-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireless Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qemu-utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        qemu-utils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VMware &amp; VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bridged-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bridged AP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vlan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VLAN
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="openwrt"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0A14.12 14.12 0 0 0 1.994 4.154L3.689 5.85A11.72 11.72 0 0 1 12 2.41a11.72 11.72 0 0 1 8.311 3.44l1.696-1.696A14.12 14.12 0 0 0 12 0zm0 4.32a9.8 9.8 0 0 0-6.947 2.893l1.695 1.695A7.41 7.41 0 0 1 12 6.73c2.043 0 3.905.832 5.252 2.178l1.695-1.695A9.81 9.81 0 0 0 12 4.32M4.272 8.076A9.76 9.76 0 0 0 2.16 14.16C2.16 19.58 6.582 24 12 24s9.84-4.42 9.84-9.84a9.86 9.86 0 0 0-2.111-6.084L18.016 9.79a7.4 7.4 0 0 1 1.43 4.371c0 4.105-3.34 7.448-7.446 7.448s-7.447-3.342-7.447-7.448c0-1.628.531-3.141 1.43-4.37zM12 8.643a5.56 5.56 0 0 0-3.906 1.613l1.695 1.695a3.13 3.13 0 0 1 4.422 0l1.695-1.695A5.5 5.5 0 0 0 12 8.643m0 3.888a1.629 1.629 0 1 0 0 3.258 1.629 1.629 0 0 0 0-3.258"/></svg></span> OpenWrt</h1>
+<p>This guide includes details for installing and running OpenWrt on UniFi AP's as well as Raspberry Pis and even as a virtual machine.</p>
+<p>Because it's so flexible in its deployment, there are examples for different use cases included. For instance Tailscale can be leveraged for easy remote administration from anywhere including your mobile device thanks to the Web UI if that's important to you. Generally this guide approaches OpenWrt as a way to provide WiFi to networks where pfSense (or another upstream device) is the primary firewall router.</p>
+<div class="admonition tip">
+<p>There's a detailed list of reference links at the top to keep in mind as you read through, and each step tries to include useful copy-and-paste ready commands for operations you may need to repeat every time you go through the process being described.</p>
+</div>
+<!-- more -->
+
+<p><em>This file is originally from <a href="https://github.com/straysheep-dev/linux-configs/tree/main/openwrt">straysheep-dev/linux-configs</a>.</em></p>
+<h2 id="references">References</h2>
+<ul>
+<li>
+<p>Essentials</p>
+<ul>
+<li><a href="https://firmware-selector.openwrt.org/">https://firmware-selector.openwrt.org/</a></li>
+<li><a href="https://openwrt.org/advisory/start">https://openwrt.org/advisory/start</a> (Security advisories)</li>
+<li><a href="https://openwrt.org/toh/ubiquiti/unifiac">https://openwrt.org/toh/ubiquiti/unifiac</a></li>
+<li><a href="https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi">https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/security/signatures">https://openwrt.org/docs/guide-user/security/signatures</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/installation/ar71xx.to.ath79">https://openwrt.org/docs/guide-user/installation/ar71xx.to.ath79</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/installation/sysupgrade.cli">https://openwrt.org/docs/guide-user/installation/sysupgrade.cli</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/troubleshooting/backup_restore">https://openwrt.org/docs/guide-user/troubleshooting/backup_restore</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/troubleshooting/failsafe_and_factory_reset">https://openwrt.org/docs/guide-user/troubleshooting/failsafe_and_factory_reset</a></li>
+</ul>
+</li>
+<li>
+<p>UCI CLI Interface</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/uci">https://openwrt.org/docs/guide-user/base-system/uci</a></li>
+</ul>
+</li>
+<li>
+<p>Wireless</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/basic">https://openwrt.org/docs/guide-user/network/wifi/basic</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_command_line_interface">https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_command_line_interface</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan">https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guestwifi_dumbap">https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guestwifi_dumbap</a></li>
+</ul>
+</li>
+<li>
+<p>Downloading</p>
+<ul>
+<li><a href="https://downloads.openwrt.org/releases/">https://downloads.openwrt.org/releases/</a></li>
+<li><code>https://downloads.openwrt.org/releases/&lt;version&gt;/targets/&lt;target&gt;/&lt;type&gt;</code></li>
+</ul>
+</li>
+<li>
+<p>Flashing</p>
+<ul>
+<li><a href="https://github.com/balena-io/etcher/releases">etcher</a></li>
+<li><a href="https://github.com/pbatard/rufus/releases">rufus</a></li>
+</ul>
+</li>
+<li>
+<p>Virtualization</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/virtualization/vmware">https://openwrt.org/docs/guide-user/virtualization/vmware</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm">https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm</a></li>
+</ul>
+</li>
+<li>
+<p>Networking</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-quick-start/checks_and_troubleshooting">https://openwrt.org/docs/guide-quick-start/checks_and_troubleshooting</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/basic-networking">https://openwrt.org/docs/guide-user/base-system/basic-networking</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/routing/routes_configuration">https://openwrt.org/docs/guide-user/network/routing/routes_configuration</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/dhcp">https://openwrt.org/docs/guide-user/base-system/dhcp</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/dhcp_configuration">https://openwrt.org/docs/guide-user/base-system/dhcp_configuration</a></li>
+</ul>
+</li>
+<li>
+<p>Changes regarding <code>ifname</code> -&gt; <code>device</code>:</p>
+<ul>
+<li><a href="https://forum.openwrt.org/t/mini-tutorial-for-dsa-network-config/96998">https://forum.openwrt.org/t/mini-tutorial-for-dsa-network-config/96998</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/dsa/converting-to-dsa">https://openwrt.org/docs/guide-user/network/dsa/converting-to-dsa</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/dsa/dsa-mini-tutorial">https://openwrt.org/docs/guide-user/network/dsa/dsa-mini-tutorial</a></li>
+</ul>
+</li>
+<li>
+<p>Logging</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/perf_and_log/log.messages">https://openwrt.org/docs/guide-user/perf_and_log/log.messages</a></li>
+</ul>
+</li>
+<li>
+<p>UEFI / SecureBoot</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-developer/uefi-bootable-image">https://openwrt.org/docs/guide-developer/uefi-bootable-image</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="openwrt-wiki-license">OpenWrt Wiki License:</h2>
+<ul>
+<li><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">https://creativecommons.org/licenses/by-sa/4.0/deed.en</a></li>
+</ul>
+<h2 id="factory-reset">Factory Reset</h2>
+<ol>
+<li>Power on the device</li>
+<li>Hold reset button for 10 seconds</li>
+<li>Release the reset button</li>
+<li>Allow device to fully reboot</li>
+</ol>
+<h2 id="connecting">Connecting</h2>
+<p>Connect to the device at OpenWrt's default: <code>ssh -p 22 root@192.168.1.1</code></p>
+<p>1) Note that you'll likely need to <strong>manually</strong> reconfigure your machine's network interface to be an ip address on 192.168.1.0/24 using a GUI, <code>ifconfig</code> or <code>ip</code>
+   2) Use <code>sudo systemctl restart network-manager.service</code>
+   3) On Windows, you can do this via the network configuration GUI
+   4) You can still use your host's existing WiFi connection for internet while working on the OpenWrt device via ethernet</p>
+<h2 id="troubleshoot-connecting">Troubleshoot Connecting</h2>
+<p>If you have issues connecting, try factory resetting the OpenWrt device again while it's still connected to your PC.</p>
+<p>Also try restarting the PC you're managing the device from.</p>
+<p>Alternatively walk through the steps below.</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># Try this first</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>network-manager.service
+<span class="c1"># Check to see if you were assigned an IP in the 192.168.1.x/24 range</span>
+ip<span class="w"> </span>a
+
+<span class="c1"># If not, continue below</span>
+
+<span class="c1"># Run tcpdump in one window</span>
+sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>-vv
+<span class="c1"># Optionally run with -Q in to ignore outbound packets, only looking at packets inbound to your PC</span>
+sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>-vv<span class="w"> </span>-Q<span class="w"> </span><span class="k">in</span>
+
+<span class="c1"># Manage interface configuration in another window</span>
+ip<span class="w"> </span>address<span class="w"> </span>flush<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>scope<span class="w"> </span>global
+ip<span class="w"> </span>address<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span><span class="m">192</span>.168.1.12/24<span class="w"> </span>broadcast<span class="w"> </span><span class="m">192</span>.168.1.255<span class="w"> </span>scope<span class="w"> </span>global<span class="w"> </span>noprefixroute
+
+<span class="c1"># This line may fail, if it does skip it</span>
+ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">192</span>.168.1.1<span class="w"> </span>dev<span class="w"> </span>eth0
+
+<span class="c1"># This may reset your interface address from the ip command, if it does, repeat those steps then skip this step</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>network-manager.service
+
+<span class="c1"># Once you have assigned an IP in the 192.168.1.x range to your interface, scan locally with nmap:</span>
+nmap<span class="w"> </span>-n<span class="w"> </span>-Pn<span class="w"> </span>-sT<span class="w"> </span>-p22<span class="w"> </span>-e<span class="w"> </span>ethX<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>--open
+</code></pre></div>
+From here continue to watch the output from <code>tcpdump</code>, see what the device is doing and adjust accordingly</p>
+<p>When in doubt, factory reset the device, restart your PC, and then attempt a new connection by manually assigning your host's ethernet connection an IP in the 192.168.1.x/24 range, and trying to <code>ssh root@192.168.1.1</code>.</p>
+<h2 id="installing-openwrt-on-a-raspberry-pi-4b">Installing OpenWrt on a Raspberry Pi 4B:</h2>
+<p><em>⚠️ This section is still under construction, check back later! ⚠️</em></p>
+<p>The Pi 4B (and assumably later models) can boot from a USB device. If you're using an SD card some of these steps aren't necessary. You may also have to use a Raspbian live OS to make unique changes or updates. It's also suggested to use an external wireless adapter (ideally an ALFA card). Finally, this guide will walk through configuring a bridged AP, meant to replace an existing one.</p>
+<div class="admonition warning">
+<p class="admonition-title">Wireless Card Limitations</p>
+<p>Virtual AP functionality, or creating multiple ESSIDS tied to the same wireless radio, can be limited depending on 1) if the card supports it, and 2) if OpenWrt has a kernel driver that can use the functionality.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title"><a href="https://forum.openwrt.org/t/cannot-use-channels-12-and-13-on-raspberry-pi-3-in-ap-config/3707/14">The Country Code Issue</a></p>
+<p>To get OpenWrt's WiFi working on a Raspberry Pi, you <em>may</em> need to boot into a Raspbian OS environment to set the country code. According to numerous posts on the OpenWrt forum, Raspbian writes this to a special non volatile place in memory, that 1) persists, and 2) OpenWrt cannot write to.</p>
+<p>Before starting, flash a copy of Raspbian onto the USB drive, boot into a live environment, set the country code, and then proceed.</p>
+<ul>
+<li><a href="https://www.raspberrypi.com/software/operating-systems/">Raspbian OS Download Links</a></li>
+<li><a href="https://downloads.raspberrypi.com/">Download Archive (with .sig and .sha256 files)</a></li>
+</ul>
+<p>Once you choose which image download you want (e.g. "Raspberry Pi OS (64-bit)") follow the <code>Archive</code> link beneath where you see "Download" and "Download Torrent" to find snapshots by date. Each folder contains a <code>.sig</code> and <code>.sha256</code> file for integrity checking. <strong>Keep in mind the <code>.sig</code> actually verifies the compressed <code>.img.xz</code> file, NOT the <code>.sha256</code> file</strong>.</p>
+<div class="highlight"><pre><span></span><code>gpg<span class="w"> </span>--verify<span class="w"> </span><span class="m">2024</span>-07-04-raspios-bookworm-arm64.img.xz.sig<span class="w"> </span><span class="m">2024</span>-07-04-raspios-bookworm-arm64.img.xz
+sha256sum<span class="w"> </span>-c<span class="w"> </span><span class="m">2024</span>-07-04-raspios-bookworm-arm64.img.xz.sha256<span class="w"> </span>--ignore-missing
+</code></pre></div>
+<p>Use <a href="">Raspberry Pi Imager</a>, <a href="https://github.com/balena-io/etcher/releases">etcher</a>, or <a href="https://github.com/pbatard/rufus/releases">rufus</a> to flash the img.xz file to the USB drive. Fix the country code with:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>raspi-config
+<span class="c1"># Navigate to localisation options</span>
+<span class="c1"># Choose &quot;L4 WLAN Country&quot; to set the country code</span>
+<span class="c1"># See: https://www.raspberrypi.com/documentation/computers/configuration.html#wlan-country</span>
+<span class="c1">#</span>
+<span class="c1"># You should also update the bootloader while you&#39;re here</span>
+<span class="c1"># Advanced &gt; Bootloader Version &gt; Latest</span>
+<span class="c1"># sudo reboot</span>
+<span class="c1"># See: https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspi-config</span>
+</code></pre></div>
+<p>Poweroff the Pi, preparing next to flash the USB with OpenWrt and proceed with the remaining steps.</p>
+</div>
+<p><strong>Flash / Install</strong></p>
+<ul>
+<li>Browse to <a href="https://firmware-selector.openwrt.org/">https://firmware-selector.openwrt.org/</a></li>
+<li>Type the name of your device, e.g. "Raspberry Pi 4B"</li>
+<li>Use the folder icon to navigate to the download server where the signatures and checksums are hosted</li>
+<li>Download the <code>imagename-factory.img.gz</code>, the <code>sha256sums</code>, and the gpg signed <code>sha256sums.asc</code> files</li>
+<li>Balena (on Windows) can easily flash the <code>.img.gz</code> file to a USB drive (you can also use <code>dd</code> from a *nix host)</li>
+<li>Mount the USB filesystem after flashing (disconnect / reconnect the USB device on Windows)</li>
+<li>Modify the <code>cmdline.txt</code> in the root of the USB drive to have <code>root=/dev/sdaX</code> where <code>X</code> relates to the USB port on the Pi<ul>
+<li>Top USB port is <code>sda1</code></li>
+<li>Bottom USB port is <code>sda2</code></li>
+<li>See <a href="https://github.com/openwrt/openwrt/commit/fe0081eecf43bfd92ac68aa0f3ce7165aaddb4f2#diff-0608b1462f1950762f22af24d20dc7ec4a81b102dce5c810635d41c700ddaba8">this commit</a> for details</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Example <code>cmdline.txt</code></p>
+<div class="highlight"><pre><span></span><code>console=serial0,115200 console=tty1 root=/dev/sda2 rootfstype=squashfs,ext4 rootwait
+</code></pre></div>
+</div>
+<p><strong>Connect (to Pi)</strong></p>
+<ul>
+<li>If you have an external display attached, after a successful boot press <code>[Enter]</code> for a root shell</li>
+<li>You can also connect an external laptop via LAN / ethernet cable, and browse to or <code>ssh -L 127.0.0.1:8080:127.0.0.1:80 root@192.168.1.1</code></li>
+<li>By default, OpenWrt does not expose itself over WLAN (WiFi) until it's configured</li>
+</ul>
+<p><strong>Connect (Pi to Network)</strong></p>
+<p>Now you'll need to connect the Pi itself to the internet somehow, to install necessary packages.</p>
+<p><strong>Option 1: Use the built-in Ethernet</strong></p>
+<p>If you have a keyboard and monitor attached to the Pi, or can reach the Pi over SSH from the same network, you can of course connect the Pi via an ethernet cable.</p>
+<p><strong>Option 2: Use the built-in WiFi</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Credits &amp; Thanks</p>
+<p>Thanks to Network Chuck's video on setting up a Raspberry Pi as a travel VPN router. See the video instructions <a href="https://youtu.be/jlHWnKVpygw?si=-dRyVsBEtA8sHcp4&amp;t=1091">here</a>.</p>
+<p>This section was built from the setup steps demonstrated in the video.</p>
+<p>Credit to <a href="https://forum.openwrt.org/t/installing-drivers-for-alfa-awus036acm/159288">this OpenWrt forum post</a> on pointing to the correct drivers for the ALFA AWUS036ACM card.</p>
+</div>
+<ul>
+<li>Change root's password with <code>passwd</code>, save it to your credential manager</li>
+<li>Set the web interface to only listen on 127.0.0.1 and ::1 in <code>/etc/config/uhttpd</code></li>
+<li>
+<p>Create a <code>wwan</code> device in <code>/etc/config/network</code> with only DHCP set</p>
+<div class="highlight"><pre><span></span><code>config interface &#39;wwan&#39;
+        option proto &#39;dhcp&#39;
+</code></pre></div>
+</li>
+<li>
+<p>Delete the existing AP config under <code>/etc/config/wireless</code> (we're not ready to be an AP yet)</p>
+</li>
+<li>Also under <code>/etc/config/wireless</code>, change <code>option disabled '1'</code> to <code>option disabled '0'</code> for the only device</li>
+<li>Save, then enter <code>uci commit wireless; wifi</code></li>
+<li>Now you can connect to an existing wireless network as if this were a laptop or any other device<ul>
+<li>Via GUI (see <a href="https://youtu.be/jlHWnKVpygw?si=-dRyVsBEtA8sHcp4&amp;t=1091">Network Chuck's video</a> referenced above.)</li>
+<li>Via <code>/etc/config/wireless</code> (see the text config directly below)</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>config wifi-device &#39;radio0&#39;
+        option type &#39;mac80211&#39;
+        option path &#39;platform/soc/your/unique/device/path/here&#39;
+        option channel &#39;36&#39;
+        option band &#39;5g&#39;
+        option htmode &#39;VHT80&#39;
+        option disabled &#39;0&#39;
+        option country &#39;US&#39;
+        option cell_density &#39;0&#39;
+
+config wifi-iface &#39;wifinet0&#39;
+        option device &#39;radio0&#39;
+        option mode &#39;sta&#39;
+        option network &#39;wwan&#39;
+        option ssid &#39;YOUR-ESSID&#39;
+        option encryption &#39;psk2&#39;
+        option key &#39;&lt;your-wifi-password&gt;&#39;
+</code></pre></div>
+<p>Now you can <code>ping 1.1.1.1</code> and <code>google.com</code>. At this point, reboot and make sure you can ssh back in, and everything works.</p>
+<p>Once you're logged back in, run <code>opkg update</code> (OpenWrt's <code>apt update</code> equivalent), then install the following packages for external / USB wireless card support.</p>
+<div class="highlight"><pre><span></span><code>opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>nano<span class="w"> </span>usbutils<span class="w"> </span>kmod-usb2<span class="w"> </span>kmod-usb-core<span class="w"> </span>kmod-usb-ohci<span class="w"> </span>kmod-usb-uhci<span class="w"> </span>kmod-rt2800-lib<span class="w"> </span>kmod-rt2800-usb<span class="w"> </span>kmod-rt2x00-lib<span class="w"> </span>kmod-rt2x00-usb
+
+<span class="c1"># Initially the mt7x kernel modules weren&#39;t visible in opkg, run another update if that&#39;s the case</span>
+opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>kmod-mt76-usb<span class="w"> </span>kmod-mt76x2u
+</code></pre></div>
+<p>You do not <em>need</em> to reboot here, the device will be visible in the output of <code>ip link | grep DOWN</code>.</p>
+<p>Do the same as the first wireless card, and delete the default wifi config from <code>/etc/config/wireless</code> or the GUI, save, then scan the local area using the new card. You should see results, proving the card works.</p>
+<p><strong>Migrate an Existing Config</strong></p>
+<div class="admonition warning">
+<p class="admonition-title">Wireless Card Limitations</p>
+<p>Virtual AP functionality, or creating multiple ESSIDS tied to the same wireless radio, can be limited depending on 1) if the card supports it, and 2) if OpenWrt has a kernel driver that can use the functionality.</p>
+</div>
+<p>A primary use case is migrating your OpenWrt config to a new device. If the target device is different hardware from the source device, you will need to do some manual editing.</p>
+<ul>
+<li>The hardware for each <code>radioX</code> under <code>/etc/config/wireless</code> will not match your existing configs</li>
+<li>It's best to copy and paste items from <code>/etc/config/*</code> into the new install from a shell, reviewing and making adjustments as necessary</li>
+<li>This way you can determine what will work or not, before running a <code>reboot</code></li>
+</ul>
+<h2 id="installing-openwrt-on-a-unifi-ap">Installing OpenWrt on a UniFi AP:</h2>
+<p>The following link has extensive documentation on these devices and multiple installation methods:</p>
+<ul>
+<li><a href="https://openwrt.org/toh/ubiquiti/unifiac">https://openwrt.org/toh/ubiquiti/unifiac</a></li>
+</ul>
+<p>The following steps I've found to be the easiest and most reliable combination.</p>
+<ul>
+<li>Use the <code>&lt;name&gt;-sysupgrade.bin</code> image to do full upgrades of the device firmware</li>
+<li>UniFi default ssh creds: <code>ubnt::ubnt</code> <code>ubnt@192.168.1.20</code></li>
+<li>OpenWrt default ssh creds: <code>root::root</code> <code>root@192.168.1.1</code></li>
+<li>When using IPv6 ssh: <code>ssh ubnt@fe80::x:x:x%eth0</code></li>
+<li>When using IPv6 scp: <code>scp /source/file/path ubnt@[fe80::x:x:x%eth0]:/dest/file/path</code></li>
+</ul>
+<p><strong>NOTE: Always use /tmp/ as the working directory for upgrades, backups, and restoring configurations</strong></p>
+<hr />
+<p><strong>If UniFi device still has stock firmware higher than version 3.7.58</strong>:
+- <a href="https://openwrt.org/toh/ubiquiti/unifiac#non-invasive_method_using_mtd">Download your device's UniFi firmware image for version 3.7.58</a>
+- Copy it to the UniFi device: <code>scp &lt;firmware-name&gt;.bin ubnt@[fe80::x:x:x%eth0]:/tmp/</code>
+- Connect to the UniFi device:<code>ssh ubnt@fe80::x:x:x%eth0</code>
+- Flash the version 3.7.58 firmware:<code>fwupdate.real -m /tmp/ubnt.bin</code></p>
+<p>If you happen to disconnect during the process, the firmware write will still contiue on the UniFi device as long as it has power.</p>
+<p>Proceed to the next step once the device is running firmware version 3.7.58</p>
+<p><strong>If UniFi device has stock firmware version 3.7.58</strong>:
+- Copy the OpenWrt firmware to the UniFi-device <code>scp openwrt-ath79-generic-ubnt_unifiac-XXX-squashfs-sysupgrade.bin ubnt@192.168.1.20:/tmp/</code>
+- Connect to the UniFi device:
+- Write the OpenWrt firmware to the first kernel partition: <code>mtd write /tmp/openwrt-xxxxx-squashfs-sysupgrade.bin kernel0</code>
+- Erase the second kernel partition: <code>mtd erase kernel1</code>
+- <code>cat /proc/mtd | grep "bs"</code>, expected result is <code>mtd4</code>, if it's not, make note and use that value in the next command
+- Use the obtained partition name for bs here if it was not <code>mtd4</code>: <code>dd if=/dev/zero bs=1 count=1 of=/dev/mtd4</code>
+- Reboot</p>
+<p>Now you can connect to using the default OpenWrt values: <code>ssh -L 8000:127.0.0.1:80 root@192.168.1.1</code></p>
+<h2 id="upgrading-to-new-release-targets">Upgrading to New Release Targets</h2>
+<p><strong>NOTE: Always use /tmp/ as the working directory for upgrades, backups, and restoring configurations</strong></p>
+<h3 id="1-backup-your-configuration">1. Backup your configuration</h3>
+<p>Edit the backup configuration, note that the contents may be different from that of <code>sysupgrade -l</code> output.
+<div class="highlight"><pre><span></span><code>vi /etc/sysupgrade.conf
+
+/etc/config/dropbear
+/etc/config/firewall
+/etc/config/network
+/etc/config/system
+/etc/config/uhttpd
+/etc/config/wireless
+/etc/dropbear/
+/etc/passwd
+/etc/shadow
+</code></pre></div></p>
+<p>Verify the backup configuration
+<div class="highlight"><pre><span></span><code>sysupgrade -l
+</code></pre></div></p>
+<p>Generate a backup
+<div class="highlight"><pre><span></span><code>umask go=
+sysupgrade -b /tmp/backup-${HOSTNAME}-$(date +%F).tar.gz
+
+# Get the hash of the backup archive
+sha256sum /tmp/backup-*
+
+# Download this backup to your PC before power cycling / upgrading the OpenWrt device or it will be erased
+scp root@&lt;ip&gt;:/tmp/backup-*.tar.gz .
+
+# Check the hash locally to make sure the backup configuration is OK
+sha256sum ./backup-* | grep &lt;hash&gt;
+</code></pre></div></p>
+<h3 id="2-perform-the-upgrade">2. Perform the upgrade</h3>
+<p>A note on keeping configurations:</p>
+<p>You can choose to keep your current configuration, from OpenWrt v21.x and later you may never have an issue with this.</p>
+<p>However, if a configuration becomes corrupt during an upgrade, or the configuration syntax changes in the future, it's recommended to erase the configuration during the upgrade, and resore it afterwords.</p>
+<p><strong>IMPORTANT</strong>: This can create an impossible situation when performing upgrades remotely, without physical access to reprovision the device, it will not be reachable over the wire</p>
+<p>Two possible solutions for entirely remote upgrades to OpenWrt AP's:</p>
+<ul>
+<li>Maintain the configuration<ul>
+<li>There's always a risk it will break, as with any remote upgrade</li>
+<li>No additional work needed once the upgrade is complete</li>
+<li>You'll encounter the least issues with same version upgrades (22.01 -&gt; 22.02)</li>
+</ul>
+</li>
+<li>Create an OpenWrt image set to a static IP in the range you require upon factory reset<ul>
+<li>This is because bridged AP's would never have the 192.168.1.1 address.</li>
+<li>Requires creating a custom OpenWrt firmware image</li>
+<li>Will work automatically and be reachable over the wire after factory resets</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>Performing the upgrade:
+<div class="highlight"><pre><span></span><code>scp &lt;sysupgrade.bin&gt; root@&lt;ip&gt;:/tmp/      # must be /tmp/ as flash storage is unmounted during upgrades
+ssh root@&lt;ip&gt;
+sha256sum /tmp/*.bin                      # be sure the files&#39;s signature uploaded to the AP matches your local copy
+sysupgrade -v /tmp/*.bin                  # preserve settings
+sysupgrade -n -v /tmp/*.bin               # factory default settings
+</code></pre></div></p>
+<p>If you're conducting this upgrade remotely or over WiFi you'll likely see:</p>
+<div class="highlight"><pre><span></span><code>&lt;datetime&gt; upgrade: Commencing upgrade. Closing all shell sessions.
+Command failed: Connection failed
+root@OpenWrt:/tmp# Connection to &lt;openwrt-ip&gt; closed by remote host.
+Connection to &lt;openwrt-ip&gt; closed.
+</code></pre></div>
+<p>If you're physically near the AP, you may see the device's indicator lights signalling an upgrade is happening.</p>
+<p>If you cannot physically see the AP, watch the list of access points on the machine you'll be reconnecting from until it comes back online.</p>
+<ul>
+<li>'TRX header' errors can be safely ignored</li>
+<li>If the device is unresponsive after an upgrade, wait 5 minutes before dis/re-connecting power to the device</li>
+</ul>
+<p>In cases where you're either 1) connected directly to the AP or 2) have a shell on a device directly connected to the AP and the AP can obtain a DHCP lease in that subnet:</p>
+<ul>
+<li>Using <code>tcpdump</code> with <code>-Q in</code> you'll be able to see when the device is back online based on the traffic and MAC addresses (you may need to know the MAC address).</li>
+</ul>
+<p>In all cases, once the device is back online you'll be able to reconnect over ssh to confirm the upgrade succeeded when the ssh banner prints the current version.</p>
+<h3 id="3-restore-your-configuration">3. Restore your configuration</h3>
+<p>Automated restore process:
+<div class="highlight"><pre><span></span><code>scp &lt;backup-*.tar.gz&gt; root@&lt;ip&gt;:/tmp/
+ssh root@&lt;ip&gt;
+sysupgrade -r /tmp/backup-*.tar.gz
+</code></pre></div></p>
+<hr />
+<p>You can manually restore a configuration over the CLI with <code>vi</code> and <code>copy/paste</code>.</p>
+<p>In the future if either:
+1) A configuration file becomes corrupted and is causing issues with the system, or
+2) There's been a change in the way OpenWrt reads configuration files as part of a difference in upgrade to a newer verison</p>
+<p><strong>NOTE</strong>: configuration files can be edited freely, until you run <code>/etc/init.d/&lt;service&gt; restart</code> your changes won't be loaded.</p>
+<ul>
+<li>Leave the default <code>lan</code> interface in <code>/etc/config/network</code> alone until the end</li>
+<li><code>vi /etc/config/network</code><ul>
+<li>Drop in your configurations (you can copy / paste over ssh)</li>
+<li>Make any adjustments to what you've just added based on what you see in the defaults</li>
+</ul>
+</li>
+<li><code>vi /etc/config/wireless</code><ul>
+<li>Optionally change SSID names</li>
+<li>Optionally leave both radio's disabled</li>
+</ul>
+</li>
+<li><code>vi /etc/dropbpar/authorized_keys</code><ul>
+<li>Add any ssh public keys</li>
+</ul>
+</li>
+<li><code>vi /etc/config/uhttpd</code><ul>
+<li>Modifying the listening interface(s) of the uhttpd</li>
+</ul>
+</li>
+<li><code>/etc/init.d/network restart</code></li>
+</ul>
+<hr />
+<p>Ensure your settings were restored:
+<div class="highlight"><pre><span></span><code>cat /etc/config/wireless
+cat /etc/dropbear/authorized_keys
+</code></pre></div></p>
+<hr />
+<h2 id="uci">UCI</h2>
+<div class="highlight"><pre><span></span><code>uci [&lt;options&gt;] &lt;command&gt; [&lt;args&gt;]
+</code></pre></div>
+<p><strong>NOTE</strong>: Applying changes via the <code>uci</code> command will wipe any comments from configuration files being modified.</p>
+<p>To maintain any notations or <code>#</code> comments modify the file manually with <code>vi</code></p>
+<div class="highlight"><pre><span></span><code>uci set uhttpd.main.listen_http=&#39;8080&#39;
+uci commit uhttpd
+/etc/init.d/uhttpd restart
+</code></pre></div>
+<p>Viewing configurations for a select subsystem:</p>
+<p>Available subsystems are:
+- defaults
+- dnsmasq
+- dropbear
+- firewall
+- fstab
+- net
+- qos
+- samba
+- system
+- wireless</p>
+<div class="highlight"><pre><span></span><code>uci show &lt;subsystem&gt;
+
+uci show dropbear
+</code></pre></div>
+<p>Setting a configuration in a subsystem:</p>
+<div class="highlight"><pre><span></span><code>uci add firewall rule
+uci set firewall.@rule[-1].src=&#39;wan&#39;
+</code></pre></div>
+<p>Showing the not-yet-saved modified values</p>
+<div class="highlight"><pre><span></span><code>uci changes
+</code></pre></div>
+<p>Saving modified values of a single subsystem
+<div class="highlight"><pre><span></span><code>uci commit SUBSYSTEM_NAME
+reload_config
+</code></pre></div></p>
+<p>Saving all modified values
+<div class="highlight"><pre><span></span><code>uci commit
+reload_config
+</code></pre></div></p>
+<p>Generate a UCI section via batch script that can be copy/pasted into terminal:</p>
+<div class="highlight"><pre><span></span><code># https://openwrt.org/docs/guide-user/base-system/uci#generating_a_full_uci_section_with_a_simple_copy-paste
+
+rule_name=$(uci add firewall rule)
+uci batch &lt;&lt; EOI
+set firewall.$rule_name.enabled=&#39;1&#39;
+set firewall.$rule_name.target=&#39;ACCEPT&#39;
+set firewall.$rule_name.src=&#39;wan&#39;
+set firewall.$rule_name.proto=&#39;tcp&#39;
+set firewall.$rule_name.dest_port=&#39;22&#39;
+set firewall.$rule_name.name=&#39;SSH&#39;
+EOI
+uci commit
+</code></pre></div>
+<h2 id="administration">Administration</h2>
+<p>A factory install / reset of OpenWrt has open ssh / http access on the LAN, but wireless radios are disabled by default.</p>
+<p>This prevents taking over an unconfigured device wirelessly.</p>
+<p>Set the root password
+<div class="highlight"><pre><span></span><code>passwd
+</code></pre></div></p>
+<p>Protect the serial TTY
+<div class="highlight"><pre><span></span><code>uci set system.@system[0].ttylogin=&#39;1&#39;
+uci commit system
+/etc/init.d/system restart
+</code></pre></div></p>
+<p>View configuration
+<div class="highlight"><pre><span></span><code>cat /etc/config/network
+cat /etc/config/wireless
+# or
+uci show wireless
+uci show network
+</code></pre></div></p>
+<p>View wireless card's <a href="https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode#how_does_openwrt_known_what_wi-fi_channel_settings_are_ok_for_my_country">regulatory information</a>
+<div class="highlight"><pre><span></span><code>iw reg get
+</code></pre></div></p>
+<p>List network interfaces
+<div class="highlight"><pre><span></span><code>ifconfig
+ip a
+ubus list network.interface.*
+</code></pre></div></p>
+<p>Enumerate a specific interface
+<div class="highlight"><pre><span></span><code>ifstatus &lt;iface&gt;
+</code></pre></div></p>
+<p>Enumerate sockets (BusyBox specific syntax, no <code>-A</code> option)
+<div class="highlight"><pre><span></span><code>netstat -antup
+</code></pre></div></p>
+<p>View authorized ssh keys
+<div class="highlight"><pre><span></span><code>cat /etc/dropbear/authorized_keys
+</code></pre></div></p>
+<p>Enable MFA for SSH
+<div class="highlight"><pre><span></span><code># https://openwrt.org/docs/guide-user/services/ssh/ssh.mfa.auth
+opkg install google-authenticator-libpam openssh-server-pam
+</code></pre></div></p>
+<p>Manage services
+<div class="highlight"><pre><span></span><code>service list
+service &lt;service&gt; stop
+service &lt;service&gt; start
+service &lt;service&gt; reload
+service &lt;service&gt; disable
+service &lt;service&gt; enable
+
+service rpcd disable
+service dnsmasq disable
+service dropbear start
+service uhttp reload
+</code></pre></div></p>
+<p>Reload and reinitialize configurations
+<div class="highlight"><pre><span></span><code>service &lt;service&gt; reload
+service network reload
+# or
+/etc/initi.d/&lt;service&gt; restart
+/etc/init.d/network restart
+</code></pre></div></p>
+<p><strong>NOTE</strong>: some <code>/etc/config/wireless</code> settings will reload in real time when edited with <code>vi</code>, such as <code>option isolate '1'</code></p>
+<p>Other settings such as MAC address filtering <code>list maclist</code> will require <code>/etc/init.d/network restart</code></p>
+<p>Regenerate factory wireless configuration
+<div class="highlight"><pre><span></span><code># https://openwrt.org/docs/guide-user/network/wifi/basic#regenerate_configuration
+rm -f /etc/config/wireless
+wifi config
+</code></pre></div></p>
+<p>Enumerate free memory space
+<div class="highlight"><pre><span></span><code>free
+</code></pre></div></p>
+<p>Verify read-only SquashFS root partition exits
+<div class="highlight"><pre><span></span><code>grep squash /proc/mounts
+</code></pre></div></p>
+<p>Harden Web-UI access and authentication via ssh tunneling
+<div class="highlight"><pre><span></span><code># Add ssh public key to /etc/config/dropbear/authorized_keys
+
+# Replace the http(s) listening addresses of [::] with [::1] and 0.0.0.0 with 127.0.0.1
+vi /etc/config/uhttpd
+
+service uhttpd reload
+
+# confirm changes:
+netstat -antup
+</code></pre></div></p>
+<p>Find all non-volatile files that have changed on the filesystem in the last 24 hours:
+<div class="highlight"><pre><span></span><code>find / -type f -mtime -1 | grep -Ev &quot;/(tmp|sys|proc)&quot;
+</code></pre></div></p>
+<p>Package management
+<div class="highlight"><pre><span></span><code># update all packages, do this after every power cycle
+# and before installing or searching for new packages
+opkg update
+
+# search for a package
+opkg list | grep &lt;regex-for-package-name&gt;
+opkg list | grep &#39;nmap*&#39;
+
+# show package details
+opkg info nmap-full
+
+# install packages
+opkg install nmap-full netcat tcpdump nano wireguard-tools kmod-wireguard git python3 scapy tmux audit
+</code></pre></div></p>
+<h3 id="remote-management">Remote Management</h3>
+<p><strong>Tailscale on OpenWrt</strong></p>
+<p>Tailscale is available in the default OpenWrt package repos.</p>
+<div class="highlight"><pre><span></span><code>opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>tailscale
+</code></pre></div>
+<p>Configure the ACLs to allow the necessary devices access to the web UI securely over Tailscale.</p>
+<p><strong>SSH Tunnel via Tailscale</strong></p>
+<p>If your device doesn't have room to install <code>tailscale</code> using <code>opkg</code>, you can use a jump box with Tailscale running to create an SSH tunnel to the web UI.</p>
+<ul>
+<li>First create a passphrase-protected SSH key that will live on the jump box with <code>ssh-keygen -t ed25519</code></li>
+<li>Add the public key to <code>/etc/dropbear/authorized_keys</code> on OpenWrt</li>
+<li>Ensure inbound SSH connections are allowed to OpenWrt</li>
+<li>From the jump box: <code>ssh -f -N -i ~/.ssh/my-openwrt-key -L &lt;tailscale0-ip&gt;:8081:127.0.0.1:80 root@&lt;openwrt-ip&gt;</code></li>
+<li>You can of course use any VPN, not just Tailscale here</li>
+</ul>
+<p>This will open a tunnel in the background, allowing you to reach the OpenWrt device from the jump box via <code>&lt;tailscale0-ip&gt;:8081</code>. Some additional points:</p>
+<ul>
+<li><code>-f -N</code> tell SSH to run in the background without executing commands</li>
+<li>This will need executed again each time the SSH connection breaks (OpenWrt or jump box reboots)</li>
+<li>The risk here is giving the jump box access to the AP, though this may be acceptible in most cases</li>
+</ul>
+<h2 id="logging">Logging</h2>
+<p>Syslog writes to a small membuffer, which is why you won't find the typical (large) <code>/var/log/*</code> files where they normally are.</p>
+<p>Use <code>logread</code> to review logs for the system applications, and <code>dmesg</code> for kernel level logs.</p>
+<p>View all dropbear activity:
+<div class="highlight"><pre><span></span><code>logread -e &#39;dropbear&#39;
+</code></pre></div></p>
+<p>View dnsmasq logs:
+<div class="highlight"><pre><span></span><code>logread -e &#39;dnsmasq&#39;
+</code></pre></div></p>
+<p><strong>TO DO</strong>: further logging configuration.</p>
+<p>As of now, it seems syslog and kern.log are only accessible via the LuCI web interface.</p>
+<p>You can copy/paste the syslog output into a text file to parse locally:
+<div class="highlight"><pre><span></span><code>grep &#39;auth&#39; &lt;openwrt.log&gt;
+grep &#39;succeed&#39; &lt;openwrt.log&gt;
+grep &#39;fail&#39; &lt;openwrt.log&gt;
+</code></pre></div></p>
+<p><strong>Log Examples</strong></p>
+<p>uhttpd logs:
+<div class="highlight"><pre><span></span><code>Tue Jan  1 08:30:00 2021 daemon.err uhttpd[2000]: luci: failed login on / for root from 127.0.0.1
+Tue Jan  1 08:30:00 2021 daemon.err uhttpd[2000]: luci: accepted login on / for root from 127.0.0.1
+</code></pre></div></p>
+<p>Dropbear logs:
+<div class="highlight"><pre><span></span><code>Tue Jan  1 08:30:00 2021 authpriv.notice dropbear[3348]: Pubkey auth succeeded for &#39;root&#39; with key sha1!! aa:bb:cc:dd:ee:ff:11:22:33:44:55:66:77:88:99:00:a1:a2:a3:a4 from 192.168.1.82:53878
+Tue Jan  1 08:30:00 2021 authpriv.info dropbear[3348]: Exit (root) from &lt;192.168.1.82:53878&gt;: Disconnect received
+</code></pre></div></p>
+<hr />
+<h2 id="networking">Networking</h2>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-quick-start/checks_and_troubleshooting">https://openwrt.org/docs/guide-quick-start/checks_and_troubleshooting</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/basic-networking">https://openwrt.org/docs/guide-user/base-system/basic-networking</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/network/routing/routes_configuration">https://openwrt.org/docs/guide-user/network/routing/routes_configuration</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/dhcp">https://openwrt.org/docs/guide-user/base-system/dhcp</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/base-system/dhcp_configuration">https://openwrt.org/docs/guide-user/base-system/dhcp_configuration</a></li>
+</ul>
+<p>The following three sections are one network configuration file, broken into three parts to show each part as a template.</p>
+<p>The default loopback and globals:
+<div class="highlight"><pre><span></span><code>config interface &#39;loopback&#39;
+    option device &#39;lo&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;127.0.0.1&#39;
+    option netmask &#39;255.0.0.0&#39;
+
+config globals &#39;globals&#39;
+    option ula_prefix &#39;f123:xxxx:xxxx::/48&#39;
+</code></pre></div></p>
+<p>A phyiscal interface:
+<div class="highlight"><pre><span></span><code>config device
+    option name &#39;br-lan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth0&#39;
+
+config interface &#39;lan&#39;
+    option device &#39;br-lan&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.1.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+    option ip6assign &#39;60&#39;
+</code></pre></div></p>
+<p>A vlan:
+<div class="highlight"><pre><span></span><code>config device
+    option name &#39;br-vlan1&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth0.110&#39;
+
+config device
+    option type &#39;8021q&#39;
+    option name &#39;eth0.110&#39;
+    option ifname &#39;eth0&#39;
+    option vid &#39;110&#39;
+
+config interface &#39;vlan1&#39;
+    option device &#39;br-vlan1&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;172.16.1.100&#39;
+    option netmask &#39;255.255.255.0&#39;
+    option gateway &#39;172.16.1.1&#39;
+    list dns &#39;172.16.1.1&#39;
+</code></pre></div></p>
+<hr />
+<h3 id="dns">DNS</h3>
+<p>You can either setup OpenWrt to resolve DNS queries with <code>dnsmasq</code> (default built in resolver daemon), or add a remote DNS server to <code>/etc/resolv.conf</code>.</p>
+<p><strong>1. Adding an entry to /etc/resolv.conf</strong></p>
+<p>Taking our DNS server of 10.0.2.105 from before, add it to the top of <code>/etc/resolv.conf</code> beneath 'search lan'
+<div class="highlight"><pre><span></span><code>nameserver 10.0.2.105
+</code></pre></div></p>
+<p><strong>2. Telling dnsmasq to use the upstream dns server</strong></p>
+<div class="highlight"><pre><span></span><code># https://openwrt.org/docs/guide-user/base-system/dhcp_configuration#dns_forwarding
+
+uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server=&quot;10.0.2.105&quot;
+uci commit dhcp
+/etc/init.d/dnsmasq restart
+</code></pre></div>
+<p>The <code>/etc/config/network</code> example at:</p>
+<p><a href="https://openwrt.org/docs/guide-user/network/dsa/dsa-mini-tutorial#multiple_bridged_networks">https://openwrt.org/docs/guide-user/network/dsa/dsa-mini-tutorial#multiple_bridged_networks</a></p>
+<p>illustrates exactly how to configure a network with multiple isolated subnets.</p>
+<p>The idea with DSA is devices and interfaces are now broken into separate configuration blocks within the config file.</p>
+<p>Subnets, or bridges in this case, cannot talk to eachother without firewall rules allowing the traffic to happen.</p>
+<p>You'll note the <code>wan</code> interface is less explicit in it's parameters since most of that information will come from the downstream router / gateway.</p>
+<p>The internal <code>lan</code> and <code>guest</code> interfaces have more prescriptive definitions.</p>
+<p>Below is a working example of an OpenWrt VM with 3 NICs attached.</p>
+<ul>
+<li><code>eth0</code> = <code>wan</code></li>
+<li><code>eth1</code> = <code>lan</code></li>
+<li><code>eth2</code> = <code>guest</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>config interface &#39;loopback&#39;
+    option device &#39;lo&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;127.0.0.1&#39;
+    option netmask &#39;255.0.0.0&#39;
+
+config globals &#39;globals&#39;
+    option ula_prefix &#39;fd8a:xxxx:xxxx::/48&#39;
+
+config device
+    option name &#39;br-wan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth0&#39;
+
+config device
+    option name &#39;br-lan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth1&#39;
+
+config device
+    option name &#39;br-guest&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth2&#39;
+
+config interface &#39;wan&#39;
+    option device &#39;br-wan&#39;
+    option proto &#39;dhcp&#39;
+
+config interface &#39;wan6&#39;
+    option device &#39;br-wan&#39;
+    option proto &#39;dhcpv6&#39;
+
+config interface &#39;lan&#39;
+    option device &#39;br-lan&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.111.101&#39;
+    option netmask &#39;255.255.255.0&#39;
+    option gateway &#39;192.168.111.1&#39;
+    option dns &#39;192.168.111.1&#39;
+
+config interface &#39;guest&#39;
+    option device &#39;br-guest&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.222.101&#39;
+    option netmask &#39;255.255.255.0&#39;
+    option gateway &#39;192.168.222.1&#39;
+    option dns &#39;192.168.222.1&#39;
+</code></pre></div>
+<h2 id="wireless">Wireless</h2>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/basic">https://openwrt.org/docs/guide-user/network/wifi/basic</a></li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_WLAN_channels">https://en.wikipedia.org/wiki/List_of_WLAN_channels</a></li>
+<li><a href="https://www.ecfr.gov/current/title-47">https://www.ecfr.gov/current/title-47</a></li>
+</ul>
+<h3 id="country-code-and-regulatory-requirements">Country Code and Regulatory Requirements</h3>
+<p>As mentioned above under <a href="#administration">administration</a> for how to obtain your wireless card's <a href="https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode#how_does_openwrt_known_what_wi-fi_channel_settings_are_ok_for_my_country">regulatory info</a>, once the country code is set under <code>/etc/config/wireless</code> the device will only allow settings in compliance with that country's regulations.</p>
+<p>OpenWrt uses the CRDA database to do this which is part of the Linux kernel.</p>
+<ul>
+<li><a href="https://wireless.wiki.kernel.org/en/developers/Regulatory#crda">https://wireless.wiki.kernel.org/en/developers/Regulatory#crda</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code>config wifi-device &#39;radio0&#39;
+    ...
+    option country &#39;&lt;country-code&gt;&#39;
+</code></pre></div>
+<p>Be aware you must still comply with the maximum transmission power (<code>txpower</code>) for your locale, taking into account <a href="https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode#wi-fi_outdoor_operation">indoor and outdoor operation</a>.</p>
+<h3 id="wireless-channels">Wireless Channels</h3>
+<p>In many devices, setting the channel to <code>auto</code> will select the lowest available channel regardless of local signal density.</p>
+<div class="highlight"><pre><span></span><code>config wifi-device &#39;radio0&#39;
+    ...
+    option channel &#39;&lt;channel&gt;&#39;
+</code></pre></div>
+<p>You can use the script detailed in the following link to automatically select the channel with the least density:</p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/network/wifi/iwchan">https://openwrt.org/docs/guide-user/network/wifi/iwchan</a></li>
+</ul>
+<p>Alternatively from the WebUI you can view the wireless density in your area as a graph under <code>System &gt; Status &gt; Channel Analysis</code>.</p>
+<p>This scan will also create a list of all observed wireless devices operating under the same 2.4/5 GHz frequency.</p>
+<p>From here change your wireless radio('s) channel to the least populated.</p>
+<h2 id="virtualization">Virtualization</h2>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/virtualization/vmware">https://openwrt.org/docs/guide-user/virtualization/vmware</a></li>
+<li><a href="https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm">https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm</a></li>
+</ul>
+<h3 id="qemu-utils">qemu-utils</h3>
+<p>Using qemu-utils is the quickest way to create an OpenWrt VM.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>qemu-utils
+</code></pre></div>
+<p>Obtain the OpenWrt signatures for x86/64, replacing <verison> with the one you want:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s1">&#39;https://downloads.openwrt.org/releases/&lt;version&gt;/targets/x86/64/sha256sums.asc&#39;</span>
+curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s1">&#39;https://downloads.openwrt.org/releases/&lt;version&gt;/targets/x86/64/sha256sums&#39;</span>
+</code></pre></div></p>
+<p>On the <code>https://downloads.openwrt.org/releases/&lt;version&gt;/targets/x86/64/</code> page you'll see a few different images to choose from:</p>
+<ul>
+<li>generic-ext4-combined-efi.img.gz    &lt;- this is the image we want</li>
+<li>generic-ext4-combined.img.gz</li>
+<li>generic-ext4-rootfs.img.gz</li>
+<li>generic-kernel.bin</li>
+<li>generic-squashfs-combined-efi.img.gz</li>
+<li>generic-squashfs-combined.img.gz</li>
+<li>generic-squashfs-rootfs.img.gz</li>
+<li>rootfs.tar.gz</li>
+</ul>
+<p>If you want the UEFI compatible image (recommended), use <code>generic-ext4-combined-efi.img.gz</code> instead of <code>generic-ext4-combined.img.gz</code>.
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-LfO<span class="w"> </span><span class="s1">&#39;https://downloads.openwrt.org/releases/21.02.1/targets/x86/64/openwrt-21.02.1-x86-64-generic-ext4-combined-efi.img.gz&#39;</span>
+</code></pre></div></p>
+<p>Obtain the signing key, verifying the signatures:
+<div class="highlight"><pre><span></span><code><span class="c1"># https://openwrt.org/docs/guide-user/security/signatures</span>
+
+<span class="c1"># 21.02</span>
+gpg<span class="w"> </span>--keyid-format<span class="w"> </span>long<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;6672 05E3 79BA F348 863A 5C66 88CA 59E8 8F68 1580&#39;</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span>--keyid-format<span class="w"> </span>long<span class="w"> </span>./sha256sums.asc<span class="w"> </span>./sha256sums
+
+<span class="c1"># 22.03</span>
+gpg<span class="w"> </span>--keyid-format<span class="w"> </span>long<span class="w"> </span>--keyserver<span class="w"> </span>hkps://keyserver.ubuntu.com:443<span class="w"> </span>--recv-keys<span class="w"> </span><span class="s1">&#39;BF85 6781 A012 93C8 409A BE72 CD54 E82D ADB3 684D&#39;</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span>--keyid-format<span class="w"> </span>long<span class="w"> </span>./sha256sums.asc<span class="w"> </span>./sha256sums
+</code></pre></div></p>
+<p>Verify the firmware hash:
+<div class="highlight"><pre><span></span><code>sha256sum<span class="w"> </span>-c<span class="w"> </span>./sha256sums<span class="w"> </span>--ignore-missing
+</code></pre></div></p>
+<p>You must use <code>gunzip</code> to properly unzip the data. The GUI archive utilites don't handle the trailing empty data correctly:
+<div class="highlight"><pre><span></span><code>gunzip<span class="w"> </span>openwrt-21.02.1-x86-64-generic-ext4-combined-efi.img.gz
+</code></pre></div></p>
+<p><strong>TIP</strong>: Once the .img file is decompressed, you can <code>right-click &gt; mount image filesystem</code> (this uses the Image Disk Utility on Ubuntu) and browse the firmware's filesystem under <code>/media/$USERNAME/rootfs</code> and <code>/media/$USERNAME/kernel</code></p>
+<p>Convert the raw image to a vmdk file:</p>
+<div class="highlight"><pre><span></span><code>qemu-img<span class="w"> </span>convert<span class="w"> </span>-f<span class="w"> </span>raw<span class="w"> </span>-O<span class="w"> </span>vmdk<span class="w"> </span>&lt;input-file&gt;.img<span class="w"> </span>&lt;output-file&gt;.vmdk
+</code></pre></div>
+<h3 id="vmware-virtualbox">VMware &amp; VirtualBox</h3>
+<p><strong>VirtualBox</strong>
+- <code>Tools &gt; Add</code> and browser to the .vmdk file
+- If the OpenWrt .vmdk file is not available to select here, create a new <code>Tools &gt; New</code> Linux / Other x86-64 virtual machine, and when selecting a disk image use the existing OpenWrt .vmdk.
+- Power on. When the boot sequence looks like it's paused, pressing [Enter] will bring you to the root shell / login screen.</p>
+<p><strong>VMware</strong>
+- Follow a similar procedure in VMware, creating a new Linux / Other x86-64 VM, choosing the Linux Kernel that your version of OpenWrt has, and selecting the .vmdk file as an existing disk when you get to that option.
+- It may also help organize your virtual machine's files on your hard drive by moving the .vmdk file into the VM's folder after creating it in VMware.
+- You'll need to create a new hard disk under settings and point it at the .vmdk file's new path, then delete the old one (you cannot just update the path on your host).</p>
+<p>In both cases, remember to enable EFI firmware if it's an EFI enabled image.</p>
+<p>You'll also receive a notice on VMware Workstation for Linux the VM is entering promiscuous networking mode.</p>
+<p><strong>After boot, the startup log will eventually stop scrolling - press [Enter] here to be at the console menu</strong></p>
+<p>You will likely need to configure <code>/etc/config/network</code> manually if the output of <code>ip a</code> or <code>ifconfig</code> indicates a hardcoded address of 192.168.1.1 on a bridged interface without receiving dhcp from the local network.</p>
+<p>To do this:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/config/network
+
+# ensure the following exists
+config device
+    option name &#39;br-wan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth0&#39;
+
+config interface &#39;wan&#39;
+    option device &#39;br-wan&#39;
+    option proto &#39;dhcp&#39;
+</code></pre></div>
+<p>The <code>option proto dhcp</code> will allow OpenWrt to obtain an IP address from the upstream router.</p>
+<p>If you run into errors, double check the syntax of your <code>/etc/config/network</code> for single <code>'</code> quotes where needed, and no repeated lines in the wrong code blocks.</p>
+<p>You may also want to add a second networking interface to act as the 'LAN' side, following the configuration example above:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/config/network
+
+# assumes &#39;wan&#39; is eth0, so &#39;lan&#39; will be eth1
+config device
+    option name &#39;br-lan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;eth1&#39;
+
+config interface &#39;lan&#39;
+    option device &#39;br-lan&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.10.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+</code></pre></div>
+<p>Alternatively, set a single NIC to be a 'client' and receive a DHCP lease from a downstream router.</p>
+<p>Instead of those above, the only changes are removing the following lines from <code>config interface 'lan'</code>:
+<div class="highlight"><pre><span></span><code>    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.1.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+</code></pre></div></p>
+<p>And replacing them with:
+<div class="highlight"><pre><span></span><code>    option proto &#39;dhcp&#39;
+</code></pre></div></p>
+<p>Run <code>/etc/init.d/network restart</code> to apply the config.</p>
+<hr />
+<h2 id="bridged-ap">Bridged AP</h2>
+<p>You do not <em>need</em> to configure firewall rules, routes, dns, or non-wireless settings when OpenWrt is acting as a bridged access point.</p>
+<p>All of these services are handled by the downstream router.</p>
+<p>You can safely disable the following services:</p>
+<p>Disable dnsmasq</p>
+<ul>
+<li><code>/etc/init.d/dnsmasq disable</code></li>
+<li><code>System &gt; Startup &gt; dnsmasq</code></li>
+</ul>
+<p>Disable odhcp</p>
+<ul>
+<li><code>/etc/init.d/odhcpd disable</code></li>
+<li><code>System &gt; Startup &gt; odhcp</code></li>
+</ul>
+<p>Apply changes
+<div class="highlight"><pre><span></span><code>/etc/init.d/network<span class="w"> </span>reload
+ifup<span class="w"> </span>wifi
+wifi
+</code></pre></div></p>
+<h2 id="firewall">Firewall</h2>
+<p>The default firewall rules can be found in <code>/etc/config/firewall</code>.</p>
+<p>Dump them with <code>iptables</code> or <code>nftables</code></p>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/firewall/misc/nftables">https://openwrt.org/docs/guide-user/firewall/misc/nftables</a></li>
+</ul>
+<p>Example configuration syntax enabling SSH access from the WAN side:</p>
+<div class="highlight"><pre><span></span><code># Allow external SSH access
+config rule
+    option name         Allow-SSH-WAN
+    option src          wan
+    option proto        tcp
+    option dest_port    22
+    option target       ACCEPT
+    option family       ipv4
+</code></pre></div>
+<p>Run <code>/etc/init.d/firewall restart</code> to apply the rule.</p>
+<h2 id="vlan">VLAN</h2>
+<ul>
+<li><a href="https://openwrt.org/docs/guide-user/network/vlan/switch_configuration">https://openwrt.org/docs/guide-user/network/vlan/switch_configuration</a></li>
+</ul>
+<p>Example configurations of VLANS:</p>
+<div class="highlight"><pre><span></span><code># /etc/config/network
+
+config device
+    option name &#39;br-lan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;lan1&#39;
+    list ports &#39;lan2&#39;
+    list ports &#39;lan3&#39;
+    list ports &#39;lan4&#39;
+
+config bridge-vlan
+    option device &#39;br-lan&#39;
+    option vlan &#39;1&#39;
+    list ports &#39;lan1&#39;
+    list ports &#39;lan2&#39;
+
+config bridge-vlan
+    option device &#39;br-lan&#39;
+    option vlan &#39;2&#39;
+    list ports &#39;lan3&#39;
+    list ports &#39;lan4&#39;
+
+config interface &#39;home&#39;
+    option device &#39;br-lan.1&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.1.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+
+config interface &#39;office&#39;
+    option device &#39;br-lan.2&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.13.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+</code></pre></div>
+<p>Example configurations of VLANS with VLAN Tagging:</p>
+<div class="highlight"><pre><span></span><code># /etc/config/network
+config device
+    option name &#39;br-lan&#39;
+    option type &#39;bridge&#39;
+    list ports &#39;lan1&#39;
+    list ports &#39;lan2&#39;
+    list ports &#39;lan3&#39;
+    list ports &#39;lan4&#39;
+
+config bridge-vlan
+    option device &#39;br-lan&#39;
+    option vlan &#39;1&#39;
+    list ports &#39;lan1&#39;
+    list ports &#39;lan2&#39;
+    list ports &#39;lan3&#39;
+    list ports &#39;lan4:t&#39;
+
+config bridge-vlan
+    option device &#39;br-lan&#39;
+    option vlan &#39;2&#39;
+    list ports &#39;lan4:u*&#39;
+
+config interface &#39;lan&#39;
+    option device &#39;br-lan.1&#39;
+    option proto &#39;static&#39;
+    option ipaddr &#39;192.168.1.1&#39;
+    option netmask &#39;255.255.255.0&#39;
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

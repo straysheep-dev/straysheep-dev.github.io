@@ -1,0 +1,2871 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2024/05/29/material-file-document-arrow-right-openscap-practical-usage/">
+      
+      
+        <link rel="prev" href="../../15/octicons-alert-16-aide-advanced-intrusion-detection-environment/">
+      
+      
+        <link rel="next" href="../octicons-terminal-16-custom-shell-profiles/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>OpenSCAP Practical Usage - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="OpenSCAP Practical Usage - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/29/material-file-document-arrow-right-openscap-practical-usage.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2024/05/29/material-file-document-arrow-right-openscap-practical-usage/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="OpenSCAP Practical Usage - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2024/05/29/material-file-document-arrow-right-openscap-practical-usage.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openscap-practical-usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenSCAP Practical Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/04/18/material-console-network-network-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart Demo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intro
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-openscap-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install OpenSCAP &amp; Ansible
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-security-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the Security Profiles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get the Security Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#package-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-release-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Release Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#review-security-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review Security Profiles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluate-a-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluate a System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remediate-a-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remediate a System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apply-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply a Policy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apply a Policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extracting-all-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting All Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-lists-of-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Lists of Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-policies-via-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Policies via Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules-without-ansible-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules Without Ansible Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules Without Ansible Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#customize-with-scap-workbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customize with SCAP Workbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customize-with-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customize with bash
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-walkthrough-of-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Walkthrough of a Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2025/10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-05-29 00:00:00+00:00" class="md-ellipsis">May 29, 2024</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              23 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart Demo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intro
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-openscap-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install OpenSCAP &amp; Ansible
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-security-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the Security Profiles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get the Security Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#package-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-release-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Release Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#review-security-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review Security Profiles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluate-a-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluate a System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remediate-a-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remediate a System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apply-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply a Policy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apply a Policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ansible-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extracting-all-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting All Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-lists-of-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Lists of Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-policies-via-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Policies via Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules-without-ansible-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules Without Ansible Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules Without Ansible Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#customize-with-scap-workbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customize with SCAP Workbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customize-with-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customize with bash
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-walkthrough-of-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Walkthrough of a Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="openscap-practical-usage"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23 19-3-3v2h-4v2h4v2zm-10 0c0-.3 0-.7.1-1H6v-2h7.8c.5-.8 1.1-1.5 1.9-2H6v-2h12v1.1c.3-.1.7-.1 1-.1s.7 0 1 .1V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h7.8c-.5-.9-.8-1.9-.8-3m0-15.5L18.5 9H13z"/></svg></span> OpenSCAP Practical Usage</h1>
+<p>Install OpenSCAP, pull compliance profiles from GitHub/ComplianceAsCode, debug policies with Ansible's <code>-C</code> and <code>-D</code> options, apply, test, and maintain policies with Ansible tags.</p>
+<!-- more -->
+
+<h2 id="quickstart-demo">Quickstart Demo</h2>
+<div class="admonition tip">
+<p class="admonition-title">Start Here</p>
+<p>If you want to dive in before reading the details, clone the latest <a href="https://github.com/straysheep-dev/ansible-configs">ansible-configs</a>:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>~/src
+<span class="nb">cd</span><span class="w"> </span>~/src
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/straysheep-dev/ansible-configs
+<span class="nb">cd</span><span class="w"> </span>ansible-configs/inventory_openscap_utils
+</code></pre></div>
+<p>and follow the steps below.</p>
+</div>
+<p>Run <code>./download-content.sh</code> to pull the latest OpenSCAP policy release from GitHub.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_1.png" /></p>
+<p>It will automatically <code>unzip</code> policy files matching the current OS. To specify another OS, use <code>-u &lt;os-name&gt;</code>.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_2.png" /></p>
+<p>You can list all available policy files with <code>-l</code>.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_3.png" /></p>
+<p>The wrapper script is written to interpret posix-extended regex. Combine rules from multiple policies like this.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_4.png" /></p>
+<p>Comment out any rules in the tags-*.txt files you don't want to apply, or find break the deployment.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_5.png" /></p>
+<div class="admonition example">
+<p class="admonition-title">Why Ansible?</p>
+<p>Running <code>./apply-tags.sh</code> with the <code>-d|--diff</code> options will run Ansible with <code>--check --diff</code>, showing you the changes without making them, and failing if a change cannot be made correctly. This is the strength of this approach. With states maintained as tags you can more easily isolate and debug what could have broken a system, especially if you're testing tags in groups.</p>
+</div>
+<p>The wrapper script has built in <code>-h|--help</code> information. You can pass it all the arguments you will usually need to either test a policy on the localhost, or use an inventory + vault.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_6.png" /></p>
+<p>When the script executes a playbook, the raw command with all of the tags listed will be printed to your screen. This is copy / paste-able to repeat manually if necessary.</p>
+<p><img alt="" src="../../../../media/openscap-ansible/openscap_ansible_7.png" /></p>
+<p>There are also folders in the same directory of premade tag sets that will apply as many rules as possible without breaking a system, exceptions being <code>aide</code> and <code>auditd</code> rules. The reason being these rules often endlessly loop, need tuned to your environment, or break the deployment. Use the <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/aide"><code>aide</code></a> and <a href="https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd"><code>install_auditd</code></a> roles instead.</p>
+<h2 id="intro">Intro</h2>
+<p>Previously the best way I knew to <a href="https://www.open-scap.org/security-policies/customization/">customize a policy</a> was through exporting a tailored profile through the <a href="https://www.open-scap.org/resources/documentation/customizing-scap-security-guide-for-your-use-case/">SCAP Workbench GUI</a>. This is easy to understand visually, but still required a number of steps to isolate and test small sets of rules at a time.</p>
+<p>Spending a lot of time working with Ansible, I learned about <a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html">tags</a>. SCAP content has strong Ansible support, including the use of tags. This effectively solved all of my problems.</p>
+<ol>
+<li>It was easy to apply a single rule, a set of related rules, types of rules, or a policy, which isolates changes effectively</li>
+<li>I could now take rules from different policies and apply them using a list of tags</li>
+<li>Ansible allows this to be done at scale, to different OS's</li>
+<li>Ansible's <code>-C</code> and <code>-D</code> options are invaluable for debugging, by showing changes ahead of time</li>
+</ol>
+<p>The second point was always the hurdle. Realistically you're using something like the <a href="https://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-standard.html">standard system seurity profile</a> or <a href="https://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-cis_level1_server.html">CIS L1</a> as a baseline, but you'd be missing out on some of the other benchmarks that provide a security benefit with minimal or no usability impact. Applying those profiles in full often completely breaks a system. With hundreds of rules, testing each one on each release used to be impossible to do. With tags <em>you can apply whatever rules from whatever policy you want</em>. This also means you can maintain lists of tags, and note which tags often have breaking changes.</p>
+<p>The fourth point (<code>-C</code> and <code>-D</code> options) made it possible to "look ahead" before applying a policy. Ansible will in many cases print exactly what's changing in what file without actually applying the policy. This makes it easy to see not just every change, but every change as it applies to <em>your system</em>.</p>
+<p>If you're new to SCAP, continue on. If you already know SCAP, and want to see how to use tags, jump to <a href="#ansible-tags">Ansible Tags</a> and <a href="#test-policies-via-tags">Test Policies via Tags</a>.</p>
+<h2 id="references">References</h2>
+<p><em>Much of the tool usage in guide has been copied or closely adapted from the examples in the official documentation. It's also meant to be a condensed view of how to set everything up.</em></p>
+<ul>
+<li><a href="https://www.open-scap.org/">https://www.open-scap.org/</a></li>
+<li><a href="https://github.com/OpenSCAP/openscap">OpenSCAP CLI</a><ul>
+<li><a href="https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc">User Manual</a></li>
+<li><a href="https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/developer/developer.adoc">Dev Manual</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/OpenSCAP/scap-workbench">OpenSCAP Workbench GUI</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html">Ansible Tags</a></li>
+</ul>
+<p>Security Profiles</p>
+<ul>
+<li><a href="https://github.com/ComplianceAsCode/content/releases/">Latest source of XCCDF profiles, HTML guidelines, shell, Ansible, Puppet, and remediation scripts</a></li>
+<li><a href="https://www.open-scap.org/security-policies/choosing-policy/">HTML rendered XCCDF profiles</a></li>
+<li><a href="https://github.com/ComplianceAsCode/content/blob/master/products/">Profiles as lists for quick view</a></li>
+</ul>
+<h2 id="install-openscap-ansible">Install OpenSCAP &amp; Ansible</h2>
+<p>See <a href="https://www.open-scap.org/download/">https://www.open-scap.org/download/</a> for all installation methods.</p>
+<p>The bare minumum to apply the compliance profiles requires a linux shell, and <strong>ideally</strong> Ansible depending on how you want to apply them. The OpenSCAP utlities are required to generate reports, custom profiles, and remediate system states. If you want a to take a modular approach like this guide recommends, you should be using Ansible.</p>
+<p>Both the CLI and GUI tool can accomplish the same thing. This guide will focus on the CLI tools.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install OpenSCAP CLI tools</span>
+apt<span class="w"> </span>install<span class="w"> </span>libopenscap8<span class="w">                     </span><span class="c1"># Debian/Ubuntu</span>
+dnf<span class="w"> </span>install<span class="w"> </span>openscap-scanner<span class="w">                 </span><span class="c1"># Fedora</span>
+yum<span class="w"> </span>install<span class="w"> </span>openscap-scanner<span class="w">                 </span><span class="c1"># CentOS</span>
+yum<span class="w"> </span>install<span class="w"> </span>openscap-utils<span class="w"> </span>openscap-scanner<span class="w">  </span><span class="c1"># RHEL</span>
+
+<span class="c1"># Install Scap Workbench GUI tool</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>scap-workbench<span class="w">              </span><span class="c1"># Fedora</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scap-workbench<span class="w">          </span><span class="c1"># Debian/Ubuntu =&lt;18.04</span>
+
+<span class="c1"># Install ansible</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ansible
+
+<span class="c1"># Check oscap version</span>
+oscap<span class="w"> </span>--version
+</code></pre></div>
+<h2 id="get-the-security-profiles">Get the Security Profiles</h2>
+<p><em>There are two main methods. On RedHat family systems these are available via your package manager. On Debian family systems, you should pull the latest release from GitHub for up to date policies.</em></p>
+<h3 id="package-manager">Package Manager</h3>
+<p>Using your package manager to install the "content" (a.k.a. the SCAP profiles) is recommended.</p>
+<p>On RedHat / Fedora, this is called <code>scap-security-guide</code>.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>scap-security-guide
+</code></pre></div>
+<p>On Debian / Ubuntu, these files are named <code>ssg-*</code>. However these are often not available or very outdated. In this case, it's recommended to use the <a href="#github-release-archive">GitHub release archive</a>.</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>ssg-debian<span class="w">        </span><span class="c1"># for Debian guides</span>
+apt<span class="w"> </span>install<span class="w"> </span>ssg-debderived<span class="w">    </span><span class="c1"># for Debian-based distributions (e.g. Ubuntu) guides</span>
+apt<span class="w"> </span>install<span class="w"> </span>ssg-nondebian<span class="w">     </span><span class="c1"># for other distributions guides (RHEL, Fedora, etc.)</span>
+apt<span class="w"> </span>install<span class="w"> </span>ssg-applications<span class="w">  </span><span class="c1"># for application-oriented guides (Firefox, JBoss, etc.)</span>
+</code></pre></div>
+<h3 id="github-release-archive">GitHub Release Archive</h3>
+<p>The latest security profiles are always available at <a href="https://github.com/ComplianceAsCode/content/releases">https://github.com/ComplianceAsCode/content/releases</a>. Prebuilt versions are available as a <code>zip</code> archive, along with an accompanying sha512sum. The <code>tar.bz2</code> archive does not contain all of the bash and Ansible files for applying policies.</p>
+<p>This function is adapted from <a href="https://github.com/BishopFox/sliver/blob/master/docs/install">Bishop Fox's Sliver installer script</a>, obtaining the latest release artifacts from the GitHub API, and downloading them into their own folder under <code>~/Downloads</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="k">function</span><span class="w"> </span>DownloadGitHubReleases<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+
+<span class="w">    </span><span class="nv">AUTHOR_REPO_LIST</span><span class="o">=</span><span class="s1">&#39;ComplianceAsCode/content&#39;</span>
+
+<span class="w">    </span><span class="nv">IGNORE_LIST</span><span class="o">=</span><span class="s1">&#39;(tar\.bz2)&#39;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>AUTHOR_REPO<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$AUTHOR_REPO_LIST</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[&gt;] Creating ~/Downloads/</span><span class="nv">$AUTHOR_REPO</span><span class="s2">...&quot;</span>
+<span class="w">        </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Downloads/<span class="s2">&quot;</span><span class="nv">$AUTHOR_REPO</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="w">        </span><span class="nv">ARTIFACTS</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/<span class="s2">&quot;</span><span class="nv">$AUTHOR_REPO</span><span class="s2">&quot;</span>/releases/latest<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="s1">&#39;/browser_download_url/{print $4}&#39;</span><span class="k">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span>URL<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$ARTIFACTS</span>
+<span class="w">        </span><span class="k">do</span>
+<span class="w">            </span><span class="nv">ARCHIVE</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="nv">$IGNORE_LIST</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[*]Downloading </span><span class="nv">$ARCHIVE</span><span class="s2">...&quot;</span>
+<span class="w">                </span>curl<span class="w"> </span>--silent<span class="w"> </span>-L<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span><span class="w"> </span>--output<span class="w"> </span>~/Downloads/<span class="s2">&quot;</span><span class="nv">$AUTHOR_REPO</span><span class="s2">&quot;</span>/<span class="s2">&quot;</span><span class="nv">$ARCHIVE</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">done</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="o">}</span>
+DownloadGitHubReleases
+</code></pre></div>
+<p>The archive is 2GB uncompressed, so save space by extracting only the content relevant to your system.</p>
+<p>To extract all files for Ubuntu:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># If you downloaded the zip file</span>
+unzip<span class="w"> </span>-l<span class="w"> </span>scap-security-guide-0.1.72.zip<span class="w">                              </span><span class="c1"># List files</span>
+unzip<span class="w"> </span>scap-security-guide-0.1.72.zip<span class="w"> </span>*ubuntu*<span class="w">                        </span><span class="c1"># Extract files</span>
+
+<span class="c1"># If you downloaded the tar file</span>
+tar<span class="w"> </span>-tvjf<span class="w"> </span>scap-security-guide-0.1.72.tar.bz2<span class="w">                         </span><span class="c1"># List files</span>
+tar<span class="w"> </span>-xvjf<span class="w"> </span>scap-security-guide-0.1.72.tar.bz2<span class="w"> </span>--wildcards<span class="w"> </span><span class="s1">&#39;*ubuntu*&#39;</span><span class="w">  </span><span class="c1"># Extract files</span>
+</code></pre></div>
+<p>If you wanted to only extract the data sources and Ansible playbooks relevant to your system:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>/etc/os-release
+unzip<span class="w"> </span>scap-security-guide-0.1.73.zip<span class="w"> </span><span class="s2">&quot;*ansible/</span><span class="nv">$ID</span><span class="s2">*&quot;</span><span class="w"> </span><span class="s2">&quot;*ssg-</span><span class="nv">$ID</span><span class="s2">*xml&quot;</span>
+</code></pre></div>
+<p>The default location for SCAP profiles is <code>/usr/share/xml/scap/ssg/content/*.xml</code>. Assuming you're working from a dedicated host for SCAP scanning, it's fine to work from any directory where you've downloaded the GitHub release files. If you want to "install" them on your system, copy the xml profiles.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/share/xml/scap/ssg/content
+sudo<span class="w"> </span>cp<span class="w"> </span>scap-security-guide-0.1.73/*.xml<span class="w"> </span>-t<span class="w"> </span>/usr/share/xml/scap/ssg/content/
+</code></pre></div>
+<p>This is optional. With the profiles available you're ready to proceed.</p>
+<h2 id="review-security-profiles">Review Security Profiles</h2>
+<p>There are a few ways to review the downlaoded security profiles.</p>
+<p>To import these policies into SCAP Workbench, see the <a href="https://static.open-scap.org/scap-workbench-1.1/#_open_different_content_optional">documentation</a>.</p>
+<p>You can extract the shell and Ansible files and review them with a text editor such as vim or VSCode:</p>
+<div class="highlight"><pre><span></span><code>code<span class="w"> </span>scap-security-guide-0.1.72/bash/ubuntu2204-script-standard.sh
+</code></pre></div>
+<p>With OpenSCAP installed, review the xml data stream which lists all available profiles with:</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>info<span class="w"> </span>scap-security-guide-0.1.72/ssg-ubuntu2204-ds-1.2.xml
+</code></pre></div>
+<p>Example output of a SCAP data source:</p>
+<div class="highlight"><pre><span></span><code>ubuntu@ubuntu2204:~/Downloads/ComplianceAsCode/content$ oscap info scap-security-guide-0.1.72/ssg-ubuntu2204-ds.xml
+Document type: Source Data Stream
+Imported: 2024-02-09T04:43:43
+
+Stream: scap_org.open-scap_datastream_from_xccdf_ssg-ubuntu2204-xccdf.xml
+Generated: (null)
+Version: 1.3
+Checklists:
+    Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2204-xccdf.xml
+        Status: draft
+        Generated: 2024-02-09
+        Resolved: true
+        Profiles:
+            Title: CIS Ubuntu 22.04 Level 1 Server Benchmark
+                Id: xccdf_org.ssgproject.content_profile_cis_level1_server
+            Title: CIS Ubuntu 22.04 Level 1 Workstation Benchmark
+                Id: xccdf_org.ssgproject.content_profile_cis_level1_workstation
+            Title: CIS Ubuntu 22.04 Level 2 Server Benchmark
+                Id: xccdf_org.ssgproject.content_profile_cis_level2_server
+            Title: CIS Ubuntu 22.04 Level 2 Workstation Benchmark
+                Id: xccdf_org.ssgproject.content_profile_cis_level2_workstation
+            Title: Standard System Security Profile for Ubuntu 22.04
+                Id: xccdf_org.ssgproject.content_profile_standard
+        Referenced check files:
+            ssg-ubuntu2204-oval.xml
+                system: http://oval.mitre.org/XMLSchema/oval-definitions-5
+            ssg-ubuntu2204-ocil.xml
+                system: http://scap.nist.gov/schema/ocil/2
+Checks:
+    Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2204-oval.xml
+    Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2204-ocil.xml
+    Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2204-cpe-oval.xml
+Dictionaries:
+    Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2204-cpe-dictionary.xml
+</code></pre></div>
+<p>Review further information about a profile using the unique <code>Id</code> obtained from the previous command with:</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>info<span class="w"> </span>--profile<span class="w"> </span>&lt;Id&gt;<span class="w"> </span>/path/to/ssg.xml
+</code></pre></div>
+<p>Example output:</p>
+<div class="highlight"><pre><span></span><code>ubuntu@ubuntu2204:~/Downloads/ComplianceAsCode/content$<span class="w"> </span>oscap<span class="w"> </span>info<span class="w"> </span>--profile<span class="w"> </span>xccdf_org.ssgproject.content_profile_standard<span class="w"> </span>scap-security-guide-0.1.72/ssg-ubuntu2204-ds.xml
+Document<span class="w"> </span>type:<span class="w"> </span>Source<span class="w"> </span>Data<span class="w"> </span>Stream
+Imported:<span class="w"> </span><span class="m">2024</span>-02-09T04:43:43
+
+Stream:<span class="w"> </span>scap_org.open-scap_datastream_from_xccdf_ssg-ubuntu2204-xccdf.xml
+Generated:<span class="w"> </span><span class="o">(</span>null<span class="o">)</span>
+Version:<span class="w"> </span><span class="m">1</span>.3
+Profile
+<span class="w">    </span>Title:<span class="w"> </span>Standard<span class="w"> </span>System<span class="w"> </span>Security<span class="w"> </span>Profile<span class="w"> </span><span class="k">for</span><span class="w"> </span>Ubuntu<span class="w"> </span><span class="m">22</span>.04
+<span class="w">    </span>Id:<span class="w"> </span>xccdf_org.ssgproject.content_profile_standard
+
+<span class="w">    </span>Description:<span class="w"> </span>This<span class="w"> </span>profile<span class="w"> </span>contains<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>ensure<span class="w"> </span>standard<span class="w"> </span>security<span class="w"> </span>baseline<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>Ubuntu<span class="w"> </span><span class="m">22</span>.04<span class="w"> </span>system.<span class="w"> </span>Regardless<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>system<span class="err">&#39;</span>s<span class="w"> </span>workload<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>these<span class="w"> </span>checks<span class="w"> </span>should<span class="w"> </span>pass.
+</code></pre></div>
+<h2 id="evaluate-a-system">Evaluate a System</h2>
+<p>Even without <em>applying</em> a policy, you can evaluate a system against any policy and generate a report in the form of XML and human readable HTML files. <strong>Effectively evaluating a system often requires root privileges.</strong></p>
+<p>This is easier to read using variables. You can write this to a <code>scan.sh</code> file if it's easier.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">results_path</span><span class="o">=</span><span class="s1">&#39;/path/to/results.xml&#39;</span>
+<span class="nv">report_path</span><span class="o">=</span><span class="s1">&#39;/path/to/report.html&#39;</span>
+<span class="nv">profile_id</span><span class="o">=</span><span class="s1">&#39;&lt;xccdf_org.ssgproject.content_profile_some_profile&gt;&#39;</span>
+<span class="nv">ssg_data_file</span><span class="o">=</span><span class="s1">&#39;/path/to/&lt;ssg_data_file&gt;.xml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>--profile<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$profile_id</span><span class="s2">&quot;</span><span class="w"> </span>--results-arf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_path</span><span class="s2">&quot;</span><span class="w"> </span>--report<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ssg_data_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>From the <a href="https://github.com/OpenSCAP/openscap/blob/main/docs/manual/manual.adoc#41-scanning-using-scap-source-data-streams">documentation</a>:</p>
+<blockquote>
+<ul>
+<li><code>profile_id</code> The ID of an XCCDF profile, ID's are listed executing <code>oscap info &lt;ssg_data_file&gt;</code>, and typically start with <code>xccdf_org.ssgproject.content_profile_*</code></li>
+<li><code>results_path</code> The file path where the results in SCAP results data stream format (ARF) will be generated as an XML</li>
+<li><code>report_path</code> The file path where a report in HTML format will be generated</li>
+<li><code>ssg_data_file</code> The file path of the evaluated SCAP source data stream (These are in the root of the compliance as code releases, with XML file extensions)</li>
+</ul>
+</blockquote>
+<p>For example, to evaluate the <code>xccdf_org.ssgproject.content_profile_ospp profile</code> from the <code>/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml</code> SCAP source data stream run this command:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">results_path</span><span class="o">=</span><span class="s1">&#39;/path/to/results.xml&#39;</span>
+<span class="nv">report_path</span><span class="o">=</span><span class="s1">&#39;/path/to/report.html&#39;</span>
+<span class="nv">profile_id</span><span class="o">=</span><span class="s1">&#39;xccdf_org.ssgproject.content_profile_ospp&#39;</span>
+<span class="nv">ssg_data_file</span><span class="o">=</span><span class="s1">&#39;/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>--profile<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$profile_id</span><span class="s2">&quot;</span><span class="w"> </span>--results-arf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_path</span><span class="s2">&quot;</span><span class="w"> </span>--report<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ssg_data_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>The progress and results will be shown in the terminal. Full results are generated in <code>results.xml</code> as a SCAP data stream and an HTML report. The report is easily readable, and could even be saved as a PDF from the browser for your records.</p>
+<h2 id="remediate-a-system">Remediate a System</h2>
+<p>There are two ways to remediate a system:</p>
+<ul>
+<li>Immediately after a scan, by adding <code>--remediate</code></li>
+<li>After scanning, use the results to generate a remediation script or playbook (⭐RECOMMENDED)</li>
+</ul>
+<p>If you just want to run all remediation steps (again, high chance of breaking your system), take the <code>bash</code> snippet from <a href="#evaluate-a-system">Evaluating a System</a> above and add <code>--remediate</code> to it, for example:</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>xccdf<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>--remediate<span class="w"> </span>--profile<span class="w"> </span>&lt;SNIP&gt;
+</code></pre></div>
+<p>Instead if you prefer to generate a remediation file based on your scan (which is recommended), do the following.</p>
+<p>First after evaluating a system, get the metadata from your scan's results:</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>info<span class="w"> </span>results.xml
+</code></pre></div>
+<p>You want the value of the <code>Result ID:</code>, for example: <code>xccdf_org.open-scap_testresult_xccdf_org.ssgproject.content_profile_standard</code>.</p>
+<p>Generate remediation files from that scan's results. There are multiple options for <code>--fix-type</code>.</p>
+<ul>
+<li><code>--fix-type bash</code></li>
+<li><code>--fix-type ansible</code></li>
+</ul>
+<p>You could even write this as <code>make-remediation.sh</code>. To create an Ansible remediation playbook:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">results_file</span><span class="o">=</span><span class="s1">&#39;/path/to/results.xml&#39;</span>
+<span class="nv">result_id</span><span class="o">=</span><span class="s1">&#39;&lt;xccdf_org.open-scap_testresult_xccdf_org.ssgproject.content_profile_name&gt;&#39;</span>
+<span class="nv">fix_type</span><span class="o">=</span><span class="s1">&#39;ansible&#39;</span>
+<span class="nv">remediation_file</span><span class="o">=</span><span class="s1">&#39;/path/to/playbook.yml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span>generate<span class="w"> </span>fix<span class="w"> </span>--fix-type<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fix_type</span><span class="s2">&quot;</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$remediation_file</span><span class="s2">&quot;</span><span class="w"> </span>--result-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<h2 id="apply-a-policy">Apply a Policy</h2>
+<p><em><strong>IMPORTANT</strong>: As a reminder, In most cases it is better to scan a system, and generate a custom remediation playbook based on the system's current state. Jump to <a href="#ansible-tags">Ansible Tags</a> and <a href="#test-policies-via-tags">Test Policies via Tags</a> for a modular approach to testing policies by using tags.</em></p>
+<p>All policies have shell scripts and Ansible playbooks available to apply them. You should be applying these policies as root, either through <code>sudo</code>, as <code>root</code> itself, or through some other elevation mechanism like Ansible's <code>-b</code>, <code>--ask-become-pass</code>, or <code>ansible_become_password: {{ &lt;sudo-password&gt; }}</code> in a vault file.</p>
+<p><em>The downside to using bash scripts is you cannot specify <a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html">tags</a>, limiting what steps in the script to apply. Apart from bash scripts being potentially harder to maintain and scale, Ansible has the <a href="https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#cmdoption-ansible-playbook-C"><code>-C</code></a> and <a href="https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#cmdoption-ansible-playbook-D"><code>-D</code></a> options to show what will change before applying the policy.This is invaluable for testing and validating remediation scripts. Only Ansible can use tags.</em></p>
+<p>Apply a prebuilt policy using <code>bash</code> (highest chance of breaking a system) or a remediation policy (also high chance of breaking systems without testing):</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>bash<span class="w"> </span>./scap-security-guide-0.1.73/bash//ubuntu2004-script-standard.sh
+sudo<span class="w"> </span>bash<span class="w"> </span>./path/to/remediation.sh
+</code></pre></div>
+<p>Apply a policy using Ansible. One again, highlighting the use of <a href="#ansible-tags">tags</a>.</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>playbook.yml<span class="w">                                          </span><span class="c1"># as root</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>playbook.yml<span class="w">                     </span><span class="c1"># using sudo</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>playbook.yml<span class="w">  </span>--tags<span class="w"> </span>tag1,tag2<span class="w">   </span><span class="c1"># using tags</span>
+</code></pre></div>
+<p><em><strong>NOTE</strong>: Some playbooks on Debian based systems will fail due to the line <code>set -o pipefail</code> in tasks using <code>ansible.builtin.shell</code>. This is because <code>sh</code> defaults to <code>dash</code> on Debian based systems, and <code>dash</code> has no support for pipefail.</em></p>
+<p>An easy work around for this can be made at the top of the Ansible playbook file, by adding <code>ansible_shell_executable: /bin/bash</code> under <code>vars:</code>.</p>
+<div class="highlight"><pre><span></span><code>&lt;SNIP&gt;
+- name: Ansible Playbook for xccdf_org.ssgproject.content_profile_standard
+  hosts: all
+  vars:
+    ansible_shell_executable: /bin/bash
+&lt;SNIP&gt;
+</code></pre></div>
+<h3 id="ansible-tags">Ansible Tags</h3>
+<p><em>To use tags, they must be included on the CLI with <code>--tags tag1,tag2...</code>, otherwise this won't work effectively given that each prebuilt Ansible file is a self contained playbook. You would need to modify that playbook to be a task file, and any manual modification of the SCAP content is what we're trying to avoid by using tags.</em></p>
+<p>Benefits of using tags:</p>
+<ul>
+<li>SCAP playbooks tag every task with its rule name</li>
+<li>Maintain a list of tags instead of code, profiles, or complex scripts</li>
+<li>Repeatability, portability between profiles and OS's</li>
+<li>Easier to modify, debug, and create a "state" for a system</li>
+<li>Use one list of tags with multiple profiles</li>
+<li>If a tag is missing or not present in the playbook, that tag is basically ignored. All other tags still present will execute.</li>
+</ul>
+<p>With OpenSCAP content, every task in every playbook is "tagged", meaning exactly what it implies; here's an example task:</p>
+<div class="highlight"><pre><span></span><code>    - name: Comment out any occurrences of kernel.randomize_va_space from config files
+      replace:
+        path: &#39;{{ item.path }}&#39;
+        regexp: ^[\s]*kernel.randomize_va_space
+        replace: &#39;#kernel.randomize_va_space&#39;
+      loop: &#39;{{ find_sysctl_d.files }}&#39;
+      when: ansible_virtualization_type not in [&quot;docker&quot;, &quot;lxc&quot;, &quot;openvz&quot;, &quot;podman&quot;, &quot;container&quot;]
+      tags:
+      - DISA-STIG-UBTU-22-213020
+      - NIST-800-171-3.1.7
+      - NIST-800-53-CM-6(a)
+      - NIST-800-53-SC-30
+      - NIST-800-53-SC-30(2)
+      - PCI-DSS-Req-2.2.1
+      - PCI-DSSv4-3.3.1.1
+      - disable_strategy
+      - low_complexity
+      - medium_disruption
+      - medium_severity
+      - reboot_required
+      - sysctl_kernel_randomize_va_space
+</code></pre></div>
+<p>Tags here are as broad as the policy this task could apply to (e.g. <code>DISA-STIG-UBTU-22-213020</code>), and as specific as the task itself (<code>sysctl_kernel_randomize_va_space</code>). Knowing this, we could execute tasks in a remediation script systematically. This is the least overwhelming approach to begin testing a policy.</p>
+<p>For example, execute all tasks that are <code>low_complexity</code>:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>low_complexity
+</code></pre></div>
+<p>Or just execute tasks related to the setting itself; <code>sysctl_kernel_randomize_va_space</code>:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>sysctl_kernel_randomize_va_space
+</code></pre></div>
+<p>Or avoid tasks that require a reboot:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--skip-tags<span class="w"> </span>reboot_required
+</code></pre></div>
+<p>The easiest way to do things is with a <code>tags.txt</code> file. For readability you could even write the file with each tag on a newline, and comment <code>#</code> out tags you don't want to use. The trick is parsing this file using command substitution. So for example, take this tags.txt file:</p>
+<div class="highlight"><pre><span></span><code># tags.txt
+sysctl_net_ipv4_tcp_syncookies
+#sysctl_fs_protected_symlinks
+sysctl_fs_suid_dumpable
+sysctl_kernel_randomize_va_space
+</code></pre></div>
+<p>Parse it with the following command:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-Pv<span class="w"> </span><span class="s2">&quot;^#&quot;</span><span class="w"> </span>&lt;<span class="w"> </span>tags.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="s1">&#39;,&#39;</span>
+</code></pre></div>
+<ul>
+<li><code>grep -Pv "^#"</code> removes any commented lines</li>
+<li><code>tr '\n' ','</code> translates the newlines into commas</li>
+</ul>
+<p>Run the playbook while loading the comma separated list of tags with:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>scap-security-guide-0.1.73/ansible/ubuntu2204-playbook-standard.yml<span class="w"> </span>--tags<span class="w"> </span><span class="k">$(</span>grep<span class="w"> </span>-Pv<span class="w"> </span><span class="s2">&quot;^#&quot;</span><span class="w"> </span>&lt;<span class="w"> </span>tags.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="k">)</span>
+</code></pre></div>
+<p>Doing this will give you full control over exactly what settings to maintain for really any system. You only need to maintain the list of tags to apply with <code>--tags</code> and the list to ignore through <code>--skip-tags</code>. These tags are consistent through each SCAP content release, so when a new version is released for an operating system and SCAP file, reuse the same commands to obtain and apply those tags.</p>
+<h3 id="extracting-all-tags">Extracting All Tags</h3>
+<p>To extract all tags from a playbook, into a list of one tag per line:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>scap-security-guide-0.1.73/ansible/ubuntu2204-playbook-standard.yml<span class="w"> </span>--list-tags<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;TASK TAGS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/^\s+TASK TAGS://g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/, /,/g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/ \[//g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/\]$//g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>tags.txt
+</code></pre></div>
+<p>To extract all tags from all policies based on your system (e.g. Fedora, or Ubuntu):</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># get-tags.sh</span>
+<span class="nv">content_path</span><span class="o">=</span><span class="s1">&#39;scap-security-guide-0.1.73/ansible/&#39;</span>
+<span class="nb">source</span><span class="w"> </span>/etc/os-release
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$content_path</span><span class="s2">&quot;</span>
+<span class="k">for</span><span class="w"> </span>playbook<span class="w"> </span><span class="k">in</span><span class="w"> </span>./*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">ID</span><span class="si">}</span><span class="s2">&quot;</span>*.yml<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">    </span>ansible-playbook<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$playbook</span><span class="s2">&quot;</span><span class="w"> </span>--list-tags<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;TASK TAGS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/      TASK TAGS://g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/, /,/g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/ \[//g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/\]$//g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span><span class="s1">&#39;\n&#39;</span>
+<span class="k">done</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>tags.txt.tmp<span class="w"> </span>&gt;/dev/null
+sort<span class="w"> </span>&lt;<span class="w"> </span>tags.txt.tmp<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>tags.txt<span class="w"> </span>&gt;/dev/null
+rm<span class="w"> </span>tags.txt.tmp
+</code></pre></div>
+<h3 id="using-lists-of-tags">Using Lists of Tags</h3>
+<p>In some cases, policies will share the same tag (basically they both have the same rule). In other cases, you're pulling tags from multiple policies. In that case, make note of each policy you want to apply tags from because <strong>you'll need to run your list of tags against each of those playbooks</strong>.</p>
+<p>There are two ways to look at tags. First, what I will call "meta" tags, that define a set of changes. For example tags such as <code>PCI-DSSv4-10.2.1</code>, <code>disable_strategy</code>, or <code>low_disruption</code> include multiple rules and changes. The tag itself implies the types of changes it will be making or the policy it's adhearing to.</p>
+<p>Some examples of "meta" tags that should be generally safe to call (you should still review and test them individually):</p>
+<div class="highlight"><pre><span></span><code>disable_strategy
+enable_strategy
+low_complexity
+low_disruption
+no_reboot_needed
+</code></pre></div>
+<p>Alternatively, (and what I argue is the more robust way) since you're already having to review every single change for effectiveness, determine which rules you want to apply and reference them by their individual tag.</p>
+<p>The following list includes general hardening rules that I've slowly added to over time, and have had in place on all my systems, desktop or server (when applicable) since Ubuntu 18.04. I previously maintained these with interactive scripts, which became harder to update or scale, and is ultimately what prompted the writing of this guide. These systems were used for various tasks such as virtualization, development, VPN servers, general usage (web browsing, conferencing, office document creation, content creation) and even Kali Linux for general security testing.</p>
+<div class="highlight"><pre><span></span><code>coredump_disable_backtraces
+coredump_disable_storage
+grub2_enable_iommu_force
+kernel_module_cramfs_disabled
+kernel_module_freevxfs_disabled
+kernel_module_hfs_disabled
+kernel_module_hfsplus_disabled
+kernel_module_jffs2_disabled
+kernel_module_rds_disabled
+kernel_module_tipc_disabled
+kernel_module_udf_disabled
+package_bind_removed
+package_cups_removed
+package_cyrusimapd_removed
+package_dhcp_removed
+package_dovecot_removed
+package_httpd_removed
+package_inetutilstelnetd_removed
+package_netsnmp_removed
+package_nfskernelserver_removed
+package_nginx_removed
+package_nis_removed
+package_ntpdate_removed
+package_openldapclients_removed
+package_openldapservers_removed
+package_rpcbind_removed
+package_rsh_removed
+package_samba_removed
+package_squid_removed
+package_talk_removed
+package_telnetd_removed
+package_telnetdssl_removed
+package_telnet_removed
+package_vsftpd_removed
+package_xinetd_removed
+service_apport_disabled
+service_avahidaemon_disabled
+service_cups_disabled
+service_kdump_disabled
+service_timesyncd_enabled
+sysctl_fs_protected_hardlinks
+sysctl_fs_protected_symlinks
+sysctl_fs_suid_dumpable
+sysctl_kernel_dmesg_restrict
+sysctl_kernel_randomize_va_space
+sysctl_net_ipv4_conf_all_accept_redirects
+sysctl_net_ipv4_conf_all_accept_source_route
+sysctl_net_ipv4_conf_all_log_martians
+sysctl_net_ipv4_conf_all_rp_filter
+sysctl_net_ipv4_conf_all_secure_redirects
+sysctl_net_ipv4_conf_all_send_redirects
+sysctl_net_ipv4_conf_default_accept_redirects
+sysctl_net_ipv4_conf_default_accept_source_route
+sysctl_net_ipv4_conf_default_log_martians
+sysctl_net_ipv4_conf_default_rp_filter
+sysctl_net_ipv4_conf_default_secure_redirects
+sysctl_net_ipv4_conf_default_send_redirects
+sysctl_net_ipv4_icmp_echo_ignore_broadcasts
+sysctl_net_ipv4_icmp_ignore_bogus_error_responses
+sysctl_net_ipv4_ip_forward
+sysctl_net_ipv4_tcp_syncookies
+sysctl_net_ipv6_conf_all_accept_ra
+sysctl_net_ipv6_conf_all_accept_redirects
+sysctl_net_ipv6_conf_all_accept_source_route
+sysctl_net_ipv6_conf_all_forwarding
+sysctl_net_ipv6_conf_default_accept_ra
+sysctl_net_ipv6_conf_default_accept_redirects
+sysctl_net_ipv6_conf_default_accept_source_route
+</code></pre></div>
+<p>Tags in that list appear frequently throughout all of the security polices. Looking at an easy to read list like this will help you apply hardening to a system based on what you want. One example is if you're building an nginx server, comment out the line <code>package_nginx_removed</code>. Similarly if you have a personal workstation and need to print frequently, you'll want to comment <code>package_cups_removed</code> and <code>service_cups_disabled</code>.</p>
+<p>To obtain tags from other (or future) policies, just use the previously mentioned <a href="#extracting-all-tags"><code>get-tags.sh</code></a> section to generate your own list.</p>
+<h3 id="test-policies-via-tags">Test Policies via Tags</h3>
+<p>Let's take the <a href="http://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-cis_level2_workstation.html">CIS L2 Workstation benchmark</a>. This has numerous changes that could take a long time if not properly tested and manually configured (anything related to <code>aide</code>) or break the system entirely. Using <code>ansible-playbook</code>'s <code>-C</code> and <code>-D</code> to check and diff the changes, we can walk through a "dry run" until all of the tasks we have tags specified for execute, showing us exactly what will change.</p>
+<p>Since <code>aide</code> causes problems up front, we'll <a href="#extracting-all-tags">search the remediation playbook for any tasks related to <code>aide</code></a>, and add each task's tag as an argument to <code>--skip-tags</code>.</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>low_complexity,low_disruption<span class="w"> </span>--skip-tags<span class="w"> </span>aide_build_database,aide_check_audit_tools<span class="w"> </span>-D<span class="w"> </span>-C
+</code></pre></div>
+<p><em>NOTE: This may result in an infinite loop, leaving you to <code>ctrl+c</code> out of the dry run. Running this play without <code>-C -D</code> will set all of the changes, again potentially ending in an infiite loop to <code>ctrl+c</code> out of. This may be specific to this version of this policy, but these types of things can happen, which is why these policies need tested.</em></p>
+<p>Reboot to apply any changes that require it.</p>
+<p><strong>Review and Repeat</strong></p>
+<p>Now you can scan the system again, saving separate results files for comparison to the originals. Filter down the html report by <code>failed</code> and <code>severity</code> to prioritize your next steps. In some cases, tasks simply do not make the changes they intend to make, and you must plan to do those manually (most of the <code>auditd</code> tasks). In others, the change has been made but isn't being read. Reviewing the html reports will always be necessary when baselining a new system, but once you determine what must be applied manually or by Ansible, you can repate these steps as needed.</p>
+<p>Generally, anything needing a site specific configuration like <code>aide</code> or <code>auditd</code> may benefit from be configured separately from these policies. The same goes for repartitioning drives, these policies will not attempt to do this for you. Whether this means writing your own anisble roles for these items or similar, is up to you.</p>
+<p>The following section walks through applying a standard profile to Ubuntu 22.04. This may be helpful as practice if you were lost in the last example.</p>
+<h3 id="rules-without-ansible-tasks">Rules Without Ansible Tasks</h3>
+<p><em>Some rules simply have no Ansible tasks to apply them. It's also possible a task continues to fail during a play. In both cases you will have to use a bash remediation script.</em></p>
+<p>Take the <a href="https://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-cis_level2_workstation.html#xccdf_org.ssgproject.content_group_auditing">auditd rules for the CIS L2 workstation benchmark on Ubuntu 22.04</a> as an example. These Ansible tasks may fail, resulting in an endless loop when running the playbook. You will need to resolve this manually, either on the command line, or with the SCAP Workbench GUI tool (install via <code>dnf</code> on Fedora, or compile from source on Ubuntu).</p>
+<p>Related rules are often grouped together in policy files, <em>but not always</em>. Whether you're using the prebuilt bash scripts that ship with ComplianceAsCode/content, a remediation script you created using <code>oscap</code>, or building a custom profile in SCAP Workbench, the same technique applies.</p>
+<p>The following approach tries to mimic what we've been doing using Ansible tags.</p>
+<p><em><strong>NOTE</strong>: Rules in bash remediation scripts can't be easily referenced in groups by name, type, or policy, in the way that they can be by tags in Ansible playbooks.</em></p>
+<hr />
+<h4 id="customize-with-scap-workbench">Customize with SCAP Workbench</h4>
+<p><em>You can customize profiles for </em><em>any</em><em> policy from the Workbench GUI.</em></p>
+<ul>
+<li><code>sudo dnf install -y scap-workbench</code> on Fedora or <a href="https://github.com/OpenSCAP/scap-workbench">compile from source</a></li>
+<li>Run SCAP Workbench, select the main <code>Profile</code> you're targeting from the Profile drop down menu</li>
+<li>To the right of the <code>Profile</code> drop down menu, click the <code>Customize</code> button</li>
+<li>You'll be prompted to name the profile, Click OK or change the custom profile name</li>
+<li>Click <code>Deselect all</code> at the top</li>
+<li>Use the search box to find all the rules you need and enable them by checking their boxes</li>
+<li>Click OK when you're done</li>
+<li>Now back on the main window, select the <code>Generate remediation role</code> drop down on the bottom left, choose <code>bash</code>, save it</li>
+<li>To save the customization profile, go to File &gt; Save Customization Only</li>
+</ul>
+<p>Run the remediation script with <code>sudo bash ./remediation.sh</code>.</p>
+<h4 id="customize-with-bash">Customize with <code>bash</code></h4>
+<p>List every rule matching <code>*rule_audit*</code>, which will also display the rule number as <code>(&lt;some-number&gt; / &lt;some-number&gt;)</code>:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;BEGIN fix.+rule_audit.*</span>$<span class="s2">&quot;</span><span class="w"> </span>./ubuntu2204-script-cis_level2_workstation.sh
+</code></pre></div>
+<ul>
+<li>Create a copy of the remediation script to edit</li>
+<li>Note the number of the first rule returned by <code>grep</code>, use that to find that line</li>
+<li>Delete everything before that line</li>
+<li>Do the same for the last rule's number, and everything <em>after</em> that line</li>
+<li>Check for any extra rules in between, remove them</li>
+</ul>
+<p>Run the remediation script with <code>sudo bash ./remediation.sh</code>.</p>
+<hr />
+<p>Using these methods in additon to tags to fill any gaps in policy coverage is a more manageable approach.</p>
+<p>Include the script in an Ansible role under <code>files/remediation-auditd.sh</code> or reference it in a playbook. It will be copied to each node and executed.</p>
+<p>In some cases it may make more sense to write your own reusable Ansible role or shell script you can use accross multiple machines to remedy the items that are missing. This is something I've found particularly useful with <code>aide</code> and <code>auditd</code>, as a better way to customize and manage them:</p>
+<ul>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd">Auditd Ansible role</a></li>
+<li><a href="https://github.com/straysheep-dev/ansible-configs/tree/main/aide">AIDE Ansible role</a></li>
+</ul>
+<h3 id="complete-walkthrough-of-a-policy">Complete Walkthrough of a Policy</h3>
+<p><em>This section is to help those getting started.</em></p>
+<p>Lets configure the <a href="http://static.open-scap.org/ssg-guides/ssg-ubuntu2204-guide-standard.html">Standard System Security Profile for Ubuntu 22.04</a>, and make any necessary adjustments to prevent the system from breaking.</p>
+<p>Obtain the <code>Id</code> for the "Standard System Security Profile for Ubuntu 22.04":</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>info<span class="w"> </span>scap-security-guide-0.1.73/ssg-ubuntu2204-ds-1.2.xml
+</code></pre></div>
+<p><em>Assuming you're using a virtual machine to run these tests, with <a href="#install-openscap-ansible">Ansible installed</a>, and the <a href="#github-release-archive">open-scap content GitHub release</a> downloaded, </em><em>take a snapshot</em><em>.</em></p>
+<p>The working directory here is <code>~/src</code>, with your SCAP content extracted to <code>~/src/scap-security-guide-0.1.73/</code>.</p>
+<p>Start by scanning the system in its default state, and writing the results to a file:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">results_path</span><span class="o">=</span><span class="s1">&#39;/home/user/src/results.xml&#39;</span>
+<span class="nv">report_path</span><span class="o">=</span><span class="s1">&#39;/home/user/src/report.html&#39;</span>
+<span class="nv">profile_id</span><span class="o">=</span><span class="s1">&#39;xccdf_org.ssgproject.content_profile_standard&#39;</span>
+<span class="nv">ssg_data_file</span><span class="o">=</span><span class="s1">&#39;/home/user/src/scap-security-guide-0.1.73/ssg-ubuntu2204-ds-1.2.xml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>--profile<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$profile_id</span><span class="s2">&quot;</span><span class="w"> </span>--results-arf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_path</span><span class="s2">&quot;</span><span class="w"> </span>--report<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ssg_data_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Get the <code>Id</code> from the results file:</p>
+<div class="highlight"><pre><span></span><code>oscap<span class="w"> </span>info<span class="w"> </span>/home/user/src/results.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;Result ID:&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $3}&#39;</span>
+</code></pre></div>
+<p>Generate a remedation playbook:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">results_file</span><span class="o">=</span><span class="s1">&#39;/home/user/src/results.xml&#39;</span>
+<span class="nv">result_id</span><span class="o">=</span><span class="s1">&#39;xccdf_org.open-scap_testresult_xccdf_org.ssgproject.content_profile_standard&#39;</span>
+<span class="nv">fix_type</span><span class="o">=</span><span class="s1">&#39;ansible&#39;</span>
+<span class="nv">remediation_file</span><span class="o">=</span><span class="s1">&#39;/home/user/src/remediate.yml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span>generate<span class="w"> </span>fix<span class="w"> </span>--fix-type<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fix_type</span><span class="s2">&quot;</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$remediation_file</span><span class="s2">&quot;</span><span class="w"> </span>--result-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Now that we have a playbook made based on our system's current state, let's look at the tags in some of the tasks. We can see two interesting tags that may be a good place to start:</p>
+<ul>
+<li><code>low_complexity</code></li>
+<li><code>low_disruption</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>nano<span class="w"> </span>remediation.yml
+&lt;SNIP&gt;
+<span class="w"> </span>-<span class="w"> </span>hosts:<span class="w"> </span>all
+<span class="w">   </span>vars:
+<span class="w">      </span>var_sshd_set_keepalive:<span class="w"> </span>!!str<span class="w"> </span><span class="m">0</span>
+<span class="w">   </span>tasks:
+<span class="w">    </span>-<span class="w"> </span>name:<span class="w"> </span>Gather<span class="w"> </span>the<span class="w"> </span>package<span class="w"> </span>facts
+<span class="w">      </span>package_facts:
+<span class="w">        </span>manager:<span class="w"> </span>auto
+<span class="w">      </span>tags:
+<span class="w">      </span>-<span class="w"> </span>NIST-800-53-CM-6<span class="o">(</span>a<span class="o">)</span>
+<span class="w">      </span>-<span class="w"> </span>PCI-DSS-Req-10.7
+<span class="w">      </span>-<span class="w"> </span>configure_strategy
+<span class="w">      </span>-<span class="w"> </span>ensure_logrotate_activated
+<span class="w">      </span>-<span class="w"> </span>low_complexity<span class="w"> </span>⭐
+<span class="w">      </span>-<span class="w"> </span>low_disruption<span class="w"> </span>⭐
+<span class="w">      </span>-<span class="w"> </span>medium_severity
+<span class="w">      </span>-<span class="w"> </span>no_reboot_needed
+&lt;SNIP&gt;
+</code></pre></div>
+<p>Ansible has two great options for applying policies through playbooks, the <a href="https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#cmdoption-ansible-playbook-C"><code>--check</code></a> (<code>-C</code>) and <a href="https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#cmdoption-ansible-playbook-D"><code>--diff</code></a> (<code>-D</code>) options. Ansible will read a playbook, and try to tell us what changes will occur when executing that playbook.</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>lowcomplexity,low_disruption<span class="w"> </span>--check<span class="w"> </span>--diff
+</code></pre></div>
+<p>Review the results for anything interesting or unexpected.</p>
+<p>With a VM snapshot taken, now <em>apply</em> all tasks in the playbook matching those tags:</p>
+<div class="highlight"><pre><span></span><code>└─$<span class="w"> </span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>lowcomplexity,low_disruption
+BECOME<span class="w"> </span>password:
+
+PLAY<span class="w"> </span><span class="o">[</span>all<span class="o">]</span><span class="w"> </span>*********************************************************************************************************
+
+TASK<span class="w"> </span><span class="o">[</span>Gathering<span class="w"> </span>Facts<span class="o">]</span><span class="w"> </span>*********************************************************************************************
+
+ok:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span>
+
+&lt;SNIP&gt;
+
+TASK<span class="w"> </span><span class="o">[</span>Remove<span class="w"> </span>parameter<span class="w"> </span>from<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/ssh/sshd_config.d<span class="o">]</span><span class="w"> </span>*******************************************************
+changed:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>...
+
+TASK<span class="w"> </span><span class="o">[</span>Insert<span class="w"> </span>correct<span class="w"> </span>line<span class="w"> </span>to<span class="w"> </span>/etc/ssh/sshd_config.d/01-complianceascode-reinforce-os-defaults.conf<span class="o">]</span><span class="w"> </span>****************
+changed:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span>
+
+&lt;SNIP&gt;
+
+TASK<span class="w"> </span><span class="o">[</span>Remove<span class="w"> </span>parameter<span class="w"> </span>from<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/ssh/sshd_config.d<span class="o">]</span><span class="w"> </span>*******************************************************
+changed:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>...
+
+TASK<span class="w"> </span><span class="o">[</span>Insert<span class="w"> </span>correct<span class="w"> </span>line<span class="w"> </span>to<span class="w"> </span>/etc/ssh/sshd_config.d/00-complianceascode-hardening.conf<span class="o">]</span><span class="w"> </span>****************************
+changed:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span>
+
+&lt;SNIP&gt;
+
+TASK<span class="w"> </span><span class="o">[</span>Ensure<span class="w"> </span>auditd<span class="w"> </span>is<span class="w"> </span>installed<span class="o">]</span><span class="w"> </span>**********************************************************************************
+ok:<span class="w"> </span><span class="o">[</span>localhost<span class="o">]</span>
+
+PLAY<span class="w"> </span>RECAP<span class="w"> </span>*********************************************************************************************************
+localhost<span class="w">                  </span>:<span class="w"> </span><span class="nv">ok</span><span class="o">=</span><span class="m">23</span><span class="w">   </span><span class="nv">changed</span><span class="o">=</span><span class="m">4</span><span class="w">    </span><span class="nv">unreachable</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">failed</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">skipped</span><span class="o">=</span><span class="m">2</span><span class="w">    </span><span class="nv">rescued</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">ignored</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+<p>You'll notice if you run this multiple times, 4 tasks will continue to return "changed", while everything else returns as "ok". Investigating the files mentioned in the tasks, we can verify the changes were set correctly:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>su<span class="w"> </span>-
+root@ubuntu2204:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/ssh/sshd_config.d/
+root@ubuntu2204:/etc/ssh/sshd_config.d#<span class="w"> </span>ls<span class="w"> </span>-l
+total<span class="w"> </span><span class="m">8</span>
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">19</span><span class="w"> </span>May<span class="w"> </span><span class="m">27</span><span class="w"> </span><span class="m">02</span>:58<span class="w"> </span><span class="m">00</span>-complianceascode-hardening.conf
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">24</span><span class="w"> </span>May<span class="w"> </span><span class="m">27</span><span class="w"> </span><span class="m">02</span>:58<span class="w"> </span><span class="m">01</span>-complianceascode-reinforce-os-defaults.conf
+root@ubuntu2204:/etc/ssh/sshd_config.d#<span class="w"> </span>cat<span class="w"> </span>./*
+PermitRootLogin<span class="w"> </span>no
+PermitEmptyPasswords<span class="w"> </span>no
+</code></pre></div>
+<p>This is just how Ansible works. It will <em>always</em> write to files in some cases, but this behavior should ensure the files are in the correct state every time it writes to them. We can safely proceed with applying more of the policy.</p>
+<p>Next we'll check tasks for tags <code>configure_strategy</code> and <code>ensure_logrotate_activated</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>configure_strategy,ensure_logrotate_activated<span class="w"> </span>-D<span class="w"> </span>-C
+BECOME<span class="w"> </span>password:
+
+&lt;SNIP&gt;
+
+PLAY<span class="w"> </span>RECAP<span class="w"> </span>********************************************************************************************************
+localhost<span class="w">                  </span>:<span class="w"> </span><span class="nv">ok</span><span class="o">=</span><span class="m">6</span><span class="w">    </span><span class="nv">changed</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">unreachable</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">failed</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">skipped</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">rescued</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">ignored</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+<p>All 6 tasks are already "ok".</p>
+<p>Let's try checking tasks tagged as <code>medium_severity</code>:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml<span class="w"> </span>--tags<span class="w"> </span>medium_severity<span class="w"> </span>-D<span class="w"> </span>-C
+</code></pre></div>
+<p>You should see some overlap between these results and what we've already executed; nothing that should break the system. Go ahead and apply all tasks with this tag.</p>
+<p>At this point the system should pass (nearly) all checks for the Standard System Security Profile. Feel free to apply the entire remediation playbook.</p>
+<div class="highlight"><pre><span></span><code>└─$<span class="w"> </span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;localhost,&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-b<span class="w"> </span>--ask-become-pass<span class="w"> </span>./remediate.yml
+BECOME<span class="w"> </span>password:
+
+&lt;SNIP&gt;
+
+PLAY<span class="w"> </span>RECAP<span class="w"> </span>********************************************************************************************************
+localhost<span class="w">                  </span>:<span class="w"> </span><span class="nv">ok</span><span class="o">=</span><span class="m">26</span><span class="w">   </span><span class="nv">changed</span><span class="o">=</span><span class="m">6</span><span class="w">    </span><span class="nv">unreachable</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">failed</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">skipped</span><span class="o">=</span><span class="m">2</span><span class="w">    </span><span class="nv">rescued</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="nv">ignored</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+<p>Finally, scan the system again, changing the output file names from <code>results</code> to <code>results-fixed</code> so we don't overwrite the original results:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">results_path</span><span class="o">=</span><span class="s1">&#39;/home/user/src/results-fixed.xml&#39;</span>
+<span class="nv">report_path</span><span class="o">=</span><span class="s1">&#39;/home/user/src/report-fixed.html&#39;</span>
+<span class="nv">profile_id</span><span class="o">=</span><span class="s1">&#39;xccdf_org.ssgproject.content_profile_standard&#39;</span>
+<span class="nv">ssg_data_file</span><span class="o">=</span><span class="s1">&#39;/home/user/src/scap-security-guide-0.1.73/ssg-ubuntu2204-ds-1.2.xml&#39;</span>
+oscap<span class="w"> </span>xccdf<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>--profile<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$profile_id</span><span class="s2">&quot;</span><span class="w"> </span>--results-arf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results_path</span><span class="s2">&quot;</span><span class="w"> </span>--report<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$report_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ssg_data_file</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Change ownership of the remediated html files to your non-root user, to open in Firefox.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span><span class="nv">$USER</span>:<span class="nv">$USER</span><span class="w"> </span>~/src/*.html
+</code></pre></div>
+<p>If you have a "default" install of an Ubuntu VM, you'll likely be failing the "Disk Partitioning" checks, which is fine since this needs addressed manually. These playbooks will not attempt to fix certain things as critical as disk partitions. Additionally you may also be failing the "Set SSH Client Alive Interval". Both of these can be investigated further now that you've narrowed down what needs addressed outside of the playbook.</p>
+<p><strong>Conclusion</strong></p>
+<p>This was an easy example, but the same process applies to the larger policies. Tags shoud help reduce maintenance and debugging time when applying SCAP content, and being a part of Anisble means this method can scale with your inventory and operating systems.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

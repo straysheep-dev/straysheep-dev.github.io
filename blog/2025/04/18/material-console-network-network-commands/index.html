@@ -1,0 +1,3472 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://straysheep-dev.github.io/blog/2025/04/18/material-console-network-network-commands/">
+      
+      
+        <link rel="prev" href="../../../02/22/material-sync-circle-rsync/">
+      
+      
+        <link rel="next" href="../../../06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Network Commands - straysheep.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Network Commands - straysheep.dev" />
+<meta property="og:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/04/18/material-console-network-network-commands.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://straysheep-dev.github.io/blog/2025/04/18/material-console-network-network-commands/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Network Commands - straysheep.dev" />
+<meta property="twitter:image" content="https://straysheep-dev.github.io/assets/images/social/blog/2025/04/18/material-console-network-network-commands.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#network-commands" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="straysheep.dev" class="md-header__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            straysheep.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Network Commands
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Main
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="straysheep.dev" class="md-nav__button md-logo" aria-label="straysheep.dev" data-md-component="logo">
+      
+  <img src="../../../../../assets/logo.svg" alt="logo">
+
+    </a>
+    straysheep.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/straysheep-dev/straysheep-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    straysheep-dev.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2019/07/15/-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⭐ Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/octicons-alert-16-aide-advanced-intrusion-detection-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDE (Advanced Intrusion Detection Environment)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2023/08/20/simple-ansible-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07/25/simple-ansible-ansible-molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Molecule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/12/octicons-beaker-16-atomic-red-team-x-unix-artifacts-collector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Atomic Red Team x Unix Artifacts Collector
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-dns-bind9-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIND9 DNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-bitwarden-bitwarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bitwarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/15/material-file-tree-triage-auditd-logs-with-check-auditd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triage auditd logs with check-auditd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01/20/fontawesome-solid-gears-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clipboard Snooping (X11 and Wayland)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06/15/fontawesome-solid-square-binary-compile-static-binaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile Static Binaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/octicons-terminal-16-custom-shell-profiles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Shell Profiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-flatpak-flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flatpak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/08/simple-qemu-kvm-kernel-based-virtual-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KVM (Kernel-based Virtual Machine)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/28/material-code-tags-check-linting-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linting Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2022/08/29/material-magnify-scan-nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nessus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracepath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tracepath
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traceroute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        traceroute
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tracert
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mtr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mtr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpdump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tcpdump
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tshark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tshark
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pktmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pktmon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ipconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ipconfig
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        arp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netstat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netstat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ss
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sockstat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sockstat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lsof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lsof
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        route
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netsh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ip
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netplan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netplan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etcnetworkinterfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/network/interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-networkd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd-networkd
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networkmanager-nmcli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NetworkManager (nmcli)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iptables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iptables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nftables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ufw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        firewall-cmd
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-netconnection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test-NetConnection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-nettcpudpconnection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get-Net[TCP|UDP]Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netcat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#naabu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        naabu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#masscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        masscan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chisel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chisel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxychains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxychains
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/12/01/material-wifi-alert-nzyme-x-simple-raspberrypi-raspberry-pi--simple-proxmox-proxmox--simple-tailscale-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nzyme x [ Raspberry Pi + Proxmox + Tailscale]
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/29/material-file-document-arrow-right-openscap-practical-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSCAP Practical Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-openwrt-openwrt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenWrt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/02/simple-pfsense-pfsense-administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pfSense administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/07/19/material-powershell-get-started-with-powerstig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started with PowerSTIG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/simple-proxmox-proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02/22/material-sync-circle-rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/07/simple-snapcraft-snap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/08/13/material-server-security-wazuh-all-your-things-with-tailscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh all your things with Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10/16/material-wifi-cog-wifichallenge-exam--course-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFiChallenge Exam &amp; Course Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../2024/05/08/material-microsoft-windows-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_30" id="__nav_3_30_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2023/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2022/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2019/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-04-18 00:00:00+00:00" class="md-ellipsis">April 18, 2025</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-06-15 00:00:00+00:00" class="md-ellipsis">June 15, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              17 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracepath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tracepath
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traceroute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        traceroute
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tracert
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mtr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mtr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpdump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tcpdump
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tshark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tshark
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pktmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pktmon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ipconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ipconfig
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        arp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netstat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netstat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ss
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sockstat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sockstat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lsof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lsof
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        route
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netsh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ip
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netplan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netplan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etcnetworkinterfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/network/interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-networkd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd-networkd
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networkmanager-nmcli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NetworkManager (nmcli)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iptables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        iptables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nftables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ufw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        firewall-cmd
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-netconnection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test-NetConnection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-nettcpudpconnection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get-Net[TCP|UDP]Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        netcat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#naabu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        naabu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#masscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        masscan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chisel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chisel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxychains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxychains
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="network-commands"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4v2h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM7 7l4 4-4 4h2.85l3.28-3.28c.37-.39.37-1.02 0-1.42L9.83 7zm10 6h-3v2h3z"/></svg></span> Network Commands</h1>
+<p>This post is meant to be a single point of reference for all of the random ways of interacting with and diagnosing network(s) from a machine.</p>
+<p>It was started after spending a significant amount of time working in packer, across both the Debian and Red Hat family OS's. There are so many ways to handle networking it's hard to remember these notes when I don't have access to them, and each tool had a dedicated page that has been built upon for 5+ years. Porting each of these notes to this page is an opportunity to clean up, review, and expand on each tool (and add new ones).</p>
+<p>As of the latest update, this includes Linux (Debian / RedHat), BSD (pfSense), and Windows.</p>
+<!-- more -->
+
+<p>Each tool or section is presented with a quick overview of the tool, how to install it if that's ever necessary, and a set of useful examples starting with what I feel is the most practical command structure(s) to know as go-to's, followed by arbitrary useful and expanded examples.</p>
+<div class="admonition warning">
+<p class="admonition-title">AI Usage</p>
+<p>Some code snippets and concepts were originally discovered by conversing with ChatGPT, in many cases either o1-preview or 4o. These were always validated by sourcing the official documentation and testing any examples shared.</p>
+</div>
+<hr />
+<h2 id="ping">ping</h2>
+<div class="admonition note">
+<p class="admonition-title">The ping Command</p>
+<p>The <code>ping</code> command is one of the most basic but useful tools to test network connectivity, reliability, and name resolution. It works by sending ICMP echo request packets to a specified host and waiting for a reply. It's available by default on nearly all Unix-like systems and is built-in to Windows as ping.exe.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://github.com/iputils/iputils/">https://github.com/iputils/iputils/</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ping">https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ping</a></li>
+<li><a href="https://developers.google.com/speed/public-dns/docs/troubleshooting">https://developers.google.com/speed/public-dns/docs/troubleshooting</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ping_(networking_utility)">https://en.wikipedia.org/wiki/Ping_(networking_utility)</a></li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Reading ping Output</p>
+<p>Ping is meant to be a connectivity and diagnostic tool. Sometimes you'll need to use it to determine the frequency of connectivity drops in a network. This makes more sense if you run ping for a number of minutes before reviewing the results.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ping<span class="w"> </span>-I<span class="w"> </span>lo<span class="w"> </span><span class="m">127</span>.0.0.1
+PING<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span><span class="w"> </span>from<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>lo:<span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">127</span>.0.0.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.057<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">127</span>.0.0.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.049<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">127</span>.0.0.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.049<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">127</span>.0.0.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">64</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">0</span>.056<span class="w"> </span>ms
+^C
+---<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>ping<span class="w"> </span>statistics<span class="w"> </span>---
+<span class="m">4</span><span class="w"> </span>packets<span class="w"> </span>transmitted,<span class="w"> </span><span class="m">4</span><span class="w"> </span>received,<span class="w"> </span><span class="m">0</span>%<span class="w"> </span>packet<span class="w"> </span>loss,<span class="w"> </span><span class="nb">time</span><span class="w"> </span>3077ms
+rtt<span class="w"> </span>min/avg/max/mdev<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.049/0.052/0.057/0.003<span class="w"> </span>ms
+</code></pre></div>
+<p>This resuls in two summary lines:</p>
+<ul>
+<li>Packets <em>sent</em>, and how many were <em>lost</em></li>
+<li><code>min/avg/max/mdev</code> is showing you the <strong>latency statistics</strong></li>
+</ul>
+<p>The TTL can indicate the type of operating system:</p>
+<ul>
+<li>*nix systems often have <code>ttl=64</code></li>
+<li>Windows often has <code>ttl=128</code></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On Ubuntu ping is part of the iputils package and installed by default</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>iputils-ping
+</code></pre></div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Ping a hostname or IP address until <code>Ctrl+c</code> canceled:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>example.com
+ping<span class="w"> </span><span class="m">1</span>.1.1.1
+ping<span class="w"> </span>fe80::abcd:ef01:2345:1234%enp1s0
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ping.exe /t 192.168.1.1
+</code></pre></div>
+<p>Set a maximum number of ping packets to send:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span><span class="w"> </span>example.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ping.exe /n 4 example.com
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Count on Linux</p>
+<p>Linux by default will ping forever if <code>-c &lt;number&gt;</code> isn't set. The default behavior on Windows is to send 4 pings.</p>
+</div>
+<p>Set the source interface, interface is either an address, an interface name or a VRF name (Linux only):</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>google.com
+ping<span class="w"> </span>-I<span class="w"> </span><span class="m">10</span>.40.8.182<span class="w"> </span>google.com
+</code></pre></div>
+<p>This is an easy way to obtain a public IPv6 address to ping:</p>
+<div class="highlight"><pre><span></span><code>dig<span class="w"> </span>@1.1.1.1<span class="w"> </span>google.com<span class="w"> </span>-t<span class="w"> </span>AAAA<span class="w"> </span>+tls<span class="w"> </span>+short
+</code></pre></div>
+<p>Request reverse name resolution (Windows only):</p>
+<div class="highlight"><pre><span></span><code>ping.exe /a 1.1.1.1
+</code></pre></div>
+<p><strong>Expanded Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.122.392a1.75 1.75 0 0 1 1.756 0l5.003 2.902c.83.481.83 1.68 0 2.162L8.878 8.358a1.75 1.75 0 0 1-1.756 0L2.119 5.456a1.25 1.25 0 0 1 0-2.162ZM8.125 1.69a.25.25 0 0 0-.25 0l-4.63 2.685 4.63 2.685a.25.25 0 0 0 .25 0l4.63-2.685ZM1.601 7.789a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0L1.874 8.814A.75.75 0 0 1 1.6 7.789Zm0 3.5a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0l-5.248-3.044a.75.75 0 0 1-.273-1.025"/></svg></span></strong></p>
+<p>Set the TTL of a ping packet:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-t<span class="w"> </span><span class="m">128</span><span class="w"> </span>example.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ping.exe /i 128 example.com
+</code></pre></div>
+<div class="admonition quote">
+<p class="admonition-title">TTL Details</p>
+<p>The TTL value of an IP packet represents the maximum number of IP routers that the packet can go through before being thrown away. In current practice you can expect each router in the Internet to decrement the TTL field by exactly one.</p>
+<p>This summary is directly from the <code>ping</code> manpage.</p>
+</div>
+<p>Set the interval between packets sent (in seconds):</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-i<span class="w"> </span><span class="m">5</span><span class="w"> </span>example.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ping.exe /i 5 example.com
+</code></pre></div>
+<p>Set the packet size (in bytes), default=64, 8 for the ICMP header + 56:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-s<span class="w"> </span><span class="m">1337</span><span class="w"> </span>example.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ping.exe /l 1337 example.com
+</code></pre></div>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m.427 1.927 1.215 1.215a8.002 8.002 0 1 1-1.6 5.685.75.75 0 1 1 1.493-.154 6.5 6.5 0 1 0 1.18-4.458l1.358 1.358A.25.25 0 0 1 3.896 6H.25A.25.25 0 0 1 0 5.75V2.104a.25.25 0 0 1 .427-.177M7.75 4a.75.75 0 0 1 .75.75v2.992l2.028.812a.75.75 0 0 1-.557 1.392l-2.5-1A.75.75 0 0 1 7 8.25v-3.5A.75.75 0 0 1 7.75 4"/></svg></span> See also: <a href="https://en.wikipedia.org/wiki/Ping_of_death">Ping of Death</a></p>
+<p>Ping flood (requires root):</p>
+<ul>
+<li>For every ECHO_REQUEST sent a period <code>.</code> is printed</li>
+<li>For every ECHO_REPLY received a backspace is printed</li>
+</ul>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ping<span class="w"> </span>-f<span class="w"> </span><span class="m">10</span>.0.0.1
+</code></pre></div>
+<hr />
+<h2 id="tracepath">tracepath</h2>
+<div class="admonition note">
+<p class="admonition-title">tracepath</p>
+<p>Effectively <code>traceroute</code>, but without any special options and does not require root privileges.</p>
+<blockquote>
+<p>It traces the network path to destination discovering MTU along this path. It uses UDP port <code>&lt;port&gt;</code> or some random port.</p>
+</blockquote>
+<p>References:</p>
+<ul>
+<li><a href="https://github.com/iputils/iputils/">https://github.com/iputils/iputils/</a></li>
+<li><a href="https://www.redhat.com/en/blog/traceroute-tracepath-network-troubleshooting">traceroute vs tracepath</a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># tracepath is often installed by default on Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>iputils-tracepath
+</code></pre></div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Trace a network path and print both, hostnames and IP addresses:</p>
+<div class="highlight"><pre><span></span><code>tracepath<span class="w"> </span>-b<span class="w"> </span>google.com
+tracepath<span class="w"> </span>-b<span class="w"> </span><span class="m">10</span>.0.0.1
+</code></pre></div>
+<p>Do not resolve hostnames:</p>
+<div class="highlight"><pre><span></span><code>tracepath<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>.1.1.1
+</code></pre></div>
+<p>Set an initial destination port:</p>
+<div class="highlight"><pre><span></span><code>tracepath<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span><span class="w"> </span><span class="m">192</span>.168.40.22
+</code></pre></div>
+<hr />
+<h2 id="traceroute">traceroute</h2>
+<div class="admonition note">
+<p class="admonition-title">traceroute</p>
+<blockquote>
+<p>Traces the route taken by packets over a network.</p>
+</blockquote>
+<p>References:</p>
+<ul>
+<li><a href="https://www.gnu.org/software/inetutils/manual/inetutils.html#traceroute-invocation">https://www.gnu.org/software/inetutils/manual/inetutils.html#traceroute-invocation</a></li>
+<li><a href="https://packages.debian.org/bookworm/inetutils-traceroute">https://packages.debian.org/bookworm/inetutils-traceroute</a></li>
+<li><a href="https://www.redhat.com/en/blog/traceroute-tracepath-network-troubleshooting">traceroute vs tracepath</a></li>
+</ul>
+<p>See also:</p>
+<ul>
+<li><a href="https://github.com/mct/tcptraceroute">tcptraceroute</a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<p>If you try to run <code>traceroute</code> on Ubuntu when it's not installed, you'll get:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Command &#39;traceroute&#39; not found, but can be installed with:</span>
+<span class="c1"># sudo apt install inetutils-traceroute  # version 2:2.2-2ubuntu0.1, or</span>
+<span class="c1"># sudo apt install traceroute            # version 1:2.1.0-2</span>
+</code></pre></div>
+<div class="admonition tip">
+<p>See <a href="https://askubuntu.com/questions/1017286/what-is-the-difference-between-traceroute-from-traceroute-and-inetutils-tracerou">traceroute vs inetutils-traceroute</a>.</p>
+</div>
+<p>Install one of them with:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>traceroute
+
+<span class="c1"># GNU version</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>inetutils-traceroute
+</code></pre></div>
+<div class="admonition tip">
+<p>traceroute is often <em>not</em> installed by default on Linux systems like <code>ping</code> is. Instead, you may find <code>tracepath</code> or <code>mtr</code>.</p>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code>traceroute<span class="w"> </span>example.com
+</code></pre></div>
+<hr />
+<h2 id="tracert">tracert</h2>
+<div class="admonition note">
+<p class="admonition-title">tracert</p>
+<p>tracert.exe is a Windows tool.</p>
+<blockquote>
+<p>This diagnostic tool determines the path taken to a destination by sending Internet Control Message Protocol (ICMP) echo Request or ICMPv6 messages to the destination with incrementally increasing time to live (TTL) field values.</p>
+<p>To trace a path and provide network latency and packet loss for each router and link in the path, use the <code>pathping.exe</code> command.</p>
+</blockquote>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracert">https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracert</a></li>
+</ul>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Trace the path to a host:</p>
+<div class="highlight"><pre><span></span><code>tracert www.microsoft.com
+</code></pre></div>
+<p>Do not attempt name resolution:</p>
+<div class="highlight"><pre><span></span><code>tracert /d www.microsoft.com
+</code></pre></div>
+<hr />
+<h2 id="mtr">mtr</h2>
+<div class="admonition note">
+<p class="admonition-title">My Traceroute</p>
+<p><code>mtr</code> (My Traceroute) combines the functionality of the <code>traceroute</code> and <code>ping</code> programs into a single network diagnostic tool.</p>
+<ul>
+<li><a href="https://github.com/traviscross/mtr">https://github.com/traviscross/mtr</a></li>
+<li><a href="https://www.redhat.com/en/blog/linux-mtr-command">Red Hat: How to use the Linux mtr command </a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># CLI + GUI tool</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>mtr
+
+<span class="c1"># CLI version only, installed by default on Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>mtr-tiny
+
+<span class="c1"># RedHat/Fedora</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>mtr
+
+<span class="c1"># macOS (Homebrew)</span>
+brew<span class="w"> </span>install<span class="w"> </span>mtr
+</code></pre></div>
+<p>Available manpages:</p>
+<div class="highlight"><pre><span></span><code>man<span class="w"> </span>mtr
+man<span class="w"> </span>mtr-packet
+</code></pre></div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Start an interactive (curses-based) trace using an <code>-I</code> interface, include <code>-b</code> IPs and hostnames:</p>
+<div class="highlight"><pre><span></span><code>mtr<span class="w"> </span>-I<span class="w"> </span>enp1s0<span class="w"> </span>-b<span class="w"> </span>example.com
+</code></pre></div>
+<p>Run a trace for <code>-c 20</code> pings, that prints <code>-r</code> results to the terminal, for optional redirection to a file:</p>
+<div class="highlight"><pre><span></span><code>mtr<span class="w"> </span>-I<span class="w"> </span>enp1s0<span class="w"> </span>-b<span class="w"> </span>-c<span class="w"> </span><span class="m">20</span><span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.0.1
+</code></pre></div>
+<div class="admonition tip">
+<p><code>-c</code> is not very useful for interactive mode as the curses interface auto-quits after reaching the count limit, and you'll lose the visibile results.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Output Formats</p>
+<p><code>mtr</code> has a number of useful output formats:</p>
+<ul>
+<li><code>--csv</code></li>
+<li><code>--json</code></li>
+<li><code>--xml</code></li>
+</ul>
+<p>These are invoked <em>separately</em> from <code>-r</code> / <code>-w</code> report modes, which prints the default output format to your console non-interactively.</p>
+</div>
+<p>Do not do name resolution:</p>
+<div class="highlight"><pre><span></span><code>mtr<span class="w"> </span>-n<span class="w"> </span>example.com
+</code></pre></div>
+<p><strong>Expanded Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.122.392a1.75 1.75 0 0 1 1.756 0l5.003 2.902c.83.481.83 1.68 0 2.162L8.878 8.358a1.75 1.75 0 0 1-1.756 0L2.119 5.456a1.25 1.25 0 0 1 0-2.162ZM8.125 1.69a.25.25 0 0 0-.25 0l-4.63 2.685 4.63 2.685a.25.25 0 0 0 .25 0l4.63-2.685ZM1.601 7.789a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0L1.874 8.814A.75.75 0 0 1 1.6 7.789Zm0 3.5a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0l-5.248-3.044a.75.75 0 0 1-.273-1.025"/></svg></span></strong></p>
+<div class="admonition tip">
+<p class="admonition-title">Destination Port Options</p>
+<p><code>mtr</code> has some really interesting destination port options (taken directly from the manpage):</p>
+<p><code>-u</code>, <code>--udp</code></p>
+<p>Use UDP datagrams instead of ICMP ECHO.</p>
+<p><code>-T</code>, <code>--tcp</code></p>
+<p>Use TCP SYN packets instead of ICMP ECHO.  PACKETSIZE is ignored, since SYN packets  can not contain data.</p>
+<p><code>-S</code>, <code>--sctp</code></p>
+<p>Use Stream Control Transmission Protocol packets instead of ICMP ECHO.</p>
+<p><code>-P PORT</code>, <code>--port PORT</code></p>
+<p>The target port number for TCP/SCTP/UDP traces.</p>
+<p><code>-L LOCALPORT</code>, <code>--localport LOCALPORT</code></p>
+<p>The source port number for UDP traces.</p>
+<p><code>-Z SECONDS</code>, <code>--timeout SECONDS</code></p>
+<p>The  number  of  seconds  to keep probe sockets open before giving up on the connection. Using large values for this, especially combined with a short interval, will  use  up  a lot of file descriptors.</p>
+<p><code>-M MARK</code>, <code>--mark MARK</code></p>
+<p>Set the mark for each packet sent through this socket similar to the netfilter MARK target but socket-based.  MARK is 32 unsigned integer.  See socket(7) for full  description of this socket option</p>
+</div>
+<hr />
+<h2 id="tcpdump">tcpdump</h2>
+<div class="admonition note">
+<p class="admonition-title">tcpdump</p>
+<p>The standard command-line network traffic analyzer. It's an excellent tool for monitoring, debugging, troubleshooting, or creating network capture files for later analysis.</p>
+<p>Website: <a href="https://www.tcpdump.org/">https://www.tcpdump.org/</a></p>
+<p>If you're looking for an alternative, it's likely <code>tshark</code>.</p>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Debian / Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>tcpdump
+</code></pre></div>
+<div class="admonition tip"></div>
+<p><a href="https://danielmiessler.com/blog/tcpdump">Daniel Miessler's cheat sheet on tcpdump</a> should be your first stop.</p>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Monitor all traffic crossing interface <code>-i eth0</code>, dropping process privileges to <code>nobody</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>-vv<span class="w"> </span>-Z<span class="w"> </span>nobody
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Useful Options</p>
+<p>Essentials:</p>
+<ul>
+<li>Use <code>-D</code> to list available interfaces</li>
+<li>Use <code>-n</code> to prevent name resolution</li>
+<li>Use <code>-nn</code> to prevent name resolution <em>and</em> port resolution</li>
+<li>Use <code>-v[vv]</code> to increase verbosity in output, such as what gets decoded</li>
+<li>Use <code>-Q [in|out]</code> to specify direction</li>
+<li>Use <code>-Z USER</code> to drop prvilieges to those of USER, often <code>nobody</code> or <code>tcpdump</code><ul>
+<li>Ensure USER can write to the output directory</li>
+<li>It's recommended to use a limited privilege user like <code>nobody</code> or <code>tcpdump</code> for ongoing capture processes</li>
+</ul>
+</li>
+</ul>
+<p>Console Output:</p>
+<ul>
+<li><code>-A</code> to print ASCII data</li>
+<li><code>-X[X]</code> to print hex and ASCII data (similar to Wireshark)</li>
+</ul>
+<p>File Output:</p>
+<ul>
+<li><code>-w FILE</code> write data to a pcap file instead of stdout, can use a strftime(3) fromatted datetime string<ul>
+<li>Example: <code>-w $(hostname -s).%Y%m%d%H%M%S.pcap</code></li>
+<li>For commands executing as systemd service tasks, use double <code>%%</code> escaping: <code>$(hostname -s).%%Y%%m%%d%%H%%M%%S.pcap</code></li>
+</ul>
+</li>
+<li><code>-r FILE</code> reads a file written with <code>-w FILE</code></li>
+<li><code>-G SECONDS</code> rotates the <code>-w</code> written FILE every SECONDS<ul>
+<li>Overwrites the FILE if a strftime(3) fromatted datetime string isn't used</li>
+</ul>
+</li>
+<li><code>-C SIZE</code> used with <code>-w FILE</code>, rotates files based on SIZE, appending an integer to the FILE string each time</li>
+</ul>
+<p>Much of this is summarized from the tcpdump manpage.</p>
+</div>
+<p><strong>Expanded Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.122.392a1.75 1.75 0 0 1 1.756 0l5.003 2.902c.83.481.83 1.68 0 2.162L8.878 8.358a1.75 1.75 0 0 1-1.756 0L2.119 5.456a1.25 1.25 0 0 1 0-2.162ZM8.125 1.69a.25.25 0 0 0-.25 0l-4.63 2.685 4.63 2.685a.25.25 0 0 0 .25 0l4.63-2.685ZM1.601 7.789a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0L1.874 8.814A.75.75 0 0 1 1.6 7.789Zm0 3.5a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0l-5.248-3.044a.75.75 0 0 1-.273-1.025"/></svg></span></strong></p>
+<p>For the expression syntax, see <code>man pcap-filter</code>.</p>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="tshark">tshark</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="pktmon">pktmon</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="ipconfig">ipconfig</h2>
+<div class="admonition note">
+<p class="admonition-title">ipconfig</p>
+<p><code>ipconfig</code> is possibly the most well-known Windows utility to obtain your networking information.</p>
+<blockquote>
+<p>Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings. Used without parameters, ipconfig displays Internet Protocol version 4 (IPv4) and IPv6 addresses, subnet mask, and default gateway for all adapters.</p>
+</blockquote>
+<p>The latest online documentation does a great job showcasing the usage:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig">https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig</a></li>
+</ul>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Display all TCP/IP configuration information for all adapters:</p>
+<div class="highlight"><pre><span></span><code>ipconfig /all
+</code></pre></div>
+<p>Release and renew a DHCP lease, either per-adapter or globally:</p>
+<div class="highlight"><pre><span></span><code>ipconfig /release [<span class="p">&lt;</span>adapter<span class="p">&gt;</span>]
+ipconfig /release6 [<span class="p">&lt;</span>adapter<span class="p">&gt;</span>]
+ipconfig /renew [<span class="p">&lt;</span>adapter<span class="p">&gt;</span>]
+ipconfig /renew6 [<span class="p">&lt;</span>adapter<span class="p">&gt;</span>]
+</code></pre></div>
+<p>List the contents of the DNS resolver cache:</p>
+<div class="highlight"><pre><span></span><code>ipconfig /displaydns
+</code></pre></div>
+<p>Flush DNS resolver cache:</p>
+<div class="highlight"><pre><span></span><code>ipconfig /flushdns
+</code></pre></div>
+<hr />
+<h2 id="arp">arp</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="netstat">netstat</h2>
+<div class="admonition note">
+<p class="admonition-title">Network Statistics</p>
+<blockquote>
+<p>Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships.</p>
+</blockquote>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Netstat">https://en.wikipedia.org/wiki/Netstat</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat">windows-commands/netstat</a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="admonition tip">
+<p><code>netstat</code> no longer installed on Ubuntu by default, and has been replaced with <code>ss</code>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>net-tools
+</code></pre></div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Show all TCP/UDP connections, their associated processes, do not resolve IPs, include IPv4 and IPv6.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Linux</span>
+sudo<span class="w"> </span>netstat<span class="w"> </span>-antup
+sudo<span class="w"> </span>netstat<span class="w"> </span>-anp<span class="w"> </span>-A<span class="w"> </span>inet,inet6
+
+<span class="c1"># BSD</span>
+TO<span class="w"> </span>DO
+
+<span class="c1"># Windows</span>
+netstat.exe<span class="w"> </span>-a<span class="o">[</span>b<span class="o">]</span>no
+</code></pre></div>
+<p>Show fully qualified domain names and port names (Windows only):</p>
+<div class="highlight"><pre><span></span><code>netstat.exe -f
+</code></pre></div>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="ss">ss</h2>
+<div class="admonition note">
+<p class="admonition-title">Socket Statistics</p>
+<p><code>ss</code> is used to dump socket statistics. It allows showing information similar to <code>netstat</code>, and in fact is slowly replacing it.  It can display more TCP and state information than other tools.</p>
+<p><code>ss</code> is part of the <code>iproute2</code> package.</p>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Display all "inet" (IPv4/6) network connections regardless of state, and the related process, optionally sort by connection state</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-anp<span class="w"> </span>-A<span class="w"> </span>inet<span class="w"> </span><span class="o">[</span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span><span class="p">|</span><span class="w"> </span>less<span class="w"> </span>-S
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Other socket tables</p>
+<p><code>sudo ss -anp -A all | less -S</code> will display <code>-A all</code> socket tables on the system, inlcuding Unix sockets. This behavior can be controlled with:</p>
+<p><code>-A QUERY</code>, <code>--query=QUERY</code>, <code>--socket=QUERY</code></p>
+<blockquote>
+<p>List of socket tables to dump, separated by commas. The following identifiers are understood: all, inet, tcp, udp, raw, unix, packet, netlink, unix_dgram, unix_stream, unix_seqpacket, packet_raw, packet_dgram, dccp, sctp, vsock_stream, vsock_dgram, and xdp. Any item in the list may optionally be prefixed by an exclamation mark (!) to exclude that socket table from being dumped.</p>
+</blockquote>
+<p>Taken from the manpage for <code>ss</code>.</p>
+</div>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="sockstat">sockstat</h2>
+<div class="admonition note">
+<p class="admonition-title">Socket Statistics</p>
+<blockquote>
+<p>The sockstat command lists open Internet or Unix domain sockets.</p>
+</blockquote>
+<ul>
+<li><a href="https://man.freebsd.org/cgi/man.cgi?sockstat(1)">https://man.freebsd.org/cgi/man.cgi?sockstat(1)</a></li>
+</ul>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p><code>sockstat</code> is often found on <a href="https://docs.netgate.com/pfsense/en/latest/monitoring/status/sockets.html">pfSense</a>. This example shows how to enumerate all connections related to the web interface, for exmaple, if hunting webshells:</p>
+<div class="highlight"><pre><span></span><code>sockstat<span class="w"> </span><span class="o">[</span>-4<span class="p">|</span>-6<span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx
+</code></pre></div>
+<p>Taken from the FreeBSD manual:</p>
+<blockquote>
+<p>Show information for sockets using either TCP or UDP, if neither, the local nor the foreign addresses are in the loopback network:</p>
+<div class="highlight"><pre><span></span><code>sockstat<span class="w"> </span>-L<span class="w"> </span>-P<span class="w"> </span>tcp,udp
+</code></pre></div>
+</blockquote>
+<hr />
+<h2 id="lsof">lsof</h2>
+<div class="admonition note">
+<p class="admonition-title">List Open Files</p>
+<p><code>lsof</code> is a command listing open files and the processes opening them.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Lsof">https://en.wikipedia.org/wiki/Lsof</a></li>
+</ul>
+<p>The manual references file <a href="https://github.com/lsof-org/lsof/blob/master/00QUICKSTART">00QUICKSTART</a> for additional examples. This file has since moved to:</p>
+<ul>
+<li><a href="https://github.com/lsof-org/lsof/tree/master/docs">GitHub: lsof docs</a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Debian / Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>lsof
+
+<span class="c1"># RHEL / CentOS</span>
+sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>lsof
+
+<span class="c1"># Arch</span>
+sudo<span class="w"> </span>pacman<span class="w"> </span>-Syu<span class="w"> </span>lsof
+
+<span class="c1"># NixOS</span>
+nix-env<span class="w"> </span>-i<span class="w"> </span>lsof
+</code></pre></div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>List all files on the filesystem with a network connection, do not convert ports to service names or IPs to hostnames:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lsof<span class="w"> </span>-i<span class="w"> </span>-n<span class="w"> </span>-P
+</code></pre></div>
+<div class="admonition quote">
+<p class="admonition-title">strandjs/IntroLabs</p>
+<p>This tool was showcased in the <a href="https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/Tools/IntroClass/LinuxCLI/LinuxCLI.md">Linux CLI</a> section of the <a href="https://www.antisyphontraining.com/course/soc-core-skills-with-john-strand/">SOC Core Skills</a> course by John Strand.</p>
+</div>
+<p><code>lsof</code> has a robust <a href="https://github.com/lsof-org/lsof/blob/master/docs/tutorial.md">tutorial</a> that demonstrates many capabilities one-by-one.</p>
+<hr />
+<h2 id="route">route</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="netsh">netsh</h2>
+<div class="admonition note">
+<p class="admonition-title">The Windows Network Shell Utility</p>
+<blockquote>
+<p>Netsh is a command-line scripting utility that allows you to display or modify the network configuration of a computer that is currently running. Netsh commands can be run by typing commands at the netsh prompt and they can be used in batch files or scripts. Remote computers and the local computer can be configured by using netsh commands.</p>
+</blockquote>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc754516(v=ws.10)">Netsh Command Reference</a></li>
+<li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/dd878517(v=ws.10)">Netsh Trace Commands</a></li>
+<li>To convert etl capture files to pcaps, see: <a href="https://github.com/microsoft/etl2pcapng">https://github.com/microsoft/etl2pcapng</a></li>
+</ul>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p><code>netsh</code> itself has numerous subcommands. This section will grow over time as more are added.</p>
+<p>⚠️ TO DO ⚠️</p>
+<p><strong>Trace <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4v2h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-5 11.5 4.5-4.5H13V6h-2v4H7.5z"/></svg></span></strong></p>
+<p>The command reference pages have a number of examples somewhat scattered throughout the entire page, and they leave off <code>netsh trace</code> when demonstrating usage which can be hard to see if you're not looking for it.</p>
+<p>The easiest way to see options available per-subcommand:</p>
+<div class="highlight"><pre><span></span><code>netsh trace /?
+netsh trace <span class="p">&lt;</span>cmd<span class="p">&gt;</span> /?
+</code></pre></div>
+<div class="admonition quote">
+<p>Credit to these examples for demonstrating further usage:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/answers/questions/401846/netsh-trace-packet-capture-only">Microsoft Answers: Netsh Trace to Capture Packets Only</a></li>
+<li><a href="https://github.com/microsoft/etl2pcapng?tab=readme-ov-file#about">etl2pcapng README</a></li>
+<li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#using-the-files-rendered-by-trace">Microsoft Docs: Files Rendered by Trace</a></li>
+</ul>
+</div>
+<p>Start a capture, they will run as a process in the background:</p>
+<div class="highlight"><pre><span></span><code>netsh trace start capture=yes report=disabled tracefile=.\NetTrace.etl maxsize=16384
+</code></pre></div>
+<p>View the status of a running capture</p>
+<div class="highlight"><pre><span></span><code>netsh trace show status
+</code></pre></div>
+<p>Stop a trace:</p>
+<div class="highlight"><pre><span></span><code>netsh trace stop
+</code></pre></div>
+<p>Event tracing can be also used across reboots with <strong><code>persistent=yes</code></strong>:</p>
+<div class="highlight"><pre><span></span><code>netsh trace start capture=yes report=disabled persistent=yes tracefile=.\NetTrace.etl maxsize=16384
+</code></pre></div>
+<p>Convert to pcap format:</p>
+<div class="highlight"><pre><span></span><code>etl2pcapng.exe .\NetTrace.etl .\NetTrace.pcapng
+</code></pre></div>
+<p>Use <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#using-filters-to-limit-etl-trace-file-details">filters</a>, see all available with <strong><code>netsh trace show CaptureFilterHelp</code></strong>:</p>
+<div class="highlight"><pre><span></span><code>netsh trace start capture=yes report=disabled Ethernet.Type=IPv6 IPv6.Address=fe80::1234:5678:abcd\<span class="nv">%8</span> tracefile=.\NetTrace.etl maxsize=16384
+</code></pre></div>
+<p>Use a <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#identifying-scenarios">scenario</a> for troubleshooting:</p>
+<div class="highlight"><pre><span></span><code>netsh trace start capture=yes report=disabled scenario=VPNServer tracefile=.\NetTrace.etl
+</code></pre></div>
+<hr />
+<h2 id="ip">ip</h2>
+<div class="admonition note">
+<p class="admonition-title">The ip Command</p>
+<blockquote>
+<p>Show or manipulate routing, network devices, interfaces and tunnels.</p>
+</blockquote>
+<p><code>ip</code> is meant as a more feature-rich replacement to <code>ifconfig</code> and <code>route</code>, which are being deprecated. This is similar to <a href="https://wireless.wiki.kernel.org/en/users/documentation/iw"><code>iw</code></a> replacing <code>iwconfig</code>.</p>
+<p>Much of this information was gleaned and adapted from Ubuntu's server documentation.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://wiki.linuxfoundation.org/networking/iproute2">Main Project Page and Source Code</a></li>
+<li><a href="https://ubuntu.com/server/docs/network-configuration">Ubuntu Server: Configuring Networks</a></li>
+</ul>
+</div>
+<p><strong>Installation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 15.6c.3.2.7.2 1 0l5-2.9v.3c.7 0 1.4.1 2 .4v-1.8l1-.6c.5-.3.6-.9.4-1.4l-1.5-2.5c-.1-.2-.2-.4-.4-.5l-7.9-4.4c-.2-.1-.4-.2-.6-.2s-.4.1-.6.2L3.6 6.6c-.2.1-.4.2-.5.4L1.6 9.6c-.3.5-.1 1.1.4 1.4.3.2.7.2 1 0v5.5c0 .4.2.7.5.9l7.9 4.4c.2.1.4.2.6.2s.4-.1.6-.2l.9-.5c-.3-.6-.4-1.3-.5-2m-2 0-6-3.4V9.2l6 3.4zm9.1-9.6-6.3 3.6-.6-1 6.3-3.6zM12 10.8V4.2l6 3.3zm8 4.2v3h3v2h-3v3h-2v-3h-3v-2h3v-3z"/></svg></span></strong></p>
+<div class="admonition quote">
+<p>iproute2 is usually shipped in a package called iproute or iproute2 and consists of several tools, of which the most important are <code>ip</code> and <code>tc</code>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Debian / Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>iproute2
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">manpages</p>
+<p><em>If you want to see the built in examples, search "EXAMPLES" under the <code>man</code> pages:</em></p>
+<div class="highlight"><pre><span></span><code>man<span class="w"> </span>ip
+man<span class="w"> </span>ip-address
+man<span class="w"> </span>ip-link
+man<span class="w"> </span>ip-route
+</code></pre></div>
+<p>Interestingly if you read both manpages for <code>ping</code> or <code>tracepath</code> and <code>ip</code>, you'll see they were originally written by the same author.</p>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Get information (basics):</p>
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>addr<span class="w">      </span><span class="c1"># Protocol address info</span>
+ip<span class="w"> </span>link<span class="w">      </span><span class="c1"># Network device info</span>
+ip<span class="w"> </span>route<span class="w">     </span><span class="c1"># Route info</span>
+ip<span class="w"> </span>-6<span class="w"> </span>&lt;cmd&gt;<span class="w">  </span><span class="c1"># IPv6 equivalent command</span>
+</code></pre></div>
+<div class="admonition tip">
+<p><em>Nearly all of the <code>ip</code> commands can be abbreviated, so <code>ip address</code> is the same as <code>ip addr</code> which is the same as <code>ip a</code>.</em></p>
+</div>
+<p>Get information (expanded):</p>
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>address<span class="w"> </span>show<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span>show<span class="w"> </span>dev<span class="w"> </span>ens33
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Changes are Temporary</p>
+<p>The majority of the changes and settings you can make with the <code>ip</code> command(s) are not persistent across reboots. These often require (on modern systems) a <a href="https://documentation.ubuntu.com/server/explanation/networking/configuring-networks/index.html#dynamic-ip-address-assignment-dhcp-client">netplan configuration</a>.</p>
+<p>See also: <a href="https://netplan.readthedocs.io/en/stable/netplan-yaml/#">https://netplan.readthedocs.io/en/stable/netplan-yaml/#</a></p>
+</div>
+<p>Add / delete default gateway (route to any):</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span>&lt;gateway-ip&gt;
+sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>del<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span>&lt;gateway-ip&gt;
+</code></pre></div>
+<p>Add / delete a defined static route (route to a subnet):</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>&lt;dst-net&gt;<span class="w"> </span>via<span class="w"> </span>&lt;gateway-ip&gt;<span class="w"> </span>dev<span class="w"> </span>&lt;dev&gt;
+sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>dev<span class="w"> </span>eth0
+sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>delete<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>dev<span class="w"> </span>eth0
+</code></pre></div>
+<p>Add / delete an interface:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>eth2<span class="w"> </span><span class="nb">type</span><span class="w"> </span>bridge
+sudo<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>del<span class="w"> </span>dev<span class="w"> </span>eth2
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Adding Interfaces</p>
+<p>Say you have <code>eth0</code>. To truly add another interface, for instance an <code>eth1</code>, you would need another NIC attached to the device.</p>
+<p>In other words, the only interfaces you'd be creating with this command are virtual or bridged or VLAN style interfaces.</p>
+<p>Alternatively you could use these commands to completely recreate the information for your existing <code>eth0</code> interface from scratch if necessary.</p>
+</div>
+<p>Enable / disable an interface:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>wlan0<span class="w"> </span>down
+<span class="c1"># Set the interface to monitor mode, or change the mac address</span>
+sudo<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>wlan0<span class="w"> </span>up
+</code></pre></div>
+<p>Add / remove an IP address on a device:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span>&lt;subnet/cidr&gt;<span class="w"> </span>dev<span class="w"> </span>&lt;dev&gt;
+sudo<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>del<span class="w"> </span>&lt;subnet/cidr&gt;<span class="w"> </span>dev<span class="w"> </span>&lt;dev&gt;
+</code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Why would you do this?</p>
+<p>In some cases, particularly with local VM's on laptops cycling through sleep and wake modes, stale network information can persist on the interface. Rather than rebooting, if you're not familiar with the network configuration the system is using, you can manually remove old information this way.</p>
+</div>
+<p>Purge all IP information from a device:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>address<span class="w"> </span>flush<span class="w"> </span>dev<span class="w"> </span>eth4
+</code></pre></div></p>
+<p>To configure an interface from scratch:</p>
+<div class="admonition warning">
+<p>You can get disconnected over SSH by doing this.</p>
+</div>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>flush<span class="w"> </span>dev<span class="w"> </span>eth0
+sudo<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">10</span>.55.55.99/24<span class="w"> </span>dev<span class="w"> </span>eth0
+sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.55.55.1
+sudo<span class="w"> </span>nano<span class="w"> </span>/etc/resolv.conf<span class="w">  </span><span class="c1"># Add DNS information</span>
+</code></pre></div>
+<hr />
+<h2 id="iw">iw</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="netplan">netplan</h2>
+<div class="admonition note">
+<p class="admonition-title">netplan</p>
+<blockquote>
+<p>YAML network configuration abstraction for various backends.</p>
+</blockquote>
+<ul>
+<li><a href="https://netplan.io/">netplan.io (Maintained by Canonical)</a></li>
+<li><a href="https://netplan.readthedocs.io/en/stable/netplan-yaml/">readthedocs.io YAML Configuration Reference</a></li>
+<li><a href="https://documentation.ubuntu.com/server/explanation/intro-to/networking/">Ubuntu Server Guide: Networking</a></li>
+</ul>
+</div>
+<div class="admonition quote">
+<p class="admonition-title">Network Renderer</p>
+<blockquote>
+<p>During early boot, the netplan "network renderer" runs which reads <code>/{lib,etc,run}/netplan/*.yaml</code> and writes configuration to <code>/run</code> to hand off control of devices to the specified networking daemon. Configured devices get handled by systemd-networkd by default, unless explicitly marked as managed by a specific renderer (NetworkManager).</p>
+</blockquote>
+<p>Valid values are <code>networkd</code> and <code>NetworkManager</code>.  Defaults to <code>networkd</code> if not defined. This is the most minimal netplan configuration for most desktop environments:</p>
+<div class="highlight"><pre><span></span><code># /etc/netplan/01-network-manager-all.yaml
+network:
+  version: 2
+  renderer: NetworkManager
+</code></pre></div>
+<p>Much of this is quoted from the manpages.</p>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Display the current configuration of an <code>[&lt;interface&gt;]</code> or <code>-a</code> all interfaces:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>netplan<span class="w"> </span>status<span class="w"> </span><span class="o">[</span>&lt;interface&gt;<span class="o">]</span>
+sudo<span class="w"> </span>netplan<span class="w"> </span>status<span class="w"> </span>-a
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">netplan status and networkd</p>
+<p>Currently, netplan status depends on systemd-networkd as a source of data and will try to start it if it's not masked.</p>
+</div>
+<p>Create and apply a configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Examples from https://netplan.io/</span>
+sudo<span class="w"> </span>netplan<span class="w"> </span>generate<span class="w">  </span><span class="c1"># Use /etc/netplan to generate the required configuration for the renderers</span>
+sudo<span class="w"> </span>netplan<span class="w"> </span>try<span class="w">       </span><span class="c1"># Will roll back if networking is broken or without confirmation</span>
+sudo<span class="w"> </span>netplan<span class="w"> </span>apply<span class="w">     </span><span class="c1"># Applies all configuration for the renderers, restarting them as necessary</span>
+</code></pre></div>
+<hr />
+<h2 id="etcnetworkinterfaces">/etc/network/interfaces</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="systemd-networkd">systemd-networkd</h2>
+<div class="admonition note">
+<p class="admonition-title">systemd-networkd</p>
+<blockquote>
+<p>systemd-networkd is a system service that manages networks. It detects and configures network devices as they appear, as well as creating virtual network devices.</p>
+<ul>
+<li><code>systemd-networkd.service</code></li>
+<li><code>/lib/systemd/systemd-networkd</code></li>
+</ul>
+<p>To configure low-level link settings independently of networks, see systemd.link(5).</p>
+</blockquote>
+<p>Summary taken from the systemd-networkd manpage.</p>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>Get DNS settings:</p>
+<div class="highlight"><pre><span></span><code>resolvectl<span class="w"> </span>status
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">resolvectl</p>
+<p><code>resolvectl</code> may be used to resolve domain names, IPv4 and IPv6 addresses, DNS resource records and services with the systemd-resolved.service(8) resolver service.</p>
+</div>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="networkmanager-nmcli">NetworkManager (nmcli)</h2>
+<div class="admonition note">
+<p class="admonition-title">NetworkManager Command Line Utility</p>
+<p>NetworkManager Command Line, or <code>nmcli</code>. Much of this information was gleaned and adapted from RedHat's documentation linked below.</p>
+<p>This is the standard utility for managing and interacting with NetworkManager for networking in desktop environments, where <a href="https://documentation.ubuntu.com/server/explanation/intro-to/networking/">servers primarily use netplan with systemd-networkd as the backend renderer</a>.</p>
+<ul>
+<li><a href="https://wiki.gnome.org/Projects/NetworkManager">gnome.org NetworkManager Project Page</a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ip_networking_with_nmcli">RedHat: Configuring IP Networking with <code>nmcli</code></a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/legal-notice">RedHat Legal Notice</a></li>
+<li><a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></li>
+</ul>
+</div>
+<p><strong>Practical Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7c0 2.22 1.21 4.15 3 5.19V21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8.81c1.79-1.04 3-2.97 3-5.19 0-2.97-2.16-5.43-5-5.91m1 9.37-1 .58V20H7v-8.96l-1-.58C4.77 9.74 4 8.42 4 7c0-1 .37-1.94 1-2.65V8h6V4.35c.63.71 1 1.65 1 2.65 0 1.42-.77 2.74-2 3.46m10.94 7.48a3.3 3.3 0 0 0 0-.89l.97-.73a.22.22 0 0 0 .06-.29l-.92-1.56c-.05-.1-.18-.14-.29-.1l-1.15.45c-.24-.17-.49-.32-.78-.44l-.17-1.19a.235.235 0 0 0-.23-.19h-1.85c-.12 0-.22.08-.24.19l-.17 1.19c-.29.12-.54.27-.78.44l-1.15-.45c-.1-.04-.24 0-.28.1l-.93 1.56c-.06.1-.03.22.06.29l.97.73c-.01.15-.03.3-.03.45s.02.29.03.44l-.97.74a.22.22 0 0 0-.06.29l.93 1.56c.04.1.18.13.28.1l1.15-.46c.24.18.49.33.78.45l.17 1.19c.02.11.12.19.24.19h1.85c.11 0 .21-.08.23-.19l.17-1.19c.29-.12.54-.27.78-.45l1.15.46c.11.03.24 0 .29-.1l.92-1.56a.22.22 0 0 0-.06-.29zM17.5 19c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"/></svg></span></strong></p>
+<p>To enable and disable connections based on network interface (device):</p>
+<div class="highlight"><pre><span></span><code>nmcli<span class="w"> </span>device
+nmcli<span class="w"> </span>dev<span class="w"> </span>down<span class="w"> </span>enp1s0
+nmcli<span class="w"> </span>dev<span class="w"> </span>up<span class="w"> </span>eth0
+</code></pre></div>
+<p>To enable and disable connections based on profile:</p>
+<div class="highlight"><pre><span></span><code>nmcli<span class="w"> </span>con<span class="w"> </span>show
+nmcli<span class="w"> </span>con<span class="w"> </span>down<span class="w"> </span><span class="s1">&#39;Wired connection 1&#39;</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span><span class="s1">&#39;hyper-v-lab&#39;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">The Default Profile</p>
+<p>The default <code>Wired connection 1</code> is the most generic and versitile profile that accepts DHCP when it's available.</p>
+</div>
+<p>To configure an interface profile from scratch for an ethernet connection with static values using <code>nmcli</code> (adapted from the nmcli-examples manpage):</p>
+<div class="highlight"><pre><span></span><code><span class="nv">CON_NAME</span><span class="o">=</span><span class="s1">&#39;hyper-v-lab&#39;</span>
+<span class="nv">IFNAME</span><span class="o">=</span><span class="s1">&#39;eth0&#39;</span>
+<span class="nv">ADDR_IPV4</span><span class="o">=</span><span class="s1">&#39;10.55.55.11/24&#39;</span>
+<span class="nv">GTWY_IPV4</span><span class="o">=</span><span class="s1">&#39;10.55.55.1&#39;</span>
+<span class="nv">DNS_IPV4</span><span class="o">=</span><span class="s1">&#39;1.1.1.1 1.0.0.1&#39;</span>
+<span class="nv">ADDR_IPV6</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">GTWY_IPV6</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">DNS_IPV6</span><span class="o">=</span><span class="s1">&#39;2606:4700:4700::1111 2606:4700:4700::1001&#39;</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ethernet<span class="w"> </span>con-name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CON_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ifname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$IFNAME</span><span class="s2">&quot;</span><span class="w"> </span>ip4<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ADDR_IPV4</span><span class="s2">&quot;</span><span class="w"> </span>gw4<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GTWY_IPV4</span><span class="s2">&quot;</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CON_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv4.dns<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DNS_IPV4</span><span class="s2">&quot;</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CON_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv6.dns<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DNS_IPV6</span><span class="s2">&quot;</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CON_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ifname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$IFNAME</span><span class="s2">&quot;</span>
+nmcli<span class="w"> </span>device<span class="w"> </span>status
+nmcli<span class="w"> </span>-p<span class="w"> </span>con<span class="w"> </span>show<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CON_NAME</span><span class="s2">&quot;</span><span class="w">  </span><span class="c1"># -p &quot;pretty&quot; output is more readable</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Managed and Unmanaged Networking</p>
+<p>If you get the error that "device is strictly unmanaged" check <code>/etc/NetworkManager/</code> and <code>/etc/NetworkManager/conf.d</code>.</p>
+<p>Look for any configurations lines under <code>[keyfile]</code> or <code>[ifupdown]</code> sections in files that might be setting interfaces as unmanaged or strictly managed.</p>
+<p>In Kali, you need to change <code>managed=false</code> to <code>managed=true</code> in <code>/etc/NetworkManager/NetworkManager.conf</code> to use <code>nmcli</code>.</p>
+</div>
+<p>To delete a network configuration:</p>
+<div class="highlight"><pre><span></span><code>nmcli<span class="w"> </span>con<span class="w"> </span>show
+
+<span class="c1"># Delete based on profile-name</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>delete<span class="w"> </span>id<span class="w"> </span>&lt;profile-name&gt;
+
+<span class="c1"># Delete based on uuid</span>
+nmcli<span class="w"> </span>con<span class="w"> </span>delete<span class="w"> </span>uuid<span class="w"> </span>&lt;profile-uuid&gt;
+</code></pre></div>
+<p>Scan for wireless networks:</p>
+<div class="highlight"><pre><span></span><code>nmcli<span class="w"> </span>device<span class="w"> </span>wifi<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>--rescan<span class="w"> </span>yes<span class="o">]</span><span class="w"> </span><span class="o">[</span>ifname<span class="w"> </span>wlan0<span class="o">]</span><span class="w"> </span><span class="o">[</span>bssid<span class="w"> </span>&lt;bssid&gt;<span class="o">]</span>
+</code></pre></div>
+<p>Connect to or disconnect from a wireless network:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Prompt for the password</span>
+nmcli<span class="w"> </span>--ask<span class="w"> </span>device<span class="w"> </span>wifi<span class="w"> </span>connect<span class="w"> </span>&lt;ssid&gt;<span class="w"> </span>ifname<span class="w"> </span>&lt;wlanX&gt;
+
+<span class="c1"># Password will appear in bash history</span>
+nmcli<span class="w"> </span>device<span class="w"> </span>wifi<span class="w"> </span>connect<span class="w"> </span>&lt;ssid&gt;<span class="w"> </span>password<span class="w"> </span>&lt;password&gt;<span class="w"> </span>ifname<span class="w"> </span>&lt;wlanX&gt;
+
+nmcli<span class="w"> </span>device<span class="w"> </span>disconnect<span class="w"> </span>&lt;wlanX&gt;
+</code></pre></div>
+<p><strong>Expanded Usage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.122.392a1.75 1.75 0 0 1 1.756 0l5.003 2.902c.83.481.83 1.68 0 2.162L8.878 8.358a1.75 1.75 0 0 1-1.756 0L2.119 5.456a1.25 1.25 0 0 1 0-2.162ZM8.125 1.69a.25.25 0 0 0-.25 0l-4.63 2.685 4.63 2.685a.25.25 0 0 0 .25 0l4.63-2.685ZM1.601 7.789a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0L1.874 8.814A.75.75 0 0 1 1.6 7.789Zm0 3.5a.75.75 0 0 1 1.025-.273l5.249 3.044a.25.25 0 0 0 .25 0l5.249-3.044a.75.75 0 0 1 .752 1.298l-5.248 3.044a1.75 1.75 0 0 1-1.756 0l-5.248-3.044a.75.75 0 0 1-.273-1.025"/></svg></span></strong></p>
+<p>Create a wireless networking profile from scratch that does the following:</p>
+<ul>
+<li>Ignore local DHCP server's suggested DNS servers and set your own.</li>
+<li>Does not use mDNS or LLMNR</li>
+<li>Randomizes your MAC address</li>
+<li>See also:<ul>
+<li><a href="https://networkmanager.dev/docs/api/latest/nm-settings-nmcli.html">NetworkManager Docs: nmcli Settings</a></li>
+<li><a href="https://serverfault.com/questions/810636/how-to-manage-dns-in-networkmanager-via-console-nmcli">serverfault.com How to Manage DNS via nmcli</a></li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">AI Usage</p>
+<p>Some of these settings were originally suggested as part of a larger script built with help from ChatGPT (GPT-o1-preview) from OpenAI.</p>
+<p>The nmcli settings can be verified in the documentation linked above.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nv">CONN_NAME</span><span class="o">=</span><span class="s1">&#39;Some-ESSID&#39;</span>
+<span class="nv">SSID</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span>
+<span class="nv">INTERFACE</span><span class="o">=</span><span class="s1">&#39;wlan0&#39;</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>wifi<span class="w"> </span>ifname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$INTERFACE</span><span class="s2">&quot;</span><span class="w"> </span>con-name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ssid<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SSID</span><span class="s2">&quot;</span>
+
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv4.dns<span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv4.ignore-auto-dns<span class="w"> </span>yes
+
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv6.dns<span class="w"> </span><span class="s2">&quot;::1&quot;</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>ipv6.ignore-auto-dns<span class="w"> </span>yes
+
+<span class="c1"># Disable LLMNR and mDNS</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>connection.llmnr<span class="w"> </span><span class="s2">&quot;no&quot;</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span>connection.mdns<span class="w"> </span><span class="s2">&quot;no&quot;</span>
+
+<span class="c1"># Set MAC address to a random value</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">802</span>-11-wireless.cloned-mac-address<span class="w"> </span><span class="s2">&quot;random&quot;</span>
+
+<span class="c1"># You will be prompted for the password</span>
+nmcli<span class="w"> </span>connection<span class="w"> </span>up<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONN_NAME</span><span class="s2">&quot;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">This is not a global setting</p>
+<p>You will need to set this <strong>per-connection name</strong> meaning you likely need to run this for every wireless network you connect to, as they all use unique connection profile names.</p>
+</div>
+<hr />
+<h2 id="iptables">iptables</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="nftables">nftables</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="ufw">ufw</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="firewall-cmd">firewall-cmd</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="powershell">PowerShell</h2>
+<p>Networking commands available to PowerShell, including both Windows and Linux versions.</p>
+<h3 id="test-netconnection">Test-NetConnection</h3>
+<p>Tests a TCP or UDP connection to a remote host:port. <code>ComputerName</code> can be an IP or hostname.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Test-NetConnection</span> <span class="n">-ComputerName</span> <span class="n">1</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">1</span> <span class="n">-Port</span> <span class="n">853</span>
+
+<span class="c"># Linux</span>
+<span class="nb">Test-Connection</span> <span class="n">-ComputerName</span> <span class="n">example</span><span class="p">.</span><span class="n">com</span> <span class="n">-Port</span> <span class="n">443</span>
+</code></pre></div>
+<div class="admonition tip">
+<p>On Linux, PowerShell may only have <code>Test-Connection</code>, which functions the same way but only returns <code>True</code> or <code>False</code>:</p>
+</div>
+<h3 id="get-nettcpudpconnection">Get-Net[TCP|UDP]Connection</h3>
+<p>These blocks emulate the behavior of what you might see when using <code>netstat</code> or <code>ss</code> on Linux, but on Windows using PowerShell. These examples were first covered in the SANS Diary "<a href="https://isc.sans.edu/diary/Netstat+but+Better+and+in+PowerShell/30532/">Netstat, but Better and in PowerShell</a>". All SANS blog content falls under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>:</p>
+<blockquote>
+<p>TCP connections, show connection time in seconds, sort by state:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-NetTCPConnection</span> <span class="p">|</span> <span class="nb">select </span><span class="n">LocalAddress</span><span class="p">,</span><span class="n">LocalPort</span><span class="p">,</span><span class="n">RemoteAddress</span><span class="p">,</span><span class="n">RemotePort</span><span class="p">,</span><span class="n">State</span><span class="p">,@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;LifetimeSec&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={((</span><span class="nb">Get-Date</span><span class="p">)-</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationTime</span><span class="p">).</span><span class="n">seconds</span><span class="p">}},</span><span class="n">OwningProcess</span><span class="p">,@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Process&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span> <span class="p">(</span><span class="nb">Get-Process</span> <span class="n">-Id</span> <span class="nv">$_</span><span class="p">.</span><span class="n">OwningProcess</span><span class="p">).</span><span class="n">ProcessName</span> <span class="p">}</span> <span class="p">}|</span> <span class="nb">Sort </span><span class="n">State</span> <span class="p">|</span> <span class="nb">ft </span><span class="n">-auto</span>
+</code></pre></div></p>
+<p>UDP connections, show connection time in seconds, sort by port:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-NetUDPEndpoint</span> <span class="p">|</span> <span class="nb">select </span><span class="n">LocalAddress</span><span class="p">,</span><span class="n">LocalPort</span><span class="p">,@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;LifetimeSec&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={((</span><span class="nb">Get-Date</span><span class="p">)-</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationTime</span><span class="p">).</span><span class="n">seconds</span><span class="p">}},</span><span class="n">OwningProcess</span><span class="p">,@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Process&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span> <span class="p">(</span><span class="nb">Get-Process</span> <span class="n">-Id</span> <span class="nv">$_</span><span class="p">.</span><span class="n">OwningProcess</span><span class="p">).</span><span class="n">ProcessName</span> <span class="p">}</span> <span class="p">}|</span> <span class="nb">Sort </span><span class="n">LocalPort</span> <span class="p">|</span> <span class="nb">ft </span><span class="n">-auto</span>
+</code></pre></div></p>
+</blockquote>
+<hr />
+<h2 id="netcat">netcat</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="socat">socat</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="nmap">nmap</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="zmap">zmap</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="naabu">naabu</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="masscan">masscan</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="chisel">chisel</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+<h2 id="proxychains">proxychains</h2>
+<p>⚠️ TO DO ⚠️</p>
+<hr />
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2024 straysheep-dev
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/straysheep-dev" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.path", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
