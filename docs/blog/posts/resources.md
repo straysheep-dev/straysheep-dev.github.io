@@ -1254,6 +1254,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/git/git/security/advisories/GHSA-vwqx-4fm8-6qc9>
 
 
+### :fontawesome-solid-gears: CI/CD
+
+!!! abstract "Continuous Integration, Continuous Deployment"
+
+	These concepts have their own dedicated posts with ready-to-use examples.
+
+	- [CI/CD](../posts/cicd.md)
+	- [Linting Code](../posts/linting.md)
+
+
 ### :material-shield-key: SOPS
 
 !!! abstract "SOPS"
