@@ -1,8 +1,10 @@
 ---
+title: "Compile Static Binaries"
+icon: fontawesome/solid/square-binary
 draft: false
-date:
-  created: 2025-06-15
-  updated: 2025-06-23
+#date:
+#  created: 2025-06-15
+#  updated: 2025-12-14
 categories:
   - how-to
   - ctf

@@ -1,8 +1,10 @@
 ---
+title: "Custom Shell Profiles"
+icon: octicons/terminal-16
 draft: false
-date:
-  created: 2024-05-29
-  updated: 2025-09-14
+#date:
+#  created: 2024-05-29
+#  updated: 2025-12-14
 categories:
   - shell
   - cli

@@ -1,8 +1,10 @@
 ---
+title: "KVM"
+icon: simple/qemu
 draft: false
-date:
-  created: 2024-12-08
-  updated: 2025-06-15
+#date:
+#  created: 2024-12-08
+#  updated: 2025-12-14
 categories:
   - kvm
   - qemu
