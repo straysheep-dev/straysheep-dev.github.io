@@ -1,8 +1,10 @@
 ---
+title: "ART x UAC"
+icon: octicons/beaker-16
 draft: false
-date:
-  created: 2024-07-12
-  updated: 2025-06-15
+#date:
+#  created: 2024-07-12
+#  updated: 2025-12-14
 categories:
   - how-to
   - dfir
