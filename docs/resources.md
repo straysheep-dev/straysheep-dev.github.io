@@ -1,14 +1,14 @@
 ---
 draft: false
-date:
-  created: 2019-07-15
-  updated: 2025-08-30
+#date:
+#  created: 2019-07-15
+#  updated: 2025-12-14
 categories:
   - links
   - resources
 ---
 
-# ⭐ Resources
+# :material-book-open-page-variant-outline: Resources
 
 Information, compiled for easy reference.
 
@@ -305,6 +305,40 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/giuspen/cherrytree>
 	- License: GPL-3.0
+
+**Documentation Building**
+
+??? warning "mkdocs-material"
+
+	Possibly the most popular documentation builder, there are a number of organization and projects that have built their static site or documentation using mkdocs-material (including this one).
+
+	> Write your documentation in Markdown and create a professional static site for your Open Source or commercial project in minutes - searchable, customizable, more than 60 languages, for all devices.
+
+	- <https://github.com/squidfunk/mkdocs-material/>
+	- <https://squidfunk.github.io/mkdocs-material/>
+
+	**Deprecation Notice (2025)**
+
+	To summarize, mkdocs-material is built on top of mkdocs. mkdocs itself has an uncertain enough future, that the mkdocs-material team has opted to build Zensical to replace mkdocs as a core dependancy.
+
+	> MkDocs must be considered a supply chain risk, since it's unmaintained since August 2024. It has seen no releases in over a year and is accumulating unresolved issues and pull requests. These developments have forced us to cut our ties to MkDocs as a dependency.
+
+	- [Maintenance Mode Notice](https://github.com/squidfunk/mkdocs-material/issues/8523)
+	- [Zensical Announcement and Reasoning Behind the Decisison](https://squidfunk.github.io/mkdocs-material/blog/2025/11/05/zensical/)
+
+??? tip "Zensical"
+
+	> A modern static site generator built by the creators of Material for MkDocs
+	>
+	> Write your documentation in Markdown and create a professional static site for your Open Source or commercial project in minutes - searchable, customizable, more than 60 languages, for all devices.
+
+	Zensical's performance for real-time editing and its search improvements have made this migration a priority. It also understands nearly all settings and configurations that mkdocs-material does (as of December 2025, only the blog feature was missing) so the migration was easy. It also created an opporunity to restructure parts of the site that were "stuck" due to the way the blog plugin worked.
+
+	- <https://zensical.org/docs/get-started/>
+	- <https://github.com/zensical/zensical>
+	- [Mkdocs-Material Compatability](https://zensical.org/compatibility/)
+	- [Feature Roadmap](https://zensical.org/about/roadmap/)
+	- [Feature Parity Table](https://zensical.org/compatibility/features/)
 
 **Tips**
 
