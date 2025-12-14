@@ -87,17 +87,33 @@ h1:first-of-type {
 
         ---
 
-        Various configuration templates for terraform
+        Various configuration templates for Terraform
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/terraform-configs)
+
+    - :simple-vagrant:{ .lg .middle } __Vagrant Configs__
+
+        ---
+
+        Various configuration templates for Vagrant with usage notes
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/vagrant-configs)
 
     - :simple-packer:{ .lg .middle } __Packer Configs__
 
         ---
 
-        Packer templates to build preconfigured machines.
+        Packer templates to build preconfigured machines
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/packer-configs)
+
+    - :material-docker:{ .lg .middle } __Docker Configs__
+
+        ---
+
+        Various Docker configuration files for CI/CD testing of Anisble roles with molecule
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/docker-configs)
 
     - :material-bell-ring:{ .lg .middle } __Alert Service__
 
@@ -373,6 +389,6 @@ h1:first-of-type {
 
     The [blog](blog/index.md) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
 
-    Using [mkdocs](https://squidfunk.github.io/mkdocs-material/) to build this makes it both a searchable "database" with no backend, and an archive with everything in chronological order.
+    Using [Zensical](https://zensical.org/) to build this makes it both a searchable "database" with no backend, and an archive with everything organized through git.
 
 </div>
