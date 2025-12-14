@@ -1,8 +1,10 @@
 ---
+title: "Review: WiFiChallenge"
+icon: material/wifi-cog
 draft: false
-date:
-  created: 2025-10-16
-  updated: 2025-11-22
+#date:
+#  created: 2025-10-16
+#  updated: 2025-12-14
 categories:
   - training
   - cwp

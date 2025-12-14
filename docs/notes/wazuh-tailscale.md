@@ -1,8 +1,10 @@
 ---
+title: "Wazuh (SIEM & XDR)"
+icon: material/server-security
 draft: false
-date:
-  created: 2024-08-13
-  updated: 2025-06-15
+#date:
+#  created: 2024-08-13
+#  updated: 2025-12-14
 categories:
   - wazuh
   - edr
