@@ -1,8 +1,10 @@
 ---
+title: "AIDE"
+icon: octicons/alert-16
 draft: false
-date:
-  created: 2024-05-15
-  updated: 2025-06-15
+#date:
+#  created: 2024-05-15
+#  updated: 2025-06-15
 categories:
   - aide
   - how-to
