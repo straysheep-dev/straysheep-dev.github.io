@@ -1,8 +1,10 @@
 ---
+title: "Clipboard Snooping"
+icon: material/clipboard-flow
 draft: false
-date:
-  created: 2025-06-04
-  updated: 2025-06-06
+#date:
+#  created: 2025-06-04
+#  updated: 2025-12-14
 categories:
   - clipboard
   - linux
@@ -10,6 +12,7 @@ categories:
   - desktop
   - wayland
   - x11
+  - research
 ---
 
 
@@ -213,6 +216,10 @@ So how does this work in different scenarios?
     That last entry in the table for **both** even applies if you have an open, unlocked, VM window, where the last active application window within the VM is trying to read the clipboard contents. On an X11 host this also means the VM can steal clipboard contents silently in the background so long as that desktop session is still logged in, unlocked, and the app within the VM was left active.
 
 Ultimately on Wayland, these specific methods and attempts were ***not*** able to steal anything from the clipboard without some user interaction. This is likely due to [Wayland's security architecture](https://en.wikipedia.org/wiki/Wayland_(protocol)#Differences_between_Wayland_and_X), so more research is needed to identify exactly how it's doing the isolation.
+
+!!! info "Switching to Wayland"
+
+    If you're planning to switch to Wayland, part of that move will depend on what your system uses for graphics processing.
 
 
 ## Detection
