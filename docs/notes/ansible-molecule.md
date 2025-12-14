@@ -1,8 +1,10 @@
 ---
+title: "Ansible Molecule"
+icon: simple/ansible
 draft: false
-date:
-  created: 2025-07-25
-  updated: 2025-07-26
+#date:
+#  created: 2025-07-25
+#  updated: 2025-12-14
 categories:
   - ansible
   - molecule
@@ -233,20 +235,38 @@ Then specify the namespace + role name in your `converge.yml` file:
 ```
 
 
+### Tags and Molecule
+
+You can skip specific tasks in Molecule testing that either don't work well, or are hard to test without a lot of configuration changes in a containerized environment, by using the `molecule-notest` or `notest` tags.
+
+- [Molecule Docs: Anisble Configuration](https://ansible.readthedocs.io/projects/molecule/configuration/#ansible)
+- [GitHub: Support a standard "skip_in_molecule" tag issue:1742](https://github.com/ansible/molecule/issues/1742)
+
+```yaml
+- name: "Ensure temporary working folder exists"
+  ansible.builtin.file:
+    path: "{{ uac_outfolder }}"
+    state: directory
+    mode: '0700'
+  tags:
+    - molecule-notest
+```
+
+
 ### Idempotence Tests
 
 There are really 2 main tests molecule runs if you're just going with the most default settings. `converge.yml` tests execute your tasks on the target containers, and *idempotence* tests run the converge test once more to check if tasks return as anything other than OK. A "changed" or "failed" state indicates the playbook was not idempotent.
 
 These resources go into more detail around this topic:
 
-- [Disable idempotence check on certain tasks #816](https://github.com/ansible/molecule/issues/816)
-- [Add `--molecule-idempotence-notest` tag to skip-tags during idempotence... #1663](https://github.com/ansible/molecule/pull/1663)
+- [Disable idempotence check on certain tasks issue:816](https://github.com/ansible/molecule/issues/816)
+- [Add `--molecule-idempotence-notest` tag to skip-tags during idempotence... issue:1663](https://github.com/ansible/molecule/pull/1663)
 - [Molecule: Skip Idempotence with Tags](https://ansible.readthedocs.io/projects/molecule/configuration/#ansible)
 - [Ansible: Adding Tags to Tasks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html#adding-tags-to-individual-tasks)
 
 Ultimately, if you need to exclude a task from idempotence tests, there's now a tag that supports this: `molecule-idempotence-notest`. Simply add this tag to any tasks that will always return as "changed", so that they can be excluded without any work arounds or skipping idempotence testing entirely.
 
-```yml
+```yaml
 - name: "Ensure temporary working folder exists"
   ansible.builtin.file:
     path: "{{ uac_outfolder }}"
