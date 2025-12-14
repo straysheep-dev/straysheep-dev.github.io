@@ -1,8 +1,10 @@
 ---
+title: "Ansible"
+icon: simple/ansible
 draft: false
-date:
-  created: 2023-08-20
-  updated: 2025-07-31
+#date:
+#  created: 2023-08-20
+#  updated: 2025-12-14
 categories:
   - ansible
   - how-to
@@ -438,6 +440,19 @@ ansible-playbook -i inventory/inventory.ini --ask-vault-pass --extra-vars "@auth
 ```
 
 This can be taken further by also encrypting the usernames as variables in `auth.yml`.
+
+
+## SOPS
+
+!!! quote "What is SOPS?"
+
+    SOPS allows to encrypt and decrypt files using various key sources (GPG, AWS KMS, GCP KMS, ...). For structured data, such as YAML, JSON, INI and ENV files, it will encrypt values, but not mapping keys. For YAML files, it also encrypts comments. This makes it a great tool for encrypting credentials with Ansible: you can easily see which files contain which variable, but the variables themselves are encrypted.
+
+    The ability to utilize various keysources makes it easier to use in complex environments than Ansible Vault.
+
+- [https://github.com/getsops/sops](https://github.com/getsops/sops)
+- [Ansible Docs: Protecting Ansible secrets with SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/docsite/guide.html)
+- [community.sops.install role - Install SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/install_role.html)
 
 
 ## Ansible-Lint
