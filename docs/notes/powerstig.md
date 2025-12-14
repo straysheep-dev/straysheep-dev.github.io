@@ -1,8 +1,10 @@
 ---
+title: "PowerSTIG"
+icon: material/powershell
 draft: false
-date:
-  created: 2024-07-19
-  updated: 2025-06-15
+#date:
+#  created: 2024-07-19
+#  updated: 2025-12-14
 categories:
   - how-to
   - administration

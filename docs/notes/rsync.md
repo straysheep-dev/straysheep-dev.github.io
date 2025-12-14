@@ -1,8 +1,10 @@
 ---
+title: "rsync"
+icon: material/sync-circle
 draft: false
-date:
-  created: 2025-02-22
-  updated: 2025-06-15
+#date:
+#  created: 2025-02-22
+#  updated: 2025-12-14
 categories:
   - rsync
   - how-to
@@ -54,7 +56,7 @@ rsync -arv \
 --safe-links \
 --exclude='.git/' \
 --exclude='.cache' \
--e "-J admin@<firewall-vm-ip>:2222" \
+-e "ssh -J admin@<firewall-vm-ip>:2222" \
 ./straysheep-dev.github.io \
 ./packer-configs \
 ./ansible-configs \
