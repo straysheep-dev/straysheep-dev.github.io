@@ -1,8 +1,10 @@
 ---
+title: "Linting Code"
+icon: material/code-tags-check
 draft: false
-date:
-  created: 2024-12-28
-  updated: 2025-12-13
+#date:
+#  created: 2024-12-28
+#  updated: 2025-12-14
 categories:
   - how-to
   - automation

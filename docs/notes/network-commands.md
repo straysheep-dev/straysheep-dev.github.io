@@ -1,8 +1,10 @@
 ---
+title: "Network Commands"
+icon: material/console-network
 draft: false
-date:
-  created: 2025-04-18
-  updated: 2025-06-15
+#date:
+#  created: 2025-04-18
+#  updated: 2025-12-14
 categories:
   - how-to
   - networking
