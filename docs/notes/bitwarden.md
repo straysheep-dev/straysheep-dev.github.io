@@ -1,8 +1,10 @@
 ---
+title: "Bitwarden"
+icon: simple/bitwarden
 draft: false
-date:
-  created: 2024-05-02
-  updated: 2025-06-15
+#date:
+#  created: 2024-05-02
+#  updated: 2025-12-14
 categories:
   - bitwarden
   - how-to
