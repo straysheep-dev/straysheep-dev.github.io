@@ -1,8 +1,10 @@
 ---
+title: "CI/CD"
+icon: fontawesome/solid/gears
 draft: false
-date:
-  created: 2025-01-20
-  updated: 2025-06-15
+#date:
+#  created: 2025-01-20
+#  updated: 2025-12-14
 categories:
   - how-to
   - automation
