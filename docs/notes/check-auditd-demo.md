@@ -1,8 +1,10 @@
 ---
+title: "Utility: check-auditd"
+icon: material/file-tree
 draft: false
-date:
-  created: 2024-05-15
-  updated: 2025-06-15
+#date:
+#  created: 2024-05-15
+#  updated: 2025-12-14
 categories:
   - check-auditd
   - auditd
@@ -30,7 +32,7 @@ With [check-auditd](https://github.com/straysheep-dev/linux-configs/blob/main/ch
 It's important to note that in order for this tool to pull data from the system, auditd must be logging that data to begin with. Check [Neo23x0's auditd rules](https://github.com/Neo23x0/auditd), or my fork [here](https://github.com/straysheep-dev/auditd) to get started. I also have an [ansible role](https://github.com/straysheep-dev/ansible-configs/tree/main/install_auditd) and a [shell script](https://github.com/straysheep-dev/setup-auditd) to automate installing and setting up auditd, with [laurel](https://github.com/threathunters-io/laurel) as an option.
 
 <video width="1080" controls>
-  <source src="/blog/media/check-auditd-demo/Check-Auditd-Demo.mp4" type="video/mp4">
+  <source src="/media/check-auditd-demo/Check-Auditd-Demo.mp4" type="video/mp4">
 </video>
 
 <!-- How to embed video:
