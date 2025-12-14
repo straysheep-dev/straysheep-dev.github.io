@@ -1,8 +1,10 @@
 ---
+title: "OpenSCAP"
+icon: material/file-document-arrow-right
 draft: false
-date:
-  created: 2024-05-29
-  updated: 2025-06-15
+#date:
+#  created: 2024-05-29
+#  updated: 2025-12-14
 categories:
   - open-scap
   - how-to

@@ -1,8 +1,10 @@
 ---
+title: "Nzyme Wireless IDS"
+icon: material/wifi-alert
 draft: false
-date:
-  created: 2024-12-01
-  updated: 2025-06-15
+#date:
+#  created: 2024-12-01
+#  updated: 2025-12-14
 categories:
   - nzyme
   - raspberry-pi

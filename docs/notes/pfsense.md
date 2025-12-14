@@ -1,6 +1,10 @@
 ---
+title: "pfSense"
+icon: simple/pfsense
 draft: false
-date: 2024-05-02
+#date:
+#  created: 2023-??-??
+#  updated: 2025-12-14
 categories:
   - pfsense
   - how-to
