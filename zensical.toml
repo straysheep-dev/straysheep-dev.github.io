@@ -27,6 +27,7 @@ nav = [
     "notes/flatpak.md",
     "notes/kvm.md",
     "notes/linting.md",
+    "notes/migrating-to-zensical.md",
     "notes/nessus.md",
     "notes/network-commands.md",
     "notes/nzyme-rpi-proxmox-tailscale.md",
