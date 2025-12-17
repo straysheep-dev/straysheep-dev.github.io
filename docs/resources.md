@@ -960,6 +960,28 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Tasks are defined in the workspace `.vscode` folder. This folder **is** cloned when git cloning a remote project.
 
+	[**VSCode AI Integrations**](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code)
+
+	This section focuses only on AI features built-in to VSCode itself. It does not account for AI that may be a part of extensions, or those that were deployed on the machine outside or alongside VSCode. Some things to consider include where and how you've deployed VSCode, the local as well as remote data the VSCode process can potentially access, and the licensing + data protections of your account(s).
+
+	The [GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq#commercial) covers a number of these questions, including use of third-party models like Claude or Gemini in VSCode.
+
+	To disable or allow the built-in AI features:
+
+	```json
+	{
+		"chat.disableAIFeatures": true
+	}
+	```
+
+	According to the [documentation](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code):
+
+	> This disables and hides features like chat or inline suggestions in VS Code and disables the Copilot extensions.
+	>
+	> If you have previously disabled the built-in AI features, your choice is respected upon updating to a new version of VS Code.
+	>
+	> ...If you disable AI functionality in VS Code or if you don't login to your Copilot subscription from VS Code, your data is not sent to the Copilot backend services.
+
 	[**Git Hooks**](https://git-scm.com/docs/githooks) and [**Customizing Git Hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 
 	Git hooks are scripts stored under `$GIT_DIR/hooks/*` or `git config core.hooksPath/*` in a project. The default/bundled example scripts all end with `.sample` and won't execute without a proper file extension. Git hooks can execute bash, Perl, Python, or really any scripting language.
