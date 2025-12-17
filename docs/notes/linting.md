@@ -164,14 +164,15 @@ jobs:
     name: pylint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v6
-    #  with:
-    #    python-version: '3.13'
-    - name: Run pylint
-      run: |
-        python3 -m pip install pylint
-        pylint .
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+      #  with:
+      #    python-version: '3.13'
+      - name: Run pylint
+        run: |
+          python3 -m pip install pylint
+          pylint .
+
 ```
 
 
@@ -243,14 +244,15 @@ jobs:
     name: flake8
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v6
-    #  with:
-    #    python-version: '3.13'
-    - name: Run flake8
-      run: |
-        python3 -m pip install flake8
-        flake8 .
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+      #  with:
+      #    python-version: '3.13'
+      - name: Run flake8
+        run: |
+          python3 -m pip install flake8
+          flake8 .
+
 ```
 
 
@@ -362,9 +364,10 @@ jobs:
     name: ShellCheck
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Run ShellCheck
-      run: find . -type f -name "*.sh" -exec shellcheck {} +
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        run: find . -type f -name "*.sh" -exec shellcheck {} +
+
 ```
 
 ---
@@ -436,11 +439,11 @@ jobs:
     name: PSScriptAnalyzer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - name: Run PSScriptAnalyzer
-    run: |
-      Install-Module -Name PSScriptAnalyzer -Force
-      Invoke-ScriptAnalyzer -Path .
+      - uses: actions/checkout@v5
+      - name: Run PSScriptAnalyzer
+      run: |
+        Install-Module -Name PSScriptAnalyzer -Force
+        Invoke-ScriptAnalyzer -Path .
 
 ```
 
@@ -501,7 +504,7 @@ yamllint .
 # - https://www.shellcheck.net/wiki/GitHub-Actions
 # - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml
 
-name: YAML
+name: yaml
 on:
   push:
     branches: ["main"]
@@ -512,14 +515,94 @@ jobs:
     name: Lint YAML files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v6
-    #  with:
-    #    python-version: '3.13'
-    - name: Run yamllint
-      run: |
-        python3 -m pip install yamllint
-        yamllint .
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+      #  with:
+      #    python-version: '3.13'
+      - name: Run yamllint
+        run: |
+          python3 -m pip install yamllint
+          yamllint .
+
+```
+
+---
+
+
+## TOML
+
+!!! abstract "Overview"
+
+    > Tom's Obvious, Minimal Language.
+    >
+    > TOML aims to be a minimal configuration file format that's easy to read due to obvious semantics. TOML is designed to map unambiguously to a hash table. TOML should be easy to parse into data structures in a wide variety of languages.
+
+    - <https://toml.io/en/>
+    - <https://github.com/toml-lang/toml>
+    - [Linters](https://github.com/toml-lang/toml/wiki#validators)
+
+
+### tomlv
+
+!!! abstract "Overview"
+
+    `tomlv` is part of a TOML parser for Golang, written by BurntSushi (associated with the [toml-lang GitHub org](https://github.com/orgs/toml-lang/people), and also the author of [ripgrep](https://github.com/BurntSushi/ripgrep)). There is no "recommended" linter for TOML, and there are many available to pick from, so this is just one place to start.
+
+    - [github.com/BurntSushi/toml](https://github.com/BurntSushi/toml/tree/master/cmd/tomlv)
+
+**Install**
+
+You'll need Golang to install `tomlv`:
+
+```bash
+go install github.com/BurntSushi/toml/cmd/tomlv@master
+```
+
+**Usage**
+
+Currently, `tomlv` only prints one error at a time.
+
+```bash
+tomlv some-toml-file.toml
+```
+
+**GitHub Actions**
+
+```yaml
+# .github/workflows/toml.yml
+
+# Built from the following examples:
+# - https://www.shellcheck.net/wiki/GitHub-Actions
+# - https://github.com/BurntSushi/toml/tree/master/cmd/tomlv
+# - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml
+
+name: toml
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  lint:
+    name: Lint TOML files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install tomlv
+        run: go install github.com/BurntSushi/toml/cmd/tomlv@master
+      - name: Process files
+        run: |
+          find . -type f -name "*.toml" | while IFS= read -r file
+          do
+              echo "[*]Parsing $file"
+              if ! tomlv "$file" >/dev/null
+              then
+                  echo "[-]Error processing $file"
+                  break
+              fi
+          done
+
+
 ```
 
 ---
@@ -570,7 +653,7 @@ jq '.' file.json
 # - https://www.shellcheck.net/wiki/SC2013
 # - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml
 
-name: JSON
+name: json
 on:
   push:
     branches: ["main"]
@@ -581,20 +664,20 @@ jobs:
     name: Lint JSON files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - name: Install jq
-      run: apt update; apt install -y jq
-    - name: Process files
-      run: |
-        find . -type f -name "*.json" | while IFS= read -r file
-        do
-            echo "[*]Parsing $file"
-            if ! jq '.' "$file" >/dev/null
-            then
-                echo "[-]Error processing $file"
-                break
-            fi
-        done
+      - uses: actions/checkout@v5
+      - name: Install jq
+        run: sudo apt update; sudo apt install -y jq
+      - name: Process files
+        run: |
+          find . -type f -name "*.json" | while IFS= read -r file
+          do
+              echo "[*]Parsing $file"
+              if ! jq '.' "$file" >/dev/null
+              then
+                  echo "[-]Error processing $file"
+                  break
+              fi
+          done
 
 ```
 
@@ -724,6 +807,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main # or version tag instead of 'main'
+
 ```
 
 **Errors**
@@ -837,6 +921,7 @@ jobs:
         id: validate
         run: |
           packer validate .
+
 ```
 
 ---
@@ -930,4 +1015,5 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+
 ```
