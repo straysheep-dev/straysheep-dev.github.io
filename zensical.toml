@@ -29,6 +29,7 @@ nav = [
     "notes/linting.md",
     "notes/migrating-to-zensical.md",
     "notes/nessus.md",
+    "notes/netcat-seh-rce.md",
     "notes/network-commands.md",
     "notes/nzyme-rpi-proxmox-tailscale.md",
     "notes/openscap.md",
