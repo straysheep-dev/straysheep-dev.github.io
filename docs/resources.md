@@ -1938,6 +1938,18 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/MegaManSec/SSH-Snake>
 
+??? success "gs-netcat (gsocket)"
+
+	> Allows two machines on different networks to communicate with each other
+	>
+	> Abandon the thought of IP Addresses and Port Numbers. Instead start thinking that two programs should be able to communicate with each other as long as they know the same secret (rather than each other's IP Address and Port Number). The Global Socket library facilitates this: It locally derives temporary session keys and IDs and connects two programs through the Global Socket Relay Network (GSRN) regardless and independent of the local IP Address or geographical location.
+	>
+	> Once connected the library then negotiates a secure TLS connection(End-2-End). The secret never leaves your workstation. The GSRN sees only the encrypted traffic.
+	>
+	> The GSRN is a free cloud service and is free to use by anyone.
+
+	- <https://www.kali.org/tools/gsocket/#gs-netcat>
+
 
 ### :material-application-brackets: Web Application
 
