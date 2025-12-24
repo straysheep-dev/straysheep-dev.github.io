@@ -81,14 +81,6 @@ Information, compiled for easy reference.
 
 	- <https://github.com/google/magika>
 
-??? info "Ladybird"
-
-	> Ladybird is a truly independent web browser, using a novel engine based on web standards.
-
-	Discovered by following [p0dalirius](https://github.com/p0dalirius?tab=stars), this appears to be focused on *nix and macOS desktop environments for it's first release in 2026 / 2027.
-
-	- <https://github.com/LadybirdBrowser/ladybird>
-
 ??? info "topgrade"
 
 	Discovered on [Paul's Security Weekly #864](https://securityweekly.com/psw-864). topgrade is a way to "upgrade all the things" on a Linux system. This includes apt/dnf, snap, flatpak, LVFS / firmware, and so on.
@@ -143,7 +135,6 @@ Information, compiled for easy reference.
 	- Linux; most distros; Intel 64-bit.
 	- Windows 10 and later; Intel 64-bit.
 	- macOS 10.13 (High Sierra) and later; both Intel and Apple Silicon.
-
 
 ??? info "Rufus"
 
@@ -347,6 +338,475 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [GitHub: Basic Writing and Formatting](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 	- [GitHub: Creating and Highlighting Codeblocks](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks#syntax-highlighting)
 	- [github-linguist: Supported Languages](https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml)
+
+
+## :octicons-browser-16: Web Browsers
+
+!!! abstract "Overview"
+
+	These notes were consolidated here from existing utilities built to deploy them:
+
+	- [straysheep-dev/linux-configs/web-browsers](https://github.com/straysheep-dev/linux-configs/tree/main/web-browsers)
+	- [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs)
+
+??? example ":simple-googlechrome: Chromium"
+
+	> Chromium is an open-source browser project that aims to build a safer, faster, and more stable way for all Internet users to experience the web.
+
+	- <https://www.chromium.org/chromium-projects/>
+	- [Clone, build, and run (there are no release binaries)](https://www.chromium.org/developers/how-tos/get-the-code/)
+	- [Download Test Builds](https://www.chromium.org/getting-involved/download-chromium/)
+	- [Chromium Extensions (web store for developers)](https://developer.chrome.com/docs/extensions)
+	- [Blog](https://blog.chromium.org/)
+	- [Chromium Security](https://www.chromium.org/Home/chromium-security/) (Core principles, FAQs, technologies, bug reports, and more)
+	- [OpenSCAP Configuration Guide](https://static.open-scap.org/ssg-guides/ssg-chromium-guide-stig.html)
+
+	Canonical maintains the [Chromium Snap package](https://snapcraft.io/chromium), it's usually only a few days behind on the latest patches from Chrome upstream.
+
+	---
+
+	**Install Chromium**
+
+	```bash
+	sudo dnf install -y snapd
+	snap download chromium
+	sudo snap ack ./chromium_<version>.assert
+	sudo snap install ./chromium_<version>.snap
+
+	sudo mkdir -p /etc/chromium-browser/policies/managed
+	sudo mkdir -p /etc/chromium-browser/policies/recommended
+	```
+
+??? tip ":simple-googlechrome: Chrome"
+
+	Google Chrome is likely the most ubiquitous browser currently in use.
+
+	- <https://www.google.com/chrome/>
+	- <https://chromeenterprise.google/>
+	- [Policy Templates](https://chromeenterprise.google/policies/)
+		- [Linux Policy Quick-start Guide](https://www.chromium.org/administrators/linux-quick-start/)
+		- [Official deb/rpm packages](https://www.google.com/linuxrepositories/) and [policy directories](https://support.google.com/chrome/a/answer/9027408?hl=en)
+		- [Chromium Snap package](https://snapcraft.io/chromium)
+		- Snap package policy directories [1](https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/1714244), [2](https://forum.snapcraft.io/t/auto-connecting-the-system-files-interface-for-the-chromium-snap/20245)
+	- [Chrome Web Store](https://chromewebstore.google.com/category/extensions)
+	- [Blog](https://cloud.google.com/blog/products/chrome-enterprise/)
+	- [Release Notes](https://support.google.com/chrome/a/answer/7679408/)
+	- [Chromium Security](https://www.chromium.org/Home/chromium-security/) (Core principles, FAQs, technologies, bug reports, and more)
+	- [Security Notices & CVE List](https://chromereleases.googleblog.com/)
+	- [Version History](https://en.wikipedia.org/wiki/Google_Chrome_version_history)
+	- [OpenSCAP Configuration Guide](https://static.open-scap.org/ssg-guides/ssg-chromium-guide-stig.html)
+
+	---
+
+	**Install Chrome**
+
+	```bash
+	echo "### THIS FILE IS AUTOMATICALLY CONFIGURED ###
+	# You may comment out this entry, but any other modifications may be lost.
+	deb [arch=$(dpkg --print-architecture)] https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+	wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+	if ! (apt-key list | grep '4CCA 1EAF 950C EE4A B839  76DC A040 830F 7FAC 5991'); then echo "BAD SIGNATURE" && exit; else echo OK; fi
+	if ! (apt-key list | grep 'EB4C 1BFD 4F04 2F6D DDCC  EC91 7721 F63B D38B 4796'); then echo "BAD SIGNATURE" && exit; else echo OK; fi
+
+	sudo apt update && \
+	sudo apt install -y google-chrome-stable
+
+	# https://support.google.com/chrome/a/answer/9027408?hl=en
+	sudo mkdir -p /etc/opt/chrome/policies/managed
+	sudo mkdir -p /etc/opt/chrome/policies/recommended
+	```
+	[Key Signatures](https://www.google.com/linuxrepositories/)
+
+	```
+	cat /etc/apt/trusted.gpg.d/google-chrome.gpg | gpg
+	gpg: WARNING: no command supplied.  Trying to guess what you mean ...
+
+	pub   dsa1024/0xA040830F7FAC5991 2007-03-08 [SC]
+		Key fingerprint = 4CCA 1EAF 950C EE4A B839  76DC A040 830F 7FAC 5991
+	uid                             Google, Inc. Linux Package Signing Key <linux-packages-keymaster@google.com>
+	sub   elg2048/0x4F30B6B4C07CB649 2007-03-08 [E]
+	pub   rsa4096/0x7721F63BD38B4796 2016-04-12 [SC]
+		Key fingerprint = EB4C 1BFD 4F04 2F6D DDCC  EC91 7721 F63B D38B 4796
+	uid                             Google Inc. (Linux Packages Signing Authority) <linux-packages-keymaster@google.com>
+	sub   rsa4096/0x1397BC53640DB551 2016-04-12 [S] [expired: 2019-04-12]
+	sub   rsa4096/0x6494C6D6997C215E 2017-01-24 [S] [expired: 2020-01-24]
+	sub   rsa4096/0x78BD65473CB3BD13 2019-07-22 [S] [expires: 2022-07-21]
+	sub   rsa4096/0x4EB27DB2A3B88B8B 2021-10-26 [S] [expires: 2024-10-25]
+	```
+
+	---
+
+	[**Chrome Profiles**](https://support.google.com/chrome/a/answer/11198768?hl=en)
+
+	> Creating different Chrome profiles lets users switch between their managed account and their other Google accounts, such as personal or test accounts, without signing out each time. No data or content is shared between profiles.
+
+	Chrome profiles work similar to Firefox Containers.
+
+	However, tabs from different profiles cannot exist in the same Chrome window. A new, separate window is created for each Chrome profile you launch a session with.
+
+	Settings specific to installed extensions that you'd like to replicate in other profiles will need to be exported from a current profile, and imported into the other profile(s) extension(s). Each newly created profile launches with all of the policies (and extensions to be installed) applied, as if it was the first launch.
+
+	---
+
+	**[Guest](https://chromeenterprise.google/policies/?policy=BrowserGuestModeEnabled) and [Incognito Modes](https://chromeenterprise.google/policies/?policy=IncognitoModeAvailability)**
+
+	These are recommended to be disabled to prevent opening browser sessions without extensions that you may want to always be active.
+
+	If you want to modify these settings:
+
+	```json
+	{
+		"BrowserGuestModeEnabled": false,    // change to true
+		"IncognitoModeAvailability": 1      // change to 0
+	}
+	```
+
+	---
+
+	[**Extensions**](https://chromewebstore.google.com)
+
+	[chrome://extensions/](chrome://extensions/)
+
+	Extensions should be obtained from a trusted source, whether they're hosted on the Chrome Web Store or GitHub. Ensure you trust the developer and consider the lifecycle of the extension as well as where it will be installed, before adding it to your software inventory.
+
+	- [Chromium Security: Extensions FAQ](https://chromium.googlesource.com/chromium/src/+/main/extensions/docs/security_faq.md)
+	- Extensions must be granted permission by the user under "Allow access to file URLs"
+	- Extensions can only open host applications that have registered a manifest for communicating with the browser, or via downloads.open() which *can* execute untrusted code automatically
+
+	Obtaining extension ID's for administration can be done from the URL of the extension:
+
+	```
+	https://chromewebstore.google.com/detail/<extension_name>/<extension_id>
+															^^^^^^^^^^^^^^
+	```
+
+	Example configuration for extensions, using uBlock Origin.
+
+	- uBlock Origin is the only extension allowed
+	- All other extensions are blocked
+	- uBlock Origin is automatically installed
+
+	```json
+	{
+		"ExtensionInstallAllowlist": ["cjpalhdlnbpafiamejdnhcphjbkeiagm"],
+		"ExtensionInstallBlocklist": ["*"],
+		"ExtensionInstallForcelist": ["cjpalhdlnbpafiamejdnhcphjbkeiagm"]
+	}
+	```
+
+	---
+
+	**Clipboard**
+
+	- [MDN: Clipboard_API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+	- [web.dev: Clipboard Security and Permissions](https://web.dev/articles/async-clipboard#security_and_permissions)
+
+	Like Firefox, Chrome will prompt the user before a website is able to read the user's clipboard data. However, the active tab can ***write*** to the user's clipboard without requesting permission.
+
+	> As with many new APIs, the Clipboard API is only supported for pages served over HTTPS. To help prevent abuse, clipboard access is only allowed when a page is the active tab. Pages in active tabs can write to the clipboard without requesting permission, but reading from the clipboard always requires permission.
+
+	---
+
+	[**Chrome User-Agent**](https://www.chromium.org/updates/ua-reduction/)
+
+	[chrome://version](chrome://version) will show the current `User-Agent` string.
+
+	You can set a User-Agent string by starting chromium from the CLI with `--user-agent=`:
+	```bash
+	chromium --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36'
+	```
+
+	You can change the User-Agent dynamically (*without installing an extension*) while browsing using the developer tools. Thanks to Micah ([@WebBreacher](https://twitter.com/WebBreacher/status/1572595024046465024)) for sharing this. The linked twitter post shows screenshots of these steps:
+
+	1. Open the developer tools
+	2. Navigate to the Network tab
+	3. Choose `More network conditions...` (WiFi icon with a small gear on it)
+	4. On the new pane that appears, under `User agent` uncheck `Use browser default`
+	5. Opening the menu that says `Custom...` will allow you to set your user agent to any modern user agent
+
+	**NOTE**: This change only exists on the tab where you configured it, meaning to maintain the same user agent when opening links in new tabs you must open a blank tab, repeat these steps, and then copy & paste the link into the url bar of the newly configured tab.
+
+	Possible desktop platform values:
+
+	- Windows NT 10.0; Win64; x64
+	- Macintosh; Intel Mac OS X 10_15_7
+	- X11; Linux x86_64
+	- X11; CrOS x86_64 14541.0.0
+
+	Example Values:
+
+	- `Mozilla/5.0 (<platform>; <oscpu>) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/<majorVersion>.<minorVersion>; Safari/537.36`
+	- `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36`
+	- `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36`
+
+	Edge (Chromium)
+
+	[`edge://version`](edge://version) will show the current `User-Agent` string.
+
+	Captured from Wireshark:
+	- `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.39`
+
+	---
+
+	**[DnsOverHttpsMode](https://chromeenterprise.google/policies/#DnsOverHttpsMode) | [DnsOverHttpsTemplates](https://chromeenterprise.google/policies/?policy=DnsOverHttpsTemplates)**
+
+	- `DnsOverHttpsMode` Accepts `off`, `automatic` (meaning fallback allowed), and `secure` (no fallback allowed)
+	- `DnsOverHttpsTemplates` Takes a DoH URL endpoint, see the examples below
+
+	***[Chrome will always use the built-in resolver when you configure DNS-over-HTTPS](https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled), even if you set `BuiltInDnsClientEnabled` to `false`.***
+
+	```json
+	{
+		// Cloudflare (GET) https://developers.cloudflare.com/1.1.1.1/setup/
+		"DnsOverHttpsTemplates": "https://family.cloudflare-dns.com/dns-query",
+
+		// Quad9 (GET) https://dns.quad9.net/dns-query
+		"DnsOverHttpsTemplates": "https://dns.quad9.net/dns-query",
+
+		// NextDNS (GET) https://my.nextdns.io/account
+		"DnsOverHttpsTemplates": "https://dns.nextdns.io/<profile-id>",
+
+		// DNS4EU (GET) https://www.joindns4.eu/for-public#resolver-options
+		"DnsOverHttpsTemplates": "https://noads.joindns4.eu/dns-query",
+
+		// Use the {$dns} variable to make a (POST) request
+		"DnsOverHttpsTemplates": "https://dns.example.net/dns-query{?dns}"
+	}
+	```
+
+	---
+
+	**DefaultCookiesSetting | RestoreOnStartup | ClearBrowsingDataOnExitList**
+
+	By default the policy in this repo clears all data when closing the browser. If you want your login sessions and previous tabs to restore, you'll need to change the following:
+
+	- `ClearBrowsingDataOnExitList` != `cookies_and_other_site_data` Removing this line will allow cookies to persist
+	- `DefaultCookiesSetting` = `1` Will allow all sites to set cookies, you'll need to delete cookies manually
+	- `RestoreOnStartup` = `1` Will restore the last session
+
+	---
+
+	**CookiesAllowedForUrls | URLBlockList | URLAllowList**
+
+	This is an example for Microsoft Teams. When blocking 3rd Party Cookies, SSO and similar technologies will need allow-listed like in this example. Listing URL's in this format will also apply to other allow / blocklist policies as well.
+
+	```json
+	{
+		"CookiesAllowedForUrls": [
+			"https://[*.]microsoft.com",
+			"https://[*.]microsoftonline.com",
+			"https://[*.]teams.skype.com",
+			"https://[*.]teams.microsoft.com",
+			"https://[*.]sfbassets.com",
+			"https://[*.]skypeforbusiness.com"
+		]
+	}
+	```
+
+	---
+
+	**DefaultSearchProviderSearchURL | DefaultSearchProviderNewTabURL | DefaultSearchProviderName**
+
+	Change them to your preferred default search provider. Examples are given below for DuckDuckGo and Google.
+
+	```
+	"DefaultSearchProviderSearchURL": "https://duckduckgo.com/?q={searchTerms}",
+	"DefaultSearchProviderSearchURL": "https://www.google.com/search?q={searchTerms}",
+	```
+
+	---
+
+	[**DefaultJavaScriptJitSetting**](https://chromeenterprise.google/policies/#DefaultJavaScriptJitSetting)
+
+	- `1` = enabled
+	- `2` = disabled
+
+	Example configuration allowing a list of sites to run JavaScript JIT:
+
+	```json
+	{
+		"DefaultJavaScriptJitSetting": 2,
+		"JavaScriptJitAllowedForSites":[
+			"https://[*.]youtube.com",
+		]
+	}
+	```
+
+	---
+
+	**[Hardware](https://chromeenterprise.google/policies/#HardwareAccelerationModeEnabled) | [GPU Access](https://chromeenterprise.google/policies/#Disable3DAPIs)**
+
+	```json
+	{
+		"Disable3DAPIs": true,
+		"HardwareAccelerationModeEnabled": false
+	}
+	```
+
+	---
+
+	**AuthSchemes**
+
+	[Edge v98 security baseline](https://www.microsoft.com/en-us/download/details.aspx?id=55319) uses the following:
+
+	```
+	ntlm,negotiate
+	```
+
+??? tip ":simple-firefoxbrowser: Firefox"
+
+	> Firefox delivers secure, resilient, and privacy-focused browsing at scale. With enterprise policies in both Firefox or Firefox Extended Support Release (ESR), organizations get flexibility, control, and transparency in a trusted, open-source browser.
+
+	- <https://www.firefox.com/>
+	- [Policy Templates](https://github.com/mozilla/policy-templates#preferences)
+	- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/)
+	- [Blog](https://blog.mozilla.org/en/category/firefox/)
+	- [Release Notes](https://www.firefox.com/en-US/firefox/notes/)
+	- [OpenSCAP Configuration Guide](https://static.open-scap.org/ssg-guides/ssg-firefox-guide-stig.html)
+
+	Additional References
+
+	- [BlackHillsInfosec: Firefox WebApp Testing Configuration Guide](https://www.blackhillsinfosec.com/towards-quieter-firefox/)
+	- [IppSec/parrot-build: Auto-install Extensions and CA's](https://github.com/IppSec/parrot-build/blob/master/roles/customize-browser/templates/policies.json.j2)
+
+	---
+
+	**Install a Policy File**
+
+	Directories and file locations for both Firefox and Firefox ESR.
+
+	```bash
+	# Directories:
+	/etc/firefox[-esr]    # default / any
+	or
+	/usr/lib/firefox/     # default / ubuntu
+	/usr/lib64/firefox/   # default / fedora
+	/usr/lib/firefox-esr/ # esr / kali
+
+	# File locations:
+	/etc/firefox/syspref.js
+	/etc/firefox/policies/policies.json
+	or
+	/usr/lib/firefox/firefox.cfg
+	/usr/lib/firefox/defaults/pref/autoconfig.js
+	/usr/lib/firefox/distribution/policies.json
+	```
+
+	**Install a policy file on Kali**
+
+	- Use `/etc/firefox` instead of `/etc/firefox-esr`
+	- You only need the policy file, no other configuration files are necessary
+
+	```bash
+	sudo rm -rf /etc/firefox-esr/*
+	sudo mkdir -p /etc/firefox/policies
+	sudo cp ./firefox-policies-kali.json /etc/firefox/policies/policies.json
+	```
+
+	---
+
+	**DNS Settings**
+
+	[You can configure DNS-over-HTTPS (DoH) via the policies.json file](https://mozilla.github.io/policy-templates/#dnsoverhttps). Here's an example block:
+
+	```json
+	"DNSOverHTTPS": {
+		"Enabled": true,
+		"ProviderURL": "https://dns.quad9.net/dns-query",
+		"Locked": false,
+		"ExcludedDomains": [],
+		"Fallback": false
+	},
+	```
+
+	Replace `ProviderURL` with any DoH endpoint. For example:
+
+	- [Cloudflare](https://developers.cloudflare.com/1.1.1.1/setup/): `https://family.cloudflare-dns.com/dns-query`
+	- [Quad9](https://dns.quad9.net/dns-query): `https://dns.quad9.net/dns-query`
+	- [NextDNS](https://my.nextdns.io/account): `https://dns.nextdns.io/<profile-id>`
+	- [DNS4EU](https://noads.joindns4.eu/dns-query): `https://noads.joindns4.eu/dns-query`
+
+	---
+
+	**Useful Extensions**
+
+	These lines can be added to the policies.json file to automatically install the extension(s) listed.
+
+	- [uBlock Origin](https://github.com/gorhill/uBlock)
+	- [DuckDuckGo](https://github.com/duckduckgo/duckduckgo-privacy-extension)
+	- [Firefox Containers](https://github.com/mozilla/multi-account-containers/#readme)
+
+	```json
+		"ExtensionSettings": {
+		"*": {
+			"blocked_install_message": "Extension blocked by policy",
+			"install_sources": ["https://addons.mozilla.org/"],
+			"installation_mode": "blocked",
+			"allowed_types": ["extension"]
+		},
+		"uBlock0@raymondhill.net": {
+			"installation_mode": "force_installed",
+			"install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+		},
+		"jid1-ZAdIEUB7XOzOJw@jetpack": {
+			"installation_mode": "force_installed",
+			"install_url": "https://addons.mozilla.org/firefox/downloads/latest/duckduckgo-for-firefox/latest.xpi"
+		},
+		"@testpilot-containers": {
+			"installation_mode": "force_installed",
+			"install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi"
+		}
+		},
+	```
+
+	[**Firefox Containers**](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
+
+	Firefox containers are the equivalent of Chrome profiles, effectively isolating browser sessions. See the [GitHub README](https://github.com/mozilla/multi-account-containers/#readme).
+
+	---
+
+	**Clipboard**
+
+	- [MDN: Clipboard_API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+	- [web.dev: Clipboard Security and Permissions](https://web.dev/articles/async-clipboard#security_and_permissions)
+
+	Both Chrome and Firefox will prompt the user before a website is able to read the user's clipboard data.
+
+	Firefox will also block attempts by a website to automatically set data into the clipboard without user interaction, and notify the user this occurred.
+
+??? info ":fontawesome-brands-edge: Edge"
+
+	The modern version of Edge is Chromium-based, built into Windows.
+
+	- <https://learn.microsoft.com/en-us/microsoft-edge/>
+	- [Windows, macOS, Linux channels](https://aka.ms/EdgeEnterprise)
+		- [Linux Package Repository](https://learn.microsoft.com/en-us/linux/packages)
+	- [Policy Templates](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies)
+	- [Extensions Documentation](https://learn.microsoft.com/en-us/microsoft-edge/extensions/landing/)
+	- [Release Notes](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/release-notes/)
+	- [Security Documentation](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-browse-safer)
+	- [OpenSCAP Configuration Guide](https://static.open-scap.org/ssg-guides/ssg-chromium-guide-stig.html)
+
+??? info ":simple-brave: Brave"
+
+??? info ":simple-safari: Safari"
+
+??? tip ":simple-duckduckgo: DuckDuckGo"
+
+??? example "Ladybird"
+
+	> Ladybird is a truly independent web browser, using a novel engine based on web standards.
+
+	Discovered by following [p0dalirius](https://github.com/p0dalirius?tab=stars), this appears to be focused on *nix and macOS desktop environments for it's first release in 2026 / 2027.
+
+	- <https://github.com/LadybirdBrowser/ladybird>
+
+??? danger ":fontawesome-brands-internet-explorer: IE (Internet Explorer)"
+
+??? info ":material-console-network-outline: lynx"
+
+	> Classic non-graphical (text-mode) web browser. In continuous development since 1992, Lynx sets the standard for text-mode web clients. It is fast and simple to use, with support for browsing via FTP, Gopher, HTTP, HTTPS, NNTP, and the local file system.
 
 
 ## :material-desktop-tower: Operating Systems
@@ -3750,6 +4210,8 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://github.com/GossiTheDog>
 	- <https://doublepulsar.com/>
 	- <https://cyberplace.social/@GossiTheDog>
+
+	---
 
 	[**Targeted Notepad++ Update Hijacks**](https://doublepulsar.com/small-numbers-of-notepad-users-reporting-security-woes-371d7a3fd2d9)
 
