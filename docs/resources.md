@@ -3742,3 +3742,17 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Randomly discovered while looking for shows to cover AI news. This is a comedy show that packs a lot of the weekly news into an hour with links to tools and examples.
 
 	- <https://www.aiforhumans.show/>
+
+??? quote "GossiTheDog (Kevin Beaumont)"
+
+	GossiTheDog is a security researcher, often sharing practical advice on current topics.
+
+	- <https://github.com/GossiTheDog>
+	- <https://doublepulsar.com/>
+	- <https://cyberplace.social/@GossiTheDog>
+
+	[**Targeted Notepad++ Update Hijacks**](https://doublepulsar.com/small-numbers-of-notepad-users-reporting-security-woes-371d7a3fd2d9)
+
+	This story was a recent example (as of 2025) of why it's important to understand your update / patch / and even install / deployment processes. Applications with extensions that have their own update process make this even trickier. Often times standalone applications that are not part of a package management system all have their own versions of updating and signature verification. This does not make package managers immune to supply chain or similar attacks, but it does narrow the attack surface in this comparison.
+
+	I tend to think about the lengths that many projects go to, to ensure the integrity of the data or packages. [APT](https://wiki.debian.org/SecureApt) and [RPM](https://www.redhat.com/en/blog/rpm-gpg-verify-packages) are examples of package managers, those links detail their validation mechanisms. [Ubuntu](https://ubuntu.com/tutorials/how-to-verify-ubuntu#1-overview), [SOPS](https://github.com/getsops/sops/releases), [OpenBSD](https://www.openbsd.org/faq/faq4.html#Download), and [CoreBoot](https://www.coreboot.org/downloads.html) all have descriptions on how to do this manually. It becomes apparent why this is all necessary if you use the attack vectors in that article as a reference. TLS and your operating system's certificate store also do some heavy lifting, but aren't as immune to mitm attacks, phishing, or malvertising as the methods APT and RPM use when you don't stray outside of those packages known by the package manager. When you must install software that isn't maintained by a package manager, you'll likely want to replicate what package managers do, only manually. There's really no silver bullet here, but the awareness and vigilence will go a long way.
