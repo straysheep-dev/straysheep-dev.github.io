@@ -25,6 +25,7 @@ nav = [
     "notes/compile-static-binaries.md",
     "notes/custom-shell-profiles.md",
     "notes/flatpak.md",
+    "notes/grub-security.md",
     "notes/kvm.md",
     "notes/linting.md",
     "notes/migrating-to-zensical.md",
