@@ -2777,6 +2777,24 @@ This includes general network information as well as network-focused tools.
 	- [Pi-PwnBox Rogue-AP Wiki](https://github.com/koutto/pi-pwnbox-rogueap/wiki)
 	- [WPA Protocol Overview](https://github.com/koutto/pi-pwnbox-rogueap/wiki/04.-WPA-Protocol-Overview)
 
+??? abstract "WiGLE"
+
+	> All the networks. Found by Everyone.
+
+	- <https://wigle.net/>
+
+	You can upload your own capture data to contribute. You'll need to create an account to do so.
+
+	> The WiGLE database is composed entirely of observations contributed by users like you.
+	>
+	> We currently support DStumbler, G-Mon, inSSIDer, Kismac, Kismet, MacStumbler, NetStumbler, Pocket Warrior, Wardrive-Android, WiFiFoFum, WiFi-Where, WiGLE WiFi Wardriving, and Apple consolidated DB formats. Click the button for our upload tool, as well as a detailed list of files formats by tool.
+
+	What's incredibly useful is the ability to download CSV's of the most statistically common SSIDs, BT / BLE devices, as well as seeing historical stats in general. You'll note that [danielmiessler/SecLists](https://github.com/danielmiessler/SecLists) does not have a wordlist of common SSID's. If you're left guessing SSID strings when attempting to decloak an AP via bruteforce with [mdk4](https://github.com/aircrack-ng/mdk4), this is your best option. This assumes you could not find any historical WiGLE or similar public data / hints on the target. Either use this list to construct a custom wordlist based on other in-scope targets, or simply try this wordlist as a last resort.
+
+	- <https://wigle.net/stats#>
+	- <https://wigle.net/csv/ssid.csv>
+	- <https://wigle.net/csv/bt-name.csv>
+	- <https://wigle.net/csv/ble-name.csv>
 
 ??? question "USB-WiFi Guide"
 
@@ -2847,6 +2865,28 @@ This includes general network information as well as network-focused tools.
 
 	- <https://gist.github.com/r4ulcl/f3470f097d1cd21dbc5a238883e79fb2>
 
+??? danger "mdk4"
+
+	> MDK is a proof-of-concept tool to exploit common IEEE 802.11 protocol weaknesses.
+
+	- <https://github.com/aircrack-ng/mdk4>
+
+	`mdk4` is very fast, 350 tries/second in most cases, but will only print the line in the wordlist that it's working on, every few seconds. This will make it appear as though it's only trying 1 word every few seconds, which is not actually the case. You can verify this by following the full data stream in Wireshark on the same interface running mdk4.
+
+	`mdk4` also only tries lines from the wordlist that match the ESSID length.
+
+	```bash
+	# You must be on the same channel as the target
+	sudo airmon-ng start wlan3 11  # Sets wlan3mon to channel 11
+
+	# Run mdk4 against the hidden network's BSSID, using a -f wordlist.txt
+	sudo mdk4 wlan3mon p -t "${BSSID}" -f ./essid_list.txt
+
+	# You'll see the following result if successful:
+	<SNIP>
+	Probe Response from target AP with SSID <SSID-NAME>
+	Job's done, have a nice day :)
+	```
 
 
 ### :material-cloud-cog-outline: Cloud
