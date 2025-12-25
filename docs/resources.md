@@ -2880,12 +2880,52 @@ This includes general network information as well as network-focused tools.
 
 ### :material-power-plug-battery-outline: ICS & OT
 
-??? abstract "HardwareAllTheThings"
+!!! abstract "HardwareAllTheThings"
 
 	> Hardware/IOT Pentesting Wiki
 
 	- <https://swisskyrepo.github.io/HardwareAllTheThings/>
 	- <https://github.com/swisskyrepo/HardwareAllTheThings>
+
+!!! abstract "Awesome ICS Security"
+
+	> A curated list of resources related to Industrial Control System (ICS) security.
+
+	- <https://github.com/hslatman/awesome-industrial-control-system-security>
+
+??? danger "Labshock"
+
+	> Labshock provides a ready-to-use environment to learn, simulate and test defensive strategies.
+
+	It's free, with limitations, for personal / educational use.
+
+	- <https://github.com/zakharb/labshock>
+
+??? example "SCADA-LTS"
+
+	> Open Source project for Supervisory Control and Data Acquisiton system. It is an Web-based, multi-platform solution to build your own SCADA environment.
+
+	- <https://github.com/SCADA-LTS/Scada-LTS/wiki>
+
+??? example "OpenPLC / Autonomy Logic"
+
+	> Open-source PLC software for industrial automation, education, and research. Built by Autonomy.
+
+	Labshock uses OpenPLC. This project was also suggested by a security engineer as a way to study ICS and OT in a lab.
+
+	- <https://github.com/thiagoralves/OpenPLC_v3>
+	- <https://github.com/thiagoralves/OpenPLC_Editor>
+	- [Tools demonstrated at DEF CON 26 talk "Hacking PLCs and Causing Havoc on Critical Infrastructures"](https://github.com/thiagoralves/defcon26)
+
+	The DEFCON 26 repo appears to have the tools and configurations you need to spin up a working test instance in OpenPLC. This needs tested.
+
+	It seems these tools are moving to be maintained by the Autonomy-Logic GitHub as time goes on. The original link to <http://www.openplcproject.com/> now points to Autonomy-Logic. These are effectively forks of the projects above.
+
+	> Everything you need to build, deploy, and manage industrial automation projects at any scale.
+
+	- <https://github.com/Autonomy-Logic>
+	- <https://github.com/Autonomy-Logic/OpenPLC_v3>
+	- <https://github.com/Autonomy-Logic/openplc-editor>
 
 
 ### :material-lan-connect: C2
