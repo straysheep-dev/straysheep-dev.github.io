@@ -4,7 +4,7 @@ icon: material/file-document-arrow-right
 draft: false
 #date:
 #  created: 2024-05-29
-#  updated: 2025-12-14
+#  updated: 2025-12-29
 categories:
   - open-scap
   - how-to
@@ -20,6 +20,9 @@ categories:
 # :material-file-document-arrow-right: OpenSCAP Practical Usage
 
 Install OpenSCAP, pull compliance profiles from GitHub/ComplianceAsCode, debug policies with Ansible's `-C` and `-D` options, apply, test, and maintain policies with Ansible tags.
+
+- [OpenSCAP Policy List](https://www.open-scap.org/security-policies/choosing-policy/)
+- [github.com/ComplianceAsCode/content](https://github.com/ComplianceAsCode/content)
 
 <!-- more -->
 
