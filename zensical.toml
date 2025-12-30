@@ -24,6 +24,7 @@ nav = [
     "notes/clipboard-snooping.md",
     "notes/compile-static-binaries.md",
     "notes/custom-shell-profiles.md",
+    "notes/diy-web-app-lab.md",
     "notes/flatpak.md",
     "notes/grub-security.md",
     "notes/kvm.md",
