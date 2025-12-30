@@ -2313,7 +2313,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ## :material-sword-cross: Offense
 
-### :material-text-box-search: Methodology & General Resources
+### :material-text-box-search: Methodology & Resources
 
 !!! abstract "PTES (Penetration Testing Execution Standard)"
 
@@ -2366,6 +2366,25 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 ??? abstract "Trickest Wordlists_"
 
 	- <https://github.com/trickest/wordlists>
+
+### :material-target: Bug Bounties
+
+!!! abstract "R-s0n Framework"
+
+	> Bug Bounty Hunting Framework Designed to Help Beginners Compete w/ the Pros.
+
+	- <https://github.com/R-s0n>
+	- <https://github.com/R-s0n/ars0n-framework-v2>
+	- [Full Bug Bounty Recon Methodology Using My Bug Bounty Hunting Framework | Beta Launch @ DEFCON 33](https://www.youtube.com/watch?v=Kw1tPiVxBTg)
+	- [DEFCON 32 Bug Bounty Village Workshop Resources](https://github.com/R-s0n/bug-bounty-village-defcon32-workshop)
+
+??? bug "HackerOne"
+
+	- <https://www.hackerone.com/>
+
+??? bug "Bugcrowd"
+
+	- <https://www.bugcrowd.com/>
 
 
 ### :material-network: Network
@@ -4074,6 +4093,47 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- [AI Security Testing](https://owaspai.org/docs/5_testing/)
 
 
+### :material-application-cog: Platforms
+
+??? example ":simple-googlegemini: Google Gemini"
+
+	Google's AI model (previously known as Bard). As of March 2025 it ranks the highest of any model for coding.
+
+	- <https://gemini.google.com>
+	- [Gemini Apps Privacy Hub](https://support.google.com/gemini/answer/13594961)
+
+	If you don't want your input and output to be used for training or human review, you can turn off Gemini Apps Activity. This does not delete past data. As with any AI assume any inputs or outputs may become public or used for training.
+
+	Gemini is usable within Google Workspace. According to their policy it will not share or train on input or output of emails, documents, or otherwise unless you decide to allow that.
+
+	Other interesting features include:
+
+	- NotebookLM: Process text, PDFs, Google Docs, websites, and more into summaries that include a podcast-like audio conversation about the content
+	- [Sec-Gemini](https://security.googleblog.com/2025/04/google-launches-sec-gemini-v1-new.html) is built to augment SOC workflows with Mandiant and OSV data
+
+??? example ":fontawesome-brands-openai: OpenAI"
+
+	Possibly the most popular general-use AI. It's capable of text and audio conversation, coding, image and video generation and editing. There's also web search, deep research, and scheduled tasks.
+
+	- <https://openai.com/>
+	- <https://chatgpt.com/>
+	- <https://sora.com/>
+
+	If you don't want your input and output to be used for training or shared to the explore feed in Sora, you can turn this off in the settings of both ChatGPT and Sora, where they're on by default. As with any AI assume any inputs or outputs may become public or used for training.
+
+??? example ":simple-perplexity: Perplexity"
+
+	When asked to describe what makes it stand out from alternatives like ChatGPT or Gemini:
+
+	> Perplexity stands out mainly by being an answer engine first, and a chat model interface second. The core focus is fast, sourced answers that stay tightly grounded in the web, instead of long, speculative chats.
+
+	What also makes it unique is its access to all of the current and popular models to handle your query, image and video generation, as well as voice chat.
+
+	- <https://www.perplexity.ai>
+	- [BrowseSafe: Understanding and Preventing Prompt Injection Within AI Browser Agents](https://research.perplexity.ai/articles/browsesafe)
+	- [Mitigating Prompt Injections in Comet](https://www.perplexity.ai/hub/blog/mitigating-prompt-injection-in-comet)
+
+
 ### :octicons-tools-16: Tools
 
 ??? example "ollama"
@@ -4116,33 +4176,6 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	The [Keeping Things Local - Making Your Own Private LLM w/ Bronwen Aker](https://www.youtube.com/watch?v=DbzkJRl_xnk) demo was a reminder of this. It works not only with external API-based services, but also local LLM's.
 
-
-??? example "Google Gemini"
-
-	Google's AI model (previously known as Bard). As of March 2025 it ranks the highest of any model for coding.
-
-	- <https://gemini.google.com>
-	- [Gemini Apps Privacy Hub](https://support.google.com/gemini/answer/13594961)
-
-	If you don't want your input and output to be used for training or human review, you can turn off Gemini Apps Activity. This does not delete past data. As with any AI assume any inputs or outputs may become public or used for training.
-
-	Gemini is usable within Google Workspace. According to their policy it will not share or train on input or output of emails, documents, or otherwise unless you decide to allow that.
-
-	Other interesting features include:
-
-	- NotebookLM: Process text, PDFs, Google Docs, websites, and more into summaries that include a podcast-like audio conversation about the content
-	- [Sec-Gemini](https://security.googleblog.com/2025/04/google-launches-sec-gemini-v1-new.html) is built to augment SOC workflows with Mandiant and OSV data
-
-??? example "OpenAI"
-
-	Possibly the most popular general-use AI. It's capable of text and audio conversation, coding, image and video generation and editing. There's also web search, deep research, and scheduled tasks.
-
-	- <https://openai.com/>
-	- <https://chatgpt.com/>
-	- <https://sora.com/>
-
-	If you don't want your input and output to be used for training or shared to the explore feed in Sora, you can turn this off in the settings of both ChatGPT and Sora, where they're on by default. As with any AI assume any inputs or outputs may become public or used for training.
-
 ??? example "Cloudflare: AI Labyrinth"
 
 	> ...we decided to use a new offensive tool in the bot creator's toolset that we haven't really seen used defensively: AI-generated content. When we detect unauthorized crawling, rather than blocking the request, we will link to a series of AI-generated pages that are convincing enough to entice a crawler to traverse them. But while real looking, this content is not actually the content of the site we are protecting, so the crawler wastes time and resources.
@@ -4161,6 +4194,30 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://hiddenlayer.com/innovation-hub/novel-universal-bypass-for-all-major-llms/>
 
 	Discovered on <https://securityweekly.com/swn-471>.
+
+
+??? danger "HashJack"
+
+	- [HashJack Research](https://www.catonetworks.com/blog/cato-ctrl-hashjack-first-known-indirect-prompt-injection/)
+	- [HashJack LinkedIn Article](https://www.linkedin.com/pulse/hashjack-why-ai-browser-attack-unlike-anything-weve-simonovich--1jybf)
+
+	Discovered on [SWN#534](https://securityweekly.com/swn-534), this is a new attack vector detailed by Vitaly Simonovich.
+
+	> HashJack functions based on a unique principle. Rather than concealing malicious prompts within webpage content or exploiting parsing vulnerabilities, it leverages the URL fragment. The section after the # symbol. This distinction is what fundamentally sets it apart.
+
+	The attack was demonstrated on Perplexity's Comet, Copilot for Edge, and Gemini for Chrome.
+
+	- The URL fragment after the `#` never leaves the client, meaning it's never logged by the server or IDS
+	- Requires no compromise of the target website
+	- Does not trip any existing web filtering technologies
+	- Targets the agents themselves if they interpret the instructions
+	- Almost always done via user following a link, so it can appear more "trusted"
+
+	Responses:
+
+	- Gemini: Intended behavior, not a vulnerability
+	- Copilot: Fix applied
+	- Comet: Fix applied
 
 
 ## :fontawesome-solid-book-atlas: Blogs & Authors
