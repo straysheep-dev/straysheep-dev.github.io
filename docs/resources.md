@@ -3596,6 +3596,22 @@ All things standards, configuration, compliance, and policy related.
 
 	- <https://malapi.io/>
 
+??? bug "CAPA"
+
+	> The FLARE team's open-source tool to identify capabilities in executable files.
+
+	Has release binaries for Windows, macOS, and Linux.
+
+	- <https://github.com/mandiant/capa>
+
+??? bug "FLOSS"
+
+	> FLARE Obfuscated String Solver - Automatically extract obfuscated strings from malware.
+
+	Has release binaries for Windows, macOS, and Linux.
+
+	- <https://github.com/mandiant/flare-floss>
+
 
 ### :material-bug-check: Known Samples
 
