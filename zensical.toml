@@ -40,6 +40,7 @@ nav = [
     "notes/proxmox.md",
     "notes/rsync.md",
     "notes/snap.md",
+    "notes/usb-research.md",
     "notes/wazuh-tailscale.md",
     "notes/wifichallenge-review.md",
     "notes/windows.md"
