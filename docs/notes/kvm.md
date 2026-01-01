@@ -164,7 +164,7 @@ These can be created under Edit > Connection Details > Virtual Networks
 Ultimately your pfSense VM is routing via NAT through the `default` virt-manager network, and has its own, virtual (isolated) pfsense_lan, pfsense_opt1, and pfsense_opt2, etc. addresses available to it. To connect a VM to pfSense, attach it to any of the virtual (isolated) network interfaces.
 
 
-#### Troubleshooting
+#### Creating Networks
 
 This example deletes the generated xml config under `/etc/libvirt/qemu`, and uses the built in template from `/usr/share/libvirt` to reprovision a totally new default NAT network.
 
@@ -285,6 +285,19 @@ Reboot the VM if necessary and verify that the rules are working.
 !!! note "Adding Filters to Networks"
 
     Initially adding a `<filterref/>` block to a network such as the `default` network was tried. It appears these rules must be applied per-machine. Until a way is found to apply this globally per-network, assume this is true.
+
+
+### Troubleshooting
+
+#### Blank GUI (Screen Lock)
+
+!!! tip "Disable Screen Lock"
+
+    On guest machines with a GUI, sometimes it's common for the screen to remain blank after the guest's screen lock timeout is reached, even if you try to interact with the guest via ssh to restart the gdm session.
+
+    *This will need debugged further, as it's likely something relating to the spice or qemu guest agents tripping over something when the guest screen locks.*
+
+    The easiest way to diagnose and resolve this is to simply disable screen locking for the guest.
 
 
 ## SPICE
