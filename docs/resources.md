@@ -1802,37 +1802,11 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	```bash
 	# Install SOPS on Ansible controller
-	$ ansible-playbook community.sops.install_localhost
+	ansible-playbook --ask-become-pass community.sops.install_localhost
 
 	# Install SOPS on remote servers
-	$ ansible-playbook community.sops.install --inventory /path/to/inventory
-	```
-
-	It's recommended to use [`age`](https://github.com/FiloSottile/age) with SOPS for encryption.
-
-	**Example Usage**
-
-	Example workflow to convert an existing inventory.yaml file to an age-encrypted file via SOPS:
-
-	```bash
-	# SOPS uses predictable config folder paths, create one on Linux
-	mkdir -p $HOME/.config/sops/age/
-
-	# Generate an age public / private key pair
-	age-keygen -o $HOME/.config/sops/age/keys.txt
-
-	# Create a SOPS copy of an existing inventory file
-	sops encrypt --age <public-key-string> inventory.yaml > inventory.enc.yaml
-
-	# Assuming your inventory previously referenced an Ansible vault with variables,
-	# you can now write those secrets into the inventory.enc.yaml file that's
-	# protected with SOPS and age
-	sops inventory.enc.yaml
-
-	# You can also use a text editor to write key mappings into an encrypted SOPS file!
-	nano inventory.enc.yaml
-	# Then add the secrets later with SOPS
-	sops inventory.enc.yaml
+	echo "Enter Vault Password"; read -r -s vault_pass; export ANSIBLE_VAULT_PASSWORD=$vault_pass
+	ansible-playbook community.sops.install --inventory ~/.inventory.yml -e "@~/.vault.yml" --vault-pass-file <(cat <<<$ANSIBLE_VAULT_PASSWORD)
 	```
 
 ??? success "Best Practices"
@@ -1849,6 +1823,36 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	This is discussed in more detail here: <https://getsops.io/docs/#the-initial-trust>
 
+??? success "Usage"
+
+	It's recommended to use [`age`](https://github.com/FiloSottile/age) with SOPS for encryption.
+
+	Example workflow to convert an existing inventory.yaml file to an age-encrypted file via SOPS:
+
+	```bash
+	# SOPS uses predictable config folder paths, create one on Linux
+	mkdir -p $HOME/.config/sops/age/
+
+	# Generate an age public / private key pair
+	age-keygen -o $HOME/.config/sops/age/keys.txt
+	# Obtain public key
+	age_pubkey="$(grep -i public $HOME/.config/sops/age/keys.txt | awk '{print $4}')"
+
+	# Create a SOPS copy of an existing inventory file
+	sops encrypt --age "$age_pubkey" inventory.yaml > inventory.enc.yaml
+
+	# Assuming your inventory previously referenced an Ansible vault with variables,
+	# you can now write those secrets into the inventory.enc.yaml file that's
+	# protected with SOPS and age.
+	export EDITOR='nano'
+	sops inventory.enc.yaml
+
+	# You can also use a text editor to write key mappings into an encrypted SOPS file!
+	nano inventory.enc.yaml
+	# Then add the secrets later with SOPS
+	sops inventory.enc.yaml
+	```
+
 
 ### :material-file-key: age
 
@@ -1859,6 +1863,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/FiloSottile/age>
 
 	See the GitHub README for an overview and quick-start on usage. This is the recommended encryption tool to use with [SOPS](https://github.com/getsops/sops) instead of GPG.
+
+	```bash
+	# Ubuntu 22.04+
+	sudo apt install age
+
+	# Fedora 33+
+	sudo dnf install age
+	```
 
 
 ### :simple-github: GitHub
@@ -3132,6 +3144,13 @@ This includes general network information as well as network-focused tools.
 ??? example "LimaCharlie"
 
 	- <https://limacharlie.io/>
+
+??? example "Objective-See"
+
+	> Objective-See (was founded) to create simple, yet effective macOS security tools. Such tools are always free and now fully open-source.
+
+	- <https://objective-see.org/about.html>
+	- <https://github.com/objective-see>
 
 
 ### :material-microsoft-windows: Windows
