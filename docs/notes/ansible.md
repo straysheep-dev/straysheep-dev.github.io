@@ -4,7 +4,7 @@ icon: simple/ansible
 draft: false
 #date:
 #  created: 2023-08-20
-#  updated: 2025-12-14
+#  updated: 2026-01-04
 categories:
   - ansible
   - how-to
@@ -32,7 +32,7 @@ Getting started with Ansible. If you don't know what Ansible is or what it's use
 
 <!-- more -->
 
-## Example Project: ansible-configs
+## ansible-configs Project
 
 The [ansible-conifgs](https://github.com/straysheep-dev/ansible-configs) project is a monorepo of every Ansible role I've created or forked for my own use. Since this post was originally just the README for that project, you can use it to follow along below and get started in a test VM to learn about Ansible. The only reason this might be useful to anyone getting started is because when the monorepo was created, I was also just getting started. A lot of the notes here and roles were created from that perspective.
 
@@ -68,7 +68,7 @@ The [ansible-conifgs](https://github.com/straysheep-dev/ansible-configs) project
 	To do: how to specify each remote user's password (if there are multiple remote users listed, each with a unique password).
 
 
-## Setup
+## Install
 
 Install Ansible:
 
@@ -185,6 +185,71 @@ fatal: [10.10.10.55]: FAILED! => {"ansible_facts": {}, "changed": false, "failed
 	The versions found to be the most successful for these use cases are Ansible 2.13.0 or above.
 
 
+## How Ansible Works
+
+!!! quote "[Getting Started with Ansible](https://docs.ansible.com/projects/ansible/latest/getting_started/index.html)"
+
+    Ansible automates the management of remote systems and controls their desired state.
+
+The diagrams in the documentation linked in the quote block above summarize it best, Ansible consists of three components:
+
+- Control Node: The "brain" machine, executes Ansible code to run on the inventory being provisioned or managed
+- Inventory: A definition of assets and relevant variables (all text)
+- Managed Node: An endpoint being provisioned or managed through Ansible by a Control Node
+
+The [Intro to Ansible](https://docs.ansible.com/projects/ansible/latest/getting_started/introduction.html) goes into this further:
+
+- Scale and predictability is what Ansible does, when bash + SSH reach their limits
+- No agent, just a remote administration mechanism is required (SSH, WinRM, etc.)
+- Configures desired "states"
+
+With the basics established it's worth also considering:
+
+- Ansible excels in CI/CD workflows with deploying and building infrastructure-as-code
+- There are various secrets management integrations (Anisble Vault, SOPS) that make guarding secrets easy
+- Molecule testing makes maintaining and developing (porting your bash code to Ansible) easy
+
+There are more unique pieces to consider, such as how playbooks can built as consolidated single files, or split into numerous files, roles, collections, and more Ansible-specific things. This section tries to summarize those points since it's easy to forget all of the ways how everything can tie together.
+
+!!! tip "**Ansible Safety Measures**"
+
+    ⚠️ To be added.
+
+!!! tip "**Analyzing Playbooks and Anisble Code**"
+
+    ⚠️ To be added.
+
+!!! tip "**Setting Sources**"
+
+    It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
+
+    If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
+
+    Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
+
+    In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
+
+
+## Configure
+
+Ansible uses a file called `ansible.cfg` for configuration and modification. [Ansible Configuration Settings](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#ansible-configuration-settings) describes this file and how it works.
+
+This file can exist in a few places, and there's a search order used to find these files and load their definitions when running Ansible.
+
+!!! tip "[ansible.cfg file search order priority](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)"
+
+	- `ANSIBLE_CONFIG` (environment variable if set)
+	- `ansible.cfg` (in the current directory)
+	- `~/.ansible.cfg` (in the home directory)
+	- `/etc/ansible/ansible.cfg`
+
+	You can set just one option in your environment, and Ansible will [still use the defaults or whatever is in your `ansible.cfg` file, for everything else](https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html#general-precedence-rules).
+
+!!! quote "[Avoiding security risks with `ansible.cfg` in the current directory](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory)"
+
+    If Ansible were to load `ansible.cfg` from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
+
+
 ### Better CLI Output
 
 By default, Ansible will write output from playbooks and tasks without newlines interpretted. This makes reading playbooks executed with `-v` difficult.
@@ -199,17 +264,6 @@ You can list all of the built-in (or available) callbacks with `ansible-doc -t c
 
 Not all of these callbacks are specifically for affecting stderr and stdout. You'll want to review callbacks that seem interesting and check for options or environment variables that can be applied.
 
-!!! tip "ansible.cfg Search Order Priority"
-
-	[ansible.cfg file search order priority](https://docs.ansible.com/ansible/latest/reference_appendices/config.html):
-
-	- `ANSIBLE_CONFIG` (environment variable if set)
-	- `ansible.cfg` (in the current directory)
-	- `~/.ansible.cfg` (in the home directory)
-	- `/etc/ansible/ansible.cfg`
-
-	You can set just one option in your environment, and Ansible will [still use the defaults or whatever is in your `ansible.cfg` file, for everything else](https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html#general-precedence-rules).
-
 To simply have more human-readable CLI output, use the YAML `result_format`:
 
 ```bash
@@ -217,44 +271,13 @@ export ANSIBLE_CALLBACK_RESULT_FORMAT='yaml'
 # Now execute a playbook in the same shell environment
 ```
 
-
-## Quick Start: Testing Plays
-
-[Creating a playbook](https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html)
-
-Use this yaml block as a copy-and-paste starting point when developing and testing plays on a single machine "locally" with ansible installed.
-
-This is useful to run only certain parts of a playbook or isolate certain tasks to debug them.
+To make this a persistent change, add it to your `ansible.cfg`:
 
 ```yaml
-# Write as: playbook.yml
-# Run with: ansible-playbook ./playbook.yml
-# https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html
-# https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html#running-against-localhost
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html
-- name: Debug Playbook
-  hosts: localhost
-  connection: local
-  vars:
-    user_defined_var: True
-  tasks:
-    - name: Prints message only if user_defined_var variable is set to True
-      ansible.builtin.debug:
-        msg: "User defined variable set to: {{ user_defined_var }}"
-      when: user_defined_var == True
-    - name: Ping localhost
-      ansible.builtin.ping:
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/default_callback.html#parameter-result_format
+[defaults]
+callback_result_format = yaml
 ```
-
-## How Ansible Works
-
-It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
-
-If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
-
-Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
-
-In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
 
 
 ## Variables and Inventories
@@ -368,7 +391,7 @@ ansible-vault create vault.yml
 ```
 
 
-### Vault Password File + Environment Variables
+**Vault Password File + Environment Variables**
 
 In cases where you're running multiple playbooks, it can be tedious to repeatedly enter the vault password. Ansible has a `--vault-pass-file` option that can read the password from a file. *Unfortunately, Ansible doesn't have a built in environment variable you can pass to it for this purpose.* Writing this secret in a plaintext file isn't the best idea, and interestingly enough **you can specify commands or scripts as the vault-pass-file**. This means you can use a similar trick to [configuring terraform environment variables](https://github.com/straysheep-dev/terraform-configs#quick-start-environment-variables) and read the vault password from an environment variable.
 
@@ -403,7 +426,7 @@ ansible-playbook -i <inventory> -e "@~/secrets/auth.yml" --vault-pass-file <(cat
 - Be sure `kernel.yama.ptrace_scope` is set to `1` or higher, as `0` will allow process dumping without root
 
 
-### Use Case: Manage Remote Hosts with Unique Sudo Passwords
+**Use Case: Manage Remote Hosts with Unique Sudo Passwords**
 
 This covers the following scenario:
 
@@ -446,13 +469,188 @@ This can be taken further by also encrypting the usernames as variables in `auth
 
 !!! quote "What is SOPS?"
 
-    SOPS allows to encrypt and decrypt files using various key sources (GPG, AWS KMS, GCP KMS, ...). For structured data, such as YAML, JSON, INI and ENV files, it will encrypt values, but not mapping keys. For YAML files, it also encrypts comments. This makes it a great tool for encrypting credentials with Ansible: you can easily see which files contain which variable, but the variables themselves are encrypted.
+    [SOPS](https://getsops.io/) allows to encrypt and decrypt files using various key sources (GPG, AWS KMS, GCP KMS, ...). For structured data, such as YAML, JSON, INI and ENV files, it will encrypt values, but not mapping keys. For YAML files, it also encrypts comments. This makes it a great tool for encrypting credentials with Ansible: you can easily see which files contain which variable, but the variables themselves are encrypted.
 
     The ability to utilize various keysources makes it easier to use in complex environments than Ansible Vault.
 
+SOPS is effectively the more robust replacement to Ansible Vaults. The benefit is being able to read secrets files to see the variable names without exposing the secrets, and the flexibility in use with encrypted data. The preferred encryption tool is [age](https://github.com/FiloSottile/age), but you can use GPG or a number of other methods described [here](https://github.com/getsops/sops?tab=readme-ov-file#usage).
+
+[Protecting Ansible secrets with SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/docsite/guide.html) is the quick-start guide with examples for doing complex lookups, among other things. It also details using SOPS to protect (inventory) secrets, but does not showcase this as well as it could, and if you're used to working with Ansible Vaults, this is where your mind is at if you're looking at migrating those secrets to SOPS. While an Ansible Vault can be as simple as a dedicated YAML file with unique variable names that the inventory file(s) reference (providing your vault password when running the playbook for runtime decryption), the SOPS guide details how this works via SOPS but does not show step-by-step examples of doing it. If you're unfamiliar with `group_vars` and `host_vars`, since maybe you didn't need to structure your inventory like that, this becomes confusing.
+
+This section shows you step-by-step, how to use SOPS to encrypt an inventory's sudo passwords for headless use. Before that, there's one key point that needs mentioned. Expand the note here to read more, otherwise jump below to start with SOPS.
+
+??? warning "Headless Workflows Come Down to One Secret"
+
+    Whether it's an Ansible Vault, SOPS, or your local machine's keyring, everything in DevOps (primarily headless operations) appears to come down to one secret, somewhere, that if compromised, theoretically, so is everything it has access to.
+
+    If you're using SOPS + age like this guide suggests, you quickly realize the age key is a plaintext file, with the secret exposed. GPG and SSH have endless documentation around password protecting your keys, and the point is if you don't password protect your keys, it's simply much more dangerous. The problem is, if you want to run headless operations, either scheduled or on demand, you'd need to load those passwords somehow regularly and safely at runtime. Now you run into more conundrums:
+
+    - System keystores are decrypted for the session, even if there's a way to do that temporarily it still exposes the key... to your key
+    - Similarly, keystores often require GUI interaction to approve operations
+    - Do you use a plaintext environment variable or environment file that's read-protected? If so, we're back to square one here
+    - How about setting up a Hashicorp Vault? You still have the same problem *but*, there's a difference here in terms of scope and access
+    - What about tying the secret to the TPM? Same issues still apply
+
+    Each of those points above reveal the weird difference between vaults and password managers. Even though they are more or less the same thing, the level of manual interaction password manager require is part of their strength. Tools still exist to scrape a system's memory for password manager data, but it's not easy. The programmatic nature of vaults means they're more reliable for this. No matter what you decide to do, there's either going to be narrow scope or manual action required to protect the blast radius of a compromise.
+
+    This guide recommends starting with the plaintext age key for testing, then replacing it with a call to your preferred vault solution where the secret itself is retrieved to decrypt your SOPS secrets. Vaults allow you to scope who / what / when / why / how, and other things. For example, depending on the vault, you could limit what hosts what key has access to, and when / from where it can be retrieved. This accepts that a system is handling a secret, but it's giving you a signal to look for if something seems unusual with key usage or logins. Similarly, the bottom line is the system running this type of workload should be very narrowly scoped and tightly controlled. This is a good way to think of an Ansible Controller. It should only perform Ansible tasks, not run any other workloads, and be heavily guarded + audited.
+
+Install age using your system's package manager.
+
+> A simple, modern and secure encryption tool (and Go library) with small explicit keys, no config options, and UNIX-style composability.
+
+- <https://github.com/FiloSottile/age>
+
+See the GitHub README for an overview and quick-start on usage. This is the recommended encryption tool to use with [SOPS](https://github.com/getsops/sops) instead of GPG.
+
+```bash
+# Ubuntu 22.04+
+sudo apt install age
+
+# Fedora 33+
+sudo dnf install age
+```
+
+You can easily install SOPS using the `community.sops.install` role that comes with Ansible.
+
+```bash
+# Install SOPS on Ansible controller
+ansible-playbook --ask-become-pass community.sops.install_localhost
+
+# Install SOPS on remote servers
+echo "Enter Vault Password"; read -r -s vault_pass; export ANSIBLE_VAULT_PASSWORD=$vault_pass
+ansible-playbook community.sops.install --inventory ~/.inventory.yml -e "@~/.vault.yml" --vault-pass-file <(cat <<<$ANSIBLE_VAULT_PASSWORD)
+```
+
 - [https://github.com/getsops/sops](https://github.com/getsops/sops)
-- [Ansible Docs: Protecting Ansible secrets with SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/docsite/guide.html)
 - [community.sops.install role - Install SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/install_role.html)
+
+```bash
+# SOPS uses predictable config folder paths, create one on Linux
+mkdir -p $HOME/.config/sops/age/
+
+# Generate an age public / private key pair
+age-keygen -o $HOME/.config/sops/age/keys.txt
+```
+
+Now you need to create the inventory structure SOPS requires. This is what isn't highlighted in the official quick-start guide, but is covered in the section on [Working with Encrypted Variables](https://docs.ansible.com/projects/ansible/latest/collections/community/sops/docsite/guide.html#working-with-encrypted-variables).
+
+```bash
+# This assumes the system is a general purpose Ansible Controller
+mkdir -p ~/ansible/inventory
+```
+
+Create an inventory file, `nano ~/ansible/inventory/inventory.yaml`, we'll target the local machine in this example in two ways, via localhost, and it's IP, `127.0.0.1`. It makese sense to think of this file as the "meta" inventory file, describing only machines, and the groups they belong to. You don't have to do it this way, but it's more organized and easier to follow.
+
+```yaml
+---
+# inventory/inventory.yml
+
+# https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html
+# https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
+# https://docs.ansible.com/ansible/latest/getting_started/index.html
+# ansible all --list-hosts -i inventory/inventory.yml
+
+# A sample yaml inventory file with one group, called "localgroup"
+localgroup:
+  hosts:
+    localhost:
+    127.0.0.1:
+```
+
+Now we can create either, `inventory/host_vars/` and or `inventory/group_vars/` paths within the inventory folder. The [Organizing Host and Group Variables](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html#organizing-host-and-group-variables) documentation walks you through this.
+
+```bash
+# Create the vars paths
+mkdir -p ~/ansible/inventory/host_vars
+mkdir -p ~/ansible/inventory/group_vars
+```
+
+!!! note "How `host_vars` and `group_vars` Work"
+
+    It can get complex with variable load priority but for simplicity, `host_vars` basically assigns variables to hosts based on the path / file name matching the hostname.
+
+Now create the variable file for `localhost` using SOPS:
+
+```bash
+# Obtain public key
+age_pubkey="$(grep -i public $HOME/.config/sops/age/keys.txt | awk '{print $4}')"
+
+# Create the YAML file using SOPS, encrypted with the age key
+sops --age "$age_pubkey" ~/ansible/inventory/host_vars/localhost.sops.yaml
+```
+
+!!! tip "[Valid Extensions](https://docs.ansible.com/projects/ansible/latest/collections/community/sops/docsite/guide.html#working-with-encrypted-variables)"
+
+    > Put files with the following extensions into the `group_vars` and `host_vars` directories:
+
+    - `.sops.yaml`
+    - `.sops.yml`
+    - `.sops.json`
+
+    > For the `host_group_vars` plugin, your host and group variable files ***must*** use YAML syntax. Valid file extensions are `.yml`, `.yaml`, `.json`, or no file extension.
+
+Set the content to include any and all variables you'd like to protect for localhost.
+
+```yaml
+---
+ansible_connection: local
+ansible_become_password: "my_passw0rd!"
+
+```
+
+Now do the same for 127.0.0.1. It gets its own file under `host_vars/127.0.0.1.sops.yaml`.
+
+```bash
+# Obtain public key
+age_pubkey="$(grep -i public $HOME/.config/sops/age/keys.txt | awk '{print $4}')"
+
+# Create the YAML file using SOPS, encrypted with the age key
+sops --age "$age_pubkey" ~/ansible/inventory/host_vars/127.0.0.1.sops.yaml
+```
+
+```yaml
+---
+ansible_user: user1
+ansible_port: 22
+ansible_become_password: "an0ther_passw0rd!"
+```
+
+!!! tip "Edit SOPS Encrypted Files"
+
+    To edit a SOPS file it's just `sops /path/to/file.sops.yaml`.
+
+    SOPS is automatically aware of your keys under `~/.config/sops/age/keys.txt` so if the key used to encrypt the file is there, you don't need to do anything more to decrypt the file.
+
+Enable both, `host_group_vars` and `community.sops.sops`, in your `ansible.cfg`. See the [Configure](#configure) section for a quick overview on how this file works.
+
+```yaml
+[defaults]
+vars_plugins_enabled = host_group_vars,community.sops.sops
+```
+
+Now, we can create and execute the following example `playbook.yml` file:
+
+```yaml
+---
+# This example playbook invokes sudo, proving we can decrypt SOPS encrypted sudo passwords
+# from the relevant host_vars files.
+- name: "Debug"
+  hosts:
+    localgroup
+  tasks:
+    - name: Show facts available on the system
+      ansible.builtin.command: /usr/bin/id
+      become: true
+      become_method: ansible.builtin.sudo
+
+```
+
+Run to confirm sudo execution succeeds, `id` will print `stdout: uid=0(root) gid=0(root) groups=0(root)` in the results.
+
+```bash
+ansible-playbook -i inventory/ -v playbook.yml
+```
 
 
 ## Ansible-Lint
