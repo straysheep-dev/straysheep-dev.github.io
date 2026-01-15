@@ -2368,8 +2368,10 @@ function unbound_read_include_hash(string $unboundIncludeFile): string|false
 
 However you won't notice any real issue in operation from pfSense.
 
-!!! note "UniFi Network Issues"
+!!! note "UniFi Network and Tailscale Issues"
 
-	It's possible this causes issues with downstream UniFi gear behind pfSense, this will need more review.
+	It's possible this causes issues with downstream UniFi gear behind pfSense, or perhaps the Tailscale pfSense package and service somehow cause this bug. This will need more review.
+
+	During testing the crashes did ***not*** result in any network or connectivity loss.
 
 The [suggested fix for this exact error](https://forum.netgate.com/topic/199617/pfsense-plus-25.07.1-upgrade-to-25.11-crash-report-kea2unbound) until the next pfSense release includes the latest patches is to manually clear the DHCP lease table from `Status` > `DHCP Leases` > `Clear All DHCP Leases`.
