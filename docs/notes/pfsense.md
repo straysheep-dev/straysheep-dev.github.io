@@ -4,7 +4,7 @@ icon: simple/pfsense
 draft: false
 #date:
 #  created: 2023-??-??
-#  updated: 2025-12-14
+#  updated: 2026-01-14
 categories:
   - pfsense
   - how-to
@@ -20,27 +20,22 @@ A quick reference for pfSense administration.
 
 <!-- more -->
 
-- pfSense Documentation
-	* <https://docs.netgate.com/pfsense/en/latest/index.html>
+!!! abstract "[pfSense Documentation](https://docs.netgate.com/pfsense/en/latest/index.html)"
 
-*In all cases where the pfSense documentation is either referenced directly or closely adapted, a link back to the source page or section is provided.*
+	*In all cases where the pfSense documentation is either referenced directly or closely adapted, a link back to the source page or section is provided.*
 
-Many of the initial steps are the same as the pfSense documents, but with less or different detail, and organized in a way that I've found I repeat when setting up a pfSense system. This cheatsheet most closely resembles the creation of a home lab, and ways of gaining visibility into a small set of networks. Be sure to review the pfSense documentation for complete details.
+	Many of the initial steps are the same as the pfSense documents, but with less or different detail, and organized in a way that I've found I repeat when setting up a pfSense system. This cheatsheet most closely resembles the creation of a home lab, and ways of gaining visibility into a small set of networks. Be sure to review the pfSense documentation for complete details.
 
 
 ## Additional References
 
-- FreeBSD Handbook - Get started with the CLI using this as a reference.
-	* <https://docs.freebsd.org/en/books/handbook/basics/>
-	* <https://www.freebsd.org/copyright/freebsd-doc-license/>
-
-- Lawrence Systems - Channel covering all things networking. Many pfSense examples were adapted directly from there.
-	* <https://www.youtube.com/user/TheTecknowledge/videos>
-	* <https://creativecommons.org/licenses/by/3.0/>
-
-- The Cyber Plumber's Handbook - Free pdf with in depth but very clear and easy to understand exercises of traversing networks.
-	* <https://github.com/opsdisk/the_cyber_plumbers_handbook>
-	* <https://creativecommons.org/licenses/by-nc-nd/4.0/>
+- [FreeBSD Handbook](https://docs.freebsd.org/en/books/handbook/basics/) - Get started with the CLI using this as a reference. ([License](https://www.freebsd.org/copyright/freebsd-doc-license/))
+- [Lawrence Systems](https://www.youtube.com/user/TheTecknowledge/videos) - Channel covering all things networking. Many pfSense examples were adapted directly from there. ([License](https://creativecommons.org/licenses/by/3.0/))
+- [The Cyber Plumber's Handbook](https://github.com/opsdisk/the_cyber_plumbers_handbook) - Free PDF with in depth but very clear and easy to understand exercises of traversing networks.
+- [Netgate pfSense Blog](https://www.netgate.com/blog/tag/pfsense) - This will sometimes contain updates or additional security information
+- [Netgate Security Advisories](https://docs.netgate.com/advisories/index.html)
+- [FreeBSD Security Advisories](https://www.freebsd.org/security/advisories/)
+- [pfSense Issue Tracker](https://redmine.pfsense.org/)
 
 ## Downloading
 
@@ -2236,6 +2231,28 @@ sudo dd if=/dev/zero of=/dev/da1 bs=1M status=progress count=10
 sudo dd if=/dev/zero of=/dev/da1 bs=1M status=progress seek=58650
 ```
 
+---
+
+
+## Redundancy
+
+### Failover WAN
+
+TO DO
+
+
+### Remote Serial Console
+
+TO DO
+
+
+### Maintenance Port
+
+TO DO
+
+---
+
+
 ## Troubleshooting:
 
 **TO DO**
@@ -2284,3 +2301,75 @@ When this happens the simplest solution is to connect via the serial console, an
 Sometimes after a reboot Tailscale may not connect back to your tailnet. Simply restart the Tailscale service to fix this.
 
 If you use Tailscale to manage pfSense remotely this can be an issue. Having an alternate remote access method such as SSH (even externally with limited ingress rules) or another jump box connected to your Tailnet on pfSense's management subnet, can save you.
+
+
+### Tailscale is not online. Refresh or check the Tailscale status page.
+
+[Bug #16004: tailscale unexpected state: NoState](https://redmine.pfsense.org/issues/16004)
+
+The temporary solution of issuing a new auth-key and simply re-adding pfSense to your Tailnet of course works, but this appears to happen over time. The mention of Kea being related to the issue will need to be reviewed.
+
+If you attempt to manually run `sudo /usr/local/bin/tailscale up` you'll see the following error:
+
+```
+Error executing command (/usr/local/bin/tailscale status)
+# Health check:
+#     - Unable to connect to the Tailscale coordination server to synchronize the state of your tailnet. Peer reachability might degrade over time.
+#     - You are logged out. The last login error was: invalid key: API key does not exist
+
+unexpected state: NoState
+```
+
+
+### kea2unbound Uncaught TypeError
+
+- [Bug #16602: `kea2unbound` crashes when reading an invalid configuration file](https://redmine.pfsense.org/issues/16602)
+- [Bug #16622: `kea2unbound` crash upon sync](https://redmine.pfsense.org/issues/16622)
+
+!!! quote "Description"
+
+	Bug #16602: kea2unbound can crash when reading unbound or kea configuration files if the files become invalid - e.g. when being replaced after an interface event.
+
+	Bug #16622: This prevents kea2unbound from crashing when the Unbound include file exists but is empty or temporarily truncated during regeneration, a scenario observed during DHCP \u2194 Unbound sync.
+
+You may login after upgrading to 25.11 and find the a crash report notification with the following message repeated:
+
+```txt
+[01-Jan-2026 12:34:56 Etc/UTC] PHP Fatal error:  Uncaught TypeError: substr(): Argument #1 ($string) must be of type string, false given in /usr/local/bin/kea2unbound:479
+Stack trace:
+#0 /usr/local/bin/kea2unbound(479): substr()
+#1 /usr/local/bin/kea2unbound(489): kea2unbound\unbound_read_include_hash()
+#2 /usr/local/bin/kea2unbound(738): kea2unbound\unbound_write_include()
+#3 /usr/local/pfSense/include/vendor/symfony/console/Command/Command.php(279): kea2unbound\SyncCommand->execute()
+#4 /usr/local/pfSense/include/vendor/symfony/console/Application.php(1076): Symfony\Component\Console\Command\Command->run()
+#5 /usr/local/pfSense/include/vendor/symfony/console/Application.php(342): Symfony\Component\Console\Application->doRunCommand()
+#6 /usr/local/pfSense/include/vendor/symfony/console/Application.php(193): Symfony\Component\Console\Application->doRun()
+#7 /usr/local/bin/kea2unbound(796): Symfony\Component\Console\Application->run()
+#8 {main}
+  thrown in /usr/local/bin/kea2unbound on line 479
+```
+
+Investigating the `kea2unbound` file shows this block contains line 479:
+
+```php
+function unbound_read_include_hash(string $unboundIncludeFile): string|false
+{
+    $hash = false;
+    $fd = \fopen($unboundIncludeFile, 'r');
+    if ($fd) {
+        /* First line is assumed to *always* be a commented hash */
+        $hash = \trim(\substr(\fgets($fd), 1));  /* Line 479 */
+        fclose($fd);
+    }
+
+    return ($hash);
+}
+```
+
+However you won't notice any real issue in operation from pfSense.
+
+!!! note "UniFi Network Issues"
+
+	It's possible this causes issues with downstream UniFi gear behind pfSense, this will need more review.
+
+The [suggested fix for this exact error](https://forum.netgate.com/topic/199617/pfsense-plus-25.07.1-upgrade-to-25.11-crash-report-kea2unbound) until the next pfSense release includes the latest patches is to manually clear the DHCP lease table from `Status` > `DHCP Leases` > `Clear All DHCP Leases`.
