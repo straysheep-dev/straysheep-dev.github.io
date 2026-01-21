@@ -297,7 +297,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://github.com/giuspen/cherrytree>
 	- License: GPL-3.0
 
-**Documentation Building**
+
+### Documentation Building
 
 ??? warning "mkdocs-material"
 
@@ -330,6 +331,34 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Mkdocs-Material Compatability](https://zensical.org/compatibility/)
 	- [Feature Roadmap](https://zensical.org/about/roadmap/)
 	- [Feature Parity Table](https://zensical.org/compatibility/features/)
+
+
+### Diagrams
+
+??? note "draw.io"
+
+	> draw.io and our online editor are the leading solutions for web based sketching and diagramming functionality. You can use our online editor with various storage platforms, and offline with our standalone desktop app.
+	>
+	> As a security-first diagramming app for teams, we provide the diagramming functionality - you choose where to keep your diagram data. There are many different integrations with other platforms and applications, including Atlassian Confluence Cloud and Jira Cloud, Google applications, GitHub, Microsoft applications, Notion and more. Unofficial integrations are available for many other platforms and tools.
+
+	- <https://www.drawio.com/>
+	- <https://github.com/jgraph/drawio>
+	- <https://github.com/jgraph/drawio-desktop>
+
+	> draw.io Desktop is designed to be completely isolated from the Internet, apart from the update process. This checks github.com at startup for a newer version and downloads it from an AWS S3 bucket owned by Github. All JavaScript files are self-contained, the Content Security Policy forbids running remotely loaded JavaScript.
+
+??? note "Miro"
+
+	A real-time collaborative online whiteboard and brainstorming platform for teams. Great for visuals, note-taking, diagrams, meetings, and ideation.
+
+	- <https://miro.com/>
+
+??? note "tldraw"
+
+	A digital whiteboard and infinite canvas. You can use the publicly accessible version for free, with or without an account. Self-hosting is also possible.
+
+	- <https://www.tldraw.com/>
+	- <https://github.com/tldraw/tldraw>
 
 **Tips**
 
