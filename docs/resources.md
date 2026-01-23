@@ -4185,6 +4185,10 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	If you don't want your input and output to be used for training or shared to the explore feed in Sora, you can turn this off in the settings of both ChatGPT and Sora, where they're on by default. As with any AI assume any inputs or outputs may become public or used for training.
 
+	[**Codex**](https://openai.com/codex/)
+
+	Codex (CLI) is the local agent utility for working on code. It has capabilities comparable to Claude Code with similar syntax and sandboxing. More details need to be added to this note once this is tested.
+
 ??? example ":simple-perplexity: Perplexity"
 
 	When asked to describe what makes it stand out from alternatives like ChatGPT or Gemini:
@@ -4196,6 +4200,24 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://www.perplexity.ai>
 	- [BrowseSafe: Understanding and Preventing Prompt Injection Within AI Browser Agents](https://research.perplexity.ai/articles/browsesafe)
 	- [Mitigating Prompt Injections in Comet](https://www.perplexity.ai/hub/blog/mitigating-prompt-injection-in-comet)
+
+??? example ":simple-anthropic: Anthropic"
+
+	> Hybrid reasoning model that pushes the frontier for coding and AI agents, featuring a 200K context window.
+
+	- <https://www.anthropic.com/>
+	- <https://claude.ai/>
+
+	Claude is Anthropic's Chat and reasoning model. Think of this as OpenAI's ChatGPT, it's even similar in functionality. It differs though, in focus. It cannot generate images and video, the audio and voice conversation modes are less natural, but where Claude is best is at coding, technical tasks, agentic workflows, and integrating with how you develop and engineer things. Comparing Opus 4.5 to GPT 5.2, Claude feels more purpose built for those tasks, where GPT feels more like it's covering all bases.
+
+	There are a lot of tips and tricks to workflows with Claude, depending on how you're using it and what the goal is. These will be added here over time as they're tested and reviewed.
+
+	[**Claude Code**](https://claude.ai/code)
+
+	- <https://code.claude.com/docs/en/security>
+	- <https://code.claude.com/docs/en/devcontainer>
+
+	This is the CLI utility for Claude. It requires at least a Pro subscription, and is easy to install. Once it's available locally, simply run `claude` in any directory. It will have read/write access to everything in that directory and below, and general read access to most files on the system your user context does. Reviewing the security and safety documentation shows Claude various mechanisms in place to attempt to prevent things from going wrong, but it's highly recommended to use this tool within a VM, or isolated instance that you can easily spin down and rebuild.
 
 
 ### :octicons-tools-16: Tools
@@ -4247,6 +4269,21 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	> As an added benefit, AI Labyrinth also acts as a next-generation honeypot. No real human would go four links deep into a maze of AI-generated nonsense. Any visitor that does is very likely to be a bot, so this gives us a brand-new tool to identify and fingerprint bad bots, which we add to our list of known bad actors. Here's how we do it...
 
 	- <https://blog.cloudflare.com/ai-labyrinth/>
+
+??? example "E2B"
+
+	> E2B is an open-source infrastructure that allows you to run AI-generated code in secure isolated sandboxes in the cloud. To start and control sandboxes, use our JavaScript SDK or Python SDK.
+
+	> Each sandbox is powered by Firecracker, a microVM made to run untrusted workflows.
+
+	- <https://e2b.dev/>
+	- <https://e2b.dev/docs>
+	- <https://github.com/e2b-dev>
+	- [Quick-Start](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox)
+
+	Their [GitHub README is effectively a quick-start guide](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox). Additional details are availabe in their [docs](https://e2b.dev/docs).
+
+	Suggested by [yroc92](https://github.com/yroc92) for AI agent and CLI workflows.
 
 
 ### :material-lightning-bolt-circle: Attacks
