@@ -97,7 +97,177 @@ This is primarily targeting Linux and Windows machines.
 
 Wikipedia has a full history on [USB](https://en.wikipedia.org/wiki/USB) and [USB connections](https://en.wikipedia.org/wiki/USB_communications).
 
-Generally, USB is handled first via the machine's firmware, then the OS's kernel, before anything in user-land sees it. [USB device class codes](https://www.usb.org/defined-class-codes) describe what the device can do. DFU mode is one thing that's unique here.
+Generally, USB is handled first via the machine's firmware, then the OS's kernel, before anything in user-land sees it. [USB device class codes](https://www.usb.org/defined-class-codes) describe what the device can do. CDC, DFU mode, and any unique classes with interesting capabilities will be described here.
+
+---
+
+
+### USB CDC
+
+The [USB Communications Device Class](https://www.usb.org/document-library/class-definitions-communication-devices-12) includes `{ 02:??:?? }` for [CDC communication](https://www.usb.org/defined-class-codes#anchor_BaseClass02h) and `{0a:??:?? }` [CDC data](https://www.usb.org/defined-class-codes#anchor_BaseClass0Ah). It's best described by [Wikipedia](https://en.wikipedia.org/wiki/USB_communications_device_class):
+
+!!! quote "USB CDC"
+
+    USB communications device class (or USB CDC) is a composite Universal Serial Bus device class. It is most commonly used for computer networking devices akin to a network card, providing an interface for transmitting Ethernet or ATM frames onto some physical media. It is also used for modems, serial ports, ISDN, fax machines, and telephony devices that perform regular voice calls.
+
+Effectively this means USB-to-ETH adapters, things like Alfa Wireless cards, Meshtastic Devices with a serial port exposed for firmware updates, or even the WiFi Pineapple Pager which uses a LAN-over-USB interface to provide "offline" network access and management of the device.
+
+Interestingly Microsoft has it's own proprietary protocol separate from CDC, which is called Remote Network Driver Interface Specification (RNDIS). It's meant to function similarly and appears to be supported in most Unix-like operating systems (for now).
+
+!!! question "Attack Vector"
+
+    We can assess the risks associated with this device class in two ways:
+
+    1. How does the protocol work?
+    2. What exploits against this class exist and how do they work?
+
+!!! warning "AI Usage"
+
+    Claude Sonnet 4.5 (Anthropic). "CDC Subclass Risk Categorization." Claude.ai chat session, 24 Jan. 2026.
+
+    AI was used to source + search through documentation and organize this section. All work was manually reviewed and adjusted before committing.
+
+**Subclasses** and **Functionality**
+
+[The usb.org Class definitions for Communication Devices 1.2](https://www.usb.org/document-library/class-definitions-communication-devices-12) documents each subclass of the CDC device class and what they *can* do. The errata document provides a quick reference for the following data:
+
+- [CDC Communication](https://www.usb.org/defined-class-codes#anchor_BaseClass02h) on the website provides the overview for the base class (`{02:??:??}`)
+- `CDC120-Errata1.pdf` Issue B breaks down the Subclass Codes
+- `CDC120-Errata1.pdf` Issue C covers Data Interface Class Protocol Codes
+- `CDC120-Errata1.pdf` Issue D contains `bDescriptor` SubType in Communications Class Functional Descriptors
+- `CDC120-Errata1.pdf` Issue E details all Class Specific Request Codes
+
+All of this information is expanded on in `CDC120-20101103-track.pdf` Section 4.0 "Class-Specific Codes". The section below was organized based on risk and attack options associated with each subclass.
+
+??? danger "Ethernet Networking Control Model (ECM) - 0x06"
+
+    Creates kernel network interface automatically, bypasses userspace mediation.
+
+    - USBGuard pattern: `02:06:00`
+        - "The Data Class Interface Descriptor protocol code for all Networking Control Models is 00h." - [Section 3.3 of ECM120.pdf](https://www.usb.org/document-library/class-definitions-communication-devices-12)
+    - Attack surface: Kernel network and USB stack, routing tables, DNS, think poisoning and untrusted networks
+    - Common in: USB-to-Ethernet adapters, smartphone tethering
+    - See also: [Wikipedia: Ethernet-over-USB](https://en.wikipedia.org/wiki/Ethernet_over_USB)
+
+    Section 3.3 of also states that "The Data Class interface of a networking device shall have a minimum of two interface settings.". This means a common pattern you'll see is:
+
+    ```markdown
+    # 2x 0a:??:??, one for INPUT, and one for OUTPUT of network data
+    { 02:06:?? 0a:??:?? 0a:??:?? }
+    ```
+
+    Practically, outside of exploits targeting the kernel's USB and networking stacks, this works the same as connecting to an untrusted network.
+
+??? danger "Network Control Model (NCM) - 0x0D"
+
+    Optimized ECM variant. Same kernel exposure, better throughput.
+
+    - USBGuard pattern: `02:0d:*`
+    - Attack surface: Same as ECM
+    - Common in: Modern mobile devices, LTE modems
+
+??? danger "Ethernet Emulation Model (EEM) - 0x0C"
+
+    Simplified Ethernet-over-USB.
+
+    - USBGuard pattern: `02:0c:*`
+    - Attack surface: Same as ECM
+
+??? danger "ATM Networking Control Model - 0x07"
+
+    ATM network interfaces (legacy).
+
+    - USBGuard pattern: `02:07:*`
+        - "The Data Class Interface Descriptor protocol code for all Networking Control Models is 00h." - [Section 3.3 of ATM120.pdf](https://www.usb.org/document-library/class-definitions-communication-devices-12)
+    - Attack surface: Similar to ECM
+
+    Similar to the other networking subclasses in practically every way. Two things that stand out are the size limit on data segments:
+
+    > In the case of AAL5 SDU exchanges, the segment size could be up to 64K bytes in length, and is a function of device buffering capacity and the results of end-to-end negotiation with Q.2931.
+
+    and the data type being "cells" instead of ethernet frames:
+
+    > An ATM USB device is used to move ATM cells or AAL5 SDUs to and from the host. The segmentation and re-assembly (SAR) function in the ATM adaptation layer may be implemented on the host, and not necessarily on the device.
+
+??? warning "Abstract Control Model (ACM) - 0x02"
+
+    Serial port emulation. Userspace mediation via `/dev/ttyACM*`.
+
+    - USBGuard pattern: `02:02:*`
+    - Attack surface: Applications interacting with serial ports (automatically or manually), but similar to SSH in terms of manual interaction over `screen`
+    - Common in: Arduino, modems, debug consoles
+
+    This subclass does not have the capability to automatically execute anything on your system. It's effectively an open pipe to transfer data, so it helps to imagine this as similar to SSH; there can be exploits that affect the connecting client's terminal itself, though generally a compromised server cannot send arbitrary commands back to a connecting client.
+
+    However, the most common results for attack paths on ACM and serial communication ports include UDEV rules or services like ModemManager that automatically interact with the device. Ultimately having an ACM data pipe opened is not a huge risk to your host without interaction. Connecting a device with this interface to the host momentarily (allowing it in USBGuard) to pass it through to a VM is relatively safe (ignoring exploits that target the host's kernel). There in the VM, any software that interacts with the data pipe may be a target, but the point is the step required to attach the device to a VM is often OK to take.
+
+??? info "Direct Line Control Model (DLCM) - 0x01"
+
+    TO DO
+
+??? info "Telephone Control Model (TCM) - 0x03"
+
+    TO DO
+
+??? info "Multi-Channel Control Model (MCCM) - 0x04"
+
+    TO DO
+
+??? info "CAPI Control Model - 0x05"
+
+    TO DO
+
+??? info "Wireless Handset Control Model (WHCM) - 0x08"
+
+    TO DO
+
+??? info "Device Management - 0x09"
+
+    TO DO
+
+??? info "Mobile Direct Line Model (MDLM) - 0x0A"
+
+    TO DO
+
+??? info "OBEX - 0x0B"
+
+    TO DO
+
+??? info "RESERVED (future use) - 0Dh-7Fh"
+
+    TO DO
+
+??? info "RESERVED (vendor specific) - 80-FEh"
+
+    TO DO
+
+**Exploits**
+
+To get a sense of what's possible, a brief triage across various vulnerability platforms can be done. Both "usb" + "cdc" were searched, along with "usb" + "communications device class".
+
+- [Results in the NVD for "USB CDC"](https://nvd.nist.gov/vuln/search#/nvd/home?keyword=USB%20CDC&resultType=records) show 19 records since 2013
+- [Searching github.com/trickest/cve](https://github.com/search?q=repo%3Atrickest%2Fcve%20%20%22usb%22%20%22cdc%22&type=code) shows 11 results with 7 unique hits related to USB CDC
+- [CVE.ORG's "usb cdc" records](https://www.cve.org/CVERecord/SearchResults?query=usb+cdc) mirror both of the previous sources, with 12 results
+
+Common attack vectors target the Linux kernel, and in many cases, require the USB device itself to have specific or crafted properties that cause errors in the kernel when parsing the descriptors or data sent by the device.
+
+!!! note "Segment Size"
+
+    Sections 3.3.1 and 3.3.2 of [`ECM120.pdf`](https://www.usb.org/document-library/class-definitions-communication-devices-12) detail it's both, the host's and USB device's job to agree on a size limit for the data being sent. Exploits attacking the kernel here rely on the host's kernel not properly handling this.
+
+[Azure RTOS USBX](https://github.com/eclipse-threadx/usbx/security/advisories/GHSA-h733-98hq-f884) is a unique out of all the results, as it's a component of a real-time operating system (now maintained by [Eclipse ThreadX](https://github.com/eclipse-threadx)) that had the only RCE documented. The remaining results targeted the Linux kernel, no Windows or macOS results were discovered.
+
+None of these have a fully functioning or practical proof-of-concepts ready for us in a real world engagement. Of all the CVE records returned from the 3 sources above, only one had a proof-of-concept in the form of a reproducible bug:
+
+- [Project Zero Issue 395107243 for CVE-2025-21704](https://project-zero.issues.chromium.org/issues/395107243), `cdc_acm_oob_write.c` and instructions to reproduce the issue are shared. `dmesg` catches and logs the result in this case.
+
+!!! important "Patch Notes"
+
+    The remaining records only linked to patch notes. Not every note was manually reviewed, but to exhaust all possibilities they should be, in addition to your own fuzzing and debugging of valid targets in a lab environment.
+
+    The most interesting patch summary was pulled by GPT 5.2's deep research mode from [Wiz for CVE-2025-21704](https://www.wiz.io/vulnerability-database/cve/cve-2025-21704), in this case `/dev/ttyACM*` must be opened by userspace. However, ModemManager (another Linux kernel component) ***will automatically open these types of devices depending on the device***.
+
+---
 
 
 ### DFU Mode
@@ -189,6 +359,10 @@ You can see how common these are in [GitHub topics for BadUSB payloads](https://
 ### Firmware Attacks
 
 These were described briefly in the previous section on BadUSB, and include the notes above on [DFU mode](#dfu-mode).
+
+!!! tip "Relevant Tools"
+
+    Devices like the [Bash Bunny](https://docs.hak5.org/bash-bunny/bash-bunny-by-hak5/) appear to [have the capability to fake or emulate any USB class interface](https://docs.hak5.org/bash-bunny/writing-payloads/attackmode/vid-pid-man-prod-sn/). These will need to be reviewed here.
 
 It's less likely, but possible to do remotely, within a target environment, if all the right tools and access are available.
 
