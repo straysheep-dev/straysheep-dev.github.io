@@ -4207,8 +4207,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	- <https://www.anthropic.com/>
 	- <https://claude.ai/>
+	- <https://code.claude.com/docs>
 
-	Claude is Anthropic's Chat and reasoning model. Think of this as OpenAI's ChatGPT, it's even similar in functionality. It differs though, in focus. It cannot generate images and video, the audio and voice conversation modes are less natural, but where Claude is best is at coding, technical tasks, agentic workflows, and integrating with how you develop and engineer things. Comparing Opus 4.5 to GPT 5.2, Claude feels more purpose built for those tasks, where GPT feels more like it's covering all bases.
+	:simple-claude: Claude is Anthropic's Chat and reasoning model. Think of this as OpenAI's ChatGPT, it's even similar in functionality. It differs though, in focus. It cannot generate images and video, the audio and voice conversation modes are less natural, but where Claude is best is at coding, technical tasks, agentic workflows, and integrating with how you develop and engineer things. Comparing Opus 4.5 to GPT 5.2, Claude feels more purpose built for those tasks, where GPT feels more like it's covering all bases.
 
 	There are a lot of tips and tricks to workflows with Claude, depending on how you're using it and what the goal is. These will be added here over time as they're tested and reviewed.
 
@@ -4218,6 +4219,19 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://code.claude.com/docs/en/devcontainer>
 
 	This is the CLI utility for Claude. It requires at least a Pro subscription, and is easy to install. Once it's available locally, simply run `claude` in any directory. It will have read/write access to everything in that directory and below, and general read access to most files on the system your user context does. Reviewing the security and safety documentation shows Claude various mechanisms in place to attempt to prevent things from going wrong, but it's highly recommended to use this tool within a VM, or isolated instance that you can easily spin down and rebuild.
+
+	[`/cost` and `/usage`](https://platform.claude.com/docs/en/about-claude/pricing)
+
+	Using Claude Code brings two questions to mind:
+
+	- Does it make more sense to use the API cost-wise?
+	- Does it make more sense to use the API security-wise?
+
+	Authenticating to Claude Code via a Pro subscription where you have other conversations and data tied to your Claude account exposes all of that data should the `claude` CLI process or the host itself become compromised. Isolating this activity to an API account is the better option for potentially untrusted workloads (which realistically is most workloads until they're reviewed).
+
+	[**Anthropic Console Account**](https://platform.claude.com/docs/en/get-started)
+
+	This is similar to how OpenAI separates their subscription-based and API-based usage. You can easily (logout and) login to Claude Code via the Anthropic Console the same way you're able to authenticate using your regular Claude subscription.
 
 
 ### :octicons-tools-16: Tools
