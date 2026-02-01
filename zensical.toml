@@ -41,6 +41,7 @@ nav = [
     "notes/proxmox.md",
     "notes/rsync.md",
     "notes/snap.md",
+    "notes/unifi.md",
     "notes/untrusted-networks.md",
     "notes/usb-research.md",
     "notes/wazuh-tailscale.md",
