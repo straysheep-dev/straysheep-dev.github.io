@@ -35,6 +35,10 @@ KVM is a type 1 hypervisor technology built into the Linux kernel, using compone
 
 <!-- more -->
 
+## Proxmox
+
+Under the hood Proxmox uses KVM + QEMU virtual machine technologies, though it's all handled through either the Proxmox API or the `pve` commands. See the dedicated [Proxmox note](./proxmox.md) for more details.
+
 
 ## Virt-Manager
 
@@ -48,6 +52,7 @@ KVM is a type 1 hypervisor technology built into the Linux kernel, using compone
 Install the utilties and add your user(s) you want to access the VM's to the libvirtd group.
 
 ```bash
+# Debian / Ubuntu
 sudo apt install -y virt-manager
 sudo usermod -aG libvirtd $USER
 ```
@@ -91,6 +96,15 @@ This is important to know if you want to store virtual machines in non-default p
 | --- | --- |
 | `virsh list --all` | List all VMs |
 | `virsh [start|stop|shutdown|reset] <vm-name>` | Control VM state |
+
+
+#### Clone Commands
+
+To simply create a clone of a template, and snapshot the newly cloned VM with a snapshot titled "clone":
+
+```bash
+virt-clone --original <source-vm-name> --name <new-vm-name> --auto-clone && virsh snapshot-create-as <new-vm-name> clone
+```
 
 
 #### Snapshot Commands
