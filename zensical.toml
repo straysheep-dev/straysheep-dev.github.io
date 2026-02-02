@@ -29,6 +29,7 @@ nav = [
     "notes/grub-security.md",
     "notes/kvm.md",
     "notes/linting.md",
+    "notes/meshtastic.md",
     "notes/migrating-to-zensical.md",
     "notes/nessus.md",
     "notes/netcat-seh-rce.md",
