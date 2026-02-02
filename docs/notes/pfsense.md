@@ -1027,6 +1027,20 @@ It can be helpful to create an alias for all of the ports management interfaces 
 
 Of course if you changed any these from their defaults, maintaining them here makes it easy to maintain egress rules.
 
+### VLANs
+
+!!! note "TODO"
+
+	There's a section under [NAT](#nat) below covering VLANs. These sections will need deduplicated.
+
+!!! tip "Naming Convention"
+
+	This is useful to keep in mind from the perspective of potentially integrating pfSense with other network gear.
+
+	- Interfaces should maintain VLAN1, VLAN2, or OPT1, OPT2 as the VLAN ID is consistent across all gear
+	- Use the interface descriptive field in each platform to note what the VLAN is for
+
+
 ## Firewall
 
 Firewall rules and examples.
