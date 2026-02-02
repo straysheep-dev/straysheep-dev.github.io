@@ -158,6 +158,8 @@ All of this information is expanded on in `CDC120-20101103-track.pdf` Section 4.
 
     Practically, outside of exploits targeting the kernel's USB and networking stacks, this works the same as connecting to an untrusted network.
 
+    The major difference here is rather than an existing `eth0` coming online and receiving assignments via DHCP, the Linux kernel creates a new interface for this USB connection. This is worth considering if your firewall rules are per-interface and not global.
+
 ??? danger "Network Control Model (NCM) - 0x0D"
 
     Optimized ECM variant. Same kernel exposure, better throughput.
@@ -372,6 +374,63 @@ Even more unlikely is the firmware of the USB device having a payload designed f
 
 
 ## Examining Untrusted Devices
+
+!!! warning "AI Usage"
+
+    Claude Sonnet 4.5 (Anthropic). "CDC Subclass Risk Categorization." Claude.ai chat session, 24 Jan. 2026.
+
+    AI was used to suggest and quickly determine what native Linux commands and utilities work well for reviewing USB behavior on a system.
+
+
+### dmesg
+
+Follow the dmesg log and grep for "usb" events.
+
+```bash
+sudo dmesg -wH | grep -i usb
+```
+
+This is a relatively low-noise feed of events. USBGuard details are here as well, in terms of `Authorized to connect` vs `Device is not authorized for usage`.
+
+Here's example output from a WiFi Pineapple Pager, with some fields redacted.
+
+```txt
+[Jan24 12:00] usb 3-1: new high-speed USB device number 7 using xhci_hcd
+[  +0.000000] usb 3-1: New USB device found, idVendor=<redacted>, idProduct=<redacted>, bcdDevice=<redacted>
+[  +0.000000] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=<redacted>
+[  +0.000000] usb 3-1: Product: USB 10/100/1000 LAN
+[  +0.000000] usb 3-1: Manufacturer: Realtek
+[  +0.000000] usb 3-1: SerialNumber: <redacted>
+[  +0.000000] usb 3-1: Device is not authorized for usage
+# Here USBGuard allowed the device
+[  +0.000000] usb 3-1: authorized to connect
+[  +0.000000] usbcore: registered new device driver r8152-cfgselector
+[  +0.000000] r8152-cfgselector 3-1: reset high-speed USB device number 7 using xhci_hcd
+[  +0.000023] usbcore: registered new interface driver r8152
+[  +0.000000] usbcore: registered new interface driver cdc_ether
+[  +0.000000] usbcore: registered new interface driver r8153_ecm
+```
+
+
+### journalctl
+
+Similar to dmesg, with timestamps and slightly varied event reporting. This is also a low-noise log to view.
+
+```bash
+sudo journalctl -kf
+```
+
+Here you'll likely see the new network interface your kernel creates, and all activity associated with it.
+
+
+### udevadm
+
+This log output is very verbose, but focused. This will monitor all UDEV events and print the full properties associated with them. Useful for reviewing additional USB details such as vendor, device model, `systemd` and the various `dev` paths associated to the device.
+
+```bash
+sudo udevadm monitor -p
+```
+
 
 ### Usbguard
 
