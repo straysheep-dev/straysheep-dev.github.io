@@ -3835,6 +3835,19 @@ All things standards, configuration, compliance, and policy related.
 
 ## :material-search-web: OSINT
 
+!!! tip "IntelTechniques"
+
+	IntelTechniques is the entity behind the Privacy, Security, and OSINT show, which was a podcast that ran from 2015 through 2023. The final episode was published September 22, 2023, and some of the episodes are still available on the site. They also create various books, guides, and even a training course with a certification in OSINT. This is one of the best resources and starting points for all things OSINT and privacy related.
+
+	The most practical guides on the resources page, particularly for people in the US, are the opt-out and credit freeze lists. These are perfect for anyone (including non-technical people) to use as an alternative to signing up for things like identity monitoring. The other guides available on this page go in depth on topics like operating systems, firewalls, and VPN configuration.
+
+	- [Resources](https://inteltechniques.com/links.html) (opt-out, configuration, and other guides)
+
+	The search tools are browser-based queries that happen locally from *your* browser. If you read the source code you could replicate what they're doing manually, or programmatically via other tools. This is covered in detail in the OSINT Techniques book.
+
+	- [Search Tools](https://inteltechniques.com/tools/index.html)
+
+
 ### :material-network: Internet Research
 
 ??? info "VirusTotal"
@@ -4098,6 +4111,59 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	[**Changelog Reports**](https://www.gharchive.org/#daily-reports)
 
 	> Changelog Nightly is the new and improved version of the daily email reports powered by the GH Archive data. These reports ship each day at 10pm CT and unearth the hottest new repos on GitHub. Alternatively, if you want something curated and less frequent, subscribe to Changelog Weekly.
+
+
+### :fontawesome-solid-gavel: Legal & Corporate Research
+
+!!! abstract "EDGAR"
+
+	> Enjoy free public access to millions of informational documents filed by publicly traded companies and others in the SEC's Electronic Data Gathering, Analysis, and Retrieval (EDGAR) system.
+
+	- <https://www.sec.gov/edgar/search/>
+
+	> Find registration statements, periodic reports, and other forms by typing the name or ticker symbol of a company (CIK lookup info) (confidential treatment orders) (SEC correspondence with issuers)
+
+!!! abstract "Business Entity Search (US)"
+
+	In the US, some states will provide a free and open business entity search. This is typically a good way to verify a company's details and pivot to any additional relevant information such as license numbers.
+
+	Maintaining links to all business entity search pages may be attempted in the future, but there are likely resources out there that do this already.
+
+??? abstract "opencorporates"
+
+	This is something like VirusTotal but for legal entities. The data set is international, and querying the web interface is free. Bulk and API lookups require a paid plan.
+
+	- <https://opencorporates.com/>
+
+??? abstract "Crunchbase"
+
+	Crunchbase is a business information and research database. As of 2026, its focus is on market prediction. [The majority of its data seems to come directly from its venture partners and community contributors](https://about.crunchbase.com/partners).
+
+	Web queries have been free with limited results in the past, while they have "pro", business (commercial / enterprise), and API plans available.
+
+	- <https://www.crunchbase.com/>
+
+
+### :fontawesome-solid-book-medical: Science & Medical Research
+
+??? abstract "Cochrane Library"
+
+	The Cochrane Library is something like GitHub for science and health research.
+
+	> The Cochrane Library (ISSN 1465-1858) is a collection of databases that contain high-quality, independent evidence to inform healthcare decision-making. The Cochrane Library is owned by Cochrane and published by Wiley.
+
+	- <https://www.cochranelibrary.com/>
+
+	There's a [dedicated page with links to how-to resources and training](https://www.cochranelibrary.com/help/how-to-use) to get started reviewing and using the data. This will point to the [Cochrane Library Training Hub hosted by Wiley](https://www.wiley.com/en-us/solutions-partnerships/customer-success-hub/cochrane-library-training-hub/).
+
+??? example "UK Biobank"
+
+	> UK Biobank is the world's most comprehensive dataset of biological, health and lifestyle information.
+	>
+	> After personal identifying information is removed from our data on 500,000 participants, scientists from across the world can apply to use it for research that is in the public interest.
+
+	- <https://www.ukbiobank.ac.uk/>
+	- <https://github.com/UK-Biobank>
 
 
 ## :material-wallet: Cryptocurrency
