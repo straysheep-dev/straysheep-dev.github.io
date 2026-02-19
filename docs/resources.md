@@ -793,6 +793,24 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/reactos/reactos>
 
+??? tip ":simple-apple: iOS"
+
+	Apple's OS powering the iPhone.
+
+	- <https://www.apple.com/os/ios/>
+	- <https://www.apple.com/privacy/>
+	- [Apple Platform Security](https://support.apple.com/guide/security/welcome/web)
+	- [Apple Security Research](https://security.apple.com/)
+
+	**Lockdown Mode**
+
+	Things can break that Apple may not have intended (because these are not documented and/or are bugs) when you enable lockdown mode:
+
+	- Logging into iCloud via the OS may hang
+	- You may not be able to receive the push notification to access iCloud content on the web with enhanced data protection
+	- Transferring to a new phone may hang
+	- Various iCloud features may stop working, and hang when you try to re-enable them
+
 ??? danger ":simple-kalilinux: Kali Linux"
 
 	The most robust pentesting Linux distribution. Includes tools for offense, purple teaming, defense, and forensics.
@@ -1814,6 +1832,27 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	# Then add the secrets later with SOPS
 	sops inventory.enc.yaml
 	```
+
+	From here, review [Passing Secrets to other Processes](https://github.com/getsops/sops?tab=readme-ov-file#220passing-secrets-to-other-processes) for some useful examples on shell scripting and automation.
+
+	⚠️ **IMPORTANT**: Single quotes are required to pass sops variables down to the new process so they aren't interpretted by the current shell. Existing variables must be passed over using `export MY_VAR`.
+
+	```bash
+	# Prints secrets to stdout to confirm values
+	sops decrypt ~/.config/secrets.enc.yaml
+
+	# Launch a shell with the secrets available in its environment
+	sops exec-env ~/.config/secrets.enc.yaml "bash"
+
+	# Use curl headlessly, assumes my_user and my_pass are defined in my_app.enc.yaml
+	SOPS_SECRET_FILE="$HOME/.config/my_app.enc.yaml"
+	export URL='https://localhost:8080'
+	sops exec-env "${SOPS_SECRET_FILE}" 'curl -sS -k -u "${my_user}:${my_pass}" "${URL}/some/api?querry"'
+	```
+
+	> Additionally, on unix-like platforms, both exec-env and exec-file support dropping privileges before executing the new program via the --user <username> flag. This is particularly useful in cases where the encrypted file is only readable by root, but the target program does not need root privileges to function.
+
+	There's more that can be done with `exec-env` and `exec-file`. These are detailed further in that README.
 
 
 ### :material-file-key: age
@@ -3796,11 +3835,36 @@ All things standards, configuration, compliance, and policy related.
 
 ## :material-search-web: OSINT
 
+### :material-network: Internet Research
+
+??? info "VirusTotal"
+
+	In addition to malware research, VirusTotal can also be used to simply review information tied to a specific "thing" (e.g. file, domain, URL).
+
+	The VT API has a 500 requests per day, 4 per minute limit.
+
+	- <https://www.virustotal.com/>
+
 ??? question "Shodan"
 
 	A search engine for devices.
 
 	- <https://www.shodan.io/>
+
+??? question "ARIN Whois-RWS"
+
+    > - [Whois-RWS web interface](http://whois.arin.net/ui/): Enter your query term in the Search Whois-RWS field.
+    > - [Whois-RWS API](https://www.arin.net/resources/registry/whois/rws/api/): You can write programs or scripts that use ARIN's Whois-RWS API.
+	>
+	> You can also access Whois-RWS using a [command-line interface](https://www.arin.net/resources/registry/whois/rws/cli/).
+
+	[Whois-RWS API Documentation](https://www.arin.net/resources/registry/whois/rws/api/)
+
+??? abstract "Wayback Machine (Internet Archive)"
+
+	The Wayback Machine is a project by the Internet Archive. It's an effort to preserve the entire internet by taking snapshots of sites at various times throughout history. Browse, search, and explore entirely across snapshots (in other words, links within archived pages typically point to the closest point-in-time of the target page's archived snapshot, if one exists).
+
+	- <https://web.archive.org/>
 
 ??? info "Hurrican Electric"
 
@@ -4011,6 +4075,29 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	- <https://www.phishtank.com>
 	- <https://www.phishtank.com/faq.php>
+
+
+### :material-file-code: Software Research
+
+??? abstract "Software Heritage"
+
+	Their goal is to build a universal software archive.
+
+	> We collect and preserve software in source code form, because software embodies our technical and scientific knowledge and humanity cannot afford the risk of losing it.
+
+	- <https://www.softwareheritage.org/>
+	- [Browse the archive](https://archive.softwareheritage.org/)
+
+??? abstract "gharchive (GitHub Archive)"
+
+	> GH Archive is a project to record the public GitHub timeline, archive it, and make it easily accessible for further analysis.
+
+	- <https://www.gharchive.org/>
+	- <https://github.com/igrigorik/gharchive.org>
+
+	[**Changelog Reports**](https://www.gharchive.org/#daily-reports)
+
+	> Changelog Nightly is the new and improved version of the daily email reports powered by the GH Archive data. These reports ship each day at 10pm CT and unearth the hottest new repos on GitHub. Alternatively, if you want something curated and less frequent, subscribe to Changelog Weekly.
 
 
 ## :material-wallet: Cryptocurrency
@@ -4231,6 +4318,28 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	Their [GitHub README is effectively a quick-start guide](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox). Additional details are availabe in their [docs](https://e2b.dev/docs).
 
 	Suggested by [yroc92](https://github.com/yroc92) for AI agent and CLI workflows.
+
+??? example ":simple-n8n: n8n"
+
+	> Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.
+
+	- <https://n8n.io/>
+	- <https://github.com/n8n-io/n8n>
+	- <https://docs.n8n.io/>
+	- <https://docs.n8n.io/hosting/> self-hosting options (Docker, npm, cloud)
+
+	> **Key Capabilities**
+	>
+    > - **Code When You Need It**: Write JavaScript/Python, add npm packages, or use the visual interface
+    > - **AI-Native Platform**: Build AI agent workflows based on LangChain with your own data and models
+    > - **Full Control**: Self-host with our fair-code license or use our cloud offering
+    > - **Enterprise-Ready**: Advanced permissions, SSO, and air-gapped deployments
+    > - **Active Community**: 400+ integrations and 900+ ready-to-use templates
+
+
+	**Generating n8n Workflows with AI**
+
+	n8n workflows are plain JSON. This means LLMs may be able to generate, modify, and explain them directly. This still needs reviewed and tested.
 
 
 ### :material-lightning-bolt-circle: Attacks
