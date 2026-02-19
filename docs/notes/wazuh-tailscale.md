@@ -1764,6 +1764,21 @@ This section can have multiple entries utilizing the same integration. The sampl
 
 ---
 
+
+## Updating Wazuh
+
+There's a [surprisingly involved process](https://documentation.wazuh.com/4.14/upgrade-guide/index.html) to updating and upgrading Wazuh. It's unclear why this isn't automated, but it's likely due to how varied the versions and components can be deployed in any given environment. The steps are not difficult to automate, they just require some planning and pieces of information specific to your deployment.
+
+!!! tip "Automated Maintenance for All-in-One Deployments"
+
+    I've created [`update-wazuh.sh`](https://github.com/straysheep-dev/linux-configs/blob/main/update-wazuh.sh) to be run as a weekly scheduled task that handles the entire update and upgrade process for Wazuh, unattended. It's meant to be run prior to any other system / package updates.
+
+    Requirements:
+
+    - SOPS + age protected admin secrets on the Wazuh server
+    - Currently only works for all-in-one deployments, where the server, indexer, and dashboard are all on the same machine
+
+
 ## Maintenance
 
 !!! info ""
