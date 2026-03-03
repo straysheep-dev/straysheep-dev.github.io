@@ -514,6 +514,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	**[DnsOverHttpsMode](https://chromeenterprise.google/policies/#DnsOverHttpsMode) | [DnsOverHttpsTemplates](https://chromeenterprise.google/policies/?policy=DnsOverHttpsTemplates)**
 
 	- `DnsOverHttpsMode` Accepts `off`, `automatic` (meaning fallback allowed), and `secure` (no fallback allowed)
+		- If you're serving DoH via Tailscale *and* using tailscale TLS certificates, `automatic` is required
 	- `DnsOverHttpsTemplates` Takes a DoH URL endpoint, see the examples below
 
 	***[Chrome will always use the built-in resolver when you configure DNS-over-HTTPS](https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled), even if you set `BuiltInDnsClientEnabled` to `false`.***
@@ -655,6 +656,23 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	/usr/lib/firefox/distribution/policies.json
 	```
 
+	**Snap Package**
+
+	Previously the [Firefox Snap package](https://snapcraft.io/firefox) required a `user.js` file to be configured. This was before it could read the policy file at `/etc/firefox/policies/*.json` (there's now an automatic snap connection to provide it read access to this location, however it still cannot read any syspref.js or other .js files in the /etc/firefox* directories).
+
+	If you still need/want to create a `user.js` file, create it within your `~/snap/firefox/common/.mozilla/firefox/<string>.default-release` folder, then to lock the policy file:
+
+	```bash
+	sudo chattr +i user.js
+	```
+
+	To test that it's locked and cannot be modified:
+
+	```bash
+	snap run --shell firefox; rm user.js
+	rm: cannot remove 'user.js': Operation not permitted
+	```
+
 	**Install a policy file on Kali**
 
 	- Use `/etc/firefox` instead of `/etc/firefox-esr`
@@ -690,6 +708,15 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [DNS4EU](https://noads.joindns4.eu/dns-query): `https://noads.joindns4.eu/dns-query`
 
 	---
+
+	**Extensions**
+
+	Some important points about extensions: <https://mozilla.github.io/policy-templates/#extensionsettings>
+
+	- `"ExtensionUpdate": false,` only stops the automatic update check, you can still manually update extensions
+	- `"installation_mode": "force_installed",` will automatically update those extenisons
+	- `"updates_disabled": true,` controls automatic updates for configured extensions, including those `"force_installed"`
+	- `"private_browsing": true,` is a relatively new option, allowing extensions to become available in private browsing
 
 	**Useful Extensions**
 
@@ -1906,11 +1933,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [GitHub: GitHub Hosted Runners](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners)
 	- [GitHub: Runner Images & Preinstalled Software](https://github.com/actions/runner-images?tab=readme-ov-file#available-images)
 	- [GitHub: Configure Working Path and Shell for CI](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/set-default-values-for-jobs)
-	- [github.com/actions/checkout](https://github.com/actions/checkout)
-	- [github.com/actions/setup-python](https://github.com/actions/setup-python)
-	- [github.com/actions/setup-go](https://github.com/actions/setup-go)
-	- [github.com/actions/setup-node](https://github.com/actions/setup-node)
 
+	See the section below on [Github Actions](#github-actions)
 
 ??? example "GitHub README Customization"
 
@@ -1918,6 +1942,41 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- [How can I add GitHub stats to my profile?](https://github.com/orgs/community/discussions/61477)
 	- [GitHub README Stats](https://github.com/anuraghazra/github-readme-stats)
+
+
+#### :simple-githubactions: GitHub Actions
+
+??? example "checkout"
+
+	> Checkout a Git repository at a particular version
+
+	This is the most essential GitHub action and is usually the first step, checking out a repo (often the repo iteself) to run workflows.
+
+	- <https://github.com/marketplace/actions/checkout>
+
+??? example "setup-python"
+
+	- [github.com/actions/setup-python](https://github.com/actions/setup-python)
+
+??? example "setup-go"
+
+	- [github.com/actions/setup-go](https://github.com/actions/setup-go)
+
+??? example "setup-node"
+
+	- [github.com/actions/setup-node](https://github.com/actions/setup-node)
+
+??? example "ansible-lint"
+
+	> Run Ansible Lint
+
+	- <https://github.com/marketplace/actions/run-ansible-lint>
+
+??? question "trufflehog-oss"
+
+	> Find and verify leaked credentials in your source code
+
+	- <https://github.com/marketplace/actions/trufflehog-oss>
 
 
 ### :material-microsoft-visual-studio-code: VSCode
