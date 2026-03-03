@@ -729,6 +729,10 @@ nano wazuh-agent.yml
 
 Replace `hosts:` with either the keyword `localhost` to run locally or create a group name to reference in an inventory file. Replace `address:` with your Wazuh manager's Tailnet IP.
 
+!!! tip "Using Tailscale's Magic DNS"
+
+    If you're using Magic DNS in Tailscale, you can (and should) point your agents to the FQDN of the Wazuh manager they'll be communicating with. This way if you need to move or redeploy any server-side infrastructure, agents can still communicate as long as the TLS certificate remains the same.
+
 ```yml
 ---
 - hosts: tailnet_group
@@ -738,7 +742,7 @@ Replace `hosts:` with either the keyword `localhost` to run locally or create a 
     - ../roles/wazuh/ansible-wazuh-agent
   vars:
     wazuh_managers:
-      - address: <your Wazuh manager's Tailnet IP>
+      - address: <wazuh-manager_ip_or_tailscale-fqdn>
         port: 1514
         protocol: tcp
         api_port: 55000
