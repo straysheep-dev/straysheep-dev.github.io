@@ -19,11 +19,11 @@ Getting started with Ansible. If you don't know what Ansible is or what it's use
 
 !!! quote "What is Ansible?"
 
-	Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy and maintain. Automate everything from code deployment to network configuration to cloud management, in a language that approaches plain English, using SSH, with no agents to install on remote systems. <https://docs.ansible.com>.
+    Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy and maintain. Automate everything from code deployment to network configuration to cloud management, in a language that approaches plain English, using SSH, with no agents to install on remote systems. <https://docs.ansible.com>.
 
 !!! note "About this Post"
 
-	This post is a mirror of [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs)'s README. It's being added here as both, a searchable reference within this mkdocs site, and because the recent post on [Molecule](../posts/ansible-molecule.md) needed to be split off into it's own post due to the amount of examples and details. This may end up being the primary source to maintain these notes going forward, with the ansible-configs project README linking back to this post.
+    This post is a mirror of [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs)'s README. It's being added here as both, a searchable reference within this mkdocs site, and because the recent post on [Molecule](../posts/ansible-molecule.md) needed to be split off into it's own post due to the amount of examples and details. This may end up being the primary source to maintain these notes going forward, with the ansible-configs project README linking back to this post.
 
 **Resources**
 
@@ -38,34 +38,34 @@ The [ansible-conifgs](https://github.com/straysheep-dev/ansible-configs) project
 
 !!! example "[ansible-conifgs](https://github.com/straysheep-dev/ansible-configs)"
 
-	A collection of ansible roles.
+    A collection of ansible roles.
 
-	This repo is both a set of various roles to mirror my own bash scripts, and my notes on using Ansible for easy reference.
+    This repo is both a set of various roles to mirror my own bash scripts, and my notes on using Ansible for easy reference.
 
-	It's structured to be easy to clone, modify, and run only the roles you need. In most cases all you need to change is:
+    It's structured to be easy to clone, modify, and run only the roles you need. In most cases all you need to change is:
 
-	- `playbook.yml`'s roles
-	- Your preferred `inventory/` file's hosts + users
+    - `playbook.yml`'s roles
+    - Your preferred `inventory/` file's hosts + users
 
-	Use whichever inventory format works best for you. The `.ini` files allow specifying users as inline variables per host, which is useful if each host in a group has different users you'll be connecting as.
+    Use whichever inventory format works best for you. The `.ini` files allow specifying users as inline variables per host, which is useful if each host in a group has different users you'll be connecting as.
 
-	Each inventory example connects to the ansible controller (the localhost of the machine you're running ansible from) by default. Modify these files to add your own remote connections.
+    Each inventory example connects to the ansible controller (the localhost of the machine you're running ansible from) by default. Modify these files to add your own remote connections.
 
-	When you're done, run the playbook with one of the following:
+    When you're done, run the playbook with one of the following:
 
-	```bash
-	# For using sudo on the remote host, where you aren't using the root account
-	ansible-playbook -i inventory/inventory.ini [-b] --ask-become-pass -v playbook.yml
+    ```bash
+    # For using sudo on the remote host, where you aren't using the root account
+    ansible-playbook -i inventory/inventory.ini [-b] --ask-become-pass -v playbook.yml
 
-	# For using the root account on the remote host, typically to deploy and provision cloud resources
-	ansible-playbook -i inventory/inventory.ini -v playbook.yml
-	```
+    # For using the root account on the remote host, typically to deploy and provision cloud resources
+    ansible-playbook -i inventory/inventory.ini -v playbook.yml
+    ```
 
-	- `-b` will automatically elevate all tasks so you don't need to specify "become sudo" across every task (don't do this unless you need to)
-	- `--ask-become-pass` takes the sudo password for the remote user
-	- `-v` will show a useful amount of information without being too verbose
+    - `-b` will automatically elevate all tasks so you don't need to specify "become sudo" across every task (don't do this unless you need to)
+    - `--ask-become-pass` takes the sudo password for the remote user
+    - `-v` will show a useful amount of information without being too verbose
 
-	To do: how to specify each remote user's password (if there are multiple remote users listed, each with a unique password).
+    To do: how to specify each remote user's password (if there are multiple remote users listed, each with a unique password).
 
 
 ## Install
@@ -175,21 +175,21 @@ fatal: [10.10.10.55]: FAILED! => {"ansible_facts": {}, "changed": false, "failed
 
 <SNIP>
 
-  File \"/tmp/ansible_ansible.legacy.setup_payload_zlebszdb/ansible_ansible.legacy.setup_payload.zip/ansible/module_utils/basic.py\", line 17
-    msg=f\"ansible-core requires a minimum of Python version {'.'.join(map(str, _PY_MIN))}. Current version: {''.join(sys.version.splitlines())}\",
+    File \"/tmp/ansible_ansible.legacy.setup_payload_zlebszdb/ansible_ansible.legacy.setup_payload.zip/ansible/module_utils/basic.py\", line 17
+        msg=f\"ansible-core requires a minimum of Python version {'.'.join(map(str, _PY_MIN))}. Current version: {''.join(sys.version.splitlines())}\",
 
 ```
 
 !!! tip "Ansible 2.13.0"
 
-	The versions found to be the most successful for these use cases are Ansible 2.13.0 or above.
+    The versions found to be the most successful for these use cases are Ansible 2.13.0 or above.
 
 
 ## How Ansible Works
 
 !!! quote "[Getting Started with Ansible](https://docs.ansible.com/projects/ansible/latest/getting_started/index.html)"
 
-    Ansible automates the management of remote systems and controls their desired state.
+        Ansible automates the management of remote systems and controls their desired state.
 
 The diagrams in the documentation linked in the quote block above summarize it best, Ansible consists of three components:
 
@@ -213,21 +213,21 @@ There are more unique pieces to consider, such as how playbooks can built as con
 
 !!! tip "**Ansible Safety Measures**"
 
-    ⚠️ To be added.
+        ⚠️ To be added.
 
 !!! tip "**Analyzing Playbooks and Anisble Code**"
 
-    ⚠️ To be added.
+        ⚠️ To be added.
 
 !!! tip "**Setting Sources**"
 
-    It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
+        It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
 
-    If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
+        If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
 
-    Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
+        Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
 
-    In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
+        In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
 
 
 ## Configure
@@ -238,16 +238,16 @@ This file can exist in a few places, and there's a search order used to find the
 
 !!! tip "[ansible.cfg file search order priority](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)"
 
-	- `ANSIBLE_CONFIG` (environment variable if set)
-	- `ansible.cfg` (in the current directory)
-	- `~/.ansible.cfg` (in the home directory)
-	- `/etc/ansible/ansible.cfg`
+    - `ANSIBLE_CONFIG` (environment variable if set)
+    - `ansible.cfg` (in the current directory)
+    - `~/.ansible.cfg` (in the home directory)
+    - `/etc/ansible/ansible.cfg`
 
-	You can set just one option in your environment, and Ansible will [still use the defaults or whatever is in your `ansible.cfg` file, for everything else](https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html#general-precedence-rules).
+    You can set just one option in your environment, and Ansible will [still use the defaults or whatever is in your `ansible.cfg` file, for everything else](https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html#general-precedence-rules).
 
 !!! quote "[Avoiding security risks with `ansible.cfg` in the current directory](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory)"
 
-    If Ansible were to load `ansible.cfg` from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
+        If Ansible were to load `ansible.cfg` from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
 
 
 ### Better CLI Output
@@ -286,53 +286,84 @@ callback_result_format = yaml
 
 Example default value for a variable in `defaults/main.yml`:
 
-```yml
-some_var: "false"
+```yaml
+some_var: false
 ```
 
 Ansible has modular ways of approaching and maintaining both, variables and an inventory at the same time.
 
+- [Playbook Variables: Tips on where to set variables](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#tips-on-where-to-set-variables)
 - [Assign variables per-machine](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#assigning-a-variable-to-one-machine-host-variables)
 - [Assign variables to machine groups](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#assigning-a-variable-to-many-machines-group-variables)
+- [Organizing Host and Group Variables](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html#organizing-host-and-group-variables) is the most scalable method, its demonstrated in the [SOPS](#sops) section below
 
 Change `some_var` to `"true"` for just one host in your inventory:
 
-```ini
-10.0.0.40:22 ansible_user=user some_var="true"
-```
+=== "yaml"
+
+    ```yaml
+    hosts:
+      10.0.0.40:
+        ansible_user: user
+        ansible_port: 22
+        some_var: true
+
+    ```
+
+=== "ini"
+
+    ```ini
+    10.0.0.40:22 ansible_user=user some_var="true"
+    ```
 
 Change `some_var` to `"true"` for all hosts in a specific inventory group:
 
-```ini
-[remotegroup]
-10.0.0.41:22 ansible_user=user
-10.0.0.42:22 ansible_user=user
-10.0.0.43:22 ansible_user=user
+=== "yaml"
 
-[remotegroup:vars]
-some_var="true"
-```
+    ```yaml
+    remotegroup:
+      hosts:
+        10.0.0.41:
+          ansible_user: user
+          ansible_port: 22
+        10.0.0.42:
+          ansible_user: user
+          ansible_port: 20000
+        10.0.0.43:
+          ansible_user: user
+          ansible_port: 22
+      vars:
+        some_var: true
+    ```
+
+=== "ini"
+
+    ```ini
+    [remotegroup]
+    10.0.0.41:22 ansible_user=user
+    10.0.0.42:20000 ansible_user=user
+    10.0.0.43:22 ansible_user=user
+
+    [remotegroup:vars]
+    some_var=true
+    ```
 
 Finally, be sure your `playbook.yml` file allows for either `all` groups, or the groups defined in your inventory file(s). If using `all`, you must ensure each inventory file has unique definitions to avoid collisions.
 
-```yml
+```yaml
 - name: "Default Playbook"
-  hosts:
-    # List groups from your inventory here
-    # You could also use the built in "all" or "ungrouped"
-    # "all" is necessary when Vagrant is auto-generating the inventory
-    all
-    #localgroup
-    #remotegroup
-    #tester_nodes
-    #target_nodes
-  roles:
-  <SNIP>
+    hosts:
+      # List groups from your inventory here
+      # You could also use the built in "all" or "ungrouped"
+      # "all" is necessary when Vagrant is auto-generating the inventory
+      all
+      #localgroup
+      #remotegroup
+      #tester_nodes
+      #target_nodes
+    roles:
+    <SNIP>
 ```
-
-See the following reference:
-
-- [Playbook Variables: Tips on where to set variables](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#tips-on-where-to-set-variables)
 
 
 ## Windows Provisioning
@@ -695,11 +726,11 @@ The "new" way to do this, if you also intend to leverage the [latest GitHub acti
 
 !!! note ""
 
-	*When using the `.config/` path, any paths specified in the `ansible-lint.yml` config file must have `../` prepended so ansible-lint can find them correctly.*
+    *When using the `.config/` path, any paths specified in the `ansible-lint.yml` config file must have `../` prepended so ansible-lint can find them correctly.*
 
 The easiest way to start, is with a [profile](https://ansible.readthedocs.io/projects/lint/profiles/), and excluding the `meta/` and `tests/` paths in roles. This is a less verbose version of the `.ansible-lint` file used in this repo.
 
-```yml
+```yaml
 # .ansible-lint
 
 # Full list of configuration options:
