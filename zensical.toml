@@ -34,7 +34,7 @@ nav = [
     "notes/nessus.md",
     "notes/netcat-seh-rce.md",
     "notes/network-commands.md",
-    "notes/nzyme-rpi-proxmox-tailscale.md",
+    "notes/nzyme.md",
     "notes/openscap.md",
     "notes/openwrt.md",
     "notes/pfsense.md",

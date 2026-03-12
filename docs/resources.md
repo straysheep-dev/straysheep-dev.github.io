@@ -1134,6 +1134,49 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.pfsense.org/download/>
 	- <https://github.com/pfsense/>
 
+??? tip ":simple-opnsense: OPNsense"
+
+	OPNsense is a firewall, having [forked from pfSense](https://docs.opnsense.org/history/thefork.html) into it's own distribution.
+
+	- <https://opnsense.org/>
+	- <https://docs.opnsense.org/>
+	- <https://opnsense.org/download/>
+
+	[**Download and Verification**](https://docs.opnsense.org/manual/install.html#download-and-verification)
+
+	OPNsense uses `openssl` the way that Linux distros use `gpg` to do signature validation.
+
+	- The [downloads page](https://opnsense.org/download/) pulls directly from the [release files directory](https://pkg.opnsense.org/releases/), this has the images, hashes, signatures, and public key
+	- Each major version's public key + hashes are also [committed to git](https://github.com/opnsense/changelog/tree/master/community) for secondary verification
+	- This is similar to how Rocky Linux "archives" their signatures and hashes
+
+	Note the steps in the documentation linked above verify the hashes and the image separately, versus verifying the hashes to then check the image with those. Detached signatures are available for ***both***, the hashes and uncompressed image files.
+
+	Example:
+
+	```bash
+	# Confirm it matches whats on GitHub too
+	wget https://pkg.opnsense.org/releases/26.1/OPNsense-26.1.pub
+
+	# Get the hashes + signature
+	wget https://pkg.opnsense.org/releases/26.1/OPNsense-26.1.2-checksums-amd64.sha256
+	wget https://pkg.opnsense.org/releases/26.1/OPNsense-26.1.2-checksums-amd64.sha256.sig
+
+	# Get the image
+	wget https://pkg.opnsense.org/releases/26.1/OPNsense-26.1.2-dvd-amd64.iso.bz2
+
+	# Prepare the public key (this is the main difference vs gpg)
+	openssl base64 -d -in OPNsense-26.1.2-checksums-amd64.sha256.sig -out /tmp/image.sig
+	# Verify the sha256sums are valid
+	openssl dgst -sha256 -verify OPNsense-26.1.pub -signature /tmp/image.sig OPNsense-26.1.2-checksums-amd64.sha256
+
+	# Confirm the image archive is safe using the verified hashes
+	sha256sum -c OPNsense-26.1.2-checksums-amd64.sha256 --ignore-missing
+
+	# Unpack the ISO
+	bzip2 -d OPNsense-26.1.2-dvd-amd64.iso.bz2
+	```
+
 ??? example ":simple-openwrt: OpenWRT"
 
 	Tracking latest stable release notes
