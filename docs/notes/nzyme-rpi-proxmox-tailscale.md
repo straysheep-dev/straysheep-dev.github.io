@@ -658,14 +658,15 @@ The value of this system comes from taking a few days to really configure monito
 
 All of this is detailed [here](https://docs.nzyme.org/wifi/monitoring/network-monitoring/), but it can be overwhelming initially based on the amount of alerts and data. The best way I have found to sort through the initial configuration:
 
-- The majority of what you do will be under WiFi > Monitoring
-	- **Add the SSIDs of your own devices** to monitor under "**Monitored Networks**"
-	- Once you're under WiFi/Monitoring/Monitored Networks/Your Network, you can configure **Alert Status** and more
-	- Enable all alert types that make sense, if you have dynamic channel hopping configured, "Expected Channels" won't be useful
-	- You can use the "**Configure**" column to define things like **Allowed Clients**
-	- Define the BSSID (MAC) of your AP
-	- Define the cipher suites (pull those from the AP's info under WiFi > Access Points > `${MAC}` > SSIDs > `${SSID}`)
-	- Define the fingerprint, which is a hash of the device's unique details (the alert and the BSSID pages will have this)
+The majority of what you do will be under WiFi > Monitoring
+
+- **Add the SSIDs of your own devices** to monitor under "**Monitored Networks**"
+- Once you're under WiFi/Monitoring/Monitored Networks/Your Network, you can configure **Alert Status** and more
+- Enable all alert types that make sense, ==if you have dynamic channel hopping configured, "Expected Channels" won't be useful==
+- You can use the "**Configure**" column to define things like **Allowed Clients**
+- Define the BSSID (MAC) of your AP
+- Define the cipher suites (pull those from the AP's info under WiFi > Access Points > `${MAC}` > SSIDs > `${SSID}`)
+- Define the fingerprint, which is a hash of the device's unique details (the alert and the BSSID pages will have this)
 
 From here you'll want to continue reviewing Alerts > Overview and ensure you're not seeing any for your own AP's anymore. If there are any, work on those first.
 
