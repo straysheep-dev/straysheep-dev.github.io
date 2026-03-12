@@ -45,6 +45,15 @@ The UniFi network stack is the management OS that handles all network devices. G
 	- Do not have the infrastructure to self-host
 	- Do not want to use the cloud-hosted option which has a subscription cost
 
+!!! tip "Management Hidden in Menus"
+
+    It often feels as though the "advanced" management features like SSH are buried in menus that aren't intuitive to find.
+
+    | Device | Menu Path |
+    | --- | --- |
+    | Gateways | Settings > Control Plane > Console > SSH |
+    | Switches | UniFi Devices > [Your Switch] > Settings (Gear) > Debug |
+    | APs | UniFi Devices > [Your AP] > Settings (Gear) > Debug |
 
 ### Gateways
 
@@ -88,8 +97,248 @@ One of the most common setups is deploying a UniFi AP behind something like pfSe
 
 	The AP's themselves cannot be managed directly like normal AP's without the controller stack running from another point on the network, ***or***, use of the UniFi Network mobile application, though management here is stand-alone and limited. This also creates a tricky situation if you have strict subnet or VLAN isolation via firewall rules. You will need to ensure the AP itself can talk to your controller.
 
+**Debug Console**
+
+Some APs allow you to acces the debug console. UniFi OS is based on OpenWrt, so many of the commands you'd expect are there to do basic troubleshooting and review of the system.
+
+- UniFi OS UI > UniFi Devices > [Your AP] > Settings (Gear) > Debug
+- This will open a small web interface dropping you into a shell
+- There's a useful copy button `[+]` at the top right of this window, so you can dump the text into a text editor for review
+
+!!! tip "Obtaining VAP MAC Addresses for Nzyme"
+
+    One use case is tying the algorithmically changing MAC addresses back to the VAP and SSID they belong to, so you can configure Nzyme correctly to stop throwing alerts on valid access points. Frustratingly, this information is not available in log files or the UniFi OS UI.
+
+    ```bash
+    # This will dump all wireless interface information
+    iw dev
+    ```
+
+
+### Travel Router
+
+The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interesting and fun device. Assessing how this device performs and works will be documented here.
+
+!!! abstract "Summary"
+
+    Effectively, the Travel Router abstracts your local networking away from potentially hostile LANs but doesn't entirely remove the risks.
+
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Pros__
+
+    ---
+
+    :material-plus-box: Tunnel to UniFi Gateways via Teleport
+
+    :material-plus-box: Tunnel to any Wireguard VPN
+
+    :material-plus-box: VPN killswitch option
+
+    :material-plus-box: Great for a *less* hostile LAN, you control
+
+    :material-plus-box: Very portable
+
+    :material-plus-box: Great performance
+
+    :material-plus-box: OK price of $79.00
+
+    :material-plus-box: Can function as a WiFi extension
+
+-   :material-web-minus:{ .lg .middle } __Cons__
+
+    ---
+
+    :material-minus-box: No DNS over TLS / HTTPS options (as of March, 2026)
+
+    :material-minus-box: Limited SSH or advanced management features
+
+    :material-minus-box: No built-in cellular option
+
+    :material-minus-box: Requires external power at all times (no battery)
+
+</div>
+
+!!! dannger "Hostile LAN Risks"
+
+    To provide more context, some of the previously mentioned risks this will protect you from include:
+
+    - Protects machines that talk *locally* over insecure protocols
+    - Protects all LAN traffic if you can use the Teleport VPN
+    - Protects LAN machines without strict deny-all inbound firewall rules
+    - Protects vulnerable IOT devices
+
+    What needs reviewed further, is if you can machine-in-the-middle updates or other outbound conversations the Travel Router makes on its own. It's very talkative on the "WAN" side, making frequent connectivity checks.
+
+
+:simple-statuspal: **Setup**
+
+The device setup is easy. The default WiFi network it spins up cannot be auto-joined, and does not appear to have a known hard-coded credential. Once you take ownership of the device through one of the methods below, you can configure it and it's "yours". The easiest and best way to do this is via the UniFi mobile app over Bluetooth.
+
+- UniFi Network App + Bluetooth
+- LAN / USB + management interface
+
+:material-router-wireless: **Portability**
+
+It's ***portable***. It may not be clear from the marketing material but it's tiny, and lightweight. The specifications are available on the store page, but for anecdotal comparison:
+
+- 2/3 as long as the latest model iPhones, similar width and height
+- Same length as a FlipperZero, half the height, and 1.5x the width
+- 1/2 as tall as the Pineapple Pager, similar width and length
+- Feels about as heavy as a FlipperZero
+
+!!! tip "Heat"
+
+    Those three "pocket" sized devices were compared intentionally, for this exact point: it doesn't get hot, but it's produces the most heat of all three devices by idling.
+
+    For reference, the Pineapple Pager consistently sits around 57c while idling.
+
+:material-router:**Performance**
+
+!!! quote "[**Technical Details**](https://store.ui.com/us/en/products/utr)"
+
+    Up to 6.5 Mbps to 866.7 Mbps (MCS0 - MCS9 NSS1/2, VHT 20/40/80) on an 802.11ac WiFi 5 network.
+
+In my testing, the Travel Router was on a different floor, connecting to a WiFi 7 capable AP, over 5 GHz. It's less than 100' or 30m away if you were to draw a direct line between the two devices in space.
+
+The results show it did generally get within range of what connecting directly to WiFi would provide. The low upload over Teleport may be due to the network configuration there, but this table will be updated as it's tested across more environments.
+
+| Teleport | Download Avg | Upload Avg | Latency Avg | Band | Connection |
+| --- | --- | --- | --- | --- | --- |
+| :octicons-x-circle-fill-12: | ~55 mbps | ~43.5 mbps | 12ms | 2.4 GHz | :octicons-arrow-right-16: UTR :octicons-arrow-right-16: WiFi |
+| :material-check-bold: | ~55 mbps | ~10 mbps | 9ms | 2.4 GHz | :octicons-arrow-right-16: UTR :octicons-arrow-right-16: WiFi :octicons-arrow-right-16: Control Plane :octicons-arrow-right-16: UniFi Gateway |
+| :octicons-x-circle-fill-12: | ~62 mbps | ~95 mbps | 15ms | 5 GHz | :octicons-arrow-right-16: WiFi |
+
+:material-pencil-box: *Averages are rounded for simplicity.*
+
+One thing that stands out as missing, is you can't set the Travel Router's WiFi band to either 2.4 or 5 GHz specifically, it seems to default to 2.4 for some reason. I connected to an SSID that only advertised on the 5 and 6 GHz bands, and the router still set its own AP to 2.4 GHz.
+
+:material-wifi-lock-open: **Security**
+
+!!! note "Summary Expanded"
+
+    This section goes into more detail on the points covered in the summary above.
+
+    The [FAQ on the store page](https://store.ui.com/us/en/products/utr) also speaks to some of the physical security questions. Once you've adopted and configured the device with a reasonably strong credential, it makes taking over the device difficult.
+
+    You can revoke Teleport access from your Network manager, and realistically someone with physical access is likely stealing the device and factory resetting it to sell or use.
+
+DNS being one of the critical pieces to securing your internet usage, it's disappointing to see the Travel Router has no dedicated options to enforce DNS over TLS or HTTPs. What you can do is enforce a specific DNS server via the DHCP options, such as 1.1.1.1 and 9.9.9.9, but this is all clear text. Below is a query made from a client directly to the Travel Router's WiFi DNS listener, and that request captured on the upstream gateway and network it was forwarded across.
+
+!!! tip ""
+
+    `192.168.10.49` is the IP the UTR receives when connecting to another WiFi network in the examples below.
+
+=== "DNS Querry"
+
+    ```bash
+    $ dig @10.10.10.1 kali.org +short
+    104.18.5.159
+    104.18.4.159
+    ```
+
+=== "DNS Capture"
+
+    ```bash
+    $ sudo tcpdump -n -vv -i vlan0.10 -Z nobody 'host 192.168.10.49 and (port 53 or port 853)' | grep -iE "kali.org"
+    dropped privs to nobody
+    tcpdump: listening on vlan0.10, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+        192.168.10.49.36545 > 9.9.9.9.53: [udp sum ok] 12345+ [abc] A? kali.org. ar: . OPT UDPsize=1234 [COOKIE <redacted>] (56)
+        192.168.10.49.36545 > 1.1.1.1.53: [udp sum ok] 12345+ [abc] A? kali.org. ar: . OPT UDPsize=1234 [COOKIE <redacted>] (56)
+        1.1.1.1.53 > 192.168.10.49.36545: [udp sum ok] 12345 q: A? kali.org. 1/2/3 kali.org. A 104.18.4.159, kali.org. A 104.18.5.159 ar: . OPT UDPsize=1234 (56)
+        9.9.9.9.53 > 192.168.10.49.36545: [udp sum ok] 12345 q: A? kali.org. 1/2/3 kali.org. A 104.18.4.159, kali.org. A 104.18.5.159 ar: . OPT UDPsize=123 (45)
+    ```
+
+!!! note "SSH-?"
+
+    As of March 2026, SSH seems to be unavaialble in the latest version of the UniFi mobile app and Travel Router firmware. During initial setup, it was optional to configure an SSH user/password, however some users are reporting rolling back app versions and factory resetting restores SSH access. Either way, seems it's not officially supported for now as a consistent option, which is unfortunate.
+
+What else is listening on the device? The network interfaces themselves are reasonably secure, only exposing port 53 on both the LAN and "WAN" side.
+
+=== "LAN-side"
+
+    ```bash
+    nmap -n -v -Pn -sT -p- --reason --packet-trace -e wlan0 --open -T4 10.10.10.1
+    # SNIP
+    CONN (9.2310s) TCP localhost > 10.10.10.1:31081 => Connection refused
+    CONN (9.2310s) TCP localhost > 10.10.10.1:48539 => Connection refused
+    CONN (9.2310s) TCP localhost > 10.10.10.1:27851 => Connection refused
+    CONN (9.2322s) TCP localhost > 10.10.10.1:15352 => Connection refused
+    CONN (9.2322s) TCP localhost > 10.10.10.1:39363 => Connection refused
+    CONN (9.2322s) TCP localhost > 10.10.10.1:33604 => Connection refused
+    Completed Connect Scan at 01:23, 9.22s elapsed (65535 total ports)
+    Nmap scan report for 10.10.10.1
+    Host is up, received user-set (0.046s latency).
+    Not shown: 65534 closed tcp ports (conn-refused)
+    PORT   STATE SERVICE REASON
+    53/tcp open  domain  syn-ack
+
+    Read data files from: /usr/bin/../share/nmap
+    Nmap done: 1 IP address (1 host up) scanned in 9.24 seconds
+
+    ```
+
+=== "WAN-side"
+
+    ```bash
+    nmap -n -v -Pn -sT -p- --reason --packet-trace -e wlan0 --open -T4 192.168.10.49
+    # SNIP
+    CONN (59.6083s) TCP localhost > 192.168.10.49:20737 => Connection refused
+    CONN (59.6087s) TCP localhost > 192.168.10.49:20147 => Operation now in progress
+    CONN (59.6095s) TCP localhost > 192.168.10.49:5387 => Connection refused
+    CONN (59.6097s) TCP localhost > 192.168.10.49:8122 => Connection refused
+    CONN (59.6135s) TCP localhost > 192.168.10.49:20147 => Connection refused
+    Completed Connect Scan at 01:23, 59.41s elapsed (65535 total ports)
+    Nmap scan report for 192.168.10.49
+    Host is up, received user-set (0.0035s latency).
+    Not shown: 65528 closed tcp ports (conn-refused), 6 filtered tcp ports (no-response)
+    Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+    PORT   STATE SERVICE REASON
+    53/tcp open  domain  syn-ack
+
+    Read data files from: /usr/local/share/nmap
+    Nmap done: 1 IP address (1 host up) scanned in 59.83 seconds
+
+    ```
+
+It's odd that port 53 is even listening on the "WAN" side, but it does not respond to DNS queries.
+
+```bash
+$ dig @192.168.10.49 microsoft.com +short
+;; communications error to 192.168.10.49#53: timed out
+;; communications error to 192.168.10.49#53: timed out
+
+$ nc -nv 192.168.10.49 53
+Connection to 192.168.10.49 53 port [tcp/*] succeeded!
+
+$ nc -nuv 192.168.10.49 53
+Connection to 192.168.10.49 53 port [udp/*] succeeded!
+
+```
+
+That covers an initial review and assessment of the UniFi Travel Router. More notes will be added over time.
+
 
 ## Protect Stack
+
+!!! tip "Alarm Profiles"
+
+    It's not well detailed in the official UniFi docs, but you ***can*** effectively create "Armed Stay" and "Armed Away"-style profiles if you intend to replace a legacy security service in your office or home.
+
+    You'll get *notifications* for configured "alarms", even those not tied to a profile. But if you have a UniFi Siren, you'll note it doesn't sound despite the condition of "motion" or "open" being met. Here's how this works.
+
+    Under Alarm Manager:
+
+    - Create Alarm Profiles, for example "Armed Stay" and "Armed Away"
+    - Create a new alarm
+    - Tie the trigger (event) to a scope (of devices)
+    - ***Choose the profile this alarm / alert belongs to***
+    - The alarm sounding (and more) must be set as ***actions***
+    - Save
+
+    Create and assign as many alarms to as many profiles as you want. Now you'll see at the top of the Protect application, there's an option to arm that location based on a profile. Now all of the ***actions*** (such as the Siren sounding) should work when you test them.
+
 
 ### NVRs
 
