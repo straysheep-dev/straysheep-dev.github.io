@@ -1152,7 +1152,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Note the steps in the documentation linked above verify the hashes and the image separately, versus verifying the hashes to then check the image with those. Detached signatures are available for ***both***, the hashes and uncompressed image files.
 
-	Example:
+	My own example steps, same process but using the signature to verify the hashes:
 
 	```bash
 	# Confirm it matches whats on GitHub too
@@ -1165,7 +1165,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	# Get the image
 	wget https://pkg.opnsense.org/releases/26.1/OPNsense-26.1.2-dvd-amd64.iso.bz2
 
-	# Prepare the public key (this is the main difference vs gpg)
+	# Prepare the public signature (this is the main difference vs gpg)
 	openssl base64 -d -in OPNsense-26.1.2-checksums-amd64.sha256.sig -out /tmp/image.sig
 	# Verify the sha256sums are valid
 	openssl dgst -sha256 -verify OPNsense-26.1.pub -signature /tmp/image.sig OPNsense-26.1.2-checksums-amd64.sha256
@@ -2619,6 +2619,12 @@ This includes general network information as well as network-focused tools.
 
 ### :simple-linux: Linux & Unix-like
 
+??? info "linPEAS (PEASS-ng)"
+
+	- [linPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS)
+	- <https://github.com/peass-ng/PEASS-ng>
+	- <https://gitlab.com/kalilinux/packages/peass-ng/>
+
 ??? danger "GTFOBins"
 
 	> GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems.
@@ -2644,9 +2650,11 @@ This includes general network information as well as network-focused tools.
 
 **Enumeration**
 
-??? info "PEASS-ng"
+??? info "winPEAS (PEASS-ng)"
 
+	- [winPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/winPEAS)
 	- <https://github.com/peass-ng/PEASS-ng>
+	- <https://gitlab.com/kalilinux/packages/peass-ng/>
 
 ??? info "HostRecon"
 
@@ -2849,7 +2857,11 @@ This includes general network information as well as network-focused tools.
 
 ### :simple-apple: macOS
 
-	⚠️ TO DO ⚠️
+??? info "macPEAS (PEASS-ng)"
+
+	- [linPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS)
+	- <https://github.com/peass-ng/PEASS-ng>
+	- <https://gitlab.com/kalilinux/packages/peass-ng/>
 
 
 ### :material-microsoft-windows: Active Directory
