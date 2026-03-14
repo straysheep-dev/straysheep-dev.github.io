@@ -4,7 +4,7 @@ icon: simple/ubiquiti
 draft: true
 #date:
 #  created: 2026-01-04
-#  updated: 2026-02-01
+#  updated: 2026-03-13
 categories:
   - networking
   - unifi
@@ -154,9 +154,13 @@ The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interes
 
     :material-minus-box: Limited SSH or advanced management features
 
+    :material-minus-box: No built-in minimal DNS logging, or system auditing
+
     :material-minus-box: No built-in cellular option
 
     :material-minus-box: Requires external power at all times (no battery)
+
+    As a final note, while it's an unreasonable ask, the option to continually scan for and attempt to connect to OPN / OWE networks would be interesting for on-the-go use.
 
 </div>
 
@@ -316,6 +320,15 @@ $ nc -nuv 192.168.10.49 53
 Connection to 192.168.10.49 53 port [udp/*] succeeded!
 
 ```
+
+!!! note "runZero Findings"
+
+    I also reviewed [runZero](https://console.runzero.com/) logs after a scheduled scan across a network completed, where the UTR was connected as a client. Not only did it correctly identify the device as a UniFi Travel Router, ***it was able to talk to 10001/udp*** and:
+
+    - Determine the exact firmware version
+    - Pull all interface IP addresses and MAC addresses
+
+    This is interesting because it hints at what subnet is behind the UTR, meaning the subnet that's providing WiFi to your devices connected to the UTR as clients. This will also need reviewed further.
 
 That covers an initial review and assessment of the UniFi Travel Router. More notes will be added over time.
 
