@@ -27,6 +27,8 @@ Information, compiled for easy reference.
 
 ## :material-toolbox: Utilities
 
+This section contains various tools that will eventually be split into their own sections. For now, they're referenced simply as utilities because of their unique use or value.
+
 ??? info "rustdesk"
 
 	An open source, robust remote desktop alternative, has desktop and mobile clients and is designed for self-hosting.
@@ -173,6 +175,22 @@ Information, compiled for easy reference.
 ??? example ":material-radio-tower: Meshtastic"
 
 	See the dedicated [Meshtastic note](./notes/meshtastic.md).
+
+??? tip "Tailscale"
+
+	[Tailscale is a mesh network overlay built on Wireguard](https://tailscale.com/blog/how-tailscale-works). It's incredibly modern, and user friendly. Their control plane handles all connections, which you can define as ACL rules for granular control over what-talks-to-what, while the hosts themselves are completely firewalled off from their local networks. There's also TLS and certificate-based capabilities that make this great for a home lab as well as real network deployments.
+
+	- <https://tailscale.com/docs>
+	- <https://tailscale.com/download>
+	- [Linux Installer Script](https://github.com/tailscale/tailscale/blob/main/scripts/installer.sh)
+
+	**Go Fork**
+
+	Tailscale is written in go, and the devs maintain their own fork of go for building Tailscale release binaries: <https://github.com/tailscale/go/>
+
+	**Tailscale Developer Community**
+
+	[github.com/tailscale-dev](https://github.com/tailscale-dev) is the home for expirimental ideas and projects related to Tailscale. For example the Blog post on [how to install Tailscale on a SteamDeck](https://tailscale.com/blog/steam-deck), is now an installer script: [github.com/tailscale-dev/deck-tailscale](https://github.com/tailscale-dev/deck-tailscale).
 
 
 ## :material-note-text: Note Taking
