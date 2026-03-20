@@ -4,7 +4,7 @@ site_name = "straysheep.dev"
 site_url = "https://straysheep-dev.github.io"
 repo_url = "https://github.com/straysheep-dev/straysheep-dev.github.io"
 repo_name = "straysheep-dev.github.io"
-copyright = "Copyright &copy; 2018-2025 straysheep-dev"
+copyright = "Copyright &copy; 2018-2026 straysheep-dev"
 
 # Specifiying nav patterns here controls how they appear and in what order
 # This also allows you to "hide" sections that do not need to appear in the nav bar
@@ -24,6 +24,7 @@ nav = [
     "notes/clipboard-snooping.md",
     "notes/compile-static-binaries.md",
     "notes/custom-shell-profiles.md",
+    "notes/data-removal.md",
     "notes/diy-web-app-lab.md",
     "notes/flatpak.md",
     "notes/grub-security.md",
@@ -38,6 +39,7 @@ nav = [
     "notes/openscap.md",
     "notes/openwrt.md",
     "notes/pfsense.md",
+    "notes/pineapple-pager.md",
     "notes/powerstig.md",
     "notes/proxmox.md",
     "notes/rsync.md",
