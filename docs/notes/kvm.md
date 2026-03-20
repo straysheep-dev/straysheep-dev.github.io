@@ -177,6 +177,18 @@ These can be created under Edit > Connection Details > Virtual Networks
 
 Ultimately your pfSense VM is routing via NAT through the `default` virt-manager network, and has its own, virtual (isolated) pfsense_lan, pfsense_opt1, and pfsense_opt2, etc. addresses available to it. To connect a VM to pfSense, attach it to any of the virtual (isolated) network interfaces.
 
+!!! tip "Internal Networking Broken?"
+
+    ```bash
+    # Stop all VMs,
+    # Quit virt-manager
+    # Stop libvirt and all related services
+    sudo systemctl stop libvirtd libvirtd-ro.socket libvirtd.socket libvirtd-admin.socket
+
+    # Kill the libvirt dnsmasq process(es)
+    sudo pkill -f dnsmasq
+    ```
+
 
 #### Creating Networks
 
