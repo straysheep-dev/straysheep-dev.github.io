@@ -121,7 +121,7 @@ The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interes
 
 !!! abstract "Summary"
 
-    Effectively, the Travel Router abstracts your local networking away from potentially hostile LANs but doesn't entirely remove the risks.
+    Effectively, the Travel Router abstracts your local networking away from potentially hostile LANs but doesn't entirely remove the risks. If using it as a VPN tunnel + killswitch, it's maybe the best option out there for what it does. The only downsides are in its limited configurability (which could change with OS updates) and lack of any internal battery, even for moving to a new location (it will consume your phone's battery very fast if you're power it from your phone).
 
 
 <div class="grid cards" markdown>
@@ -146,6 +146,8 @@ The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interes
 
     :material-plus-box: Can function as a WiFi extension
 
+    :material-plus-box: WPA3
+
 -   :material-web-minus:{ .lg .middle } __Cons__
 
     ---
@@ -154,15 +156,19 @@ The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interes
 
     :material-minus-box: Limited SSH or advanced management features
 
+    :material-minus-box: Limited WiFi config (bands, client isolation)
+
+    :material-minus-box: Coverage area can be small (environmental factors)
+
     :material-minus-box: No built-in minimal DNS logging, or system auditing
 
     :material-minus-box: No built-in cellular option
 
     :material-minus-box: Requires external power at all times (no battery)
 
-    As a final note, while it's an unreasonable ask, the option to continually scan for and attempt to connect to OPN / OWE networks would be interesting for on-the-go use.
-
 </div>
+
+As a final note, while it's an unreasonable ask, the option to continually scan for and attempt to connect to OPN / OWE networks would be interesting for on-the-go use.
 
 !!! dannger "Hostile LAN Risks"
 
@@ -182,6 +188,10 @@ The device setup is easy. The default WiFi network it spins up cannot be auto-jo
 
 - UniFi Network App + Bluetooth
 - LAN / USB + management interface
+
+!!! tip "OSINT"
+
+    You can identify other nearby UTR's in the UniFi app and see what AP's they're connected to. However, if you try to "adopt" one that's already in use, it prompts you for the UniFi account's password.
 
 :material-router-wireless: **Portability**
 
@@ -218,6 +228,8 @@ The results show it did generally get within range of what connecting directly t
 
 One thing that stands out as missing, is you can't set the Travel Router's WiFi band to either 2.4 or 5 GHz specifically, it seems to default to 2.4 for some reason. I connected to an SSID that only advertised on the 5 and 6 GHz bands, and the router still set its own AP to 2.4 GHz.
 
+It's also worth mentioning, without an internal battery, it always needs connected to a power source. If you use your phone as a power source, it will consume the battery very quickly, usually within 4-6 hours on most modern phone models as of early 2026.
+
 :material-wifi-lock-open: **Security**
 
 !!! note "Summary Expanded"
@@ -225,6 +237,14 @@ One thing that stands out as missing, is you can't set the Travel Router's WiFi 
     This section goes into more detail on the points covered in the summary above.
 
     The [FAQ on the store page](https://store.ui.com/us/en/products/utr) also speaks to some of the physical security questions. Once you've adopted and configured the device with a reasonably strong credential, it makes taking over the device difficult.
+
+    For physical security of the device, assume WiFi will always be open to attack. Therefore, securing the physical ports, especially if this device tunnels back to your main network, is critical should it be stolen.
+
+    | Connection Type | Secure Setting |
+    | --- | --- |
+    | Ethernet | Disabled when away |
+    | WiFi | Enabled, WPA3 |
+    | USB | Disabled when away |
 
     You can revoke Teleport access from your Network manager, and realistically someone with physical access is likely stealing the device and factory resetting it to sell or use.
 
@@ -256,7 +276,7 @@ DNS being one of the critical pieces to securing your internet usage, it's disap
 
 !!! note "SSH-?"
 
-    As of March 2026, SSH seems to be unavaialble in the latest version of the UniFi mobile app and Travel Router firmware. During initial setup, it was optional to configure an SSH user/password, however some users are reporting rolling back app versions and factory resetting restores SSH access. Either way, seems it's not officially supported for now as a consistent option, which is unfortunate.
+    As of March 2026, SSH seems to be unavaialble in the latest version of the UniFi mobile app and Travel Router firmware after you finish updating it. During initial setup, and right after any firmware updates, it's optional to configure an SSH user/password, however some users are reporting rolling back app versions and factory resetting restores SSH access. Either way, seems it's not officially supported for now as a consistent option, which is unfortunate.
 
 What else is listening on the device? The network interfaces themselves are reasonably secure, only exposing port 53 on both the LAN and "WAN" side.
 
