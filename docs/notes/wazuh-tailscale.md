@@ -4,7 +4,7 @@ icon: material/server-security
 draft: false
 #date:
 #  created: 2024-08-13
-#  updated: 2025-12-14
+#  updated: 2026-03-12
 categories:
   - wazuh
   - edr
