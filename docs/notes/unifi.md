@@ -55,6 +55,15 @@ The UniFi network stack is the management OS that handles all network devices. G
     | Switches | UniFi Devices > [Your Switch] > Settings (Gear) > Debug |
     | APs | UniFi Devices > [Your AP] > Settings (Gear) > Debug |
 
+!!! tip "Update Cadence"
+
+    UniFi's updates are very stable. That's why enabling aggressive auto-updating is relatively safe with little downside.
+
+    - Some devices have multiple software stacks (e.g. the OS is separate from the Network or Protect stacks which have their own updates)
+    - Most devices are configured to check once a week for new updates
+    - You can safely change this to daily checks
+
+
 ### Gateways
 
 Gateways can vary in capabilities containing some or all of the following features:
@@ -155,6 +164,8 @@ The [UniFi Travel Router](https://store.ui.com/us/en/products/utr) is an interes
     :material-minus-box: No DNS over TLS / HTTPS options (as of March, 2026)
 
     :material-minus-box: Limited SSH or advanced management features
+
+    :material-minus-box: Cannot save known network keys
 
     :material-minus-box: Limited WiFi config (bands, client isolation)
 
