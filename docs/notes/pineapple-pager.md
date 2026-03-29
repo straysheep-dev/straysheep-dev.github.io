@@ -4,7 +4,7 @@ icon: material/fruit-pineapple
 draft: false
 #date:
 #  created: 2026-03-19
-#  updated: 2026-03-22
+#  updated: 2026-03-29
 categories:
   - hak5
   - pineapple
@@ -24,6 +24,59 @@ categories:
 ## Overview
 
 - [Hak5 Pager Documentation](https://docs.hak5.org/wifi-pineapple-pager/wifi-pineapple-pager-by-hak5/)
+
+TODO
+
+
+## Usage
+
+This is OpenWrt under the hood. With CLI access over SSH or the Virtual Pager web UI, you can easily use a keyboard for things you'd be manually typing using the pager buttons.
+
+
+### General
+
+- [OpenWrt](./openwrt.md)
+- [OpenWrt Configuration Files](https://github.com/straysheep-dev/linux-configs/tree/main/openwrt)
+
+!!! tip "Configure Client-mode Wi-Fi"
+
+    Instead of typing the SSID and passphrase using the pager buttons, you can do this over SSH.
+
+    ```bash
+    nano /etc/config/wireless
+    # Modify the SSID, encryption type, and passphrase
+    wifi reload
+    ```
+
+!!! warning "53/tcp+udp Open on 'WAN'"
+
+    The Pager seems to leave port 53 open on the 'WAN' (public, connecting) interface to networks when in client mode. It also answers DNS queries made to this interface. This is curious, and could be fixed with an additional firewall rule block targeting the `option mark 0x4` interface group.
+
+    - `option mark 0x2` is the USB-C interface
+    - `option mark 0x3` is the Management AP interface
+    - `option mark 0x4` covers all "public" or "WAN" side interfaces
+
+    Add this block below the `Allow-Admin/SSH` and before the `Reject-Admin/SSH` blocks.
+
+    ```conf
+    config rule
+        option name             'Reject-DNS'
+        option src              'wan'
+        option mark             '0x4'
+        option proto            'tcpudp'
+        option dest_port        '53'
+        option target           'REJECT'
+    ```
+
+    Apply the rule change:
+
+    ```bash
+    fw4 reload
+    ```
+
+### Built-in Tools
+
+This section covers the built-in pentesting tools that ship with the Pineapple Pager.
 
 TODO
 
@@ -59,6 +112,7 @@ There are a few ways to do this. This section aims to pull various options toget
 - [Tailscale: Building Small Binaries (for OpenWrt)](https://tailscale.com/docs/how-to/set-up-small-tailscale?q=openwrt)
     - [GitHub Project (GuNanOvO/openwrt-tailscale) that automates this](https://github.com/GuNanOvO/openwrt-tailscale)
 
+
 #### opkg
 
 !!! warning "Work in Progress"
@@ -70,7 +124,12 @@ There are a few ways to do this. This section aims to pull various options toget
 
 TODO
 
+
 #### Precompiled Binaries
+
+!!! tip "Community Payloads"
+
+    A set of community payloads already exist to install, configure, and run Tailscale on the Pager under [library/user/remote_access](https://github.com/hak5/wifipineapplepager-payloads/tree/master/library/user/remote_access).
 
 This option uses the [statically compiled Tailscale binaries](https://pkgs.tailscale.com/stable/#static) for generic mipsle Linux.
 
@@ -270,6 +329,7 @@ fw4 restart
 With at least two Tailscale ACL tags, one for the Pineapple Pager, and one for your management device, you can configure access to the machine via your Tailnet over 22/tcp and 1471/tcp for both SSH and web-based access.
 
 Once all of these steps are done you can either `ssh` or browse to your pager using its Magic DNS name.
+
 
 #### Building from Source
 
