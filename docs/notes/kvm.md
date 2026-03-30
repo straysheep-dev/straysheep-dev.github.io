@@ -4,7 +4,7 @@ icon: simple/qemu
 draft: false
 #date:
 #  created: 2024-12-08
-#  updated: 2025-12-14
+#  updated: 2026-03-29
 categories:
   - kvm
   - qemu
@@ -35,402 +35,57 @@ KVM is a type 1 hypervisor technology built into the Linux kernel, using compone
 
 <!-- more -->
 
-## Proxmox
+## Security
 
-Under the hood Proxmox uses KVM + QEMU virtual machine technologies, though it's all handled through either the Proxmox API or the `pve` commands. See the dedicated [Proxmox note](./proxmox.md) for more details.
+This section consolidates security information and considerations for KVM-based workloads.
 
+!!! note "QEMU"
 
-## Virt-Manager
+    Under the hood, virt-manager and libvirt are run by QEMU / KVM.
 
-*Virt-Manager is a GUI application. Think of Virt-Manager as an equivlent to Hyper-V, VMware Workstation, or VirtualBox.*
+    [QEMU considers the following to be *untrusted*](https://www.qemu.org/docs/master/system/security.html):
 
-- <https://virt-manager.org/>
-- <https://github.com/virt-manager/virt-manager>
+    - Guest
+    - User-facing interfaces (e.g. VNC, SPICE, WebSocket)
+    - Network protocols (e.g. NBD, live migration)
+    - User-supplied files (e.g. disk images, kernels, device trees)
+    - Passthrough devices (e.g. PCI, USB)
 
-### Install
+    It's recommended to read through that entire page if you plan to leverage QEMU / KVM or similar technologies like Proxmox to run untrusted code.
 
-Install the utilties and add your user(s) you want to access the VM's to the libvirtd group.
 
-```bash
-# Debian / Ubuntu
-sudo apt install -y virt-manager
-sudo usermod -aG libvirtd $USER
-```
+### Research
 
+- Hypervisor escapes
+- Reproducible proof-of-concept exploits
 
-### Paths
+!!! warning "TODO"
 
-| Path | Description |
-| --- | ---
-| `/etc/libvirt/qemu` | VM XML configs |
-| `/var/lib/libvirt/images` | VM disks |
-| `/var/lib/libvirt/qemu/nvram` | EFI Vars |
-| `/var/lib/libvirt/qemu/snapshot/<vm-name>/<snapshot-name>.xml` | Snapshot XML configs |
-| `/etc/libvirt/qemu/networks/` | Network configurations |
-| `/etc/libvirt/nwfilter/` | Network filtering configurations |
+    This section is under construction.
 
 
-### Permissions
+### Mitigations
 
-On Ubuntu 22.04 and higher, these are the default path permissions. Essentially `/var/lib/libvirt` itself and everything below should owned by `root:root` *except* for `/var/lib/libvirt/qemu` which is owned by `libvirt-qemu:kvm`.
+- General configuration (QEMU, KVM, libvirt)
+    - Limit virtual devices attached (remove sound, USB, etc)
+    - Use virtio-* devices wherever possible
+    - Avoid legacy device emulation
+    - [checksec](https://pkg.kali.org/pkg/checksec)
+- Specific configuration (virt-manager, Proxmox)
+- Kernel hardening measures (KVM, MAC/DAC)
+    - iommu, seccomp
+    - AppArmor
+    - SELinux
+    - `head -1 /sys/devices/system/cpu/vulnerabilities/*`
 
-```
-drwxr-xr-x  2 root         root 4096 Mar 13  2025 .
-drwxr-xr-x  2 root         root 4096 Sep 10  2025 ..
-drwxr-x---  2 root         root 4096 Jul  5  2025 boot
-drwxr-xr-x  2 root         root 4096 Mar 13  2025 dnsmasq
-drwxr-x---  2 root         root 4096 Mar 13  2025 images
-drwxr-x---  2 libvirt-qemu kvm  4096 Mar 13  2025 qemu
-drwx------  2 root         root 4096 Jul  5  2025 sanlock
-drwxr-x---  2 root         root 4096 Mar 11  2025 swtpm
-```
+!!! warning "TODO"
 
-This is important to know if you want to store virtual machines in non-default paths.
-
-
-### Commands
-
-`virsh` allows you to automate and control virtual machine behavior from the CLI.
-
-| Command | Description |
-| --- | --- |
-| `virsh list --all` | List all VMs |
-| `virsh [start|stop|shutdown|reset] <vm-name>` | Control VM state |
-
-
-#### Clone Commands
-
-To simply create a clone of a template, and snapshot the newly cloned VM with a snapshot titled "clone":
-
-```bash
-virt-clone --original <source-vm-name> --name <new-vm-name> --auto-clone && virsh snapshot-create-as <new-vm-name> clone
-```
-
-
-#### Snapshot Commands
-
-!!! note "Snapshot Requirements"
-
-    VMs must have a disk image associated with them to take and modify snapshots.*
-
-| Command | Description |
-| --- | --- |
-| `virsh snapshot-list <vm-name>` | List all snapshots of `<vm-name>` |
-| `virsh snapshot-create-as <vm-name> <snapshot-name> --description "<description>"` | Take a snapshot |
-| `virsh snapshot-revert <vm-name> <snapshot-name>` | Revert to `<snapshot-name>` |
-| `virsh snapshot-delete <vm-name> <snapshot-name>` | Delete a snapshot |
-
-
-#### Networking Commands
-
-| Command | Description |
-| --- | --- |
-| `virsh net-list --all` | List all available `<network-name>`s |
-| `virsh net-dhcp-leases <network-name>` | List all current DHCP leases on `<network-name>` if it's managed via virt-manager / dnsmasq |
-| `virsh domiflist <vm-name>` | List all network interfaces attached to `<vm-name>` |
-| `virsh domifaddr <vm-name> [--source agent|arp|lease]` | Get IP information from `<vm-name>`, optionally using one of three methods |
-| `virsh net-dumpxml <network>` | Output the virtual network information as an XML dump to stdout. |
-| `virsh net-create <network> [--validate]` | Create a transient (temporary) virtual network from an XML file and instantiate (start) the network. |
-| `virsh net-define <network> [--validate]` | Define an inactive persistent virtual network or modify an existing persistent one from the XML file. |
-| `virsh net-undefine <network>` | Undefine the configuration for a persistent network. If the network is active, make it transient. |
-| `virsh net-edit <network>` | Edit the XML configuration file for a network. |
-| `virsh net-list [--all]` | Returns the list of active networks. |
-| `virsh net-start <network>` | Start a (previously defined) inactive network. |
-| `virsh net-destroy <network>` | Destroy (stop) a given transient or persistent virtual network specified by its name or UUID. This takes effect immediately. |
-| `virsh nwfilter-define <filter> [--validate]` | Define or update a network filter from an XML file |
-| `virsh nwfilter-undefine <filter>` | Undefine a network filter |
-| `virsh nwfilter-dumpxml <filter>` | Network filter information in XML |
-| `virsh nwfilter-list` | List network filters |
-| `virsh nwfilter-edit <filter>` | Edit XML configuration for a network filter |
-
-
-### Networking
-
-!!! warning "Tailscale and Exit Nodes"
-
-	If you use tailscale and force all traffic out of an exit node, this may break routing on your libvirtd instance. Simply unset the exit node to verify this.
-
-    ```bash
-    sudo tailscale set --exit-node=''
-    ```
-
-libvirtd VM's appear under `ip a` as `vnetX`, which you can observe under `kern.log` when a VM comes online.
-
-
-#### Internal Networking
-
-These can be created under Edit > Connection Details > Virtual Networks
-
-!!! tip "pfSense with Virtual Networks"
-
-    The examples below are for a pfSense router VM to have it's own internal LAN and OPT interfaces that are purely virutal, and cannot be seen by or talk to the host's networking interfaces.
-
-- Choose "Add"
-- Name: `pfsense_lan` (`pfsense_opt1`, `pfsense_opt2`...)
-- Mode: Isolated
-- Enable IPv4
-	- Disable DHCP
-	- Delete all the other IPv4 information (this can be provisioned by pfSense)
-	- DNS can be "Custom: `<blank>`"
-- *IPv6 must remain disabled for now, it requires a hard-coded address*
-- Once created you should see "Autostart On Boot" checked as well
-
-Ultimately your pfSense VM is routing via NAT through the `default` virt-manager network, and has its own, virtual (isolated) pfsense_lan, pfsense_opt1, and pfsense_opt2, etc. addresses available to it. To connect a VM to pfSense, attach it to any of the virtual (isolated) network interfaces.
-
-!!! tip "Internal Networking Broken?"
-
-    ```bash
-    # Stop all VMs,
-    # Quit virt-manager
-    # Stop libvirt and all related services
-    sudo systemctl stop libvirtd libvirtd-ro.socket libvirtd.socket libvirtd-admin.socket
-
-    # Kill the libvirt dnsmasq process(es)
-    sudo pkill -f dnsmasq
-    ```
-
-
-#### Creating Networks
-
-This example deletes the generated xml config under `/etc/libvirt/qemu`, and uses the built in template from `/usr/share/libvirt` to reprovision a totally new default NAT network.
-
-Once you've powered down or paused all VMs, quit `virt-manager` and its system tray icon. The entire bash block below is safe to copy and paste.
-
-```bash
-sudo systemctl restart libvirtd
-sudo virsh net-list --all
-sudo virsh net-undefine default
-sudo virsh net-destroy default
-sudo rm -f /etc/libvirt/qemu/networks/default.xml
-sudo virsh net-define /usr/share/libvirt/networks/default.xml
-sudo virsh net-start default
-sudo virsh net-autostart default
-sudo virsh net-list --all
-systemctl status libvirtd
-```
-
-
-#### Filtering Network Traffic
-
-!!! abstract "nwfilter vs Host Firewall"
-
-    Instead of using a host utility like `iptables` or `ufw` to manage virtual machine network filtering, it's better to use libvirt's built-in `nwfilter` directly to ensure rules are being applied to machines correctly. This is most useful when VM's are either bridged, or NAT'd without a router / firewall in front of them.
-
-- [libvirt.org/firewall](https://libvirt.org/firewall.html#the-network-filter-driver)
-- [libvirt.org/formatnwfilter](https://libvirt.org/formatnwfilter.html)
-- [`nwfilter` CLI](https://libvirt.org/formatnwfilter.html#command-line-tools)
-- [RedHat: Apply Network Filtering](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-virtual_networking-applying_network_filtering)
-
-There are a number of pre-built example rules. According to the documentation:
-
-!!! quote ""
-
-    They are all stored in `/etc/libvirt/nwfilter`, but don't edit the files there directly. Use `virsh nwfilter-define` to update them. This ensures the guests have their iptables/ebtables rules recreated.
-
-To apply nwfilter rules, we need to:
-
-- Create the XML file, defaults are under `/etc/libvirt/nwfilter/<rule-name>.xml`
-- Define the new file as a rule with `virsh nwfilter-define`
-- Add a `<filterref/>` reference to this rule in a VM's network configuration XML
-- Verify the rules are working
-
----
-
-##### Example: Block Tailnet Access
-
-This is useful if for example your host has access to Tailnet resources that an untrusted guest VM should not be able to reach.
-
-Create a custom rule by referencing [the custom rule examples](https://libvirt.org/formatnwfilter.html#writing-your-own-filters). We can build one that uses the existing `clean-traffic` filter as a base reference, and adds a "drop" rule to all outbound traffic destined for `100.64.0.0/10` to prevent VM's from accessing Tailnet endpoints they shouldn't be able to see.
-
-```bash
-sudo nano /etc/libvirt/nwfilter/no-tailnet-traffic.xml
-```
-
-!!! tip "Generate a UUID"
-
-    In Linux you can create a UUID using a proc path. Credit to [rpinz](https://github.com/rpinz) for this:
-
-    ```bash
-    cat /proc/sys/kernel/random/uuid
-    dc48344d-99fa-42c2-8db8-4eeaea0116f6
-    ```
-
-The priority values are left as the defaults described in the documentation.
-
-```xml
-<filter name='no-tailnet-traffic' chain='ipv4' priority='-700'>
-  <uuid>dc48344d-99fa-42c2-8db8-4eeaea0116f6</uuid>
-  <!-- Reference the clean traffic filter to prevent
-       MAC, IP and ARP spoofing. By not providing
-       and IP address parameter, libvirt will detect the
-       IP address the VM is using.
-
-       https://libvirt.org/formatnwfilter.html#writing-your-own-filters
-  -->
-  <filterref filter='clean-traffic'/>
-
-  <!-- Drop all outbound traffic to the CGNAT ranges, or
-       100.64.0.0/10, which is also used in Tailnets.
-       This prevents VM's from talking to endpoints that
-       hosts can reach over Tailnets.
-
-       By referencing the clean-traffic filter above, the
-       rule is dynamically obtaining each VM's $IP address
-       when this filter applies. That's why a srcipaddr and
-       srcipmask aren't used here.
-
-       Since CGNAT ranges are exclusively IPv4, this only
-       applies to the <ip/> protocol in libvirt's nwfilter.
-
-       https://libvirt.org/formatnwfilter.html#reserved-variables
-  -->
-  <rule action='drop' direction='out' priority='500'>
-    <ip dstipaddr='100.64.0.0' dstipmask='255.192.0.0'/>
-  </rule>
-</filter>
-```
-
-!!! tip "Nested Filter References"
-
-    As you can probably tell from the example, you can build rules by referencing other rules, that reference other rules, and so on.
-
-Save it, then define it as a new `nwfilter` rule. `--validate` ensures there are no syntax issues.
-
-```bash
-sudo virsh nwfilter-define /etc/libvirt/nwfilter/no-tailnet-traffic.xml --validate
-```
-
-Add the following into the `<interface/>` block within a guest VM's NIC XML data.
-
-```xml
-  <filterref filter='no-tailnet-traffic'/>
-```
-
-Reboot the VM if necessary and verify that the rules are working.
-
-!!! note "Adding Filters to Networks"
-
-    Initially adding a `<filterref/>` block to a network such as the `default` network was tried. It appears these rules must be applied per-machine. Until a way is found to apply this globally per-network, assume this is true.
-
-
-### Troubleshooting
-
-#### Blank GUI (Screen Lock)
-
-!!! tip "Disable Screen Lock"
-
-    On guest machines with a GUI, sometimes it's common for the screen to remain blank after the guest's screen lock timeout is reached, even if you try to interact with the guest via ssh to restart the gdm session.
-
-    *This will need debugged further, as it's likely something relating to the spice or qemu guest agents tripping over something when the guest screen locks.*
-
-    The easiest way to diagnose and resolve this is to simply disable screen locking for the guest.
-
-
-## SPICE
-
-Some machines will install the `spice-vdagent` by default, however others (Kali) may require you install it after you install the guest.
-
-```bash
-sudo apt update; sudo apt install -y spice-vdagent
-```
-
-Sometimes the SPICE connection will go completely blank after some time. This could either be from **Power Saver settings on the guest**, or an issue with the SPICE agent / server.
-
-!!! tip "Blank or frozen SPICE connection on guest sleep"
-
-    You should configure QEMU guests to never fall asleep or go blank if this is happening frequently. Alternatively pause the guest when it's not in use.
-
-!!! tip "Blank or frozen SPICE connection on host wake"
-
-    Simply leave QEMU VM's running when putting the host to sleep. They'll continue to be running and operating as normal when the host wakes again.
-
-Restart the SPICE server on the host for that VM:
-
-```bash
-# TO DO
-```
-
-
-### Clipboard
-
-If you're concerned about guests being able to steal the clipboard data from your host during use, you can temporarily pause the guest while you copy / paste credentials from your clipboard. Once a guest is paused it will no longer have access to the clipboard contents.
-
-You can also of course just close the SPICE window and reopen it later.
-
-
-### Windows Guests
-
-Windows does not come with the drivers for libvirt or the spice-agent process installed. This means guest enhancements don't work out of the box.
-
-- [SPICE Guest Tools (Windows, Latest)](https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe)
-- [SPICE User Manual (See "Windows guest" section)](https://www.spice-space.org/spice-user-manual.html)
-- [chef/bento KVM/QEMU Support for Windows Templates](https://github.com/chef/bento?tab=readme-ov-file#kvmqemu-support-for-windows)
-
-If you follow the links through the Fedora project, eventually it points from [here](https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html) to [here](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md). Basically, without a RedHat machine + subscription, you won't have access to signed drivers for Windows to load without allowing test drivers to load (not ideal if this VM will be battle-tested or exposed to threats).
-
-!!! tip "Windows GUI Alternatives"
-
-	Given the requirement for the unsigned drivers to leverage the SPICE connection, there are a few clever alternatives:
-
-    - The new Windows App may offer some interesting solutions for networked or cloud machines on your Microsoft account
-    - You could use remmina to RDP into the Windows guest (remmina can be installed as a snap or flatpak for security sandboxing the client)
-    - You could SSH into Windows
-    - In virtual networks where you'd need a jump host to connect from your host to the guest, you could RDP from a neighboring Linux guest in that subnet
-
-
-#### RDP + Remmina
-
-Enable RDP on the Windows Guest.
-
-- Settings > System > Remote Desktop > Enabled Remote Desktop: "On"
-
-Install Remmina on your host:
-
-```bash
-sudo snap install remmina
-```
-
-- Configure user, password, and server IP
-- Set resolution to "Use initial window size" and after connecting for the first time, resize the window as needed, then reconnect once more
-- Advanced > Quality > Set to "Best" (great for local VM's)
-- Optionally disable Clipboard synchronization if you don't want the remote machine to "see" your clipboard
-
-
-#### OpenSSH-Server
-
-An alternative solution is installing [OpenSSH-Server on Windows](https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1).
-
-!!! note "winget with the program"
-
-    If installing winget on an evaluation copy of Windows Server, you will need to download the msixbundle file and license xml file from GitHub's release page. Otherwise you'll get a license error.
-
-    See [winget-cli issue #700](<https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714>).
-
-```powershell
-# Download the msixbundle and xml license file from the latest releases.
-# https://github.com/microsoft/winget-cli/releases
-# Use Add-AppxProvisionedPackage to use the -LicensePath argument.
-Add-AppxProvisionedPackage -Online -PackagePath .\Microsoft.DesktopAppInstaller_*.msixbundle -LicensePath .\*_License1.xml -Verbose
-```
-
-Install the latest PowerShell + OpenSSH Server, optionally Windows Terminal
-
-```powershell
-winget install --id Microsoft.PowerShell -e --source winget
-winget install --id Microsoft.OpenSSH.Beta -e --source winget
-winget install --id Microsoft.WindowsTerminal -e
-```
-
-Allow SSH through the firewall.
-
-```powershell
-New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 > $null
-```
+    This section is under construction.
 
 
 ## QEMU
 
-QEMU is what virt-manager uses under the hood to run Virtal Machines, however you can use QEMU entirely on its own.
+QEMU is what frontends like virt-manager and Proxmox use under the hood to run Virtal Machines, however you can use QEMU entirely on its own.
 
 - [QEMU Introduction and Essential Commands](https://www.qemu.org/docs/master/system/introduction.html)
 - [superuser: Forwarding Ports to QEMU Guest](https://superuser.com/questions/1706286/qemu-configuration-to-host-a-linux-with-ssh-and-http-on-windows)
@@ -794,21 +449,282 @@ kvm -no-reboot -m 4096 \
     It's unclear how to resolve this, or why it's happening. The ubuntu.img disk can be chrooted into from the host, so this needs investigated further.
 
 
-### Security
+## Proxmox
 
-Under the hood, virt-manager and libvirt are run by QEMU / KVM.
+Under the hood Proxmox uses KVM + QEMU virtual machine technologies, though it's all handled through either the Proxmox API or the `pve` commands. See the dedicated [Proxmox note](./proxmox.md) for more details.
 
-!!! note "Security Overview"
 
-    [QEMU considers the following to be *untrusted*](https://www.qemu.org/docs/master/system/security.html):
+## Virt-Manager
 
-    - Guest
-    - User-facing interfaces (e.g. VNC, SPICE, WebSocket)
-    - Network protocols (e.g. NBD, live migration)
-    - User-supplied files (e.g. disk images, kernels, device trees)
-    - Passthrough devices (e.g. PCI, USB)
+*Virt-Manager is a GUI application. Think of Virt-Manager as an equivlent to Hyper-V, VMware Workstation, or VirtualBox.*
 
-    It's recommended to read through that entire page if you plan to leverage QEMU / KVM or similar technologies like Proxmox to run untrusted code.
+- <https://virt-manager.org/>
+- <https://github.com/virt-manager/virt-manager>
+
+### Install
+
+Install the utilties and add your user(s) you want to access the VM's to the libvirtd group.
+
+```bash
+# Debian / Ubuntu
+sudo apt install -y virt-manager
+sudo usermod -aG libvirtd $USER
+```
+
+
+### Paths
+
+| Path | Description |
+| --- | ---
+| `/etc/libvirt/qemu` | VM XML configs |
+| `/var/lib/libvirt/images` | VM disks |
+| `/var/lib/libvirt/qemu/nvram` | EFI Vars |
+| `/var/lib/libvirt/qemu/snapshot/<vm-name>/<snapshot-name>.xml` | Snapshot XML configs |
+| `/etc/libvirt/qemu/networks/` | Network configurations |
+| `/etc/libvirt/nwfilter/` | Network filtering configurations |
+
+
+### Permissions
+
+On Ubuntu 22.04 and higher, these are the default path permissions. Essentially `/var/lib/libvirt` itself and everything below should owned by `root:root` *except* for `/var/lib/libvirt/qemu` which is owned by `libvirt-qemu:kvm`.
+
+```
+drwxr-xr-x  2 root         root 4096 Mar 13  2025 .
+drwxr-xr-x  2 root         root 4096 Sep 10  2025 ..
+drwxr-x---  2 root         root 4096 Jul  5  2025 boot
+drwxr-xr-x  2 root         root 4096 Mar 13  2025 dnsmasq
+drwxr-x---  2 root         root 4096 Mar 13  2025 images
+drwxr-x---  2 libvirt-qemu kvm  4096 Mar 13  2025 qemu
+drwx------  2 root         root 4096 Jul  5  2025 sanlock
+drwxr-x---  2 root         root 4096 Mar 11  2025 swtpm
+```
+
+This is important to know if you want to store virtual machines in non-default paths.
+
+
+### Commands
+
+`virsh` allows you to automate and control virtual machine behavior from the CLI.
+
+| Command | Description |
+| --- | --- |
+| `virsh list --all` | List all VMs |
+| `virsh [start|stop|shutdown|reset] <vm-name>` | Control VM state |
+
+
+#### Clone Commands
+
+To simply create a clone of a template, and snapshot the newly cloned VM with a snapshot titled "clone":
+
+```bash
+virt-clone --original <source-vm-name> --name <new-vm-name> --auto-clone && virsh snapshot-create-as <new-vm-name> clone
+```
+
+
+#### Snapshot Commands
+
+!!! note "Snapshot Requirements"
+
+    VMs must have a disk image associated with them to take and modify snapshots.*
+
+| Command | Description |
+| --- | --- |
+| `virsh snapshot-list <vm-name>` | List all snapshots of `<vm-name>` |
+| `virsh snapshot-create-as <vm-name> <snapshot-name> --description "<description>"` | Take a snapshot |
+| `virsh snapshot-revert <vm-name> <snapshot-name>` | Revert to `<snapshot-name>` |
+| `virsh snapshot-delete <vm-name> <snapshot-name>` | Delete a snapshot |
+
+
+#### Networking Commands
+
+| Command | Description |
+| --- | --- |
+| `virsh net-list --all` | List all available `<network-name>`s |
+| `virsh net-dhcp-leases <network-name>` | List all current DHCP leases on `<network-name>` if it's managed via virt-manager / dnsmasq |
+| `virsh domiflist <vm-name>` | List all network interfaces attached to `<vm-name>` |
+| `virsh domifaddr <vm-name> [--source agent|arp|lease]` | Get IP information from `<vm-name>`, optionally using one of three methods |
+| `virsh net-dumpxml <network>` | Output the virtual network information as an XML dump to stdout. |
+| `virsh net-create <network> [--validate]` | Create a transient (temporary) virtual network from an XML file and instantiate (start) the network. |
+| `virsh net-define <network> [--validate]` | Define an inactive persistent virtual network or modify an existing persistent one from the XML file. |
+| `virsh net-undefine <network>` | Undefine the configuration for a persistent network. If the network is active, make it transient. |
+| `virsh net-edit <network>` | Edit the XML configuration file for a network. |
+| `virsh net-list [--all]` | Returns the list of active networks. |
+| `virsh net-start <network>` | Start a (previously defined) inactive network. |
+| `virsh net-destroy <network>` | Destroy (stop) a given transient or persistent virtual network specified by its name or UUID. This takes effect immediately. |
+| `virsh nwfilter-define <filter> [--validate]` | Define or update a network filter from an XML file |
+| `virsh nwfilter-undefine <filter>` | Undefine a network filter |
+| `virsh nwfilter-dumpxml <filter>` | Network filter information in XML |
+| `virsh nwfilter-list` | List network filters |
+| `virsh nwfilter-edit <filter>` | Edit XML configuration for a network filter |
+
+
+### Networking
+
+!!! warning "Tailscale and Exit Nodes"
+
+	If you use tailscale and force all traffic out of an exit node, this may break routing on your libvirtd instance. Simply unset the exit node to verify this.
+
+    ```bash
+    sudo tailscale set --exit-node=''
+    ```
+
+libvirtd VM's appear under `ip a` as `vnetX`, which you can observe under `kern.log` when a VM comes online.
+
+
+#### Internal Networking
+
+These can be created under Edit > Connection Details > Virtual Networks
+
+!!! tip "pfSense with Virtual Networks"
+
+    The examples below are for a pfSense router VM to have it's own internal LAN and OPT interfaces that are purely virutal, and cannot be seen by or talk to the host's networking interfaces.
+
+- Choose "Add"
+- Name: `pfsense_lan` (`pfsense_opt1`, `pfsense_opt2`...)
+- Mode: Isolated
+- Enable IPv4
+	- Disable DHCP
+	- Delete all the other IPv4 information (this can be provisioned by pfSense)
+	- DNS can be "Custom: `<blank>`"
+- *IPv6 must remain disabled for now, it requires a hard-coded address*
+- Once created you should see "Autostart On Boot" checked as well
+
+Ultimately your pfSense VM is routing via NAT through the `default` virt-manager network, and has its own, virtual (isolated) pfsense_lan, pfsense_opt1, and pfsense_opt2, etc. addresses available to it. To connect a VM to pfSense, attach it to any of the virtual (isolated) network interfaces.
+
+!!! tip "Internal Networking Broken?"
+
+    ```bash
+    # Stop all VMs,
+    # Quit virt-manager
+    # Stop libvirt and all related services
+    sudo systemctl stop libvirtd libvirtd-ro.socket libvirtd.socket libvirtd-admin.socket
+
+    # Kill the libvirt dnsmasq process(es)
+    sudo pkill -f dnsmasq
+    ```
+
+
+#### Creating Networks
+
+This example deletes the generated xml config under `/etc/libvirt/qemu`, and uses the built in template from `/usr/share/libvirt` to reprovision a totally new default NAT network.
+
+Once you've powered down or paused all VMs, quit `virt-manager` and its system tray icon. The entire bash block below is safe to copy and paste.
+
+```bash
+sudo systemctl restart libvirtd
+sudo virsh net-list --all
+sudo virsh net-undefine default
+sudo virsh net-destroy default
+sudo rm -f /etc/libvirt/qemu/networks/default.xml
+sudo virsh net-define /usr/share/libvirt/networks/default.xml
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo virsh net-list --all
+systemctl status libvirtd
+```
+
+
+#### Filtering Network Traffic
+
+!!! abstract "nwfilter vs Host Firewall"
+
+    Instead of using a host utility like `iptables` or `ufw` to manage virtual machine network filtering, it's better to use libvirt's built-in `nwfilter` directly to ensure rules are being applied to machines correctly. This is most useful when VM's are either bridged, or NAT'd without a router / firewall in front of them.
+
+- [libvirt.org/firewall](https://libvirt.org/firewall.html#the-network-filter-driver)
+- [libvirt.org/formatnwfilter](https://libvirt.org/formatnwfilter.html)
+- [`nwfilter` CLI](https://libvirt.org/formatnwfilter.html#command-line-tools)
+- [RedHat: Apply Network Filtering](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-virtual_networking-applying_network_filtering)
+
+There are a number of pre-built example rules. According to the documentation:
+
+!!! quote ""
+
+    They are all stored in `/etc/libvirt/nwfilter`, but don't edit the files there directly. Use `virsh nwfilter-define` to update them. This ensures the guests have their iptables/ebtables rules recreated.
+
+To apply nwfilter rules, we need to:
+
+- Create the XML file, defaults are under `/etc/libvirt/nwfilter/<rule-name>.xml`
+- Define the new file as a rule with `virsh nwfilter-define`
+- Add a `<filterref/>` reference to this rule in a VM's network configuration XML
+- Verify the rules are working
+
+---
+
+##### Example: Block Tailnet Access
+
+This is useful if for example your host has access to Tailnet resources that an untrusted guest VM should not be able to reach.
+
+Create a custom rule by referencing [the custom rule examples](https://libvirt.org/formatnwfilter.html#writing-your-own-filters). We can build one that uses the existing `clean-traffic` filter as a base reference, and adds a "drop" rule to all outbound traffic destined for `100.64.0.0/10` to prevent VM's from accessing Tailnet endpoints they shouldn't be able to see.
+
+```bash
+sudo nano /etc/libvirt/nwfilter/no-tailnet-traffic.xml
+```
+
+!!! tip "Generate a UUID"
+
+    In Linux you can create a UUID using a proc path. Credit to [rpinz](https://github.com/rpinz) for this:
+
+    ```bash
+    cat /proc/sys/kernel/random/uuid
+    dc48344d-99fa-42c2-8db8-4eeaea0116f6
+    ```
+
+The priority values are left as the defaults described in the documentation.
+
+```xml
+<filter name='no-tailnet-traffic' chain='ipv4' priority='-700'>
+  <uuid>dc48344d-99fa-42c2-8db8-4eeaea0116f6</uuid>
+  <!-- Reference the clean traffic filter to prevent
+       MAC, IP and ARP spoofing. By not providing
+       and IP address parameter, libvirt will detect the
+       IP address the VM is using.
+
+       https://libvirt.org/formatnwfilter.html#writing-your-own-filters
+  -->
+  <filterref filter='clean-traffic'/>
+
+  <!-- Drop all outbound traffic to the CGNAT ranges, or
+       100.64.0.0/10, which is also used in Tailnets.
+       This prevents VM's from talking to endpoints that
+       hosts can reach over Tailnets.
+
+       By referencing the clean-traffic filter above, the
+       rule is dynamically obtaining each VM's $IP address
+       when this filter applies. That's why a srcipaddr and
+       srcipmask aren't used here.
+
+       Since CGNAT ranges are exclusively IPv4, this only
+       applies to the <ip/> protocol in libvirt's nwfilter.
+
+       https://libvirt.org/formatnwfilter.html#reserved-variables
+  -->
+  <rule action='drop' direction='out' priority='500'>
+    <ip dstipaddr='100.64.0.0' dstipmask='255.192.0.0'/>
+  </rule>
+</filter>
+```
+
+!!! tip "Nested Filter References"
+
+    As you can probably tell from the example, you can build rules by referencing other rules, that reference other rules, and so on.
+
+Save it, then define it as a new `nwfilter` rule. `--validate` ensures there are no syntax issues.
+
+```bash
+sudo virsh nwfilter-define /etc/libvirt/nwfilter/no-tailnet-traffic.xml --validate
+```
+
+Add the following into the `<interface/>` block within a guest VM's NIC XML data.
+
+```xml
+  <filterref filter='no-tailnet-traffic'/>
+```
+
+Reboot the VM if necessary and verify that the rules are working.
+
+!!! note "Adding Filters to Networks"
+
+    Initially adding a `<filterref/>` block to a network such as the `default` network was tried. It appears these rules must be applied per-machine. Until a way is found to apply this globally per-network, assume this is true.
 
 
 ### Backup and Restore
@@ -826,4 +742,119 @@ Under the hood, virt-manager and libvirt are run by QEMU / KVM.
 ```bash
 sudo rsync -arv --delete --safe-links /var/lib/libvirt/images/ /media/user/external/Virtual-Machines/libvirt/var_lib_libvirt_images/
 sudo rsync -arv --delete --safe-links /etc/libvirt/qemu/ /media/user/external/Virtual-Machines/libvirt/etc_libvirt_qemu/
+```
+
+
+### Troubleshooting
+
+#### Blank GUI (Screen Lock)
+
+!!! tip "Disable Screen Lock"
+
+    On guest machines with a GUI, sometimes it's common for the screen to remain blank after the guest's screen lock timeout is reached, even if you try to interact with the guest via ssh to restart the gdm session.
+
+    *This will need debugged further, as it's likely something relating to the spice or qemu guest agents tripping over something when the guest screen locks.*
+
+    The easiest way to diagnose and resolve this is to simply disable screen locking for the guest.
+
+
+## SPICE
+
+Some machines will install the `spice-vdagent` by default, however others (Kali) may require you install it after you install the guest.
+
+```bash
+sudo apt update; sudo apt install -y spice-vdagent
+```
+
+Sometimes the SPICE connection will go completely blank after some time. This could either be from **Power Saver settings on the guest**, or an issue with the SPICE agent / server.
+
+!!! tip "Blank or frozen SPICE connection on guest sleep"
+
+    You should configure QEMU guests to never fall asleep or go blank if this is happening frequently. Alternatively pause the guest when it's not in use.
+
+!!! tip "Blank or frozen SPICE connection on host wake"
+
+    Simply leave QEMU VM's running when putting the host to sleep. They'll continue to be running and operating as normal when the host wakes again.
+
+Restart the SPICE server on the host for that VM:
+
+```bash
+# TO DO
+```
+
+
+### Clipboard
+
+If you're concerned about guests being able to steal the clipboard data from your host during use, you can temporarily pause the guest while you copy / paste credentials from your clipboard. Once a guest is paused it will no longer have access to the clipboard contents.
+
+You can also of course just close the SPICE window and reopen it later.
+
+
+### Windows Guests
+
+Windows does not come with the drivers for libvirt or the spice-agent process installed. This means guest enhancements don't work out of the box.
+
+- [SPICE Guest Tools (Windows, Latest)](https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe)
+- [SPICE User Manual (See "Windows guest" section)](https://www.spice-space.org/spice-user-manual.html)
+- [chef/bento KVM/QEMU Support for Windows Templates](https://github.com/chef/bento?tab=readme-ov-file#kvmqemu-support-for-windows)
+
+If you follow the links through the Fedora project, eventually it points from [here](https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html) to [here](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md). Basically, without a RedHat machine + subscription, you won't have access to signed drivers for Windows to load without allowing test drivers to load (not ideal if this VM will be battle-tested or exposed to threats).
+
+!!! tip "Windows GUI Alternatives"
+
+	Given the requirement for the unsigned drivers to leverage the SPICE connection, there are a few clever alternatives:
+
+    - The new Windows App may offer some interesting solutions for networked or cloud machines on your Microsoft account
+    - You could use remmina to RDP into the Windows guest (remmina can be installed as a snap or flatpak for security sandboxing the client)
+    - You could SSH into Windows
+    - In virtual networks where you'd need a jump host to connect from your host to the guest, you could RDP from a neighboring Linux guest in that subnet
+
+
+#### RDP + Remmina
+
+Enable RDP on the Windows Guest.
+
+- Settings > System > Remote Desktop > Enabled Remote Desktop: "On"
+
+Install Remmina on your host:
+
+```bash
+sudo snap install remmina
+```
+
+- Configure user, password, and server IP
+- Set resolution to "Use initial window size" and after connecting for the first time, resize the window as needed, then reconnect once more
+- Advanced > Quality > Set to "Best" (great for local VM's)
+- Optionally disable Clipboard synchronization if you don't want the remote machine to "see" your clipboard
+
+
+#### OpenSSH-Server
+
+An alternative solution is installing [OpenSSH-Server on Windows](https://github.com/straysheep-dev/windows-configs/blob/main/Manage-OpenSSHServer.ps1).
+
+!!! note "winget with the program"
+
+    If installing winget on an evaluation copy of Windows Server, you will need to download the msixbundle file and license xml file from GitHub's release page. Otherwise you'll get a license error.
+
+    See [winget-cli issue #700](<https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714>).
+
+```powershell
+# Download the msixbundle and xml license file from the latest releases.
+# https://github.com/microsoft/winget-cli/releases
+# Use Add-AppxProvisionedPackage to use the -LicensePath argument.
+Add-AppxProvisionedPackage -Online -PackagePath .\Microsoft.DesktopAppInstaller_*.msixbundle -LicensePath .\*_License1.xml -Verbose
+```
+
+Install the latest PowerShell + OpenSSH Server, optionally Windows Terminal
+
+```powershell
+winget install --id Microsoft.PowerShell -e --source winget
+winget install --id Microsoft.OpenSSH.Beta -e --source winget
+winget install --id Microsoft.WindowsTerminal -e
+```
+
+Allow SSH through the firewall.
+
+```powershell
+New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 > $null
 ```
