@@ -2640,8 +2640,47 @@ This includes general network information as well as network-focused tools.
 ??? info "linPEAS (PEASS-ng)"
 
 	- [linPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS)
+	- [PEASS-ng/parsers](https://github.com/peass-ng/PEASS-ng/tree/master/parsers)
 	- <https://github.com/peass-ng/PEASS-ng>
 	- <https://gitlab.com/kalilinux/packages/peass-ng/>
+
+	Basic usage:
+
+	```bash
+	cd ~/Downloads
+	wget 'https://gitlab.com/kalilinux/packages/peass-ng/-/raw/kali/master/linpeas.sh'
+	bash ./linpeas.sh | tee ~/linpeas.log.1
+	```
+
+	For targeted reviews:
+
+	```bash
+	targeted_checks='system_information
+	container
+	cloud
+	procs_crons_timers_srvcs_sockets
+	network_information
+	users_information
+	software_information
+	interesting_files
+	api_keys_regex'
+
+	for check in targeted_checks
+	do
+		bash ./linpeas.sh -q -N -o "$check" | tee "$HOME/linpeas_$check_$(date +%FT%T).log"
+	done
+	```
+
+	For system hardening reports and diffs over time:
+
+	```bash
+	# Generate JSON and HTML log files
+	mkdir ~/src && cd ~/src
+	git clone https://github.com/peass-ng/PEASS-ng.git
+	cd PEASS-ng/parsers
+	python3 ./peas2json.py ~/Documents/linpeas.log.1 ~/Documents/linpeas.log.json
+	python3 ./json2html.py ~/Documents/linpeas.log.json ~/Documents/linpeas.log.html
+	```
 
 ??? danger "GTFOBins"
 
@@ -2671,6 +2710,7 @@ This includes general network information as well as network-focused tools.
 ??? info "winPEAS (PEASS-ng)"
 
 	- [winPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/winPEAS)
+	- [PEASS-ng/parsers](https://github.com/peass-ng/PEASS-ng/tree/master/parsers)
 	- <https://github.com/peass-ng/PEASS-ng>
 	- <https://gitlab.com/kalilinux/packages/peass-ng/>
 
@@ -2878,6 +2918,7 @@ This includes general network information as well as network-focused tools.
 ??? info "macPEAS (PEASS-ng)"
 
 	- [linPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS)
+	- [PEASS-ng/parsers](https://github.com/peass-ng/PEASS-ng/tree/master/parsers)
 	- <https://github.com/peass-ng/PEASS-ng>
 	- <https://gitlab.com/kalilinux/packages/peass-ng/>
 
@@ -3296,6 +3337,20 @@ This includes general network information as well as network-focused tools.
 
 
 ### :simple-linux: Linux
+
+??? tip "Lynis"
+
+	> Security auditing tool for Linux, macOS, and UNIX-based systems. Assists with compliance testing (HIPAA/ISO27001/PCI DSS) and system hardening. Agentless, and installation optional.
+
+	- <https://github.com/cisofy/lynis>
+
+	> Some distributions don't provide an up-to-date version. The very latest developments can be obtained via git.
+
+	```bash
+	git clone https://github.com/CISOfy/lynis
+	cd lynis && git checkout tags/3.1.6  # pin to a release tag
+	./lynis audit system
+	```
 
 ??? tip "Kernel Lockdown Mode"
 
