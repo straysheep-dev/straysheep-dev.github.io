@@ -560,12 +560,12 @@ virt-clone --original <source-vm-name> --name <new-vm-name> --auto-clone && virs
 
 ### Networking
 
-!!! warning "Tailscale and Exit Nodes"
+!!! tip "Tailscale and Exit Nodes"
 
-	If you use tailscale and force all traffic out of an exit node, this may break routing on your libvirtd instance. Simply unset the exit node to verify this.
+	If you use tailscale and force all traffic out of an exit node, this may break routing on your libvirtd instance if you don't include the `--exit-node-allow-lan-access` option. Tailscale will see any traffic coming from internal VM's as "local" and drop it, in fact, you won't even be able to ping the VM's from your host anymore until you allow lan access.
 
     ```bash
-    sudo tailscale set --exit-node=''
+    sudo tailscale set --exit-node=<some-exit-node> --exit-node-allow-lan-access
     ```
 
 libvirtd VM's appear under `ip a` as `vnetX`, which you can observe under `kern.log` when a VM comes online.
