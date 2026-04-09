@@ -35,15 +35,26 @@ A guide to choosing, deploying, and integrating UniFi into infrastructure.
 
 The UniFi network stack is the management OS that handles all network devices. Gateways, switches, APs, and more. UniFi has a cloud-hosted option as well as a physical device (called a CloudKey) that handles this for you.
 
-!!! tip "Self-host or Gateway"
+!!! tip "Self-hosting vs Gateway"
 
-	[The network OS can be self-hosted](https://help.ui.com/hc/en-us/articles/34210126298775-Self-Hosting-UniFi). All(?) UniFi gateway devices have the network controller OS built-in. If you're not adding a gateway immediately, it's highly recommended to simply self-host the network controller on a Linux VM in something like Proxmox. ARM does not yet appear to be supported, so Raspberry Pi's aren't an option until an arm64 release happens.
+	[The ~~Network~~ UniFi OS can be self-hosted](https://help.ui.com/hc/en-us/articles/34210126298775-Self-Hosting-UniFi). All(?) UniFi gateway devices have the Network controller software built-in. ~~If you're not adding a gateway immediately, it's highly recommended to simply self-host the network controller on a Linux VM in something like Proxmox~~. ARM does not yet appear to be supported, so Raspberry Pi's aren't an option until an arm64 release happens.
 
 	A CloudKey only makes sense if you:
 
 	- Need access to the other stacks outside of Network (Protect, Talk, Connect, and Access) and do not have the hardware for those
 	- Do not have the infrastructure to self-host
 	- Do not want to use the cloud-hosted option which has a subscription cost
+
+!!! warning "Self Hosting: Network Controller :octicons-arrow-right-16: UniFi OS"
+
+    As of March in 2026, [the self-hosted Network Controller option is being deprecated for a more complete self-hosted UniFi OS experience](https://help.ui.com/hc/en-us/articles/34210126298775-Self-Hosting-UniFi). This will appear to resolve some issues, but so far is causing a few worth noting:
+
+    - The Network software version is "stuck" on v10.1.85, which has a critical flaw ([CVE-2026-22559](https://community.ui.com/releases/Security-Advisory-Bulletin-062-062/c29719c0-405e-4d4a-8f26-e343e99f931b))
+    - Migrating to UniFi's self-hosted OS requires a complete re-deployment
+    - Does not support an apt repo + key signing like before (yet)
+    - The Network stack that ships in UniFi OS is older than the latest Network stack, meaning configs may not transfer
+
+    So far this seems messy and will need further review.
 
 !!! tip "Management Hidden in Menus"
 
@@ -64,22 +75,227 @@ The UniFi network stack is the management OS that handles all network devices. G
     - You can safely change this to daily checks
 
 
+---
+
 ### Gateways
 
 Gateways can vary in capabilities containing some or all of the following features:
 
-- Firewall (always?)
-- Routing (always?)
-- Network Controller stack (always?)
-- IDS
-- Integrated WiFi
-- Switching (does each port have full 1/2.5/10GbE capability or is it a shared backplane?)
+- Firewall + Routing
+- Network Controller Stack
+- Suricata IPS, Honeypot
+- Integrated WiFi (Hardware dependent)
+- Switching (Does each port have full 1/2.5/10GbE capability or is it a shared backplane?)
+- Other UniFi Integrations (Protect)
 
-The key is, until this is tested with specific gateways and proven otherwise, it appears **you cannot adopt a gateway appliance into an existing self-hosted network controller**. In other words, if you're already running another stack (like pfSense or OPNSense and OpenWRT as the "heart" of your network) but adding UniFi devices to build and extend functionaility such as switching or WiFi, you'll have two options:
+!!! abstract "Automation"
 
-- Allow the new gateway to take the place of your self-hosted controller server, use the controller as a fallback if you ever remove the gateway
-- Have "two sites", where the self-hosted controller and gateway are managed separately
+    UniFi has no real infrastructure-as-code support in the same way OpenWrt or pfSense might.
 
+    If you already self-host a Network Controller, you could attempt to restore the backup to the Gateway. ==In my case, I opted to rebuild from scratch, to avoid any issues with this==.
+
+    This was reviewed before migrating a single lab network (from pfSense + the self-hosted Network Server) to a UniFi Gateway appliance taking over the entire networking stack. There does not appear to be a single, repeatable way to convert an existing config from either pfSense, OPNsense, or even really OpenWrt to a format a UniFi Gateway can ingest.
+
+    **For the most part this was a manual lift-and-shift.** That said, there are a few interesting projects that were discovered while reviewing possible network config automation that are worth highlighting (thanks to [t3cht0n1c](https://github.com/t3cht0n1c))
+
+    - [ktbyers/netmiko](https://github.com/ktbyers/netmiko)
+    - [napalm-automation/napalm](https://github.com/napalm-automation/napalm)
+    - [napalm-automation/napalm-ansible](https://github.com/napalm-automation/napalm-ansible)
+
+!!! tip "Preconfiguring"
+
+    Besides properties unique to individual switch ports, nearly everything can be preconfigured in UniFi (switches even have a global profile you can apply before assigning unique details like VLANs) This way you can attach the Gateway appliance to your current LAN, connect it to your UniFi account, and complete the full setup before swapping it in to be the primary "edge" appliance. This is very useful to reduce downtime, and to simply see how it runs for a while before completing the migration.
+
+**Networking Policies**
+
+Subnets, VLANs, Routing, and more.
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Seamless__
+
+    ---
+
+    - Easy to create each network + VLAN
+    - Preconfigure WiFi networks, use existing SSIDs and keys
+    - Created a global switch profile
+    - Encrypted DNS is simple to configure
+    - [Wired and Wireless MAC restrictions (for easy setup)](https://help.ui.com/hc/en-us/articles/18565355579799-MAC-Address-Restricting)
+    - [RADIUS-based MAC authentication (for scale)](https://help.ui.com/hc/en-us/articles/115004589707-MAC-Based-VLAN-Assignment-Using-802-1x-in-UniFi-Network)
+    - [Required ports + services are documented](https://help.ui.com/hc/en-us/articles/218506997-Required-Ports-Reference)
+    - [UPnP is not enabled by default](https://help.ui.com/hc/en-us/articles/12648697125783-UniFi-Gateway-UPnP)
+    - [Supports OpenVPN, Wireguard, IPsec, L2TP, Teleport](https://help.ui.com/hc/en-us/articles/7951513517079-UniFi-Gateway-Introduction-to-VPNs)
+
+
+-   :material-web-minus:{ .lg .middle } __Issues__
+
+    ---
+
+    - Auto-Scale Network must be turned off
+    - [mDNS, local discovery protocols enabled and allowed by default](https://help.ui.com/hc/en-us/articles/12648701398807-UniFi-Gateway-Multicast-DNS)
+    - Basic static IP assignments seemingly cannot be pre-configured
+    - MAC restrictions may not be available to your hardware ports
+    - The "Default" (VLAN 1) network seemingly must be used for device adoption
+    - Different DHCP restriction methods compared to pfSense
+    - Individual switch ports must be configured after adoption
+    - Tailscale is not officially supported
+
+</div>
+
+!!! tip "The `Default` Network and Adopting Devices "
+
+    This seems to be a requirement for device adoption to not break. Attempting to adopt a switch or AP on a custom VLAN seems to bring down the network shortly after adoption, anytime you make further changes.
+
+    For this reason, treat the `Default` VLAN 1 as the "management" network. You can even create a separate management VLAN to host other, non-UniFi devices for admin use.
+
+!!! tip "No WAN Inbound Ports"
+
+    If you manage your Gateway locally via a jump-box, or remotely via <https://unifi.ui.com/>, you don't need any inbound listeners on the WAN interface (and none should be there by default).
+
+    Always confirm this with `nmap` or a similar tool.
+
+**Firewall Policies**
+
+UniFi's firewall policies are somewhat confusing at first, even when exploring via `nmap`, `tcpdump`, and other tools. They work differently compared to OpenWrt and pfSense.
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Seamless__
+
+    ---
+
+    - Settings :octicons-arrow-right-16: Networks, set "==Default security policy==" to "==Block all==" for the equivalent of pfSense's "base-state"
+    - Enable [Zone-based policies](https://help.ui.com/hc/en-us/articles/115003173168-Zone-Based-Firewalls-in-UniFi) (confusing at first but easy to work with)
+    - Create a basic pair of zones: "Trusted" and "Untrusted", assign the relevant networks
+    - ["Isolate networks" prevents VLAN-to-VLAN traffic, can be bypassed with an allow rule too if needed](https://help.ui.com/hc/en-us/articles/18965560820247-Implementing-Network-and-Client-Isolation-in-UniFi)
+    - `tcpdump` available by default via SSH, easily validate rules this way with `nmap`
+
+    Being strict with inbound packets to the Gateway itself requires two policies:
+
+    - Allow `53/udp` and `67+68/udp` for DNS and DHCP
+    - Block all service ports on the Gateway
+
+-   :material-web-minus:{ .lg .middle } __Issues__
+
+    ---
+
+    No matter what, `20201/tcp` (dnsmasq) has a priority rule you cannot block.
+
+    - `ss -anp -A inet` confirms it's dnsmasq
+    - It appears to be related to network filtering, this seems fine
+
+</div>
+
+**Security Policies**
+
+UniFi has some interesting security features available that are either baked-in or optional check-boxes.
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Seamless__
+
+    ---
+
+    - Suricata IPS built-in
+    - Honeypot service per-vlan built-in
+    - Rogue DHCP server detection
+    - Easy Geo-IP blocking
+    - DNS over TLS / HTTPS support built-in
+    - Debian and OpenWrt under the hood, opportunities for unofficial customization (voids warranty)
+
+-   :material-web-minus:{ .lg .middle } __Issues__
+
+    ---
+
+    - "Everything" runs as root (not uncommon for network gear but worth noting)
+    - Plan to ship IPS logs to another host for real analysis
+
+</div>
+
+!!! note "Honeypot Usage"
+
+    You can simply enable the honeypot services to listen on a specific IP in each network. If anything hits one of those services, it will log an alert (as long as you've configured alerting on honeypot activity, which does not get enabled by default).
+
+    Here's what `nmap` returns for the honeypot:
+
+    ```bash
+    PORT     STATE SERVICE       REASON         VERSION
+    21/tcp   open  ftp?          syn-ack ttl 64
+    22/tcp   open  ssh?          syn-ack ttl 64
+    23/tcp   open  telnet?       syn-ack ttl 64
+    25/tcp   open  smtp?         syn-ack ttl 64
+    80/tcp   open  http?         syn-ack ttl 64
+    110/tcp  open  pop3?         syn-ack ttl 64
+    445/tcp  open  microsoft-ds? syn-ack ttl 64
+    1433/tcp open  ms-sql-s?     syn-ack ttl 64
+    2222/tcp open  EtherNetIP-1? syn-ack ttl 64
+    8000/tcp open  http-alt?     syn-ack ttl 64
+    ```
+
+**Administration**
+
+Remote management via <https://unifi.ui.com/> and the mobile app are invaluable features, with trust being placed in UniFi's infrastructure for these to work. Some "classic" remote admin capabilities are somewhat limited though.
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Seamless__
+
+    ---
+
+    - Manage through <https://unifi.ui.com/> or the mobile app
+    - Site manager for visibility into multiple locations
+    - Good UI design and feel
+    - Auto-updates are stable and constant for all UniFi infra (this may even be the selling point)
+    - Robust user management (less for SSH access, mainly for UI)
+
+-   :material-web-minus:{ .lg .middle } __Issues__
+
+    ---
+
+    - No way to configure SSH key-based auth via the UI
+    - No VM image available to mimic real hardware and test policy changes on (yet)
+    - UI is can feel unintuitive in some sections, features buried
+    - Limited insight into the system internals without SSH or external logging
+
+    Inconsistent remote debugging and console access methods:
+
+    - Some devices like APs only support a web-based terminal session
+    - Some devices only support SSH terminal sessions (no web UI terminal)
+
+</div>
+
+**Logging Policies**
+
+Logging and alerting on activity. ==This is where UniFi falls short==.
+
+<div class="grid cards" markdown>
+
+-   :material-web-plus:{ .lg .middle } __Seamless__
+
+    ---
+
+    - Easy to setup (some) specific alerts or webhooks on various triggers
+    - Settings :octicons-arrow-right-16: CyberSecure :octicons-arrow-right-16: Traffic Logging options
+        - Netflow (IPFIX) data can be shipped to an external host
+        - Flow logging can be enabled to enrich your data and alerts
+
+-   :material-web-minus:{ .lg .middle } __Issues__
+
+    ---
+
+    - ==Cannot see raw logs==
+    - Logs in the UI are *very* opaque in how they work, inconsistent, not very useful
+    - Most "base" alerting and logging is not enabled by default
+    - No DNS query/reply logging options
+    - An external host is *required* for raw data processing and review
+
+</div>
+
+!!! note "DNS Logs via SSH"
+
+    TODO: Review how and where these logs can be reviewed in real-time over SSH.
+
+---
 
 ### Switches
 
