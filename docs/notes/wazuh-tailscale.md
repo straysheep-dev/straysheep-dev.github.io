@@ -1124,6 +1124,45 @@ To `/var/ossec/etc/ossec.conf`:
 
 This section details doing the same using Zeek.
 
+Quick-start using the following:
+
+- [docker-zeek (by Active Countermeasures)](https://github.com/activecm/docker-zeek)
+- [Configure local.zeek to write JSON logs](https://docs.zeek.org/en/master/scripts/policy/tuning/json-logs.zeek.html)
+
+All you're doing is dropping a [custom Zeek script configuration into something like `/opt/zeek/share/zeek/site/autoload/210-json-logging.zeek`](https://github.com/activecm/docker-zeek#custom-zeek-scripts)
+
+```bash
+zeek stop
+sudo nano /opt/zeek/share/zeek/site/autoload/210-json-logging.zeek
+```
+
+This is all the file needs to contain:
+
+```conf
+# Custom policy file created by user
+
+# This enables JSON logging (instead of the default TSV)
+# https://docs.zeek.org/en/master/scripts/policy/tuning/json-logs.zeek.html
+@load policy/tuning/json-logs.zeek
+```
+
+Restart Zeek.
+
+```bash
+zeek restart
+```
+
+Point your wazuh-agent's `ossec.conf` file at the "current" Zeek log path for each log you want to ingest:
+
+```xml
+<localfile>
+  <log_format>json</log_format>
+  <location>/opt/zeek/logs/current/dns.log</location>
+</localfile>
+```
+
+Next, you'll need to use a Wazuh decoder for (each) of Zeek's log files. TODO
+
 *⚠️ TO DO: This section is still under construction, check back later! ⚠️*
 
 ---
