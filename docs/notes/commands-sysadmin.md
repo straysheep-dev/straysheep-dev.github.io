@@ -1,5 +1,5 @@
 ---
-title: "Commands: System Administration"
+title: "Commands: Systems"
 icon: material/keyboard
 draft: true
 #date:
@@ -19,7 +19,7 @@ categories:
 ---
 
 
-# :material-keyboard: Commands: System Administration
+# :material-keyboard: System Administration
 
 Useful commands for managing systems.
 
@@ -71,7 +71,7 @@ systemctl is-enabled <unit>      # Returns true if the unit is enabled
 systemctl is-failed <unit>       # Returns true if the unit has failed
 ```
 
-`journalctl` - log viewer
+`journalctl` - Log viewer
 
 ```bash
 journalctl -b [<id>]             # Show logs from "BOOT_ID=<id>" or current boot if none
