@@ -123,6 +123,14 @@ h1:first-of-type {
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/alert-service)
 
+    - :material-shield-half-full:{ .lg .middle } __Compliance Profile Builder__
+
+        ---
+
+        Uses ComplianceAsCode's content release files and Ansible tags to easily create, test, and apply customized profiles
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/compliance-profile-builder)
+
     </div>
 
 === "Certifications"
@@ -188,7 +196,7 @@ h1:first-of-type {
         - Debug policies with Ansible's `-C` and `-D` options
         - Apply, test, and maintain policies with Ansible tags.
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/openscap.md)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](notes/openscap.md)
 
     - :simple-linux:{ .lg .middle } __Linux Utils__
 
@@ -232,7 +240,7 @@ h1:first-of-type {
         - GUI and CLI quirks
         - External storage and ZFS
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/pfsense.md)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](notes/pfsense.md)
 
     - :material-package-variant-plus:{ .lg .middle } __Deploy auditd__
 
