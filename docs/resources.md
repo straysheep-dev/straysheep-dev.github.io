@@ -1422,6 +1422,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [frame.work: Official Distro Support](https://frame.work/desktop?tab=linux)
 	- [Proxmox Forum: AMD Ryzen AI Max+ 395 / Radeon 8060S Support](https://forum.proxmox.com/threads/amd-ryzen-ai-max-395-radeon-8060s-support.168225/)
 
+??? tip "System76"
+
+	> Powerful Linux Computers
+
+	- <https://system76.com/>
+
+	Laptops, desktops, workstations, mini computers, servers, and keyboards. System76 is also the developer / maintainer of [`pop!_os`](https://system76.com/pop/).
+
 ??? tip "Raspberry Pi"
 
 	[**Secure Boot Chain of Trust**](https://github.com/raspberrypi/usbboot/tree/master/docs)
@@ -1439,6 +1447,22 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	In the case of the Pi5, "the BOOTROM *always* verifies the RPi signature and RPi `fw_min_ver` which is defined by the RPi per ROM key". It's also evident from the open issue ([#1857](https://github.com/raspberrypi/firmware/issues/1857)) that loading custom firmware from the EEPROM isn't possible *yet*. Couple that with the BOOTROM and OTP registers containing some factory-programmed data that's not writable, suggests that only properly signed firmware updates can be applied.
 
 	Data sheets or supporting documentation that speaks to this more directly will be quoted or added here over time.
+
+??? tip "Pineapple Pager"
+
+	- [notes/pineapple-pager](./notes/pineapple-pager.md)
+
+
+## :material-network: Networking
+
+??? tip "netmiko"
+
+    - [ktbyers/netmiko](https://github.com/ktbyers/netmiko)
+
+??? example "napalm"
+
+    - [napalm-automation/napalm](https://github.com/napalm-automation/napalm)
+    - [napalm-automation/napalm-ansible](https://github.com/napalm-automation/napalm-ansible)
 
 
 ## :fontawesome-solid-code: DevOps
