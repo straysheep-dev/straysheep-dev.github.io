@@ -1,5 +1,5 @@
 ---
-title: "Network Commands"
+title: "Commands: Network"
 icon: material/console-network
 draft: false
 #date:
@@ -15,7 +15,7 @@ categories:
   - reference
 ---
 
-# :material-console-network: Network Commands
+# :material-console-network: Commands: Network
 
 This post is meant to be a single point of reference for all of the random ways of interacting with and diagnosing network(s) from a machine.
 
