@@ -41,6 +41,58 @@ last | head   # List of last logged in users
 ```
 
 
+### apt
+
+Essential maintenance.
+
+```bash
+sudo apt update -q
+	sudo PATH="$PATH":/usr/bin \
+	DEBIAN_FRONTEND=noninteractive \
+	NEEDRESTART_MODE=a \
+	apt full-upgrade -y \
+	-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
+	sudo apt autoremove --purge -yq
+	sudo apt-get clean
+```
+
+!!! info "Apt Options"
+
+    `DEBIAN_FRONTEND=noninteractive` sets apt to run without live input from a user or admin.
+
+    `NEEDRESTART_MODE=a` is an Ubuntu-specific setting (from 22.04 LTS and later) that automatically restarts services when necessary.
+
+    Options are `a` to auto-restart services unattended, `l` to only list services needing a restart, or `i` to prompt interactively.
+
+    - <https://github.com/liske/needrestart/issues/109>
+    - <https://github.com/liske/needrestart/blob/master/man/needrestart.1>
+
+    Even with the previous variables set, you may be prompted to manage configuration file changes via dpkg, for example when you've modified a file and an update ships a new one. `-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'` will automate this.
+
+    - <https://wiki.debian.org/AutomatedUpgrade>
+    - <https://manpages.debian.org/bullseye/debconf-doc/debconf.7.en.html#Frontends>
+    - <https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-dpkg_options>
+
+Package review commands.
+
+```bash
+apt-mark showauto         # Lists all packages installed automatically / by default
+apt-mark showmanual       # Lists all packages YOU installed
+apt-cache stats           # Show apt-cache stats
+apt-cache show <pkg>      # Show all information about a package
+apt-cache depends <pkg>   # Lists all dependencies of a package
+apt-cache rdepends <pkg>  # Lists what package(s) depend on this one
+
+dpkg -S <pattern>  # Search for a filename from installed packages
+dpkg -l <pattern>  # List packages matching given pattern
+dpkg -s <pkg>      # Report status of specified package
+dpkg -L <pkg>      # List files installed to your system from package-name
+
+```
+
+---
+
+
 ### Systemd
 
 **Systemd Commands**
