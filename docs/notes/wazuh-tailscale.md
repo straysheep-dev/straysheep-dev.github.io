@@ -20,7 +20,7 @@ categories:
   - ansible
 ---
 
-# :material-server-security: Wazuh all your things with Tailscale
+# :material-server-security: Wazuh (SIEM & XDR) x Tailscale
 
 This guide shows you how to get a Wazuh instance running over Tailscale on both Windows and Linux, using Sysmon(+forLinux), auditd, and all the tweaks you'll want to get started. This is ideal for a low resource, low budget, or lab scenario. You could eventually migrate this Wazuh data to a distributed cluster (proxmox), or real hardware if you grow with it.
 
@@ -835,6 +835,25 @@ Paths that will contain a large amount of data:
 - `/var/ossec/queue/vd/feed` Vulnerability data, set a retention policy in `vulnerability-detection` of `ossec.conf` on the manager
 - `/var/ossec/logs` Logs from your endpoints
 
+Index lifecycle management should be considered here too, the [example in the documentation on configuring an alert retention policy](https://documentation.wazuh.com/current/user-manual/wazuh-indexer-cluster/index-lifecycle-management.html#using-the-json-editor) is something that should be set to automate the data retention timeframe.
+
+Follow the steps in that guide, adjusting the timeframe as needed. ==The policy will apply to new indexes going forward, but must be applied manually to existing indexes==.
+
+!!! tip "1000/1000 Shards"
+
+    If you do not have a retention policy configured, you will fill up your shard limit and no longer be showing logs in the dashboard despite recording new logs onto the Wazuh server.
+
+    Two easy ways to catch this behavior:
+
+    - Index Management > Indexes > Search for `wazuh-alert-`, if today's date is missing that's the signal
+    - `tail -F -n 0 /var/log/filebeat/filebeat` and review for a similar error as the one below
+
+    ```txt
+    2026-01-23T04:05:06.789Z        WARN    [elasticsearch] elasticsearch/client.go:123     Cannot index event publisher.Event{Content:beat.Event{Timestamp:time.Time{...
+    # SNIP
+    ...} (status=400): {"type":"validation_exception","reason":"Validation Failed: 1: this action would add [3] total shards, but this cluster currently has [1000]/[1000] maximum shards open;"}
+    ```
+
 ---
 
 ## Central Management
@@ -1118,11 +1137,23 @@ To `/var/ossec/etc/ossec.conf`:
 
 ---
 
-### Zeek
+
+### Suricata
 
 [Documentation already exists for setting up and ingesting logs from Suricata on each endpoint](https://documentation.wazuh.com/current/proof-of-concept-guide/integrate-network-ids-suricata.html).
 
-This section details doing the same using Zeek.
+---
+
+
+### Zeek
+
+!!! note "Wazuh Blog + Guide"
+
+    As of September 2025, the Wazuh blog has a full guide on how to do this with the necessary decoder files and rules available:
+
+    [Network security monitoring with Wazuh and Zeek](https://wazuh.com/blog/network-security-monitoring-with-wazuh-and-zeek/), written by Oluwaseyi Soneye and Harihar Singh.
+
+    The main difference here is we're using Active Countermeasure's docker-zeek project instead of installing and configuring Zeek from scratch.
 
 Quick-start using the following:
 
@@ -1152,18 +1183,32 @@ Restart Zeek.
 zeek restart
 ```
 
-Point your wazuh-agent's `ossec.conf` file at the "current" Zeek log path for each log you want to ingest:
+Point your wazuh-agent's `ossec.conf` file at the "current" Zeek log path for each log you want to ingest (or `*` for all):
 
 ```xml
 <localfile>
   <log_format>json</log_format>
-  <location>/opt/zeek/logs/current/dns.log</location>
+  <location>/opt/zeek/logs/current/*.log</location>
 </localfile>
 ```
 
-Next, you'll need to use a Wazuh decoder for (each) of Zeek's log files. TODO
+Next, follow the steps from the [Wazuh blogpost on Zeek](https://wazuh.com/blog/network-security-monitoring-with-wazuh-and-zeek/) to complete the remaining tasks:
 
-*⚠️ TO DO: This section is still under construction, check back later! ⚠️*
+- Navigate to Server Management > Decoders > `+ Add new decoders file`
+    - Paste in the decoder XML and reload (NOTE: I removed 9 empty unicode chars in VSCode, then took this sha256sum)
+    - SHA256SUM: `52d7f07c6a19f91fa9b01b5c1daadc2a6259a8b43e12566d126415231fce0006  zeek_decoders.xml`
+- Navigate to Server Management > Rules > `+ Add new rules file`
+    - Paste in the decoder XML and reload
+    - SHA256SUM: `d2def072b5f71dc0fc65a83d2fcf000ba45c8293f204a712908cd2675e3e2a5e  zeek_rules.xml`
+
+
+!!! note "Version Control and Automation"
+
+    It's recommended you backup copies of these files to git for future backup/restore actions or automated deployments.
+
+    I've opened [issue #35402](https://github.com/wazuh/wazuh/issues/35402) requesting these files be added to Wazuh by default.
+
+From here you'll see the events accumulating under that agent's Threat Hunting events.
 
 ---
 
