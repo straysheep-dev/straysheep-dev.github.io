@@ -974,6 +974,47 @@ sudo netplan try       # Will roll back if networking is broken or without confi
 sudo netplan apply     # Applies all configuration for the renderers, restarting them as necessary
 ```
 
+Configuring a wireless connection (in addition to an eth connection):
+
+```yaml
+network:
+  version: 2
+  renderer: networkd  # NetworkManager or networkd
+  ethernets:
+    eth0:
+    dhcp4: true
+    dhcp6: false
+  wifis:
+    wlan0:
+      dhcp4: true
+      dhcp6: false
+      regulatory-domain: US
+      access-points:
+        "YourSSID":
+      # Band steering
+          band: 5GHz  # 5GHz, 2.4GHz
+          # Optional: Lock to a specific BSSID
+          # bssid: "aa:bb:cc:dd:ee:ff"
+          auth:
+            # https://netplan.readthedocs.io/en/stable/netplan-yaml/#authentication
+            key-management: sae  # none, psk, psk-sha256, sae, eap, eap-suite-b-192, 802.1x
+            password: "your-passphrase"
+            # Optional: WPA-MGT / EAP connection settings
+            #   You'll want to only use EAP auth and security that's cert-based, where certs
+            #   are validated, and traffic is tunneled.
+            #   All others can be relayed or potentially cracked with tools like eaphammer
+            # method: tls  # tls, ttls, peap, leap, pwd
+            # identity: "user@domain"
+            # anonymous-identity: "anonymous@domain"
+            # password: "your-passphrase"
+            # phase2-auth: tls  # TODO
+            # ca-certificate: /usr/local/share/ca-certificates/certs/ca.pem
+            # client-certificate: /usr/local/share/ca-certificates/certs/client.pem
+            # client-key: /usr/local/share/ca-certificates/private/client.key
+            # client-key-password: "key-passphrase"  # if key is encrypted
+
+```
+
 ---
 
 
