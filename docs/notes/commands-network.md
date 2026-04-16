@@ -15,7 +15,7 @@ categories:
   - reference
 ---
 
-# :material-console-network: Networking
+# :material-console-network: Networking Commands
 
 This post is meant to be a single point of reference for all of the random ways of interacting with and diagnosing network(s) from a machine.
 
@@ -1136,7 +1136,7 @@ Scan for wireless networks:
 nmcli device wifi list [--rescan yes] [ifname wlan0] [bssid <bssid>]
 ```
 
-Connect to or disconnect from a wireless network:
+Connect to or disconnect from a (WPA2/3 personal) wireless network:
 
 ```bash
 # Prompt for the password
@@ -1147,6 +1147,28 @@ nmcli device wifi connect <ssid> password <password> ifname <wlanX>
 
 nmcli device disconnect <wlanX>
 ```
+
+Connect to a WPA-MGT network using a username + password (you'll be prompted):
+
+!!! warning "Missing Documentation?"
+
+	Both Claude and Gemini produce the `802-1x` and `key-mgmt` arguments above when queried. Oddly, there don't appear to be any direct examples of these in the [official Network Manager docs](https://networkmanager.dev/docs/man-pages/).
+
+	Instead, the only place that seems to detail WPA-MGT networking with `nmcli` is the [RHEL documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/assembly_managing-wifi-connections_configuring-and-managing-networking#proc_configuring-a-wifi-connection-with-802-1x-network-authentication-in-an-existing-profile-by-using-nmcli_assembly_managing-wifi-connections). That appears to be the documentation being referenced. There are numerous examples across RHEL 8, 9, and 10 of how you can connect to enterprise WiFi with just CLI tools.
+
+```bash
+nmcli con add type wifi con-name "<SSID>" ssid "<SSID>" \
+  wifi-sec.key-mgmt wpa-eap \
+  802-1x.eap peap \
+  802-1x.phase2-auth mschapv2 \
+  802-1x.identity "<DOMAIN\username>" \
+  ifname <wlanX>
+
+# --ask will prompt for the username and password interactively
+nmcli con up "<SSID>" --ask
+
+```
+
 
 **Expanded Usage :octicons-stack-16:**
 
@@ -1276,7 +1298,100 @@ These blocks emulate the behavior of what you might see when using `netstat` or 
 
 ## nmap
 
+!!! abstract "Network Mapper"
+
+	Perhaps the most well known network scanner available.
+
+	- <https://nmap.org/> ([License](https://nmap.org/npsl/))
+	- <https://nmap.org/book/man.html> ([License](https://nmap.org/book/man-legal.html#man-copyright))
+
+**Installation :material-package-variant-plus:**
+
 ⚠️ TO DO ⚠️
+
+**Practical Usage :material-wrench-cog-outline:**
+
+!!! note "[Output](https://nmap.org/book/man-output.html)"
+
+	`-v[v]`, `-v[1|2|3]` Controls verbosity level, this will show discovered ports and completion time estimates.
+
+	`--stats-every <time>` Controls how often to print a status update to console.
+
+	`--reason` Shows host and port state reasons, including the packets sent and received when possible (based on scan type).
+
+	`--packet-trace` Prints a summary of *every* packet sent and received, much more verbose than `--reason`, useful to see exactly what `nmap` is doing.
+
+	`--open` Only shows hosts with at least one of: ["open", "open|filtered", or "unfiltered" port](https://nmap.org/book/man-port-scanning-basics.html). As of 7.40, implies `--defeat-rst-ratelimit`.
+
+	`-oA <filename>` Outputs all major nmap filetypes, "normal" (.nmap), "grepable" (.gnmap), and XML. The filename argument can use `strftime` conversions like you would with `date +%FT%TZ` for [ISO 8601 time](https://en.wikipedia.org/wiki/ISO_8601).
+
+	`--append-output <filename>` Appends to an existing scan file, doesn't work well with XML
+
+	[Creating HTML reports](https://nmap.org/book/output-formats-output-to-html.html) can be done with `xsltproc` and the XML output type.
+
+	```bash
+	sudo apt update; sudo apt install -y xsltproc
+	xsltproc ./scan.xml -o scan.html
+	```
+
+!!! tip "`--resume` a Scan"
+
+	Requires no additional arguments, as it reads the previous output file(s) arguments and resumes *that* scan. Useful for a long running scan that was `Ctrl+c` canceled or otherwise stopped/unfinished. Works with all major nmap filetypes, "normal" (.nmap), "grepable" (.gnmap), and XML.
+
+	```bash
+	nmap --resume <file>
+	```
+
+!!! tip "Limit Traffic to `-e <iface>`"
+
+	Restricts nmap's network activity to a particular interface. This is an ideal option for ensuring scope, especially when targets are only reachable over a specific interface.
+
+	In the case of scripts with external functionality (vulners, virustotal), they won't work or be accessed aside from Kali itself making a DNS request to the domains.
+
+!!! tip "Check Script Usage with [`--script-help`](https://nmap.org/book/man-nse.html)"
+
+	Prints script help for all scripts matching the the argument. This is useful to understand what scripts do, and what scripts will run based on a category.
+
+	You can specify a single script, a category, or an expresion. For example:
+
+    ```bash
+	nmap --script-help=default
+	nmap --script-help=http*
+    nmap --script-help="http* and safe and not external" | grep -P ^"http\-"
+    ```
+
+!!! tip "[`--top-ports <n>`](https://nmap.org/book/man-port-specification.html)"
+
+	Scans `<n>` number of top ports from the `nmap-services` file (after excluded ports).
+
+	Example: `--top-ports=20`
+
+	[This option can be used for both UDP and TCP simultaneously.](https://danielmiessler.com/blog/nmap-use-the-top-ports-option-for-both-tcp-and-udp-simultaneously/)
+
+!!! tip "Exclude Discovered Hosts for Efficiency"
+
+	`--excludefile <exclude_file>`
+
+	Most useful if you're continuously searching for *new* hosts. Using previous scan results, you can compile an `--excludefile` and keep adding to it. It's formatted the same way as the `-iL` include file is.
+
+!!! tip "[Comparing Scan Results with `ndiff`](https://nmap.org/ndiff/)"
+
+	Compares two XML scan files and prints the diff using `+` and `-` prepended to lines, similar to `diff`.
+
+	See the [ndiff manual](https://nmap.org/book/ndiff-man.html) for various examples.
+
+	```bash
+	sudo apt install -y ndiff  # Kali
+	ndiff -v --text scan-1.xml scan-2.xml
+	```
+
+Essentials:
+
+```bash
+nmap -v -n -Pn -sT --top-ports=20 -e eth0 -T4 --open --reason "$target"  # TCP sweep, no sudo needed
+sudo nmap -v -n -sn -PE -e eth0 -T4 --open --reason "$target"            # Ping sweep
+sudo nmap -v -n -sS -p- -e eth0 -T4 --open --reason "$target"            # Syn scan on all ports
+```
 
 ---
 
