@@ -974,20 +974,60 @@ sudo netplan try       # Will roll back if networking is broken or without confi
 sudo netplan apply     # Applies all configuration for the renderers, restarting them as necessary
 ```
 
-Configuring a wireless connection (in addition to an eth connection):
+!!! quote "[Netplan Config Structure](https://netplan.readthedocs.io/en/latest/structure-id/#general-structure)"
+
+	Netplan configuration files use the YAML format. All /{lib,etc,run}/netplan/*.yaml are considered. Lexicographically later files (regardless of in which directory they are) amend (new mapping keys) or override (same mapping keys) previous ones. A file in /run/netplan completely shadows a file with same name in /etc/netplan, and a file in either of those directories shadows a file with the same name in /lib/netplan.
+
+A hardened base netplan config:
+
+!!! warning "AI Usage"
+
+	The first draft of this idea was created with the help of Sonnet 4.6, the specific details were researched and validated manually.
 
 ```yaml
+# /etc/netplan/10-network-manager-eth-security.yaml
 network:
   version: 2
   renderer: networkd  # NetworkManager or networkd
   ethernets:
-    eth0:
-    dhcp4: true
-    dhcp6: false
-  wifis:
-    wlan0:
+    hardened-eth:
+      match:
+        name: "e*"
+      macaddress: "random"
       dhcp4: true
-      dhcp6: false
+      dhcp6: true
+      # YAML anchor declaration using "&" is later referenced using "*"
+      # See the note under example 2.8 and example 2.10
+      # https://yaml.org/spec/1.2.2/#22-structures
+      dhcp4-overrides: &dhcp-secure
+        # Most overrides only affect the networkd backend, and the network-
+        # manager passthrough section doesn't have options to address these
+        # except for DNS configuration
+        # https://netplan.readthedocs.io/en/latest/netplan-yaml/#dhcp-overrides
+        use-dns: false
+        use-ntp: false
+        # use-routes: false  # Breaks routing, use if you want to control that
+        use-domains: false
+        use-hostname: false
+        # use-mtu: false     # Can also break connections if the network requires a unique mtu
+      dhcp6-overrides: *dhcp-secure
+
+```
+
+Configuring a wireless connection (remember this merges with all existing netplan files):
+
+```yaml
+# /etc/netplan/80-wlan0-connection.yaml
+network:
+  version: 2
+  wifis:
+    hardened-wifi:
+      match:
+        name: "wlan0"
+      renderer: NetworkManager  # NetworkManager or networkd
+      macaddress: "random"
+      dhcp4: true
+      dhcp6: true
       regulatory-domain: US
       access-points:
         "YourSSID":
@@ -1012,6 +1052,17 @@ network:
             # client-certificate: /usr/local/share/ca-certificates/certs/client.pem
             # client-key: /usr/local/share/ca-certificates/private/client.key
             # client-key-password: "key-passphrase"  # if key is encrypted
+          networkmanager:
+            uuid: "uuid-generated-by-networkmanager"
+            name: "YourSSID"
+            passthrough:
+              # Passthrough is used to send options to NetworkManager that netplan doesn't yet support natively
+              # https://netplan.readthedocs.io/en/stable/netplan-everywhere/#limitation
+              wifi.mac-address-randomization: "2"
+              ipv4.ignore-auto-dns: "true"
+              ipv6.ignore-auto-dns: "true"
+              connection.mdns: "0"
+              connection.llmnr: "0"
 
 ```
 
@@ -1049,7 +1100,19 @@ resolvectl status
 
 	`resolvectl` may be used to resolve domain names, IPv4 and IPv6 addresses, DNS resource records and services with the systemd-resolved.service(8) resolver service.
 
+⚠️ TO DO ⚠️
 
+---
+
+
+## systemd-resolved
+
+⚠️ TO DO ⚠️
+
+---
+
+
+## /etc/resolv.conf
 
 ⚠️ TO DO ⚠️
 
