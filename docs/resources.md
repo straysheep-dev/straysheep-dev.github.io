@@ -2327,6 +2327,21 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	The [frequently asked questions page](https://go.dev/doc/faq) has information on why Go was made, the goals of the project, and some history.
 
 
+
+## YAML
+
+!!! abstract "YAML Ain't Markup Language"
+
+	> YAML is a human-friendly data serialization language for all programming languages.
+
+	- <https://yaml.org/>
+	- <https://yaml.org/spec/1.2.2/>
+	- <https://github.com/yaml>
+	- <https://en.wikipedia.org/wiki/YAML>
+
+	Used heavily in [Ansible](https://docs.ansible.com/projects/lint/rules/yaml/?h=yaml), and various configuration files.
+
+
 ## :material-information-variant-circle: Information Technology
 
 ??? tip "RFC"
