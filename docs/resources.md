@@ -1260,21 +1260,38 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://www.proxmox.com/en/>
 	- <https://pve.proxmox.com/pve-docs/>
 
-	The ISO URL points to an /iso/ folder on the Proxmox webiste. Browsing this manually reveals the following files:
+	The ISO URL points to an `/iso/` folder on the Proxmox webiste. Browsing this manually reveals the following files:
 
 	<https://enterprise.proxmox.com/iso/SHA256SUMS.txt>
 	<https://enterprise.proxmox.com/iso/SHA256SUMS.asc>
 
-	You can use these along with the following public key to verify the ISO's integrity.
+	To verify detached signatures, each major version of Proxmox has the public key available under the `/debian/` folder on the same site:
 
-	```bash
-	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 'F4E136C67CDCE41AE6DE6FC81140AF8F639E0C39'
+	<https://enterprise.proxmox.com/debian/>
 
-	# list keys
-	pub   rsa4096/0x1140AF8F639E0C39 2022-11-27 [SC] [expires: 2032-11-24]
-		Key fingerprint = F4E1 36C6 7CDC E41A E6DE  6FC8 1140 AF8F 639E 0C39
-	uid                   [ unknown] Proxmox Bookworm Release Key <proxmox-release@proxmox.com>
-	```
+	You can use these along with the following public key to verify the ISO's integrity:
+
+	=== "Proxmox 8"
+
+		```bash
+		gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 'F4E136C67CDCE41AE6DE6FC81140AF8F639E0C39'
+
+		# list keys
+		pub   rsa4096/0x1140AF8F639E0C39 2022-11-27 [SC] [expires: 2032-11-24]
+			Key fingerprint = F4E1 36C6 7CDC E41A E6DE  6FC8 1140 AF8F 639E 0C39
+		uid                   [ unknown] Proxmox Bookworm Release Key <proxmox-release@proxmox.com>
+		```
+
+	=== "Proxmox 9"
+
+		```bash
+		gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys '24B30F06ECC1836A4E5EFECBA7BCD1420BFE778E'
+
+		# list keys
+		pub   rsa4096/0xA7BCD1420BFE778E 2024-11-10 [SCEA] [expires: 2034-11-10]
+			Key fingerprint = 24B3 0F06 ECC1 836A 4E5E  FECB A7BC D142 0BFE 778E
+		uid                   [ unknown] Proxmox Trixie Release Key <proxmox-release@proxmox.com>
+		```
 
 ??? example "VMware"
 
