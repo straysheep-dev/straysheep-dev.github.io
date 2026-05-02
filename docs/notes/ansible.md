@@ -79,7 +79,11 @@ Install Ansible:
 - [Install pip on Debian/Ubuntu](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#debian-ubuntu-and-derivatives)
 
 
-### Ubuntu 23.10+, Fedora:
+### pipx
+
+!!! note "Recommended System Versions"
+
+    Ubuntu 23.10+, Debian 13+, Fedora often maintain the latest `pipx` package. When in doubt, use `pip` in a venv.
 
 It's recommended to use `pipx`.
 
@@ -114,7 +118,11 @@ pipx upgrade --include-injected ansible
 ```
 
 
-### Ubuntu 22.04 and Older
+### pip
+
+!!! note "Recommended System Versions"
+
+    `pip` is always the easiest install method everywhere. On systems with older versions of `pipx` like Ubuntu 22.04 and older, stick with pip.
 
 If you're missing `pip`, the recommended way to install it on Ubuntu, or other Debian derivitives is through apt (Ansible's documentation also mentions the `python3-pip` package):
 
