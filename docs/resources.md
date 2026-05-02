@@ -192,6 +192,14 @@ This section contains various tools that will eventually be split into their own
 
 	[github.com/tailscale-dev](https://github.com/tailscale-dev) is the home for expirimental ideas and projects related to Tailscale. For example the Blog post on [how to install Tailscale on a SteamDeck](https://tailscale.com/blog/steam-deck), is now an installer script: [github.com/tailscale-dev/deck-tailscale](https://github.com/tailscale-dev/deck-tailscale).
 
+??? tip "sudo-rs"
+
+	> A memory safe implementation of sudo and su.
+
+	[Ubuntu is adopting `sudo-rs` by default in 25.10](https://discourse.ubuntu.com/t/adopting-sudo-rs-by-default-in-ubuntu-25-10/60583), see also this post from the [Trifecta Tech Foundation (maintainers)](https://trifectatech.org/blog/memory-safe-sudo-to-become-the-default-in-ubuntu/).
+
+	- <https://github.com/trifectatechfoundation/sudo-rs>
+
 
 ## :material-note-text: Note Taking
 
@@ -4532,15 +4540,18 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 ??? example ":simple-anthropic: Anthropic"
 
-	> Hybrid reasoning model that pushes the frontier for coding and AI agents, featuring a 200K context window.
+	> Hybrid reasoning model that pushes the frontier for coding and AI agents.
 
 	- <https://www.anthropic.com/>
 	- <https://claude.ai/>
 	- <https://code.claude.com/docs>
+	- <https://github.com/anthropics>
 
 	:simple-claude: Claude is Anthropic's Chat and reasoning model. Think of this as OpenAI's ChatGPT, it's even similar in functionality. It differs though, in focus. It cannot generate images and video, the audio and voice conversation modes are less natural, but where Claude is best is at coding, technical tasks, agentic workflows, and integrating with how you develop and engineer things. Comparing Opus 4.5 to GPT 5.2, Claude feels more purpose built for those tasks, where GPT feels more like it's covering all bases.
 
 	There are a lot of tips and tricks to workflows with Claude, depending on how you're using it and what the goal is. These will be added here over time as they're tested and reviewed.
+
+	---
 
 	[**Claude Code**](https://claude.ai/code)
 
@@ -4560,7 +4571,67 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	[**Anthropic Console Account**](https://platform.claude.com/docs/en/get-started)
 
-	This is similar to how OpenAI separates their subscription-based and API-based usage. You can easily (logout and) login to Claude Code via the Anthropic Console the same way you're able to authenticate using your regular Claude subscription.
+	This is similar to how OpenAI separates their subscription-based and API-based usage. You can easily logout and login to Claude Code via the Anthropic Console the same way you're able to authenticate using your regular Claude subscription.
+
+	**Claude Code Workspaces & Auth Methods**
+
+	This will need review. It seems interactive Claude Code sessions force OAuth at the org level, meaning a compromised session has full control and access to the org's Anthropic account. Using Claude headlessly, or through a separate identity and service provider (like AWS Bedrock) allows further narrowing of the identity scope, and is almost exclusively for agent workflows. Claude Code interactive sessions are still human-in-the-loop workflows, leading up to agent (headless) workflows. `claude --bare` appears to be the argument used when authenticating entirely over API.
+
+	```
+	Claude Code CLI
+	+---+ auth route (mutually exclusive)
+		|--- OAuth -> Anthropic Console account, org-level, interactive only
+		|--- ANTHROPIC_API_KEY -> direct API, workspace-scoped, works headless
+		+--- CLAUDE_CODE_USE_BEDROCK=1 -> IAM role, your scope boundary, works headless
+	```
+
+	---
+
+	**Workflow Lifecycle**
+
+	The [Claude code best-practices doc](https://code.claude.com/docs/en/best-practices) details this. This is the way I interpret it for cost and usage.
+
+	1. Concepting and planning in the web UI via subscription (best cost-savings)
+	2. Deploying the plans and developing at scale with Claude Code
+	3. Implementing a test harness for any long-running, continuous tasks
+
+	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
+
+	---
+
+	[**Test Harness Basics**](https://www.anthropic.com/engineering/harness-design-long-running-apps)
+
+	The test harness is a mechanism for guiding agent workflows without intervention. Interactive planning, scoping, and human-in-the-loop phases all happen before implementing a test harness, usually in Claude Code or the web UI. How you design and build a test harness determines how successful it is.
+
+	A few points to try and summarize it:
+
+	- How are you handling the plan, build, and QA phases?
+	- Clearly defining success and failure states
+	- When and how to manually review the status or results
+	- What capabilities and limitations are present at each phase
+
+	Practically, and as models change and grow, this can mean one or more of the following:
+
+	- Using separate agents to verify other agent's work (reduces bias and context anxiety)
+	- Narrowly scoping the agent's capabilities
+		- Access to up to two of the following at any time: secrets, code execution, untrusted input
+		- This is known as Meta's ["rule of two"](https://ai.meta.com/blog/practical-ai-agent-security/)
+	- Cost savings via caching, detailed planning, saving your state in some way, and directions
+
+	Ways to begin implementing a test harness in your work:
+
+	- Write a strong `CLAUDE.md`
+	- Think of how to save Claude's state, as context and caching grows (for example a `STATE.md` that summarizes progress)
+	- Think of how and when to `/clear` the context window as it fills
+	- [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action), a general-purpose Claude Code action for GitHub PRs and issues
+		- Quick-start via `claude` and run `/install-github-app`, only works with an Anthropic Console account
+		- For AWS Bedrock, Google Vertex AI, or Microsoft Foundry setup, see [docs/cloud-providers.md](https://github.com/anthropics/claude-code-action/blob/main/docs/cloud-providers.md) (Recommended: AWS Bedrock OIDC)
+		- ==**NEVER allow `@claude` to trigger on a PR from someone who isn't a project maintainer, or other untrusted input**==
+	- [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review)
+		- "An AI-powered security review GitHub Action using Claude to analyze code changes for security vulnerabilities."
+		- [Automate security reviews with Claude Code](https://claude.com/blog/automate-security-reviews-with-claude-code)
+		- Claude Code ships a `/security-review` slash command that provides the same security analysis capabilities as the GitHub Action workflow
+		- This can also be [customized](https://github.com/anthropics/claude-code-security-review/tree/main?tab=readme-ov-file#customizing-the-command)
 
 
 ### :octicons-tools-16: Tools
