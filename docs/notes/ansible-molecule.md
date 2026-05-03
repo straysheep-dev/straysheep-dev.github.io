@@ -358,6 +358,130 @@ docker exec -it kali-molecule /bin/bash
 ```
 
 
+## Troubleshooting
+
+### Docker Network Failures
+
+!!! abstract "Symptom"
+
+    `ubuntu:*` containers fail `apt update` with `Temporary failure resolving 'archive.ubuntu.com'` while Debian/Rocky/Fedora containers on the same host resolve successfully.
+
+!!! success "Root Cause"
+
+    The build host was on a Tailnet using a Mullvad exit-node.
+
+    It's still unclear why the Ubuntu mirrors were blocked (no other Linux mirrors were), but this appears to be the one unique variable here. Mullvad **returned empty DNS responses** (~47 bytes) for `archive.ubuntu.com` when talking directly to external resolvers (`8.8.8.8`/`1.1.1.1`) through the tunnel. By default, Docker containers bypass the host's local resolver (unbound/bind/systemd-resolved) and fall back to `8.8.8.8`. It's possible this was caught by some type of DNS leak interception. Non-Ubuntu mirrors were unaffected, which makes this failure harder to understand at first glance.
+
+    Regardless of *what* mechanism it was, this is how to diagnose it and resolve it, no matter the case in the future.
+
+**Confirming the Issue**
+
+=== "Build VM or Host"
+
+    Confirming where and how DNS works, assuming you are using a Tailscale + Mullvad exit node.
+
+    ```bash
+    dig @1.1.1.1 archive.ubuntu.com +short       # Fails
+    dig @1.1.1.1 deb.debian.org +short           # Succeeds (UDP/plain)
+    dig @127.0.0.1 archive.ubuntu.com +short     # Succeeds (UDP/plain/forwarded)
+    dig @1.1.1.1 archive.ubuntu.com +short +tls  # Succeeds (UDP/TLS)
+
+    ```
+
+=== "Container"
+
+    Base Ubuntu images ship with no network utilities. These bash builtins work without installing anything.
+
+    ```bash
+    # Test TCP connectivity from inside a container (echo to raw sockets, no tools required)
+    echo > /dev/tcp/8.8.8.8/53 && echo PORT_OPEN || echo BLOCKED
+
+    # Override resolv.conf at runtime with another (internal?) resolver to isolate DNS as the failure point.
+    # If you happen to have an intermediate upstream DNS resolver internal to your lab or VM network, try that.
+    # pfSense at 172.16.x.x, providing internal DNS over TLS forwarding.
+    docker run --interactive --tty ubuntu:latest
+    ~# echo 'nameserver 1.1.1.1' > /etc/resolv.conf && apt-get update
+    ~# echo 'nameserver 172.16.x.x' > /etc/resolv.conf && apt-get update
+
+    # Compare DNS response sizes across resolvers to spot empty/intercepted responses
+    # ~47 bytes is empty
+    dig @8.8.8.8 archive.ubuntu.com | grep "MSG SIZE"
+    dig archive.ubuntu.com | grep "MSG SIZE"
+    ```
+
+**Fix Options**
+
+=== "Modify Exit-node Settings"
+
+    This could mean ensuring private IP address (RFC1918) routing is excluded from the tunnel, or simply turning off the Mullvad exit-node for the build system.
+
+=== "Modify Docker DNS Settings"
+
+    Docker cannot use `127.0.0.1` as a DNS server. There are two options here if you don't want to modify Tailscale:
+
+    - Use the build machine's DNS resolver + settings
+    - Use another internal, upstream DNS resolver (like a pfSense or OpenWrt box along the network path)
+
+    1) Set the Docker bridge IP to an RFC1918 range that you currently aren't using locally in any way (to avoid conflicts). `sudo nano /etc/docker/daemon.json`:
+
+    ```json
+    {
+      "bip": "192.168.200.1/24",
+      "dns": ["192.168.200.1"]
+    }
+    ```
+
+    *Alternatively, if you have another internal / upstream DNS resolver you can point Docker to, for instance a pfSense VM at `10.1.x.x`, you can use that and skip futher configuration entirely.*
+
+    ```json
+    {
+      "bip": "192.168.200.1/24",
+      "dns": ["10.1.0.1"]
+    }
+    ```
+
+    Finally, don't forget to make any firewall adjustments.
+
+    ```bash
+    # ufw example, this will need translated to the firewall-cmd / iptables / nftables equivalent
+    sudo ufw allow in on docker0 to 192.168.200.1 proto udp port 53 from 192.168.200.0/24 comment 'docker dns'
+    ```
+
+    !!! tip "Setting the Docker Network IP"
+
+        Handled via `"bip":` in `/etc/docker/daemon.json`.
+
+        This avoids an overly permissive configuration in the local DNS resolver configuration file, since by default the docker subnet will use a `/16` in the `172.16.0.0/12` private range. Docker even recommends [not using the default bridge for production use](https://docs.docker.com/engine/network/drivers/bridge/#use-the-default-bridge-network).
+
+    2) `/etc/unbound/unbound.conf` (or your resolver's equivalent).
+
+    ```yaml
+    server:
+        # SNIP
+        interface: 192.168.200.1                # Add the new Docker network interface IP
+        # SNIP
+        access-control: 192.168.200.0/24 allow  # Allow all containers in the subnet
+    ```
+
+    3) Restart both services
+
+    ```bash
+    sudo systemctl restart unbound docker
+    ```
+
+    Containers now resolve via unbound on the build VM, bypassing Mullvad's interception entirely.
+
+
+**Troubleshooting Log**
+
+- Tried all available `ubuntu:<major-version>` containers, not just `:latest`
+- `resolv.conf`, `nsswitch.conf` were comparatively the same between Debian, Ubuntu, Rocky, etc.
+- IPv6 preference was not the issue
+- No troubleshooting tools are really available in base containers (`dig`, `nslookup`, `ping`, `mtr`, etc.)
+- Investigating packet fragmentation hinted at the cause, specifically the DNS response sizes
+- Confirmed Mullvad was (likely) for some reason, blocking 53/udp to public resolvers for `archive.ubuntu.com`
+
+
 ## CI / CD Use
 
 Molecule has [examples](https://ansible.readthedocs.io/projects/molecule/ci/) for various CI platforms.
