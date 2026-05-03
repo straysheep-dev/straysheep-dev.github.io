@@ -360,6 +360,11 @@ docker exec -it kali-molecule /bin/bash
 
 ## Troubleshooting
 
+!!! note "**AI Usage**"
+
+    Same note as the About page of this site. Section(s) below were drafted from conversations and research with [Claude](https://claude.com/product/claude-code), directed and reviewed by the author before publishing.
+
+
 ### Docker Network Failures
 
 !!! abstract "Symptom"
