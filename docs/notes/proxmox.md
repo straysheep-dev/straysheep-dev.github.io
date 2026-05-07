@@ -117,6 +117,12 @@ Next, if you have a valid enterprise subscription key, you're good to go. If not
 
 - 🌐 [Proxmox VE Enterprise / No-Subscription Repository](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_package_repositories)
 
+!!! tip "[Debian Firmware Repository](https://pve.proxmox.com/wiki/Package_Repositories#sysadmin_debian_firmware_repo)"
+
+    Additionally, you may consider inclduing the Debian `non-free-firmware` repository. This provides microcode updates. As of Proxmox 9 this is enabled by default.
+
+    On Proxmox 8, you can simply append `non-free-firmware` to all `debian.org` sources in `/etc/apt/sources.list`
+
 ---
 
 ### 💻 System Updates
@@ -126,6 +132,10 @@ GUI: Click `Updates` then `Refresh` to run `apt-get update;` finally `>_ Upgrade
 You can also run these from a bash shell on the Proxmox VE host.
 
 - 🌐 [Proxmox VE System Software Updates](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#system_software_updates)
+
+For major version upgrades (e.g. 8 to 9) you can perform an in-place upgrade. Follow all of the guidance based on your major version number in the Proxmox Wiki. Most notable is the "version-to-version" script, that will check for any issues you may need to address prior to upgrading. The script for Proxmox 8 is run like this: `pve8to9 --full`.
+
+- 🌐 [Upgrading from 8 to 9](https://pve.proxmox.com/wiki/Upgrade_from_8_to_9)
 
 ---
 
