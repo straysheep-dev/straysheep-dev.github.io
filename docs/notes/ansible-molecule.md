@@ -334,26 +334,34 @@ If the image you built uses systemd, you need to start it with `systemd` execute
 - `-d` is most important here, it runs as a daemon in the background so `systemd` can start within the container as PID 1
 - `--name` can be anything you want to name that instance of the running container
 - `--hostname` is also independant of the container image name
-- `local/kali-molecule` is the same arg as `-t <tag/name>` when you either pulled or built the image
+- `local/kali-molecule` is the same arg as `-t [registry/]repository[:tag]` when you either pulled or built the image
 
 ```bash
+container_name='kali-molecule'
+container_hostname='kali-molecule'
+image_registry='local'
+image_name='kali-molecule'
+
 docker run -d \
-  --name kali-molecule \
-  --hostname kali-molecule \
+  --name "${container_name}" \
+  --hostname "${container_hostname}" \
   --privileged \
   --cgroupns=host \
   --tmpfs /run \
   --tmpfs /tmp \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
   -e container=docker \
-  local/kali-molecule /sbin/init
+  "${image_registry}"/"${image_name}" /sbin/init
 
 ```
 
 *Then* interactively execute a shell in the running container once it starts:
 
 ```bash
-docker exec -it kali-molecule /bin/bash
+docker exec -it "${container_name}" /bin/bash
+# When you're done
+exit
+docker stop "${container_name}"
 
 ```
 
