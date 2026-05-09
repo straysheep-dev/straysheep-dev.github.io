@@ -197,7 +197,7 @@ fatal: [10.10.10.55]: FAILED! => {"ansible_facts": {}, "changed": false, "failed
 
 !!! quote "[Getting Started with Ansible](https://docs.ansible.com/projects/ansible/latest/getting_started/index.html)"
 
-        Ansible automates the management of remote systems and controls their desired state.
+    Ansible automates the management of remote systems and controls their desired state.
 
 The diagrams in the documentation linked in the quote block above summarize it best, Ansible consists of three components:
 
@@ -221,21 +221,32 @@ There are more unique pieces to consider, such as how playbooks can built as con
 
 !!! tip "**Ansible Safety Measures**"
 
-        ⚠️ To be added.
+    ⚠️ To be added.
 
 !!! tip "**Analyzing Playbooks and Anisble Code**"
 
-        ⚠️ To be added.
+    ⚠️ To be added.
 
 !!! tip "**Setting Sources**"
 
-        It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
+    It's important to remember, for example, the `ansible.builtin.copy` module copies files *from* **the control node** *to* **managed nodes**, unless [`remote_src: yes`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-remote_src) is set.
 
-        If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
+    If `remote_src: yes` is set, `ansible.builtin.copy` will only use source paths on the remote host and not the control node.
 
-        Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
+    Basically, *all tasks are typically executed on remote targets*. This means using `ansible.builtin.find` + registering a variable + `ansible.builtin.copy`, to copy arbitrary files *from* the control node won't work.
 
-        In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
+    In that case, `ansible.builtin.find` will execute on the remote host, and not find the files. `ansible.builtin.copy` will attempt to use source paths on the remote host that don't exist instead of paths on the control node, causing this operation to fail.
+
+
+## Basic Usage
+
+You can call Ansible modules directly for quick debugging.
+
+```bash
+# Check if "service_mgr" exists in ansible_facts and what the value is
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/setup_module.html#examples
+ansible all -i 'localhost,' -c local -m ansible.builtin.setup -a 'filter=service_mgr'
+```
 
 
 ## Configure
@@ -255,7 +266,7 @@ This file can exist in a few places, and there's a search order used to find the
 
 !!! quote "[Avoiding security risks with `ansible.cfg` in the current directory](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory)"
 
-        If Ansible were to load `ansible.cfg` from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
+    If Ansible were to load `ansible.cfg` from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
 
 
 ### Better CLI Output
