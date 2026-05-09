@@ -292,6 +292,22 @@ callback_result_format = yaml
 
 *Currently, most roles in this repo have variables defined in `vars/main.yml`. This file takes precedence in most cases. Using `defaults/main.yml` for variables instead allows you to define the default there, and override those defaults in your inventory file(s) on a per-host or per-group level. This note will be removed and changed when all current roles are revised to reflect this.*
 
+!!! tip "[`INJECT_FACTS_AS_VARS`](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_vars_facts.html#ansible-facts)"
+
+    In the future, how you access facts will need to be via [bracket notation or dot notation](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#referencing-nested-variables). It's also recommended to [avoid dot notation and prefer bracket notation for various reasons](https://github.com/ansible/ansible-lint/issues/2174). See the [Anisble porting guide for details](https://docs.ansible.com/projects/ansible/latest/porting_guides/porting_guide_core_2.20.html#inject-facts-as-vars).
+
+    ```yaml
+    ansible_os_family           # Deprecated in 2.24
+    ansible_facts.os_family     # Works
+    anisble_facts['os_family']  # Works, recommended
+    ```
+
+    To help find and replace instances in VSCode, use the following (modify capture group and backreference as needed). Note that not all matches should be replaced, rely on `ansible-lint` for this.
+
+    | Search Regex | Replace Regex |
+    | --- | --- |
+    | `\bansible_(?!facts\b)(\w+)\b` | `ansible_facts['$1']` |
+
 Example default value for a variable in `defaults/main.yml`:
 
 ```yaml
