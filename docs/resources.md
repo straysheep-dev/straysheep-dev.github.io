@@ -1228,7 +1228,23 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 ??? tip ":simple-ubiquiti: Ubiquiti"
 
 	- <https://www.ui.com/download/>
+	- <https://dl.ui.com/unifi/unifi-repo.gpg>
 	- <https://dl.ui.com/unifi/firmware/U7PG2/3.7.58.6385/BZ.qca956x.v3.7.58.6385.170508.0957.bin> (UniFi AP AC Lite firmware v3.7.58)
+
+	Linux package signing key fingerprints:
+
+	```bash
+	# Previous
+	# https://keyserver.ubuntu.com/pks/lookup?search=4A228B2D358A5094178285BE06E85760C0A52C50&fingerprint=on&op=index
+	4A22 8B2D 358A 5094 1782  85BE 06E8 5760 C0A5 2C50
+
+	# Current
+	# https://keyserver.ubuntu.com/pks/lookup?search=FCF764DFE6488B0F899E91A17C84148C6904B09E&fingerprint=on&op=index
+	pub   rsa4096/0x7C84148C6904B09E 2026-04-01 [SC] [expires: 2036-03-29]
+		Key fingerprint = FCF7 64DF E648 8B0F 899E  91A1 7C84 148C 6904 B09E
+	uid                             Unifi Network (A key to sign unifi network repositories) <unifi-network@noreply.ui.com>
+
+	```
 
 ??? tip ":simple-debian: VyOS"
 
