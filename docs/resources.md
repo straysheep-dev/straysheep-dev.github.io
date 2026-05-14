@@ -200,6 +200,53 @@ This section contains various tools that will eventually be split into their own
 
 	- <https://github.com/trifectatechfoundation/sudo-rs>
 
+??? info "printf"
+
+	At a certain point, Claude-as-a-linter suggested researching `printf` usage over `echo`. I knew linpeas did this, likely for portability (but I wasn't ready to relearn how to print text in shell scripts at the time). As it turns out, the IEEE / Open Group have this documented for both [printf](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/printf.html), and [echo](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/echo.html#). [ShellCheck SC2059](https://www.shellcheck.net/wiki/SC2059) also demonstrates *how* to use `printf` safely and effectively.
+
+	The gist is, `echo -e "My variable: $var"` is not portable across all POSIX systems, and *can* open you to escape and argument injection. `printf 'My variable: %s\n' "$var"` safely separates the format string (e.g. the `%s` and `\n` in `'My variable: %s\n'`) from the variables and data (`"$var"`).
+
+	Proof of concept argument and escape injection:
+
+	```bash
+	BLUE="\033[01;34m"
+	RESET="\033[00m"
+	var="-e"
+
+	# Does not interpret the escape chars
+	$ echo ${BLUE}BLUE${RESET}
+	\033[01;34mBLUE\033[00m
+
+	# When unquoted, word splits -e into a CLI option which enables escape sequences
+	$ echo $var ${BLUE}BLUE${RESET}
+	BLUE
+
+	# Double quotes prevent this, but echo is still less portable than printf
+	# Be sure to quote all echoed strings
+	$ echo "$var ${BLUE}BLUE${RESET}"
+	-e \033[01;34mBLUE\033[00m
+	```
+
+	How far does this go? [Weaponizing Plain Text: ANSI Escape Sequences as a Forensic Nightmare](https://www.youtube.com/watch?v=opW_Q7jvSbc) by [STOK](https://www.youtube.com/@STOKfredrik) is a condensed view of some forms these attack paths can take. Also referenced is the proof-of-concept by [David Leadbeater](https://github.com/dgl) targeting a number of CVEs in terminal emulators to [escape a Kubernetes cluster](https://github.com/dgl/houdini-kubectl-poc).
+
+	So the question I wanted to answer is, *what's the best way to handle printing text with variables where we don't always have total control over the variable values?*
+
+	Here's what ShellCheck recommends. Keep in mind the Unix utility `printf` is not exactly the same as the C `printf()`. In the Unix utility, `%s` is used to handle the input as plain string data. `%b` is unique (as in it's not part of the ISO C standard), it's added to the `printf` utility solely to handle backslash escapes. This gives you control over which variables to interpret in what way.
+
+	Example using `printf` instead of `echo`:
+
+	```bash
+	BLUE="\033[01;34m"
+	RESET="\033[00m"
+
+	VAR="BLUE"
+
+	echo -e "This variable is ${BLUE}${VAR}${RESET}"
+	printf "This variable is %b%s%b\n" "${BLUE}" "${VAR}" "${RESET}"
+	```
+
+	That's it. They're processed in sequence, similar to python's positional parameters.
+
 
 ## :material-note-text: Note Taking
 
