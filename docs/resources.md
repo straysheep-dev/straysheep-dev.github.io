@@ -2416,7 +2416,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 
 
-## YAML
+### :lucide-chart-no-axes-gantt: YAML
 
 !!! abstract "YAML Ain't Markup Language"
 
@@ -2829,6 +2829,74 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/armosec/curing>
 
+??? bug "Loony Tunables"
+
+	A buffer overflow in the `GLIBC_TUNABLES` environment variable allows local attackers to write and execute a file as SUID root.
+
+	- [CVE-2023-4911](https://nvd.nist.gov/vuln/detail/CVE-2023-4911)
+	- [IppSec video demo with shellcode debugging](https://www.youtube.com/watch?v=1iV-CD9Apn8)
+	- [Qualys Disclosure](https://blog.qualys.com/vulnerabilities-threat-research/2023/10/03/cve-2023-4911-looney-tunables-local-privilege-escalation-in-the-glibcs-ld-so)
+	- [X: bl4sty Python3 PoC (from the IppSec Video)](https://twitter.com/bl4sty/status/1710634253518582047)
+	- [PoC mirror'd on GitHub, with comments](https://github.com/KernelKrise/CVE-2023-4911/tree/0ad0ba9a91a209089d8c4e714e18beca8c9e43e5)
+
+	*Everything below was learned from the Qualys disclosure and the IppSec video.*
+
+	**Fix**
+
+	Update glibc to the latest version with apt.
+
+	**Detection**
+
+	Failed `su` authentication attempts in kern.log and auth.log.
+
+	To check if a box is vulnerable:
+	```bash
+	$ env -i "GLIBC_TUNABLES=glibc.malloc.mxfast=glibc.malloc.mxfast=A" "Z=`printf '%08192x' 1`" /usr/bin/su --help
+	# If segfault, then vulnerable
+	# If /bin/su help prints, then not vulnerable
+	```
+
+	**Customizing the Exploit**
+
+	If you want to write your own shellcode, you can do so using pwntools:
+
+	```bash
+	apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential
+	python3 -m pip install --upgrade pwntools
+	```
+
+	Open a python shell:
+
+	```python
+	from pwn import *
+
+	# Craft the /bin/sh suid call, this gets embedded into libc.so.6
+	context.arch = 'amd64'; asm(shellcraft.setuid(0) + shellcraft.setgid(0) + shellcraft.sh()).hex()
+
+	# Craft the exit code (it will match the original)
+	asm(shellcraft.exit(0x66)).hex()
+	```
+
+	**Backporting the Exploit**
+
+	TO DO: On some (older) systems the PoC will print the actual `--help` output for "su" even if libc6 is vulnerable. It will also create a folder called `''$'\b'` instead of the folder `"`. This needs fixed.
+
+??? bug "Copy Fail"
+
+	> Most Linux LPEs need a race window or a kernel-specific offset.
+	> Copy Fail is a straight-line logic flaw - it needs neither.
+	> The same 732-byte Python script roots every Linux distribution shipped since 2017.
+	>
+	> One logic bug in authencesn, chained through AF_ALG and splice() into a 4-byte page-cache write - silently exploitable for nearly a decade.
+
+	- [copy_fail_exp.py](https://github.com/theori-io/copy-fail-CVE-2026-31431/blob/main/copy_fail_exp.py)
+	- [copy.fail](https://copy.fail/#copy-fail)
+	- [CVE-2026-31431](https://nvd.nist.gov/vuln/detail/CVE-2026-31431)
+
+	**Fix**
+
+	Update to the latest kernel.
+
 
 ### :material-microsoft-windows: Windows
 
@@ -2918,6 +2986,17 @@ This includes general network information as well as network-focused tools.
 	- Inspecting protocols on ALL ports
 	- Inspecting code signatures on binaries
 	- Preventing execution of unauthorized applications
+
+??? bug "RedSun"
+
+	- <https://github.com/Nightmare-Eclipse/RedSun>
+
+??? bug "BlueHammer"
+
+	> Insufficient granularity of access control in Microsoft Defender allows an authorized attacker to elevate privileges locally.
+
+	- [CVE-2026-33825](https://nvd.nist.gov/vuln/detail/CVE-2026-33825)
+	- <https://github.com/Nightmare-Eclipse/BlueHammer>
 
 **Evasion**
 
@@ -3039,6 +3118,12 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/Meowmycks/LetMeowIn>
 
+??? bug "YellowKey"
+
+	Bypass BitLocker on Windows 11. Requires physical access + a USB drive.
+
+	- <https://github.com/Nightmare-Eclipse/YellowKey>
+	- [Schneier: Zero-Day Exploit Against Windows BitLocker](https://www.schneier.com/blog/archives/2026/05/zero-day-exploit-against-windows-bitlocker.html)
 
 ### :simple-apple: macOS
 
@@ -3463,7 +3548,7 @@ This includes general network information as well as network-focused tools.
 	- <https://github.com/blackhillsinfosec/audit-inspector>
 
 
-### :simple-linux: Linux
+### :simple-linux: Linux & Unix-like
 
 ??? tip "Lynis"
 
