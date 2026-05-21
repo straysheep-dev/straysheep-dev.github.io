@@ -2429,6 +2429,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Used heavily in [Ansible](https://docs.ansible.com/projects/lint/rules/yaml/?h=yaml), and various configuration files.
 
+### :lucide-braces: Jinja
+
+!!! abstract "Jinja Templating Engine"
+
+	> Jinja is a fast, expressive, extensible templating engine. Special placeholders in the template allow writing code similar to Python syntax. Then the template is passed data to render the final document.
+
+	- <https://github.com/pallets/jinja/>
+	- [Jinja Template Documentation](https://jinja.palletsprojects.com/en/stable/templates/)
 
 ## :material-information-variant-circle: Information Technology
 
