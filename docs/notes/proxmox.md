@@ -27,11 +27,20 @@ What's most interesting about Proxmox is the Web UI gives you full console and G
 
 <!-- more -->
 
-📚 [Proxmox VE Documentation](https://pve.proxmox.com/pve-docs)
+:lucide-book-copy: [Proxmox VE Documentation](https://pve.proxmox.com/pve-docs)
+
+!!! note "AI Usage"
+
+    The following models and tools were used for drafts, examples, or research:
+
+    - Claude (`claude-sonnet-4.6`) via web
+    - ChatGPT (`gpt-4o`) via web
+
+    Posts and documentation discovered organically or compiled by the model, were reviewed and are linked as resources.
 
 ---
 
-## ⏬ Download
+## :lucide-download: Download
 
 !!! tip "Verifying Signatures"
 
@@ -52,7 +61,7 @@ What's most interesting about Proxmox is the Web UI gives you full console and G
     ```
 
 
-## 💽 Install
+## :lucide-hard-drive-download: Install
 
 Walk through the graphical or terminal installer. This is straight forward if you're used to installing hypervisor software.
 
@@ -62,7 +71,7 @@ Walk through the graphical or terminal installer. This is straight forward if yo
 You'll need to choose an email address to send alerts to, this can be `root@localhost` or a real email.
 
 
-## 🔑 Access
+## :lucide-key-round: Access
 
 Proxmox listens on 22/tcp (SSH) and 8006/tcp (Web UI).
 
@@ -102,20 +111,20 @@ You can browse directly to your Proxmox machine's `https://<IP>:8006` or use SSH
     ```
 
 
-## ⚙️ Configure
+## :lucide-settings: Configure
 
 
-### 🔐 MFA
+### :lucide-clock-2: MFA
 
 First, add 2FA/MFA to your root login. This can be a software token saved to your password manager or authenticator app, plus a hardware key using webauthn.
 
 ---
 
-### 📦 Package Repositories
+### :lucide-package: Package Repositories
 
 Next, if you have a valid enterprise subscription key, you're good to go. If not, disable the enterprise repos and enable the pve-no-subscription repo.
 
-- 🌐 [Proxmox VE Enterprise / No-Subscription Repository](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_package_repositories)
+- :lucide-external-link: [Proxmox VE Enterprise / No-Subscription Repository](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysadmin_package_repositories)
 
 !!! tip "[Debian Firmware Repository](https://pve.proxmox.com/wiki/Package_Repositories#sysadmin_debian_firmware_repo)"
 
@@ -125,21 +134,25 @@ Next, if you have a valid enterprise subscription key, you're good to go. If not
 
 ---
 
-### 💻 System Updates
+### :lucide-laptop: System Updates
 
 GUI: Click `Updates` then `Refresh` to run `apt-get update;` finally `>_ Upgrade` to run `apt-get dist-upgrade`
 
 You can also run these from a bash shell on the Proxmox VE host.
 
-- 🌐 [Proxmox VE System Software Updates](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#system_software_updates)
+- :lucide-external-link: [Proxmox VE System Software Updates](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#system_software_updates)
+
+!!! tip "Systemd Service"
+
+    All of this including safely handling VM's has been automated with [ansible-role-configure_updates](https://github.com/straysheep-dev/ansible-role-configure_updates) as a systemd service.
 
 For major version upgrades (e.g. 8 to 9) you can perform an in-place upgrade. Follow all of the guidance based on your major version number in the Proxmox Wiki. Most notable is the "version-to-version" script, that will check for any issues you may need to address prior to upgrading. The script for Proxmox 8 is run like this: `pve8to9 --full`.
 
-- 🌐 [Upgrading from 8 to 9](https://pve.proxmox.com/wiki/Upgrade_from_8_to_9)
+- :lucide-external-link: [Upgrading from 8 to 9](https://pve.proxmox.com/wiki/Upgrade_from_8_to_9)
 
 ---
 
-### 🐚 SSH Authentication
+### :lucide-square-terminal: SSH Authentication
 
 `root` is allowed to login with a password by default. You can disable this in `sshd_config` once you've added your key to `authorized_keys`:
 
@@ -153,7 +166,7 @@ systemctl restart sshd
 
 ---
 
-### 🔥 Firewall
+### :lucide-brick-wall-fire: Firewall
 
 The firewall is off by default. To enable it:
 
@@ -171,11 +184,11 @@ You can define specific rules to the Proxmox VE host and VM guests from the GUI 
 - `/etc/pve/nodes/<nodename>/host.fw` Host configuration
 - `/etc/pve/firewall/<VMID>.fw` VM / Container configuration
 
-- 🌐 [Proxmox VE Firewall](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_pve_firewall)
+- :lucide-external-link: [Proxmox VE Firewall](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_pve_firewall)
 
 ---
 
-### 🔎 Suricata
+### :lucide-search-alert: Suricata
 
 You can install suricata IPS on the Proxmox host. Keep in mind REJECTED or DROP'd packets do not go to suricata.
 
@@ -184,11 +197,11 @@ apt-get install suricata
 modprobe nfnetlink_queue
 ```
 
-- 🌐 [Proxmox VE Firewall Tips and Tricks](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_tips_and_tricks)
+- :lucide-external-link: [Proxmox VE Firewall Tips and Tricks](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_tips_and_tricks)
 
 ---
 
-### ⌨️ Users
+### :lucide-circle-user: Users
 
 To see all system users: Datacenter > Permissions > Users
 
@@ -196,22 +209,22 @@ User details for the PVE realm are defined on the filesystem under `/etc/pve/use
 
 Users in the PAM realm are still stored under `/etc/passwd`,`shadow` and the usual system paths.
 
-- 🌐 [Proxmox VE User Management](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_users)
-- 🌐 [Proxmox VE User Management: Examples](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples)
+- :lucide-external-link: [Proxmox VE User Management](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_users)
+- :lucide-external-link: [Proxmox VE User Management: Examples](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples)
 
 
-### 📇 Groups
+### :lucide-users-round: Groups
 
 To see, create, and modify groups: Datacenter > Permissions > Groups
 
 These are effectively user defined, based on what your needs are. Groups are a way to tie multiple users to one or more permission sets.
 
-- 🌐 [Proxmox VE Groups](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_groups)
+- :lucide-external-link: [Proxmox VE Groups](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_groups)
 
 Proxmox has a built-in set of permission "roles" that you can get started with. These are covered [below](#permissions).
 
 
-### 📚 Realms
+### :lucide-component: Realms
 
 Proxmox understands two authentication "realms", which are "pve" and "pam".
 
@@ -295,11 +308,11 @@ uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
 Finally, you'll need to scope each user their permissions, either individually, or by giving permissions to a group and tying user(s) to groups, which is the recommended way to manage permissions at scale.
 
 
-### 🪪 Permissions
+### :lucide-id-card-lanyard: Permissions
 
 See, create, and modify permission assignments: Datacenter > Permissions
 
-- 🌐 [Proxmox VE Permission Management: List of Permissions](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_permission_management)
+- :lucide-external-link: [Proxmox VE Permission Management: List of Permissions](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#pveum_permission_management)
 
 That link lists out all predefined permission sets and what they do. The most useful if you're just getting started:
 
@@ -309,7 +322,7 @@ That link lists out all predefined permission sets and what they do. The most us
 - `PVEVMUser`: view, backup, configure CD-ROM, VM console, VM power management
 
 
-#### 📦 Packer User Example
+#### :lucide-package: Packer User Example
 
 [Mayfly277](https://github.com/Mayfly277), one of the contributers to [Game of AD](https://github.com/Orange-Cyberdefense/GOAD), has a [blog post on creating a separate user account in Proxmox to build packer VM's](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/).
 
@@ -324,17 +337,17 @@ Using these steps as a reference, we can create a more "generic" user and group 
 		- Path: `/`
 		- Group: Administrators
 		- Role: Administrator
-		- Propagate: ✅
+		- Propagate: :lucide-square-check-big:
 	- Datacenter > Permissions: Add > Group Permission
 		- Path: `/`
 		- Group: DevOps
 		- Role: PVEVMAdmin
-		- Propagate: ✅
+		- Propagate: :lucide-square-check-big:
 	- Datacenter > Permissions: Add > Group Permission
 		- Path: `/`
 		- Group: DevOps
 		- Role: PVESysAdmin
-		- Propagate: ✅
+		- Propagate: :lucide-square-check-big:
 	- Datacenter > Permissions > Users: Edit User > Assign groups from the drop-down menu
 
 	[You can do the same using the `pveum` command line utility](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_real_world_examples):
@@ -372,182 +385,34 @@ Using these steps as a reference, we can create a more "generic" user and group 
 ---
 
 
-### 💾 Disk Encryption
+### :lucide-hard-drive: Disks
 
-***NOTE**: A safer approach instead of full disk encryption is to install the Proxmox OS on an unencrypted disk, and use additional storage as encrypted disks for your production VM's. Proxmox does not offer full disk encryption by default. There are some issues you can encounter with this depending on your use case.*
+It's recommended to have at least one or more:
 
+- Disks dedicated as a storage pool
+- Disks dedicated as a file system (VM backups + files and settings)
 
-**Mount an Encrypted Disk**
+!!! abstract "Disk Encryption"
 
-- 🌐 [How to Mount Existing Disks Within proxmox](https://forum.proxmox.com/threads/how-to-mount-existing-disk-to-storage.66559/)
-- 🌐 [Adding LUKS Encryption to proxmox](https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/)
-- 🌐 [Add an Existing Disk to proxmox](https://forum.proxmox.com/threads/adding-an-existing-hdd-to-proxmox.118361/)
-- 🌐 [Add a Dew Disk as LVM-thin](https://forum.proxmox.com/threads/adding-a-disk-and-set-it-as-lvm-thin-help-needed-please.111724/)
-- 🌐 [proxmox Storage Wiki](https://pve.proxmox.com/wiki/Storage)
-- 🌐 [Dr Duh Yubikey Guide: Backing Up Keys on Encrypted Storage](https://github.com/drduh/YubiKey-Guide?tab=readme-ov-file#backup-keys)
+    There are really two paths to take here based on your requirements:
 
-You can easily mount and add an encrypted disk to an existing Proxmox server over SSH or from the Proxmox server console in the Web UI. As mentioned above, a perfect example is you've installed Proxmox itself on an unencrypted drive, and have other internal drives you can encrypt with LUKS or ZFS encryption that you want to store VM's on.
+    **Option 1: Full Disk Encryption**
 
-!!! tip "Creating a LUKS Partition"
+    - Not offered by Proxmox by default
+    - Creates a number of reboot + remote access issues
+    - Requires configuration and testing that may change across major versions
 
-	The easiest way to do this (and the way I initially set this up) is from an Ubuntu or Debian live OS. Using the `disks` application in Ubuntu, you can easily format and create a LUKS encrypted drive. Poweroff the Proxmox server, reboot into a live USB, create  the drive, then continue.
+    **Option 2: Encrypt the Storage Disks**
 
-    Alternatively, you can [do this all manually from the CLI](https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encrypting_devices_with_cryptsetup) within proxmox. ***NOTE**: this will need tested and verified.*
-
-    ```bash
-    cryptsetup luksFormat /dev/sdXY
-    cryptsetup open --type luks /dev/sdXY <storage-id>
-    # Enter a passphrase, store it in your password manager
-
-    # Only create an ext4 filesystem if you need it, otherwise use lvm-thin for VM storage instead of ext4
-    mkfs.ext4 /dev/mapper/luks3-lvm
-    ```
-
-Now that we have a LUKS partition, we can mount it.
-
-Get a sense of which partition(s) you'll want to add. In this case, the device is `sdd` and the partition is `sdd1`.
-
-```bash
-lsblk
-<SNIP>
-sdd                            8:48   0   1.8T  0 disk
-└─sdd1                         8:49   0   1.8T  0 part
-```
-
-**Unlock an Encrypted Disk**
-
-Unlock and mount the LUKS partition. You can make up any name for a storage ID, just stick to alphanumeric characters and hyphens `-`. **Remember, you would only `mkdir` and `mount` a filesystem if you're using it as a filesystem. VM's benefit from lvm-thin data pools for more efficency than a filesystem**.
-
-!!! note "Naming the Storage ID"
-
-	If you look under Datacenter > Storage, you'll see the default ID's are `local` and `local-lvm`.
-
-    In this example, lets say you already have two other internal disks that are also LUKS encrypted.
-
-    Since this is the third disk, we'll call it `luks3-lvm` to stick to a similar naming convention.
-
-```bash
-# Example: cryptsetup open --type luks /dev/sddX <storage-id>
-# This is all you need if the encrypted partition is acting as a storage pool for VMs
-cryptsetup open --type luks /dev/sdd1 luks3-lvm
-
-# If this will be a filesystem and NOT an lvm-thin storage pool
-mkdir /mnt/2tb-internal3
-mount /dev/mapper/luks3-lvm /mnt/2tb-internal3
-
-# To unmount the filesystem, and close the the LUKS partition if you need to
-umount /mnt/2tb-internal3
-cryptsetup close <storage-id>
-```
-
-To add the encrypted partition to the Proxmox data pool (basically so you see it in the GUI and can make use of it), you can use:
-
-- Datacenter > Storage > Add
-- ID: `luks3-lvm` (storage identifier created with cryptsetup)
-
-!!! tip "New vgname and thinpool"
-
-	Create a new volume group and thinpool for LUKS drives to share. This is because adding them to the existing volume group and thinpool means VM's and data will still be written to the unencrypted drives (if you aren't using full disk encryption).
-
-!!! note "Ai Usage"
-
-    ChatGPT showed examples that led to posts and documentation detailing the following commands.
-
-...or the CLI with `pvesm`:
-
-```bash
-# Helpful to visualize the pve storage
-pvesm status
-
-# Create a new volume group for LUKS drives
-vgcreate luks-group /dev/mapper/luks3-lvm
-WARNING: ext4 signature detected on /dev/mapper/luks3-lvm at offset 1080. Wipe it? [y/n]: y
-  Wiping ext4 signature on /dev/mapper/luks3-lvm.
-  Physical volume "/dev/mapper/luks3-lvm" successfully created.
-  Volume group "luks-group" successfully created
-
-# If you mess up, delete the group and remake it
-vgremove luks-group
-
-# Create a new thinpool for LUKS drives to share, leaving 5% of the drive for metadata
-lvcreate --type thin-pool -l95%FREE -n <thinpool-name> <vgname>
-lvcreate --type thin-pool -l95%FREE -n luks-data luks-group
-  Thin pool volume with chunk size 1.00 MiB can address at most 254.00 TiB of data.
-  WARNING: Pool zeroing and 1.00 MiB large chunk size slows down thin provisioning.
-  WARNING: Consider disabling zeroing (-Zn) or using smaller chunk size (<512.00 KiB).
-  Logical volume "luks-data" created.
-
-# Add a LUKS thin-lvm data pool for VM storage
-pvesm add lvmthin luks3-lvm --vgname pve --thinpool data --content images --content rootdir # lvm-thin is more efficient than a filesystem for VM storage
-
-# Add a LUKS filesystem for backup, ISO, or other use
-pvesm add dir luks3-lvm --path /mnt/2tb-internal3 --content backup # Only for backup, browsable filesystems
-```
-
-If you mess up and want to redo the pvesm, just use `pvesm remove <storage-id>`. Remember we came up with the storage ID when unlocking the LUKS partition during `cryptsetup open --type luks /dev/sddX <storage-id>`.
-
----
-
-**Backup LUKS Headers**
-
-- 🌐 [Fedora Project: Backup LUKS Headers](https://docs.fedoraproject.org/en-US/quick-docs/encrypting-drives-using-LUKS/#_backup_luks_headers)
-- 🌐 [gitlab/cryptsetup: Backup and Data Recovery](https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions#6-backup-and-data-recovery)
-- 🌐 [Arch Linux: LUKS Backup and Restore](https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Backup_and_restore)
-
-Once everything's working it's **recommended to backup the headers of your LUKS devices**. These are ~2MB or larger binary blobs, the first "area" of the LUKS disk containing the encrypted key slots and necessary data to unlock the drive. Having a backup of these is easy to store as an attachment in a password vault, and can recover a drive if anything corrupts the header.
-
-Ideally you have two encrypted drives that both have copies of the data, for example two LUKS drives, one for running the VMs, the other for saving backups of the VMs. It's less likely both will fail at the same time, even less so if the "backup" drive is an external device that isn't always connected.
-
-```bash
-cryptsetup luksHeaderBackup --header-backup-file <file> <device>
-cryptsetup luksHeaderBackup --header-backup-file /root/sddX-luks3-lvm.bin /dev/sddX
-```
-
-!!! note "Header Backup Storage"
-
-	In most cases, it's fine to leave the header binary here in `/root` of the Proxmox unencrypted drive. An attacker would still need the key along with the header, and if the device itself is physically stolen, the LUKS volume itself also contains the header. This is a small trade off for having access to your header backup. Assume an attacker who could brute force your drive's key would already know how to extract the header, and has physical access.
-
-    That said, you may choose to save the header to your password manager and delete it from proxmox.
-
-    ```bash
-    # Destroy the header file
-    shred -n 7 -v /root/sddX-luks3-lvm.bin
-    ```
-
-Before you're done you can do two more things; if you're using this partition as a filesystem `type=dir`, or you want to use a keyfile to unlock your drives on boot, set autodecryption and set auto-mounting.
-
-!!! warning "Keyfile Storage"
-
-	Typically what you'd do is use full disk encryption on the OS drive, requiring a password over SSH with dropbear_initramfs on remote startup. This will decrypt the boot drive. This is where you would be safe to store keyfiles. Do not store keyfiles on unencrypted partitions, as it would be easy to decrypt your drives with physical or shell access.
-
-```bash
-# Without a keyfile, simply map the drive but still require a passphrase
-echo "luks3-lvm UUID=$(blkid -s UUID -o value /dev/sdd1 | tr -d '\n') none luks" | tee -a /etc/crypttab
-
-# With a keyfile stored in the filesystem root, literally as /keyfile
-echo "luks3-lvm UUID=$(blkid -s UUID -o value /dev/sdd1 | tr -d '\n') /keyfile luks" | tee -a /etc/crypttab
-
-# Mount the volume as a filesystem under /mnt (we created this path eariler)
-echo 'UUID=$(blkid -s UUID -o value /dev/sdd1 | tr -d '\n') /mnt/2tb-internal3    ext4    defaults 0   2" >> /etc/fstab
-```
+    - Safer and easier
+    - Will not prevent the system from booting
+    - Unlock can be automated, tied to TPM or Yubikey
+    - ZFS is trickier here than LUKS
 
 
-**Unlocking the Drives**
+#### :lucide-lock-keyhole: Full Disk Encryption
 
-From here, anytime you update and reboot the Proxmox server, you'll just need to paste this command into the terminal through the WebUI and enter your passphrase to unlock the LUKS disk. **Be sure to always use the same storage ID when mounting the LUKS partition, so pvesm can access it**.
-
-```bash
-cryptsetup open --type luks /dev/sddX <storage-id>
-cryptsetup open --type luks /dev/sddX luks3-lvm
-```
-
-That's it. It's already mapped to your pve storage manager, and remembered there.
-
----
-
-**Full Disk Encryption**
-
-*One option is to install Debian with FDE, then install Proxmox on top of it. However it's recommended to just install Proxmox following one of the paths below.*
+*One option is to install Debian with FDE, then install Proxmox on top of it. However it's **recommended** to just install Proxmox normally.*
 
 1. Install Proxmox with ZFS
 2. Reboot into recovery mode from the installer USB
@@ -557,25 +422,317 @@ That's it. It's already mapped to your pve storage manager, and remembered there
 
 ZFS + Dropbear, all of the resources below came from this post: [FDE with ZFS](https://forum.proxmox.com/threads/full-disk-encryption-with-zfs-using-proxmox-installer.127512/)
 
-- 🌐 [Feature Request: Native ZFS encryption during Proxmox installation](https://bugzilla.proxmox.com/show_bug.cgi?id=2714)
-- 🌐 [Encrypting Proxmox VE: Best Methods](https://forum.proxmox.com/threads/encrypting-proxmox-ve-best-methods.88191/#post-387731)
-- 🌐 [gist: FDE with Proxmox and ZFS native encryption](https://gist.github.com/yvesh/ae77a68414484c8c79da03c4a4f6fd55)
-- 🌐 [github/openzfs: Unlocking ZFS encrypted root over SSH](https://github.com/openzfs/zfs/tree/master/contrib/initramfs#unlocking-a-zfs-encrypted-root-over-ssh)
-- 🌐 [Proxmox VE ZFS encryption](https://pve.proxmox.com/wiki/ZFS_on_Linux#zfs_encryption)
+- :lucide-external-link: [Feature Request: Native ZFS encryption during Proxmox installation](https://bugzilla.proxmox.com/show_bug.cgi?id=2714)
+- :lucide-external-link: [Encrypting Proxmox VE: Best Methods](https://forum.proxmox.com/threads/encrypting-proxmox-ve-best-methods.88191/#post-387731)
+- :lucide-external-link: [gist: FDE with Proxmox and ZFS native encryption](https://gist.github.com/yvesh/ae77a68414484c8c79da03c4a4f6fd55)
+- :lucide-external-link: [github/openzfs: Unlocking ZFS encrypted root over SSH](https://github.com/openzfs/zfs/tree/master/contrib/initramfs#unlocking-a-zfs-encrypted-root-over-ssh)
+- :lucide-external-link: [Proxmox VE ZFS encryption](https://pve.proxmox.com/wiki/ZFS_on_Linux#zfs_encryption)
 
 LUKS + Dropbear
 
-- 🌐 [Adding LUKS FDE to Proxmox](https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/)
+- :lucide-external-link: [Adding LUKS FDE to Proxmox](https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/)
 
 ---
 
-## 🔀 Migrating VMs
 
-- 🌐 [Importing Virtual Machines](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#qm_import_virtual_machines)
-- 🌐 [Migrating Hyper-V to Proxmox](https://forum.proxmox.com/threads/migrating-hyper-v-to-proxmox-what-i-learned.137664/)
+#### :lucide-lock-keyhole: Storage Disk Encryption
+
+This will walk you through encrypting and managing other internal drives on Proxmox.
+
+**Creating a LUKS Partition**
+
+Assume you have at least one additional internal drive connected to Proxmox.
+
+!!! note "Unlock & Name the Storage ID"
+
+	If you look under Datacenter > Storage, you'll see the default ID's are `local` and `local-lvm`.
+
+    In this example, we'll call it `luks1-lvm` to stick to a similar naming convention.
+
+    You can make up any name for a storage ID, just stick to alphanumeric characters and hyphens `-`.
 
 
-**Hyper-V**
+```bash
+# Format the disk, fdisk is available on Proxmox, interactive but straightforward.
+# If you do not partition the disk, you'll only see /dev/sdX, not /dev/sdX1.
+# https://wiki.archlinux.org/title/Fdisk
+fdisk /dev/sdX1
+
+# Commands inside fdisk:
+# g  → create GPT partition table
+# n  → new partition (accept all defaults for single full-disk partition)
+# w  → write and exit
+
+# Format the partition to be LUKS encrypted
+cryptsetup luksFormat /dev/sdX1
+# Enter a passphrase, store it in your password manager
+
+# Unlock it, assign a storage-id
+cryptsetup open --type luks /dev/sdX1 <storage-id>  # You create the storage ID string, e.g. luks1-lvm
+
+# Only create a filesystem if you need it, otherwise use lvm-thin pools for VM storage.
+mkfs.ext4 /dev/mapper/luks1-lvm
+```
+
+
+##### Storage Pools
+
+!!! tip "New `vgname` and `thinpool`"
+
+	Create a new volume group and thinpool for LUKS drives to share. **This is because adding them to the existing volume group and thinpool means VM's and data will still be written to the unencrypted drives** (if you aren't using full disk encryption).
+
+    Example naming convention to create unique entries per-disk:
+
+    - Storage ID: `luks1-lvm`
+    - vgroup (Volume Group): `luks1-group`
+    - thinpool (Data Pool): `luks1-data`
+
+    For LUKS, the intent is more clear if you do this per-disk, so sdb1 gets luks1, sdc1 gets luks2, etc. If one disk fails, there's no overlapping storage pools between them. ZFS is potentially easier to work with in this sense.
+
+To make Proxmox aware of the new storage pool:
+
+- Datacenter > Storage > Add
+- ID: `luks1-lvm` (storage identifier created with cryptsetup)
+
+Alternatively you can use `pvesm` to do everything (examples originally from `gpt-4o`).
+
+```bash
+# Helpful to visualize the pve storage
+pvesm status
+
+# Create a new volume group for LUKS drives
+vgcreate luks1-group /dev/mapper/luks1-lvm
+
+# Create a new thinpool called "luks1-data" for the luks1-lvm storage drive, leaving 5% of the drive for metadata
+lvcreate --type thin-pool -l95%FREE -n luks1-data luks1-group
+
+# Add a LUKS thin-lvm data pool for VM storage
+# lvm-thin is more efficient than a filesystem for VM storage
+pvesm add lvmthin luks1-lvm \
+    --vgname luks1-group \
+    --thinpool luks1-data \
+    --content images \
+    --content rootdir
+
+```
+
+If you mess up, you can remove or undo almost anything at this stage. For example:
+
+```bash
+vgremove luks1-group
+
+```
+
+
+##### File Systems
+
+!!! note "LVM-Thin vs Filesystem"
+
+    **Remember, you would only `mkdir` and `mount` a filesystem if it's not a storage pool. VM's benefit from lvm-thin data pools for more efficency than a filesystem**.
+
+Get a sense of which partition(s) you'll want to add. In this case, the device is `sdc` and the GPT partition we created with `fdisk` is `sdc1`.
+
+```bash
+lsblk
+<SNIP>
+sdc                            8:48   0   1.8T  0 disk
+└─sdc1                         8:49   0   1.8T  0 part
+```
+
+!!! note "Skipped Partitioning?"
+
+    Whether you use `parted`, `fdisk`, or otherwise, if you didn't create a disk partition some programs and systems will complain about this. However, LUKS encrypting the entire disk still works.
+
+In this example, assume you have another internal LUKS disk used for scheduled backups, `luks2-lvm`.
+
+```bash
+# If this will be a filesystem and NOT an lvm-thin storage pool
+# Create a mount path (can be anywhere, /mnt/ is easy to understand)
+# and use mount to connect that storage id to the path.
+mkdir /mnt/luks2-backup
+mount /dev/mapper/luks2-lvm /mnt/luks2-backup
+
+# Make Proxmox aware of the filesystem for VM backup schedules, ISOs, or other use
+pvesm add dir luks2-lvm \
+    --path /mnt/luks2-backup \
+    --content backup
+```
+
+If you need to unmount and close the LUKS disk:
+
+```bash
+# To unmount the filesystem, and close the the LUKS partition if you need to
+umount /mnt/luks2-backup
+cryptsetup close luks2-lvm
+```
+
+#### :lucide-cpu: TPM Unlocking Disks
+
+Unlock Encrypted Storage via a TPM.
+
+**References**
+
+- :lucide-external-link: [github.com/tpm2-software](https://github.com/tpm2-software)
+- :lucide-external-link: [tpm2-tools Maintainers](https://github.com/tpm2-software/tpm2-tools/blob/master/docs/MAINTAINERS.md)
+- :lucide-external-link: [Intel: Open Sourcing the TPM2 Software Stack](https://www.intel.com/content/www/us/en/developer/articles/technical/tpm2-software-stack-open-source.html)
+- :lucide-external-link: [Arch Linux Wiki: TPM](https://wiki.archlinux.org/title/Trusted_Platform_Module)
+- :lucide-external-link: [Arch Linux Wiki: systemd-cryptenroll](https://wiki.archlinux.org/title/Systemd-cryptenroll)
+- :lucide-external-link: [github.com/systemd tpm2-util.c](https://github.com/systemd/systemd/blob/main/src/shared/tpm2-util.c) (search github.com/tpm2-software)
+
+Essential packages:
+```bash
+# On Proxmox 8
+sudo apt update; sudo apt install -y \
+  cryptsetup \
+  tpm2-tools
+
+# On Proxmox 9 or later
+sudo apt update; sudo apt install -y \
+  cryptsetup \
+  tpm2-tools \
+  systemd-cryptsetup
+```
+
+Setup on Proxmox:
+
+=== "Custom Service"
+
+    !!! note "Why not use `systemd-cryptenroll`?"
+
+        This is different than using `systemd-crypt*`, which will block the machine from booting without manual (physical) intervention if anything changes with the PCRs you're tying the unlock condition to. For example, `--tpm2-pcrs=0+7` ties the unlock to the firmware and Secure Boot state. If you update the firmware of the host, or Secure Boot gets a new revocation list, unlock fails, and in the case of `systemd-cryptenroll`, the system is stuck between GRUB and booting, asking for your LUKS password as a fallback.
+
+        Instead, we create our own custom systemd-service that runs the unlock commands *after* boot, and if it fails, you'll still have remote access to Proxmox to assess the situation.
+
+    Identify your LUKS device.
+
+    ```bash
+    lsblk  # Use this to determine <storage-name>
+    lsblk -f | grep crypto_LUKS  # If this has a number appended, like sdb1, include the number below too
+    ```
+
+    Enroll the TPM (***appends*** data to an open keyslot).
+
+    ```bash
+    # --tpm2-pcrs=0+7 == firmware + Secure Boot state, is generally auto-patch safe
+    systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/sdX1
+    ```
+
+    Do ***NOT*** use crypttab, this will block boot if anything goes wrong. This block below is only for reference.
+
+    ```bash
+    # Format: <name> <device> <keyfile> <options>
+    # echo "<storage-name> UUID=$(blkid -s UUID -o value /dev/sdX) none tpm2-device=auto" \
+    #    >> /etc/crypttab
+    ```
+
+    Create a systemd service to run the unlock commands at boot. If the TPM is present and the firmware or Secure Boot state has not changed, this will automatically unlock the disks.
+
+    If you're mounting a filesystem, ensure the path exists and you've registered it with Proxmox.  For example:
+
+    ```bash
+    mkdir -p /mnt/luks3-backup
+    pvesm add dir luks3-backup --path /mnt/luks3-backup --content backup
+    ```
+
+    We use `crytpsetup` because it should work across all recent Proxmox verisons (8 and 9). Additionally, using the wwn (World Wide Name) of storage devices is encouraged over block names like `/dev/sdb1`.
+
+    - :lucide-external-link: [Arch Linux Wiki: Persistent Block Device Names](https://wiki.archlinux.org/title/Persistent_block_device_naming#World_Wide_Name)
+
+    ```bash
+    echo "
+    [Unit]
+    Description=TPM Unlock Disks
+    After=systemd-modules-load.service
+    Before=pve-storage.target
+
+    [Service]
+    Type=oneshot
+    # Prepend a "-" to the command path, to ignore the exit code
+    # so the system doesn't stall on boot if there's a change.
+    # You'll want to pin the drive to to the unique drive id.
+    # Obtain it with: ls -l /dev/disk/by-id/
+    # So /dev/sdb1 == /dev/drive/by-id/wwn-0x0123456789abcdef-part1
+    ExecStart=-/usr/sbin/cryptsetup open /dev/drive/by-id/wwn-0x0123456789abcdef-part1 <storage-name>
+    # ExecStart=-/usr/sbin/cryptsetup open /dev/drive/by-id/wwn-0x1111111111111111-part1 <storage-name>
+    # Repeat for each LUKS volume to be auto-unlocked by TPM.
+    # For filesystems, you must also include the mount commands here too.
+    # ExecStart=-/usr/bin/mount /dev/mapper/<storage-name> /mnt/some-existing-path
+    RemainAfterExit=yes
+
+    SuccessExitStatus=0
+
+    [Install]
+    WantedBy=multi-user.target" | tee /etc/systemd/system/tpm-unlock-disks.service
+    ```
+
+    Reload systemd to pick up crypttab changes
+
+    ```bash
+    systemctl daemon-reload
+    systemctl enable tpm-unlock-disks.service
+    # You should also be able to confirm the service unlocks the disks
+    # by restarting it manually
+    systemctl restart tpm-unlock-disks.service
+    ```
+
+    Verify the new TPM-based keyslot exists alongside your password
+
+    ```bash
+    cryptsetup luksDump /dev/sdX1
+    ```
+
+=== "systemd-cryptenroll"
+
+    !!! warning "Manual Intervention"
+
+        This method will block Proxmox from booting if any of the PCR values change (generally we use 0+7, meaning firmware and Secure Boot states), and will require physical keyboard + monitor access to resolve, even if the OS drive is not encrypted.
+
+    !!! warning "TODO"
+
+        This section is still under construction.
+
+
+#### :lucide-microchip: Backup LUKS Headers
+
+- :lucide-external-link: [Fedora Project: Backup LUKS Headers](https://docs.fedoraproject.org/en-US/quick-docs/encrypting-drives-using-LUKS/#_backup_luks_headers)
+- :lucide-external-link: [gitlab/cryptsetup: Backup and Data Recovery](https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions#6-backup-and-data-recovery)
+- :lucide-external-link: [Arch Linux: LUKS Backup and Restore](https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Backup_and_restore)
+
+Once everything's working it's **recommended to backup the headers of your LUKS devices** in the extremely rare case a drive header corrupts. These are ~2MB or larger binary blobs, the first "area" of the LUKS disk containing the encrypted key slots and necessary data to unlock the drive.
+
+- Store these on a Proxomox backup filesystem drive
+- Store these in your password manager
+- If these are stolen, they can be brute-forced offline
+
+```bash
+cryptsetup luksHeaderBackup --header-backup-file <header-file> <device>
+cryptsetup luksHeaderBackup --header-backup-file /mnt/luks2-backup/luks2-header-"$(date +%F)".bin /dev/sdc1
+```
+
+**Additional Resources**
+
+- :lucide-external-link: [How to Mount Existing Disks Within proxmox](https://forum.proxmox.com/threads/how-to-mount-existing-disk-to-storage.66559/)
+- :lucide-external-link: [Adding LUKS Encryption to proxmox](https://forum.proxmox.com/threads/adding-full-disk-encryption-to-proxmox.137051/)
+- :lucide-external-link: [Add an Existing Disk to proxmox](https://forum.proxmox.com/threads/adding-an-existing-hdd-to-proxmox.118361/)
+- :lucide-external-link: [Add a Dew Disk as LVM-thin](https://forum.proxmox.com/threads/adding-a-disk-and-set-it-as-lvm-thin-help-needed-please.111724/)
+- :lucide-external-link: [proxmox Storage Wiki](https://pve.proxmox.com/wiki/Storage)
+- :lucide-external-link: [Dr Duh Yubikey Guide: Backing Up Keys on Encrypted Storage](https://github.com/drduh/YubiKey-Guide?tab=readme-ov-file#backup-keys)
+
+---
+
+
+## :lucide-shuffle: Migrating VMs
+
+- :lucide-external-link: [Importing Virtual Machines](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#qm_import_virtual_machines)
+- :lucide-external-link: [Migrating Hyper-V to Proxmox](https://forum.proxmox.com/threads/migrating-hyper-v-to-proxmox-what-i-learned.137664/)
+
+### :lucide-database-backup: Between Storage Pools
+
+!!! warning "TODO"
+
+    This section is still under construction.
+
+### :lucide-monitor-cog: From Hyper-V
 
 Follow [the link referenced above](https://forum.proxmox.com/threads/migrating-hyper-v-to-proxmox-what-i-learned.137664/). Essentially, with no snapshots on the Hyper-V VM you wish to migrate (you can export the VM and import it back into Hyper-V so it's separate from your "main" copy, to delete the snapshots, then export it again) export your Hyper-V VM so you have the .vhdx file. Move it over to the Proxmox filesystem.
 
@@ -594,7 +751,7 @@ Follow [the link referenced above](https://forum.proxmox.com/threads/migrating-h
 Create the VM as you would if you were making it from scratch, following the steps in the linked forum post (q35 for the VM type, and then detach the default disk). Use the `qm disk import <vmid> <source> <storage> [OPTIONS]` command to import the .vhdx file as the disk image for your Hyper-V VM.
 
 ```bash
-qm disk import 105 /mnt/wd500-external/Virtualization/Wazuh/Virtual\ Hard\ Disks/Wazuh.vhdx luks3-lvm
+qm disk import 105 /mnt/wd500-external/Virtualization/Wazuh/Virtual\ Hard\ Disks/Wazuh.vhdx luks1-lvm
 importing disk '/mnt/wd500-external/Virtualization/Wazuh/Virtual Hard Disks/Wazuh.vhdx' to VM 105 ...
   Logical volume "vm-105-disk-3" created.
 transferred 0.0 B of 127.0 GiB (0.00%)
@@ -606,7 +763,7 @@ transferred 5.1 GiB of 127.0 GiB (4.00%)
 transferred 125.9 GiB of 127.0 GiB (99.12%)
 transferred 127.0 GiB of 127.0 GiB (100.00%)
 transferred 127.0 GiB of 127.0 GiB (100.00%)
-Successfully imported disk as 'unused1:luks3-lvm:vm-102-disk-3'
+Successfully imported disk as 'unused1:luks1-lvm:vm-102-disk-3'
 ```
 
 Add (attach) the disk under the VM's settings. **Be sure to go into "Options", not "Hardware" and set this disk first in the boot order**. In the event this is a Linux VM, even with SecureBoot enabled you'll be able to boot it, and get running.
@@ -618,9 +775,9 @@ Fix any issues (such as networking), poweroff, then take your first snapshot.
 ---
 
 
-## ⚙️ VM Configuration
+## :lucide-settings: VM Configuration
 
-### 🛜 Virtual NIC
+### :lucide-ethernet-port: Virtual NIC
 
 This is the equivalent of creating a virtual NIC (not to be confused with a VLAN) in VMware or VirtualBox for guest-to-guest communication (for example a LAN and OPT NIC to attach to a pfSense VM). First you need to create another Linux Bridge network device that isn't attached to any physical network ports.
 
@@ -636,7 +793,7 @@ Now when creating the VM:
 - The other will remain purely virtual (for example pfSense could then provide DHCP to that NIC)
 
 
-### 💾 Disk Passthrough
+### :lucide-hard-drive: Disk Passthrough
 
 Say you've installed Proxmox on an existing server or workstation, either as the primary OS or next to an existing OS. You can mount any of the internal drives to VM's without any special modifications to Proxmox's kernel or boot parameters (tested on PVE-8.3.0).
 
@@ -680,14 +837,58 @@ qm unlink 105 --idlist scsi2
 ```
 
 
-## Troubleshooting
+## :lucide-wrench: Maintenance
+
+Use the following tabs to understand the overall activity of your node(s):
+
+- Datacenter > Summary
+- `<node>` > Summary
+
+For the best data and visualization, you'll want to enable the Metric Server, to ship logs to a VM running [InfluxDB + Grafana](https://docs.influxdata.com/influxdb/v2/tools/grafana/#Copyright).
+
+
+### :lucide-hard-drive-download: Snapshots
+
+VM snapshots are valuable, but more brittle than backups:
+
+- Tied to the storage pool they were taken in
+- Are not backed up
+- Must be deleted to fully migrate a VM
+
+
+### :lucide-rotate-ccw: Backups
+
+System backups can be taken by archiving `/etc/pve`:
+
+```bash
+tar czf /mnt/luks3-backup/pve-config-$(date +%Y%m%d).tar.gz /etc/pve/
+```
+
+VM backups are the best recovery and long term storage method. They can be scheduled easily from:
+
+- Datacenter > Backup > Add
+- Select the VMs
+- Set the cadence / time to run backups
+- `Mode: Stop` will shutdown the VMs before running `vzdump` to archive them
+- Set retention policy, e.g. keep up to 3 backups of each VM
+
+!!! tip "Backup `jobs.cfg`"
+
+    You can see the raw config this creates, for later automation, under `/etc/pve/jobs.cfg`.
+
+
+## :lucide-puzzle: Troubleshooting
 
 *This section details issues and how to resolve them.*
 
 
-### UEFI Causes Boot Failure
+### :lucide-octagon-minus: UEFI Causes Boot Failure
 
 Typically in Unix-like distros where UEFI is supported but Secure Boot is not, you must interrupt the boot process and turn off Secure Boot.
+
+!!! tip "Proxmox Support"
+
+    Proxmox 8 and later support Secure Boot.
 
 - During boot, when you see the Proxmox splash screen, hit `Esc`
 - Select `Device Manager`
