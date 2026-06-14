@@ -947,9 +947,102 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
     sub   rsa4096/0xA8373E18FC0D0DCB 2012-03-05 [E] [expires: 2027-02-04]
     ```
 
+	---
+
 	[**Kali Vagrant Rebuilt: Out With Packer, In With DebOS**](https://www.kali.org/blog/kali-vagrant-rebuilt/)
 
 	This is a good example of using DebOS to replace the steps packer takes to automate building a VM.
+
+	---
+
+	**Validating Pre-built ARM Images**
+
+	You'll notice the [arm-images](https://kali.download/arm-images/current/) do not ship with a detached GPG signature. The best answer to this may be pulling the build scripts yourself so you can review the source, before building your own ARM image. This can take time, so if you prefer to use the pre-built ARM images, you can get a fairly high degree of confidence with the following steps:
+
+	- Ensure you're using DNS over TLS or HTTPS via a trusted provider (e.g. Cloudflare, Google, Quad9)
+	- Ensure you're starting from the offical [kali.org](https://www.kali.org/get-kali/#kali-platforms) site, which points you to [kali.download](https://kali.download/)
+	- Check the `sha256sum` of the image file, and compare the sha256sums themselves between the SHA256SUM file on [kali.download](https://kali.download/) to what's shown on [kali.org](https://www.kali.org/get-kali/#kali-platforms)
+	- **To reduce the likelihood of mitm, use a phone over cellular (basically, another device on another network path) to confirm the SHA256SUM shown on [kali.org](https://www.kali.org/get-kali/#kali-platforms) is the same, this cross-check is the best you can do without GPG signatures**
+	- Check the TLS certificate data from both devices, use [crt.sh]()
+
+	If everything aligns, you've done everything you can to validate the image integrity.
+
+	---
+
+	**Customize a Pre-built ARM Image**
+
+	This is just for the pre-built images. This is easier to do if you're building from scratch.
+
+	After imaging the img.xz file onto your USB drive with `dd`, [you can chroot into the filesystem before first boot to make adjustments](https://www.kali.org/docs/arm/raspberry-pi-with-luks-full-disk-encryption-2/#preparing-the-system).
+
+	The steps below assume we've imaged a USB device, either from our host or inside a VM via pass-through, and the device is on the system as `sda`. (VM's typically have `vda`, NVME drives will be named `nvme`)
+
+	```bash
+	# Confirm nothing is mounted, if so unmount it
+	mount | grep sda
+
+	# Run disk expansion from the host, not inside the chroot, else we can't add anything to
+	# the filesystem or modify it (there's no extra room yet)
+	sudo parted /dev/sda resizepart 2 100%
+	sudo e2fsck -f /dev/sda2
+	sudo resize2fs /dev/sda2
+
+	# These commands are from the official Kali docs, linked above, with a few additional notes for Ubuntu
+	sudo mkdir -vp /mnt/chroot/
+	sudo mount /dev/sda2 /mnt/chroot/
+	sudo mount /dev/sda1 /mnt/chroot/boot/
+	sudo mount -t proc none /mnt/chroot/proc
+	sudo mount -t sysfs none /mnt/chroot/sys
+	sudo mount -o bind /dev /mnt/chroot/dev
+	sudo mount -o bind /dev/pts /mnt/chroot/dev/pts
+	# You'll need the qemu binaries to run the aarch64 Kali installation
+	sudo apt install -y qemu-user-static  # qemu-user on Ubuntu 26.04
+	sudo cp /usr/bin/qemu-aarch64-static /mnt/chroot/usr/bin/  # qemu-aarch64 on Ubuntu 26.04
+	# Chroot mount into Kali
+	sudo env LANG=C chroot /mnt/chroot/
+
+	# Confirm freespace
+	df -h /
+
+	# Make changes (we land as root)
+	apt update;
+	adduser --shell /bin/zsh kali # If the user isn't already baked in
+	usermod -aG sudo kali  # sudo will allow you to join more groups later
+	mkdir /home/kali/.ssh
+	touch /home/kali/.ssh/authorized_keys
+	chown -R kali:kali /home/kali/.ssh/
+	chmod 600 /home/kali/.ssh/*
+	# Add authorized_keys, disable password auth over SSH
+	echo 'ssh-ed25519 AAAA...' | tee /home/kali/.ssh/authorized_keys >/dev/null
+	sed -i 's/^#PasswordAuthentication yes$/PasswordAuthentication no/g' /etc/ssh/sshd_config
+
+	# Unmount
+	exit  # exit chroot
+	sudo umount /mnt/chroot/dev/pts
+	sudo umount /mnt/chroot/dev
+	sudo umount /mnt/chroot/sys
+	sudo umount /mnt/chroot/proc
+	sudo umount /mnt/chroot/boot/
+	sudo umount /mnt/chroot
+
+	# If installing over an existing OS running on an NVME HAT, you'll want to
+	# ensure boot order is USB > NVME:
+	sudo rpi-eeprom-config --edit
+	# https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#BOOT_ORDER
+	# BOOT_ORDER=0xf164  # Tried in order of right-to-left
+	# 4 = USB
+	# 6 = NVME
+	# 1 = SD
+	# You can change this order back to prefer NVME once you install the OS
+
+	# This trick was suggested by ChatGPT 4o, has been tested, and works well.
+	# If installing onto an NVME Raspberry Pi HAT you can dd the running OS from
+	# the USB drive onto the NVME, then remove the USB and reboot to be running
+	# entirely from the NVME HAT.
+	sudo dd if=/dev/sda of=/dev/nvme0n1 bs=64K status=progress conv=noerror,sync
+	# You'll see a few errors; as long as you can reboot into the NVME, and the
+	# system internals show as working, you are set.
+	```
 
 
 ??? bug ":simple-ubuntu: REMnux"
@@ -1781,7 +1874,32 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 ??? example "Git Signatures"
 
-	TO DO
+	You'll need to obtain the public key of the commit. If you don't have it in your keyring, you'll be told the key's fingerprint so you can obtain it. When you obtain it you should use whatever methods are available to verify that's the correct key (e.g. project documentation or key history on a key server).
+
+	Verify commit signatures
+	```bash
+	git log --show-signature    # You're looking for a gpg signature block in the log
+	git verify-commit <commit>  # Check the commit after you obtain and review the public key
+	```
+
+	Verify signed tags
+	```bash
+	git tag
+	git verify-tag <tag>
+	```
+
+	Clone a specific tag only
+	```bash
+	git clone '<url>' --branch=<tag>              # Clone up to specified <tag> and all history
+	git clone '<url>' --branch=<tag> --depth 1    # Only clones the tag's state, no history
+	```
+
+	Remember that tags can be any arbitrary alphanumeric text:
+
+	- `v1.20.0`
+	- `2021.3.1`
+	- `beta-2.1`
+
 
 ??? example "Git Submodules"
 
@@ -3221,6 +3339,94 @@ This includes general network information as well as network-focused tools.
 	- <https://wigle.net/csv/bt-name.csv>
 	- <https://wigle.net/csv/ble-name.csv>
 
+**Wi-Fi**
+
+??? danger "aircrack-ng"
+
+	> WiFi security auditing tools suite.
+
+	- <https://github.com/aircrack-ng/aircrack-ng>
+
+	**Installation**
+
+	Best installation methods:
+
+	- Via pentest distribution package repositories, for other distros, see repo versions available [here](https://github.com/aircrack-ng/aircrack-ng#repository-versions) and confirm your arch is supported
+	- If not on Kali, and you're on a Raspberry Pi, you'll likely need to [build from source](https://github.com/aircrack-ng/aircrack-ng#building)
+
+	**Usage**
+
+	This is just a quick overview, the commands are too numerous to include here. Generally though, many of the aircrack-ng tools, especially `aireplay-ng` use the pattern `[command] [type] [ap] [client] [interface]`.
+
+	- `airmon-ng` Configure wireless cards
+	- `airodump-ng` Observe and record wireless activity, including auth packets
+	- `aireplay-ng` Used to execute most of the common attacks on WiFi, otherwise use `mdk4`
+	- `aircrack-ng` CPU-based cracking, easy to run on capture files (pcap / cap)
+
+	airmon-ng
+
+	```bash
+	sudo airmon-ng check kill
+	sudo airmon-ng start wlan0 [channel]
+	sudo airmon-ng stop wlan0mon
+	```
+
+	airodump-ng (each time you `-w` a new capture file with the same name, it appends a number to it for you)
+
+	```bash
+	# Capture everything, automatically hops between all channels on 2.4GHz and 5GHz
+	sudo airodump-ng --manufacturer --wps --band abg -w wlan0-triage wlan0mon
+
+	# Focus on a single channel + AP, this is necessary for collecting relevant data
+	sudo airodump-ng --manufacturer --wps -c 11 -d '<bssid>' -w c11_<bssid> wlan0mon
+	```
+
+??? danger "mdk4"
+
+	> MDK is a proof-of-concept tool to exploit common IEEE 802.11 protocol weaknesses.
+
+	- <https://github.com/aircrack-ng/mdk4>
+
+	`mdk4` is very fast, 350 tries/second in most cases, but will only print the line in the wordlist that it's working on, every few seconds. This will make it appear as though it's only trying 1 word every few seconds, which is not actually the case. You can verify this by following the full data stream in Wireshark on the same interface running mdk4.
+
+	`mdk4` also only tries lines from the wordlist that match the ESSID length.
+
+	```bash
+	# You must be on the same channel as the target
+	sudo airmon-ng start wlan3 11  # Sets wlan3mon to channel 11
+
+	# Run mdk4 against the hidden network's BSSID, using a -f wordlist.txt
+	sudo mdk4 wlan3mon p -t "${BSSID}" -f ./essid_list.txt
+
+	# You'll see the following result if successful:
+	<SNIP>
+	Probe Response from target AP with SSID <SSID-NAME>
+	Job's done, have a nice day :)
+	```
+
+??? danger "Bettercap"
+
+	> The Swiss Army knife for 802.11, BLE, HID, CAN-bus, IPv4 and IPv6 networks reconnaissance and MITM attacks.
+
+	- <https://github.com/bettercap/bettercap/releases>
+	- [Installation](https://www.bettercap.org/project/installation/)
+	- [Usage](https://www.bettercap.org/usage/interactive_session/) (The module examples show some great recon one-line commands using `ticker`)
+
+	Bettercap has precompiled release files for macOS, Linux, and Windows. It's also very easy to build from source which is necessary on Raspberry Pi if you aren't running Kali Linux. There's both, web and CLI interfaces to use which are rich and easy to navigate.
+
+	See [linux-configs/ubuntu/install-rf-tools.sh]() for the setup steps in bash.
+
+	:lucide-list-todo: TODO: Ansible role to build this.
+
+	---
+
+	**Remote Usage & Deployment**
+
+	- Raspberry Pi 5 + NVME HAT
+	- [Install `bettercap` as a systemd service](https://github.com/bettercap/bettercap/blob/master/bettercap.service), to launch the web UI on boot
+	- Tailscale for remote access
+	- Control the bettercap node from a browser, SSH, or your phone
+
 ??? question "USB-WiFi Guide"
 
 	> The mission of this site is to provide educational information, reviews of USB WiFi adapters and links to specific adapters that are known to perform well with Linux ( see The Plug and Play List ).
@@ -3263,20 +3469,6 @@ This includes general network information as well as network-focused tools.
 
 	- <https://github.com/blackhillsinfosec/Wifi-Forge>
 
-??? question "Rayhunter"
-
-	> Rust tool to detect cell site simulators on an orbic mobile hotspot.
-
-	- <https://github.com/EFForg/rayhunter>
-
-??? tip "Chrome's Built-in Bluetooth Scanner"
-
-	Discoverd on [PSW #867](https://securityweekly.com/psw-867).
-
-	Access the interface via: `chrome://bluetooth-internals` to scan for nearby bluetooth devices.
-
-	- This works on most desktop versions of Chrome
-	- Does not appear to work on iOS
 
 ??? question "wifi_db"
 
@@ -3290,28 +3482,65 @@ This includes general network information as well as network-focused tools.
 
 	- <https://gist.github.com/r4ulcl/f3470f097d1cd21dbc5a238883e79fb2>
 
-??? danger "mdk4"
+**Bluetooth**
 
-	> MDK is a proof-of-concept tool to exploit common IEEE 802.11 protocol weaknesses.
+??? tip "Chrome's Built-in Bluetooth Scanner"
 
-	- <https://github.com/aircrack-ng/mdk4>
+	Discoverd on [PSW #867](https://securityweekly.com/psw-867).
 
-	`mdk4` is very fast, 350 tries/second in most cases, but will only print the line in the wordlist that it's working on, every few seconds. This will make it appear as though it's only trying 1 word every few seconds, which is not actually the case. You can verify this by following the full data stream in Wireshark on the same interface running mdk4.
+	Access the interface via: `chrome://bluetooth-internals` to scan for nearby bluetooth devices.
 
-	`mdk4` also only tries lines from the wordlist that match the ESSID length.
+	- This works on most desktop versions of Chrome
+	- Does not appear to work on iOS
 
-	```bash
-	# You must be on the same channel as the target
-	sudo airmon-ng start wlan3 11  # Sets wlan3mon to channel 11
+??? abstract "nRF52840 MDK"
 
-	# Run mdk4 against the hidden network's BSSID, using a -f wordlist.txt
-	sudo mdk4 wlan3mon p -t "${BSSID}" -f ./essid_list.txt
+	> An Open-Source, Micro Development Kit for IoT Applications using the nRF52840 SoC
 
-	# You'll see the following result if successful:
-	<SNIP>
-	Probe Response from target AP with SSID <SSID-NAME>
-	Job's done, have a nice day :)
-	```
+	- <https://github.com/makerdiary/nrf52840-mdk>
+
+	There are number of official places to order one from. The board and docs are fully open and make it easy to audit or inspect.
+
+??? danger "Morpho"
+
+	> BLE focused, multi-protocol wireless red team framework (built on WHAD)
+
+	- <https://github.com/lukeswitz/Morpho>
+	- [Hardware Requirements](https://github.com/lukeswitz/Morpho#hardware-support)
+
+	Needs testing and review, but this appears to be a comprehensive attack surface enumeration tool for BLE devices.
+
+	This tool is built on the [WHAD](https://github.com/whad-team/whad-client) framework.
+
+??? info "WHAD"
+
+	> Wireless Hacking Devices Protocol client
+
+	- <https://github.com/whad-team/whad-client>
+
+	WHAD is a client-side python framework used to interact with RF protocols on a capable device (such as the nRF52840 MDK) and firmware (such as Butterfly).
+
+??? info "Butterfly"
+
+	> ButteRFly is a firmware specifically designed to be used with WHAD that provides the following features:
+	>
+	> - Bluetooth Low Energy connection sniffing, scanning, hijacking and PDU injection
+    > - ZigBee sniffing, scanning and packet injection
+    > - Nordic Semiconductor's Enhanced ShockBurst protocol sniffing, scanning and packet injection
+    > - Logitech Unifying sniffing, scanning and packet injection
+
+	- <https://github.com/whad-team/butterfly>
+	- [Hardware and Installation Instructions](https://whad.readthedocs.io/en/stable/device/compat.html#makerdiary-nrf52840-mdk-usb-dongle)
+
+	It's recommended to use an nRF52840 MDK USB Dongle to run Butterfly.
+
+**Cellular**
+
+??? question "Rayhunter"
+
+	> Rust tool to detect cell site simulators on an orbic mobile hotspot.
+
+	- <https://github.com/EFForg/rayhunter>
 
 
 ### :material-cloud-cog-outline: Cloud
@@ -3454,6 +3683,32 @@ This includes general network information as well as network-focused tools.
 ??? example "Secuity Onion"
 
 	- <https://github.com/Security-Onion-Solutions>
+
+??? danger "Nzyme"
+
+	> CLOSE ACCESS DENIAL.
+
+	- <https://www.nzyme.org/>
+	- <https://github.com/nzymedefense/nzyme>
+	- <https://github.com/nzymedefense/nzyme/releases>
+
+	Nzyme is a wirless IDS system capable of surveying WiFI and BLE signals, establishing a baseline, trilateration, alerting on anomalies, and more.
+
+	See the dedicated note page detailing setup and usage: [notes/nzyme.md](notes/nzyme.md).
+
+??? danger "AntiHunter"
+
+	> AntiHunter Perimeter Defense Systems - DIGI Node Firmware
+	>
+	> - Open-source wireless sensor node for perimeter defense and spectrum awareness.
+	> - ESP32-S3 with WiFi/BLE scanning, GPS, SD logging, vibration sensing and LoRa mesh networking.
+	> - Deploy one node or a distributed network- each scans independently and coordinates over mesh.
+
+	- <https://github.com/lukeswitz/AntiHunter>
+
+	Similar to Nzyme, a wireless IDS system with mesh network integration.
+
+	Suggested and shared by [Th4ntis](https://github.com/Th4ntis).
 
 ??? question "runZero"
 
@@ -4572,6 +4827,13 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://www.ukbiobank.ac.uk/>
 	- <https://github.com/UK-Biobank>
 
+### :lucide-drafting-compass: GEOINT
+
+??? question "U.S. Geological Survey - Earthquake Map"
+
+	Real-time earthquake data, sorted by most recent. Includes a map.
+
+	- <https://earthquake.usgs.gov/earthquakes/map/>
 
 ## :material-wallet: Cryptocurrency
 
