@@ -3719,6 +3719,8 @@ This includes general network information as well as network-focused tools.
 	- <https://www.runzero.com/>
 	- <https://github.com/runZeroInc>
 
+	---
+
 	**Platform Support**
 
 	runZero supports almost all major platforms and architectures, including Windows, macOS, Linux, BSD, 32/64-bit, and ARM. Using a Raspberry Pi as an "Explorer" node works really well and has a lot of flexibility. The device you deploy the Explorer service to becomes your internal scanning engine. Ensure you have the right network access in place, or the right number of devices to use as Explorers, to fully enumerate your networks.
@@ -3726,6 +3728,7 @@ This includes general network information as well as network-focused tools.
 	- <https://help.runzero.com/docs/installing-an-explorer/>
 	- <https://help.runzero.com/docs/installing-explorer-on-raspberry-pi/>
 
+	---
 
 	**Verifying Binaries**
 
@@ -3747,6 +3750,22 @@ This includes general network information as well as network-focused tools.
 	- Verify the verifier tool itself using the detached GPG signature and hash
 	- Download your Explorer installer
 	- Use the verifier tool to validate the Explorer installer binary
+
+	---
+
+	**Wireless Asset Inventory**
+
+	```bash
+	# Ubuntu 24.04 server for Raspberry Pi
+	sudo apt update
+	sudo apt install -y wireless-tools
+	```
+
+	If the explorer is a Raspberry Pi, you'll need to use ethernet for networking + the built in card for scanning, or an external (Alfa) card for scanning if you use the built in card for network connectivity.
+
+	The docs aren't clear on this, but you'll notice the inventory doesn't populate if the explorer node doesn't have both, an available wireless card ***and the necessary local utilities***. If you install Ubuntu 24.04 server on the Raspberry Pi for example, you may not have those packages by default despite them being in `main/`.
+
+	Claude suggested checking for the `wireless-tools` package, which similar to the `iw` package is necessary for using the available wireless interface and requires being installed manually. This appears to be what runZero needs, as this populated the wireless data tab on the next scan.
 
 ??? question "Nessus"
 
