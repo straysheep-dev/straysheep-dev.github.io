@@ -167,9 +167,9 @@ molecule test [-d docker]
 
 !!! failure "Invocation Failures"
 
-    Around April 2026 this issue was flagged in ansible-core as [issue #86758](https://github.com/ansible/ansible/issues/86758).
+    Around April 2026 this [issue #86758](https://github.com/ansible/ansible/issues/86758) was flagged in ansible-core.
 
-    What will happen is your Molecule workflows may return an error similar to the following if the Ansible variables for `INJECT_INVOCATION` is not set to `true`.
+    Your Molecule workflows may return an error similar to the following if the Ansible variable for `INJECT_INVOCATION` is not set to `true` (the commit that issue references, seems to set it to `false` now by default).
 
     ```bash
     [ERROR]: Task failed: Finalization of task args for 'community.docker.docker_image' failed: Error while resolving value for 'build': object of type 'dict' has no attribute 'invocation'
