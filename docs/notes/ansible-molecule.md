@@ -4,7 +4,7 @@ icon: simple/ansible
 draft: false
 #date:
 #  created: 2025-07-25
-#  updated: 2025-12-14
+#  updated: 2026-06-28
 categories:
   - ansible
   - molecule
@@ -164,6 +164,47 @@ To simply run a scenario, from your role's project folder:
 # Specify a driver with -d|--driver-name
 molecule test [-d docker]
 ```
+
+!!! failure "Invocation Failures"
+
+    Around April 2026 this issue was flagged in ansible-core as [issue #86758](https://github.com/ansible/ansible/issues/86758).
+
+    What will happen is your Molecule workflows may return an error similar to the following if the Ansible variables for `INJECT_INVOCATION` is not set to `true`.
+
+    ```bash
+    [ERROR]: Task failed: Finalization of task args for 'community.docker.docker_image' failed: Error while resolving value for 'build': object of type 'dict' has no attribute 'invocation'
+    Task failed.
+
+    # SNIP
+    # There will be a larger block of error details, but the heading above hints at the issue.
+    ```
+
+    You have two options:
+
+    - `export ANSIBLE_INJECT_INVOCATION=true` in bash before running `molecule`.
+    - Scope only `molecule.yml` to run with this environment change (exmaple below).
+
+    ```yaml
+    ---
+    # molecule/default/molecule.yml
+    role_name_check: 1
+    dependency:
+      name: galaxy
+    driver:
+      name: docker
+    platforms:
+      # SNIP
+    provisioner:
+      name: ansible
+      env:
+        ANSIBLE_INJECT_INVOCATION: "true"  # https://github.com/ansible/ansible/issues/86758
+      playbooks:
+        converge: converge.yml
+    verifier:
+      name: ansible
+
+    ```
+
 
 For additional debugging output from molecule:
 
