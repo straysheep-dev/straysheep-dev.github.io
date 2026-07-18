@@ -23,6 +23,7 @@ nav = [
     "notes/cicd.md",
     "notes/clipboard-snooping.md",
     "notes/commands-network.md",
+    "notes/commands-processes.md",
     "notes/commands-sysadmin.md",
     "notes/compile-static-binaries.md",
     "notes/custom-shell-profiles.md",
