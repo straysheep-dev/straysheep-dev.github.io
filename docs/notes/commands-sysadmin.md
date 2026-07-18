@@ -19,7 +19,7 @@ categories:
 ---
 
 
-# :material-keyboard: System Administration
+# :material-keyboard: System Administration Commands
 
 Useful commands for managing systems.
 
