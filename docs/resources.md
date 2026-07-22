@@ -1782,6 +1782,103 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://schneegans.de/windows/unattend-generator/>
 
 
+### :material-link: Supply Chain
+
+
+#### :simple-gnuprivacyguard: GPG
+
+!!! abstract "Verifying GPG Signatures"
+
+	This is documented best, in my opinion, by the Kali Linux team (though, basically every Linux-based distro has these exact instructions if you look). It explains how it works (the web of trust vs the root of trust) and the risks of not checking signatures.
+
+	- [Kali Linux Docs: Verifying Images](https://www.kali.org/docs/introduction/download-official-kali-linux-images/#verifying-your-downloaded-kali-image)
+	- [Kali Linux Docs: Download Images Securely](https://www.kali.org/docs/introduction/download-images-securely/)
+
+	Once you understand how GPG works, you realize if you know a key fingerprint, you should cross reference it:
+
+	- From a different device, on a different network, still over TLS
+	- Checking historical keyserver data, git history, wayback machine data
+	- Making **your own note of this fingerprint**, from here on this is how this works
+
+	In theory, everyone has a keyring, and you add a known key to your keyring. This has advantages and disadvantages. For CI/CD and DevOps workflows, my own use involves determining the legitimacy of a key fingerprint, and pinning that fingerprint or subsequent checksums that key can verify, into Packer templates or Ansible roles. This is just one example, of how you don't need a keyring everywhere, you just need to verify the data and keep track of it somehow. Another example is Rocky Linux. Rocky's checksums are published using git, and the commits are signed by known developer keys, which is unique from most other distros.
+
+
+#### :material-key-link: cosign
+
+!!! abstract "What is cosign?"
+
+	Cosign is a new and modern mechanism for signing + verifying containers and binary artifacts.
+
+	> Cosign supports:
+    >
+    > - "Keyless signing" with the Sigstore public good Fulcio certificate authority and Rekor transparency log (default)
+    > - Hardware and KMS signing
+    > - Signing with a cosign generated encrypted private/public keypair
+    > - Container Signing, Verification and Storage in an OCI registry.
+    > - Bring-your-own PKI
+
+	- <https://github.com/sigstore/cosign>
+	- <https://www.sigstore.dev/how-it-works>
+	- <https://docs.sigstore.dev/about/overview/>
+
+??? tip "Verifying Release Artifacts with Cosign"
+
+	*These steps were followed and tested on [caddy](https://caddyserver.com/docs/signature-verification), with the addition of including the cert identity and issuer args after seeing the CLI output and researching what it meant. This is just one of many combinations of signature files and how to verify them.*
+
+	[Install cosign](https://docs.sigstore.dev/cosign/system_config/installation/), `go` is the easiest method here.
+
+	```bash
+	go install github.com/sigstore/cosign/v3/cmd/cosign@latest
+	```
+
+	Download the artifact + signature files.
+
+	```bash
+	# The checksums txt, pem, and sig files
+	curl -LO https://github.com/<org>/<repo>/releases/download/<tag>/<checksums-file>.txt
+	curl -LO https://github.com/<org>/<repo>/releases/download/<tag>/<checksums-file>.pem
+	curl -LO https://github.com/<org>/<repo>/releases/download/<tag>/<checksums-file>.sig
+
+	# Artifact you're verifying
+	curl -LO https://github.com/<org>/<repo>/releases/download/<tag>/<artifact-file>
+	```
+
+	Decode the cert and pull the identity + issuer, this is only necessary for you to read the cert file and determine the arguments for `--certificate-oidc-issuer` and `--certificate-identity`, which seem to be the first items in the SAN field of the cert.
+
+	```bash
+	base64 -d < <checksums-file>.pem > cert.pem
+	openssl x509 -in cert.pem -text
+	```
+
+	This gives you:
+
+	- `X509v3 Subject Alternative Name`, which has the workflow URI
+	- OID `1.3.6.1.4.1.57264.1.1`, which contains the OIDC issuer
+
+	[Each OID in the SAN field has a specific meaning](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md). Just know the first one is the OIDC issuer.
+
+	[Verify the signature](https://docs.sigstore.dev/cosign/verifying/verify/).
+
+	```bash
+	COSIGN_EXPERIMENTAL=1 ~/go/bin/cosign verify-blob \
+		--certificate <checksums-file>.pem \
+		--signature <checksums-file>.sig \
+		--certificate-identity "<URI value from the SAN>" \
+		--certificate-oidc-issuer "<OID 1.1 value from the SAN>" \
+		<checksums-file>.txt
+	```
+
+	*`cosign` accepts the raw (still base64) `.pem` here. No need to reuse the decoded `cert.pem`.*
+
+	You're looking for `Verified OK`.
+
+	Verify the binary against the now-trusted checksums.
+
+	```bash
+	sha256sum -c <checksums-file>.txt --ignore-missing
+	```
+
+
 ### :simple-git: Git
 
 !!! abstract "Pro Git (PDF/epub)"
@@ -2533,6 +2630,105 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	The [frequently asked questions page](https://go.dev/doc/faq) has information on why Go was made, the goals of the project, and some history.
 
 
+### :simple-nodedotjs: JavaScript
+
+!!! abstract "Node.js, `nvm`, `npm`"
+
+	Node.js is a JavaScript runtime. Similar to Python, `npm` is the package manager, `nvm` is used to manage multiple versions of Node.js itself, and so on.
+
+	- [Official Node.js Domains](https://nodejs.org/en/about#official-nodejs-domains)
+	- [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) + ([Ansible deployment](https://github.com/nvm-sh/nvm#ansible))
+	- [nodejs.org/download](https://nodejs.org/download/release/) (Obtain binaries and signatures)
+	- [github.com/nodejs/release-keys](https://github.com/nodejs/release-keys/) (Git repo of all signing keys for reference)
+	- [Importing current release keys](https://github.com/nodejs/node#release-keys) + [release-keys/keys.list](https://github.com/nodejs/release-keys/blob/main/keys.list)
+
+	**Install**
+
+	`nvm` is the way Node.js recommends you install and manage node versions for development. You're primarily relying on TLS verification here, as the installer does not check detached signatures. We can do that manually after.
+
+	First, obtain the latest version string:
+
+	```bash
+	# Use wget to python, skip curl and jq dependencies
+	node_version="$(wget -q -O - https://nodejs.org/dist/index.json | python3 -c '
+	import json, sys
+	releases = json.load(sys.stdin)
+	print(next(r["version"] for r in releases if r["lts"]))
+	')"
+
+	node_major_version="${node_version#v}"          # remove the v -> "24.18.0"
+	node_major_version="${node_major_version%%.*}"  # print major version number "24"
+	```
+
+	Install using `nvm` under `~/.nvm`, replacing a [pipe to bash](https://nodejs.org/en/download) with `git clone`:
+
+	```bash
+	if ! [[ -d ~/src ]]; then
+		mkdir -p ~/src
+	fi
+	cd ~/src || exit 1
+	git clone https://github.com/nvm-sh/nvm.git
+	cd nvm || exit 1
+
+	# Run the installer locally, after reviewing
+	bash ./install.sh
+
+	# in lieu of restarting the shell
+	\. "$HOME/.nvm/nvm.sh"
+
+	# Download and install Node.js, it will check the sha256sums but not
+	# the detached signatures.
+	nvm install "${node_major_version}"
+
+	# Verify the Node.js version:
+	node -v # Should print "v24.X.Y".
+
+	# Verify npm version:
+	npm -v # Should print "X.Y.Z".
+	```
+
+	You can actually verify the signatures after the fact if you wish. Follow the steps below.
+
+	```bash
+	# Obtain any and all current signing keys, you can do this using the steps
+	# detailed here: https://github.com/nodejs/release-keys
+	cd ~/src || exit 1
+	git clone https://github.com/nodejs/release-keys
+
+	# Alternatively, you can obtain each key individually. Use the fingerpints
+	# below for automation or reference.
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 5BE8A3F6C8A5C01D106C0AD820B1A390B168D356 # Antoine du Hamel
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7 # Juan Jose Arboleda
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys CC68F5A3106FF448322E48ED27F5E38D5B0A215F # Marco Ippolito
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600 # Michael Zasso
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4 # Rafael Gonzaga
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C # Richard Lau
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 108F52B48DB57BB0CC439B2997B01419BD92F80A # Ruy Adorno
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 655F3B5C1FB3FA8D1A0CA6BDE4A7D232B936D2FD # Stewart X Addison
+	gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys A363A499291CBBC940DD62E41F10027AF002F8B0 # Ulises Gascon
+
+	# Obtain the binaries + signature files
+	node_version="$(node -v)"
+	os=$(uname -s | tr '[:upper:]' '[:lower:]')
+	arch=$(uname -m)
+	case "$arch" in
+		x86_64|amd64) arch="x64" ;;
+		aarch64|arm64) arch="arm64" ;;
+	esac
+	cd ~/.nvm/.cache/bin/node-"$node_version"-"$os"-"$arch" || exit 1
+	wget https://nodejs.org/download/release/"$node_version"/SHASUMS256.txt.sig
+	wget https://nodejs.org/download/release/"$node_version"/SHASUMS256.txt
+
+	# Check the hashes
+	sha256sum -c ./SHASUMS256.txt --ignore-missing
+
+	# Verify the signatures
+	if [[ -d ~/src/release-keys/gpg ]]; then
+		GNUPGHOME=~/src/release-keys/gpg \
+			gpg --verify --keyid-format long ./SHASUMS256.txt.sig ./SHASUMS256.txt
+	fi
+	```
+
 
 ### :lucide-chart-no-axes-gantt: YAML
 
@@ -3123,6 +3319,16 @@ This includes general network information as well as network-focused tools.
 
 	- [CVE-2026-33825](https://nvd.nist.gov/vuln/detail/CVE-2026-33825)
 	- <https://github.com/Nightmare-Eclipse/BlueHammer>
+
+??? danger "ConPtyShell"
+
+	> ConPtyShell is a Fully Interactive Reverse Shell for Windows systems.
+	>
+	> The introduction of the Pseudo Console (ConPty) in Windows has improved so much the way Windows handles terminals. ConPtyShell uses this feature to literally transform your bash in a remote powershell.
+
+	It makes reverse shells in Windows much less brittle.
+
+	- <https://github.com/antonioCoco/ConPtyShell>
 
 **Evasion**
 
