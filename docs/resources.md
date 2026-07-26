@@ -20,10 +20,6 @@ Information, compiled for easy reference.
 
 <!-- more -->
 
-!!! warning "AI Usage"
-
-	AI was used to port some of my existing notes out of CherryTree and Standard-Notes, by converting the original markdown formatting I had into the formatting I decided on for mkdocs-material. This choice was made due to volume as well as format inconsistencies across years of previous notes.
-
 
 ## :material-toolbox: Utilities
 
@@ -695,7 +691,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> Firefox delivers secure, resilient, and privacy-focused browsing at scale. With enterprise policies in both Firefox or Firefox Extended Support Release (ESR), organizations get flexibility, control, and transparency in a trusted, open-source browser.
 
 	- <https://www.firefox.com/>
-	- [Policy Templates](https://github.com/mozilla/policy-templates#preferences)
+	- [Policy Reference](https://firefox-admin-docs.mozilla.org/reference/policies/), [github.com/mozilla/policy-templates](https://github.com/mozilla/policy-templates#preferences)
+		- [Preference List](https://firefox-admin-docs.mozilla.org/reference/policies/preferences/) (the `Preferences` policy has numerous sub-keys, available since Firefox 81, Firefox ESR 78.3)
 	- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/)
 	- [Blog](https://blog.mozilla.org/en/category/firefox/)
 	- [Release Notes](https://www.firefox.com/en-US/firefox/notes/)
@@ -710,24 +707,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	**Install a Policy File**
 
-	Directories and file locations for both Firefox and Firefox ESR.
+	In most cases, use `/etc/firefox/policies/policies.json`.
 
-	```bash
-	# Directories:
-	/etc/firefox[-esr]    # default / any
-	or
-	/usr/lib/firefox/     # default / ubuntu
-	/usr/lib64/firefox/   # default / fedora
-	/usr/lib/firefox-esr/ # esr / kali
+	Directories and file locations for both Firefox and Firefox ESR:
 
-	# File locations:
-	/etc/firefox/syspref.js
-	/etc/firefox/policies/policies.json
-	or
-	/usr/lib/firefox/firefox.cfg
-	/usr/lib/firefox/defaults/pref/autoconfig.js
-	/usr/lib/firefox/distribution/policies.json
-	```
+	| OS / Variant | Path | Files |
+	|---|---|---|
+	| Any (cross-distro, recommended) | `/etc/firefox/` + `/etc/firefox-esr/` | `syspref.js`, `policies/policies.json` |
+	| Debian / Ubuntu | `/usr/lib/firefox/` | `firefox.cfg`, `defaults/pref/autoconfig.js`, `distribution/policies.json` |
+	| RHEL / Fedora | `/usr/lib64/firefox/` | `firefox.cfg`, `defaults/pref/autoconfig.js`, `distribution/policies.json` |
+	| Kali / Debian ESR | `/usr/lib/firefox-esr/` | `firefox.cfg`, `defaults/pref/autoconfig.js`, `distribution/policies.json` |
 
 	**Snap Package**
 
@@ -779,6 +768,37 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Quad9](https://dns.quad9.net/dns-query): `https://dns.quad9.net/dns-query`
 	- [NextDNS](https://my.nextdns.io/account): `https://dns.nextdns.io/<profile-id>`
 	- [DNS4EU](https://noads.joindns4.eu/dns-query): `https://noads.joindns4.eu/dns-query`
+
+	---
+
+	**Captive Portals**
+
+	Hardening DNS settings (setting no fallback for DNS over HTTPS) can break captive portal detection. The local network's DNS server wants to hijack your connection and redirect it to the captive portal before you continue.
+
+	You can either allow falling back momentarily, or more simply, you can browse directly to the detection site:
+
+	```bash
+	# Check over the CLI for a non-200 response, then visit
+	# http://detectportal.firefox.com/canonical.html in your
+	# browser.
+	wget --server-response -O - http://detectportal.firefox.com/canonical.html
+	```
+
+	---
+
+	**WebRTC, Media Extensions, and Conferencing Apps**
+
+	Disabling WebRTC and encrypted media extensions (openh264, widevine) may break functionality on certain web applications. Notably, Zoom, Google Meet, Teams, and likely other conferencing applications work fine with the majority of these hardened settings. However, Discord does not even allow you to make or join calls in some cases. This is being reviewed.
+
+	Troubleshooting:
+
+	| Issue | Related Preferences |
+	| --- | --- |
+	| Audio / video calls failing to initiate | [`EncryptedMediaExtensions`](https://firefox-admin-docs.mozilla.org/reference/policies/encryptedmediaextensions/) + [`media.peerconnection.enabled`](https://searchfox.org/firefox-main/source/modules/libpref/init/StaticPrefList.yaml#13640), `media.gmp-gmpopenh264.enabled`, `media.gmp-widevinecdm.enabled` |
+	| Cannot share other apps on Wayland | [`xdg-desktop-portal`](https://github.com/flatpak/xdg-desktop-portal) failure |
+	| Camera / Microphone Blocked | [`Permissions`](https://firefox-admin-docs.mozilla.org/reference/policies/permissions/) |
+	| Video or application performance | [`HardwareAcceleration`](https://firefox-admin-docs.mozilla.org/reference/policies/hardwareacceleration/) + [`webgl.disabled`](https://searchfox.org/firefox-main/source/modules/libpref/init/StaticPrefList.yaml#20027) |
+	| DRM media playback fails | [`EncryptedMediaExtensions`](https://firefox-admin-docs.mozilla.org/reference/policies/encryptedmediaextensions/) + `media.gmp-widevinecdm.enabled` |
 
 	---
 
@@ -849,6 +869,54 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [Release Notes](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/release-notes/)
 	- [Security Documentation](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-browse-safer)
 	- [OpenSCAP Configuration Guide](https://static.open-scap.org/ssg-guides/ssg-chromium-guide-stig.html)
+
+	---
+
+	*NOTE: the details below for Edge are older notes, and will need reviewed (and most likely updated).*
+
+	**Install Edge**
+
+	Command line instructions adapted from here: <https://www.microsoftedgeinsider.com/en-us/download>
+
+	```bash
+	curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+	sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/
+	sudo chown root:root /etc/apt/trusted.gpg.d/microsoft.gpg
+	sudo chmod 644 /etc/apt/trusted.gpg.d/microsoft.gpg
+	echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge-stable.list > /dev/null
+
+	sudo apt update
+	sudo apt install microsoft-edge-stable
+	```
+
+	---
+
+	**Policies to Adjust**
+
+	Restore the previous session when the browser starts:
+
+	```json
+	"RestoreOnStartup": 1,
+	```
+
+	Maintain login sessions and cookies for specific sites:
+
+	```json
+	"SaveCookiesOnExit": [
+		"https://[*.]google.com"
+	],
+	```
+
+	---
+
+	**Policy Notes**
+
+	The following policies will show an `Error` under `Status` but are working and reflected in the settings:
+
+	- BackgroundModeEnabled
+	- DefaultBrowserSettingEnabled
+	- DiagnosticData
+	- TyposquattingCheckerEnabled
 
 ??? info ":simple-brave: Brave"
 
