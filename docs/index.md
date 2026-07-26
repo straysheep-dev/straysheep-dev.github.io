@@ -63,7 +63,7 @@ h1:first-of-type {
 
         ---
 
-        Various configuration files for Unix/Linux operating systems
+        Utilities and configuration files for any Unix-like OS. [ansible-configs](#ansible-configs) generally uses files from here.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/linux-configs)
 
@@ -71,7 +71,7 @@ h1:first-of-type {
 
         ---
 
-        Various configuration files for Microsoft Windows operating systems
+        PowerShell modules and scripts used to configure windows or automate tasks. Targets Windows-desktop-specific items such as Hyper-V, Windows Sandbox, WSL + USB, logging & monitoring, and more.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/windows-configs)
 
@@ -79,15 +79,19 @@ h1:first-of-type {
 
         ---
 
-        A collection of ansible roles
+        A collection of ansible roles, including example playbook and inventory files, as git submodules.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/ansible-configs)
+
+        [:octicons-arrow-right-24: Ansible notes :octicons-book-16:](https://straysheep.dev/notes/ansible/)
+
+        [:octicons-arrow-right-24: Molecule notes :octicons-book-16:](https://straysheep.dev/notes/ansible-molecule/)
 
     - :material-terraform:{ .lg .middle } __Terraform Configs__
 
         ---
 
-        Various configuration templates for Terraform
+        Ready to use terraform templates, and an easy to follow guide to go from installing, to deploying resources.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/terraform-configs)
 
@@ -95,7 +99,7 @@ h1:first-of-type {
 
         ---
 
-        Various configuration templates for Vagrant with usage notes
+        How vagrant works; includes a sample Vagrantfile for Kali on Hyper-V and VirtualBox showing what provider settings you may want to use. Quirks of Hyper-V and how to resolve them are covered. Lastly, resources to be aware of for building a home lab are linked.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/vagrant-configs)
 
@@ -103,7 +107,7 @@ h1:first-of-type {
 
         ---
 
-        Packer templates to build preconfigured machines
+        Packer templates ready-to-use, with resources to help you learn, modify, and build upon what's here. [ansible-configs](#ansible-configs) is a submodule of this super project.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/packer-configs)
 
@@ -111,7 +115,7 @@ h1:first-of-type {
 
         ---
 
-        Various Docker configuration files for CI/CD testing of Anisble roles with molecule
+        Systemd-enabled Docker configuration files for molecule testing. All submodules in [ansible-configs](#ansible-configs) run molecule CI workflows using these.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/docker-configs)
 
@@ -119,7 +123,7 @@ h1:first-of-type {
 
         ---
 
-        Send an alert (to Discord, Slack, or any webhook) based on a condition
+        Webhook based alerting (Slack, Discord) using [cyber deception](https://github.com/strandjs/IntroLabs/blob/master/IntroClassFiles/navigation.md) to catch malicious activity early, without noise.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/alert-service)
 
@@ -130,6 +134,22 @@ h1:first-of-type {
         Uses ComplianceAsCode's content release files and Ansible tags to easily create, test, and apply customized profiles
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/compliance-profile-builder)
+
+    - :octicons-agent-16:{ .lg .middle } __Agent Configs__
+
+        ---
+
+        Agent configuration files to document and bootstrap workflows based on my existing codebase. Narrowly scoped agents build reusable, agent-free workflows, so they're only solving new problems.
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/agent-configs)
+
+    - :octicons-browser-16:{ .lg .middle } __Browser Configs__
+
+        ---
+
+        Browser configuration files. [Documentation](https://straysheep.dev/resources/#web-browsers).
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/browser-configs)
 
     </div>
 
