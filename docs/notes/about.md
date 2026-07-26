@@ -16,6 +16,26 @@ Information, compiled for easy reference. This section has longer form write-ups
 
 <!-- more -->
 
-!!! warning "AI Usage"
+!!! note "AI Usage"
 
 	AI was used to port some of my existing notes out of CherryTree and Standard-Notes, by converting the original markdown formatting I had into the formatting I decided on for mkdocs-material. This choice was made due to volume as well as format inconsistencies across years of previous notes.
+
+    This project adheres to the [Linux Kernel developer guidance on using AI coding assistants](https://docs.kernel.org/process/coding-assistants.html).
+
+    Drafts, examples, and research generated using [Claude](https://claude.com/product/overview), both in the web interface and via [Claude Code](https://code.claude.com/docs/en/overview), after ingesting any existing files and reviewing the direction in a [CLAUDE.md](https://github.com/straysheep-dev/agent-configs) file or user prompt.
+
+    ```
+    Assisted-by: Claude:claude-fable-5
+
+    Assisted-by: Claude:claude-sonnet-5
+
+    Assisted-by: Claude:claude-opus-4-8
+
+    Assisted-by: Claude:claude-sonnet-4-6
+
+    Assisted-by: OpenAI:o4-mini
+
+    Assisted-by: OpenAI:o3
+
+    Assisted-by: OpenAI:gpt-4o
+    ```
