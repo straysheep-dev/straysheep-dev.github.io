@@ -9,8 +9,9 @@ These steps will clone the site's source, install Zensical, and serve a working 
 ### Zensical
 
 ```bash
-mkdir ~/src
-mkdir ~/venv
+sudo apt update; sudo apt install -y python3-venv
+mkdir -p ~/src
+mkdir -p ~/venv
 python3 -m venv ~/venv
 source ~/venv/bin/activate
 python3 -m pip install zensical
@@ -27,8 +28,9 @@ zensical serve
 > As of November 2025, mkdocs-material has entered [maintenance mode](https://github.com/squidfunk/mkdocs-material/issues/8523), and will be fully deprecated in November 2026. This site has been migrated to Zensical, but can still be built locally on mkdocs-material via the `straysheep-dev/mkdocs-archival-snapshot` branch.
 
 ```bash
-mkdir ~/src
-mkdir ~/venv
+sudo apt update; sudo apt install -y python3-venv
+mkdir -p ~/src
+mkdir -p ~/venv
 python3 -m venv ~/venv
 source ~/venv/bin/activate
 python3 -m pip install "mkdocs-material[imaging]"
