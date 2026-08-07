@@ -2960,6 +2960,27 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/trickest/resolvers>
 
+### :material-clock-time-four-outline: NTP
+
+!!! info "Network Time Security"
+
+    This is the DNS over TLS/HTTPS of NTP. It's not encrypted, but packets integrity is guaranteed with signing.
+
+    [It's described in RFC 8915](https://blog.cloudflare.com/nts-is-now-rfc/) and many NTP daemons support it.
+
+??? info "OS Time Services and Pools"
+
+	Many projects and OS's have common pools they use, or even their own.
+
+	- `ntp.ubuntu.com`
+
+??? info "Google's Time Service"
+
+	[`time.google.com`](https://developers.google.com/time)
+
+??? info "Cloudflare's Time Service"
+
+	[`time.cloudflare.com`](https://developers.cloudflare.com/time-services/ntp/usage/)
 
 ## :material-sword-cross: Offense
 
