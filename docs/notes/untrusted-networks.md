@@ -119,6 +119,35 @@ You'll see **untrusted sources** a lot in this article. This is anything we do n
     - Your hosts's networking behavior and how you're accepting DHCP settings (or not)
     - Enforcing data integrity (via TLS, or similar measures)
 
+## Attacks
+
+!!! danger "Evil Twins are Trivial on Public / Guest Networks (or why the DEFCON WiFi is safer)"
+
+    **Why This Works**: Without TLS certificate validation, the pre-shared key is doing *everything* here. (auth + verification)
+
+    Most public networks freely publish the ESSID and pre-shared key (if there even is one). In the best case scenario, the venue assigns each user a unique pre-shared key, runs a fully patched AP with WPA3, and fully isolates all client traffic. This is completely doable, but it's not something you should rely on.
+
+    In most cases, the ESSID *is* the pre-shared key. Try this on your home WiFi, without any hacking tools, you can run another AP (Raspberry Pi, Ubuntu + hostapd, etc.) that has the same:
+
+    * ESSID
+    * BSSID (MAC address)
+    * Pre-shared Key
+    * Authentication Type (WPA2/3)
+
+    At this point, how does your client device know which one is the real one? **There's actually no way to verify which one is the real AP**.
+
+    The DEFCON WiFi by contrast provisions each user with a unique TLS certificate. So long as you obtained the certificate from the real DEFCON website, and enforce client-side certificate validation, evil twin attacks aren't possible without a novel exploit.
+
+    Home and small office WPA2/3 networks are entirely protected by the pre-shared key. If that's ever discovered, authentication, verification, and integrity are lost. WPA3 at least [prevents offline brute-force of the key exchange frames](https://datatracker.ietf.org/doc/html/rfc7664) ***and*** retroactively decrypting previously captured traffic if the key is ever discovered.
+
+!!! bug "Cellular Baseband Exploits"
+
+    2G and 3G are notably [disabled in iOS's lockdown mode](https://support.apple.com/en-us/105120), primarily because the authentication, verification, and / or encryption in these protocols is broken.
+
+    - [CVE-2022-21744](https://nvd.nist.gov/vuln/detail/CVE-2022-21744)
+    - [CVE-2025-31214](https://nvd.nist.gov/vuln/detail/CVE-2025-31214)
+    - TODO: add more examples
+
 ---
 
 ## DHCP
