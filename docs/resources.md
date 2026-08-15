@@ -4647,9 +4647,19 @@ All things standards, configuration, compliance, and policy related.
 
 	> FLARE Obfuscated String Solver - Automatically extract obfuscated strings from malware.
 
-	Has release binaries for Windows, macOS, and Linux.
+	Available as stand-alone release binaries for Windows, macOS, and Linux or as a python library.
 
 	- <https://github.com/mandiant/flare-floss>
+	- [Installation](https://github.com/mandiant/flare-floss/blob/master/doc/installation.md)
+	- [Theory](https://github.com/mandiant/flare-floss/blob/master/doc/theory.md)
+
+	To simply dump static strings (quick):
+
+	```bash
+	floss -n 10 --only static --color always -v /path/to/sample
+	```
+
+	The other methods used to extract strings (stack, tight, decoded) will run the engine FLOSS uses to deobfuscate strings that may only be seen at runtime of the file. This can significantly increase the time it takes for FLOSS to do its thing.
 
 
 ### :material-bug-check: Known Samples
