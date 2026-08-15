@@ -597,7 +597,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 		"DnsOverHttpsTemplates": "https://dns.quad9.net/dns-query",
 
 		// NextDNS (GET) https://my.nextdns.io/account
-		"DnsOverHttpsTemplates": "https://dns.nextdns.io/<profile-id>",
+		"DnsOverHttpsTemplates": "https://dns.nextdns.io/<profile-id>[/<device-name>]",
 
 		// DNS4EU (GET) https://www.joindns4.eu/for-public#resolver-options
 		"DnsOverHttpsTemplates": "https://noads.joindns4.eu/dns-query",
@@ -766,7 +766,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- [Cloudflare](https://developers.cloudflare.com/1.1.1.1/setup/): `https://family.cloudflare-dns.com/dns-query`
 	- [Quad9](https://dns.quad9.net/dns-query): `https://dns.quad9.net/dns-query`
-	- [NextDNS](https://my.nextdns.io/account): `https://dns.nextdns.io/<profile-id>`
+	- [NextDNS](https://my.nextdns.io/account): `https://dns.nextdns.io/<profile-id>[/<device-name>]` (e.g. `https://dns.nextdns.io/<profile-id>/framework-desktop`)
 	- [DNS4EU](https://noads.joindns4.eu/dns-query): `https://noads.joindns4.eu/dns-query`
 
 	---
@@ -1740,55 +1740,6 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - `/* SPDX-License-Identifier: MIT OR Apache-2.0 */`
 	> - `# SPDX-License-Identifier: GPL-2.0-or-later`
 
-!!! danger "Securing GitOps"
-
-	[**VSCode Restricted Mode**](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust)
-
-	To define exactly what extensions can be installed and set restricted mode globally in `settings.json`:
-
-	```json
-	{
-		"extensions.allowed": {},
-		"security.workspace.trust.emptyWindow": false
-	}
-	```
-
-	> Restricted Mode tries to prevent automatic code execution by disabling or limiting the operation of several VS Code features: tasks, debugging, workspace settings, and extensions.
-	>
-	> To see the full list of features disabled in Restricted Mode, you can open the Workspace Trust editor via the Manage link in the banner, or by selecting the Restricted Mode badge in the Status Bar.
-	>
-	> **Important**: Workspace Trust can't prevent a malicious extension from executing code and ignoring Restricted Mode. You should only install and run extensions that come from a well-known publisher that you trust.
-
-	Tasks are defined in the workspace `.vscode` folder. This folder **is** cloned when git cloning a remote project.
-
-	[**VSCode AI Integrations**](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code)
-
-	This section focuses only on AI features built-in to VSCode itself. It does not account for AI that may be a part of extensions, or those that were deployed on the machine outside or alongside VSCode. Some things to consider include where and how you've deployed VSCode, the local as well as remote data the VSCode process can potentially access, and the licensing + data protections of your account(s).
-
-	The [GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq#commercial) covers a number of these questions, including use of third-party models like Claude or Gemini in VSCode.
-
-	To disable or allow the built-in AI features:
-
-	```json
-	{
-		"chat.disableAIFeatures": true
-	}
-	```
-
-	According to the [documentation](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code):
-
-	> This disables and hides features like chat or inline suggestions in VS Code and disables the Copilot extensions.
-	>
-	> If you have previously disabled the built-in AI features, your choice is respected upon updating to a new version of VS Code.
-	>
-	> ...If you disable AI functionality in VS Code or if you don't login to your Copilot subscription from VS Code, your data is not sent to the Copilot backend services.
-
-	[**Git Hooks**](https://git-scm.com/docs/githooks) and [**Customizing Git Hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
-
-	Git hooks are scripts stored under `$GIT_DIR/hooks/*` or `git config core.hooksPath/*` in a project. The default/bundled example scripts all end with `.sample` and won't execute without a proper file extension. Git hooks can execute bash, Perl, Python, or really any scripting language.
-
-	**Git hooks do not get cloned when you clone or otherwise fetch the upstream source of a project. You will need to add these yourself similar to local git config settings.**
-
 ??? example "shields.io Badges"
 
 	> Shields.io is a service for concise, consistent, and legible badges, which can easily be included in GitHub readmes or any other web page. The service supports dozens of continuous integration services, package registries, distributions, app stores, social networks, code coverage services, and code analysis services. It is used by some of the world's most popular open-source projects.
@@ -1848,6 +1799,98 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/cschneegans/unattend-generator>
 	- <https://schneegans.de/windows/unattend-generator/>
+
+
+### :material-magnify-scan: Securing GitOps
+
+!!! example "Code Review, Secrets Scanning, & Threat Hunting"
+
+	The question (now particularly with AI agents reviewing potentially untrusted code) is how can we quickly review and analyze source code? Beyond developing and [enforcing a `managed-settings.json`](https://github.com/straysheep-dev/agent-configs) or your tool's equivalent for your agents to operate under, to limit the blast radius should they become compromised via prompt injection (which there's no good way to really stop), there needs to be a way to parse a lot of code and git history at once.
+
+	Two tools that will help you here are [titus](https://github.com/praetorian-inc/titus) and [brutus](https://github.com/praetorian-inc/brutus).
+
+???	question "titus"
+
+	[Titus](https://github.com/praetorian-inc/titus) is a secrets scanner. What makes this the go-to tool is its speed, and ability to read custom rule files. Treat reviewing (untrusted) code like a threat hunt. Use patterns from malware analysis tools such as [bstrings](https://github.com/EricZimmerman/bstrings) to identify interesting files, function calls, and more before you ever have an AI ingest untrusted code. There's also no reason why you couldn't use this for threat hunting in general, similar to yara.
+
+	Scan a directory recursively, optionally git history if it's a git repo.
+
+	```bash
+	titus scan /path/to/code --rules ./custom_rules.yaml [--git]
+	```
+
+	Titus also creates a report under `./titus.db` that you can access and browse interactively in a CLI-UI.
+
+	```bash
+	titus explore
+	```
+
+	Here the results are organized by rule matched, colors highlight what you're looking at, and you can scroll through each hit one at a time very quickly.
+
+??? danger "brutus"
+
+	[Brutus](https://github.com/praetorian-inc/brutus) is somewhat similar to crackmapexec / netexec, which pentesters will be familiar with. It's built for use in a pipeline, meaning imagine the credentials you discovered with titus + existing lists of known bad credentials can be audited for at scale, as part of the DevOps process.
+
+	The example the project's README provides illustrates this. Note that it supports Nerva, naabu, nmap, and masscan.
+
+	> ```bash
+	> # Full network credential audit in one pipeline (JSON mode)
+	> naabu -host 10.0.0.0/24 -p 22,3306,5432,6379 -silent | nerva --json | brutus creds --json
+    >
+	> # Or use Nerva's default URI output — no --json flags needed
+	> naabu -host 10.0.0.0/24 -p 22,3306,5432,6379 -silent | nerva | brutus creds`
+	> ```
+
+	Just like titus [pre-built binaries are available](https://github.com/praetorian-inc/brutus#installation).
+
+??? danger "Securing VSCode"
+
+	[**VSCode Restricted Mode**](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust)
+
+	To define exactly what extensions can be installed and set restricted mode globally in `settings.json`:
+
+	```json
+	{
+		"extensions.allowed": {},
+		"security.workspace.trust.emptyWindow": false
+	}
+	```
+
+	> Restricted Mode tries to prevent automatic code execution by disabling or limiting the operation of several VS Code features: tasks, debugging, workspace settings, and extensions.
+	>
+	> To see the full list of features disabled in Restricted Mode, you can open the Workspace Trust editor via the Manage link in the banner, or by selecting the Restricted Mode badge in the Status Bar.
+	>
+	> **Important**: Workspace Trust can't prevent a malicious extension from executing code and ignoring Restricted Mode. You should only install and run extensions that come from a well-known publisher that you trust.
+
+	Tasks are defined in the workspace `.vscode` folder. This folder **is** cloned when git cloning a remote project.
+
+	[**VSCode AI Integrations**](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code)
+
+	This section focuses only on AI features built-in to VSCode itself. It does not account for AI that may be a part of extensions, or those that were deployed on the machine outside or alongside VSCode. Some things to consider include where and how you've deployed VSCode, the local as well as remote data the VSCode process can potentially access, and the licensing + data protections of your account(s).
+
+	The [GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq#commercial) covers a number of these questions, including use of third-party models like Claude or Gemini in VSCode.
+
+	To disable or allow the built-in AI features:
+
+	```json
+	{
+		"chat.disableAIFeatures": true
+	}
+	```
+
+	According to the [documentation](https://code.visualstudio.com/docs/supporting/FAQ#_can-i-disable-ai-functionality-in-vs-code):
+
+	> This disables and hides features like chat or inline suggestions in VS Code and disables the Copilot extensions.
+	>
+	> If you have previously disabled the built-in AI features, your choice is respected upon updating to a new version of VS Code.
+	>
+	> ...If you disable AI functionality in VS Code or if you don't login to your Copilot subscription from VS Code, your data is not sent to the Copilot backend services.
+
+	[**Git Hooks**](https://git-scm.com/docs/githooks) and [**Customizing Git Hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+
+	Git hooks are scripts stored under `$GIT_DIR/hooks/*` or `git config core.hooksPath/*` in a project. The default/bundled example scripts all end with `.sample` and won't execute without a proper file extension. Git hooks can execute bash, Perl, Python, or really any scripting language.
+
+	**Git hooks do not get cloned when you clone or otherwise fetch the upstream source of a project. You will need to add these yourself similar to local git config settings.**
 
 
 ### :material-link: Supply Chain
