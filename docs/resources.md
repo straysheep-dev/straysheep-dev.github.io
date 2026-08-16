@@ -4349,7 +4349,18 @@ This includes general network information as well as network-focused tools.
 	c769c23f8b225a2750768be9030b0d0f35778b7dff4359fa805f8be9acc6047f  pspy64s
 	```
 
+??? bug "YARA-X"
+
+	> YARA-X is a re-incarnation of YARA, a pattern matching tool designed with malware researchers in mind. This new incarnation intends to be faster, safer and more user-friendly than its predecessor. The ultimate goal of YARA-X is replacing YARA as the default pattern matching tool for malware researchers.
+
+	The GitHub releases page has static rust binaries for all platforms on x86_64 and aarch64.
+
+	- <https://github.com/VirusTotal/yara-x>
+	- <https://virustotal.github.io/yara-x/>
+
 ??? bug "YARA"
+
+	**YARA-X is the rewrite of YARA in rust. The original YARA is still being maintained, but is now in maintenance mode.**
 
 	Malware rule, pattern, and classification Language. Yara can take a pattern or rule file, and look at other files or processes either on a live system, or offline. This includes disk images or memory dumps, text dumps of strings, and more.
 
@@ -5349,6 +5360,15 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	---
 
 	[**Claude Code**](https://claude.ai/code)
+
+	For advanced installation with apt, dnf, or binary integrity checking, see the [advanced installation options](https://code.claude.com/docs/en/setup#advanced-installation-options).
+
+	```
+	pub   rsa4096/0xBAA929FF1A7ECACE 2026-03-30 [SCE]
+		Key fingerprint = 31DD DE24 DDFA B679 F42D  7BD2 BAA9 29FF 1A7E CACE
+	uid                   [ unknown] Anthropic Claude Code Release Signing <security@anthropic.com>
+
+	```
 
 	- <https://code.claude.com/docs/en/security>
 	- <https://code.claude.com/docs/en/devcontainer>
