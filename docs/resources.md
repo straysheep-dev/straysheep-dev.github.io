@@ -1819,6 +1819,16 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	titus scan /path/to/code --rules ./custom_rules.yaml [--git]
 	```
 
+	Use with `strings` or `floss` to scan general binary files that titus cannot read:
+
+	```bash
+	# strings
+	strings -n 10 /path/to/sample | tee /tmp/strings.out >/dev/null; titus scan /tmp/strings.out --rules ./custom_rules.yaml
+
+	# floss
+	floss -n 10 --only static -- /path/to/sample | tee /tmp/strings.out >/dev/null; titus scan /tmp/strings.out --rules ./custom_rules.yaml
+	```
+
 	Titus also creates a report under `./titus.db` that you can access and browse interactively in a CLI-UI.
 
 	```bash
