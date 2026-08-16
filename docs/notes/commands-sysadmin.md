@@ -93,6 +93,45 @@ dpkg -L <pkg>      # List files installed to your system from package-name
 ---
 
 
+### snap
+
+!!! info "Expanded Notes"
+
+    See the [existing note dedicated to snap](./snap.md).
+
+!!! tip "Snap Author Verification"
+
+    When searching for packages with `snap find`, verified authors and publishers have a `✓` in their name. These accounts have been trusted by the snap project maintainers.
+
+Update all snaps, or a specific snap `[package]`:
+
+```bash
+sudo snap refresh [package]
+```
+
+Revert a snap package to a previous version, if an update broke functionality:
+
+```bash
+# Get all versions available
+snap list <package-name> --all
+
+# Refresh to another verison
+sudo snap refresh <package-name> --revision=<number>
+```
+
+Pin the package version indefinitely, until the issue is fixed:
+
+```bash
+# Apply the hold
+sudo snap refresh --hold <package-name>
+
+# Remove the hold
+sudo snap refresh --unhold <package-name>
+```
+
+---
+
+
 ### Systemd
 
 **Systemd Commands**
