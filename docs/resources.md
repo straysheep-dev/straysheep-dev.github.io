@@ -1837,6 +1837,10 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	Here the results are organized by rule matched, colors highlight what you're looking at, and you can scroll through each hit one at a time very quickly.
 
+	**Cyclic Workflow**
+
+	Titus alone is very powerful, but it does not fully replace something like YARA. YARA also cannot fully replace FLOSS. What this means is, it's worth highlighting titus' limitations when it comes to binary files; YARA's strength is the ability to parse binary exectuables. YARA also cannot full decode data the way FLOSS does. Using all three tools together in a cycle will lead to a more complete analysis. FLOSS can deobfuscate strings, then both YARA and titus can parse through those results + any binary data.
+
 ??? danger "brutus"
 
 	[Brutus](https://github.com/praetorian-inc/brutus) is somewhat similar to crackmapexec / netexec, which pentesters will be familiar with. It's built for use in a pipeline, meaning imagine the credentials you discovered with titus + existing lists of known bad credentials can be audited for at scale, as part of the DevOps process.
