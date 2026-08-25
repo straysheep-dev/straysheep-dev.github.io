@@ -1907,6 +1907,39 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	**Git hooks do not get cloned when you clone or otherwise fetch the upstream source of a project. You will need to add these yourself similar to local git config settings.**
 
 
+#### :octicons-codescan-16: Code Review
+
+!!! abstract "OWASP - Source Code Analysis Tools"
+
+	The OWASP Foundation has a page dedicated to summarizing the strengths / weaknesses, and a list of source code analysis tools.
+
+	- <https://owasp.org/www-community/Source_Code_Analysis_Tools>
+
+??? example "joern - The Bug Hunter's Workbench"
+
+	> Joern is a platform for analyzing source code, bytecode, and binary executables. It generates code property graphs (CPGs), a graph representation of code for cross-language code analysis. Code property graphs are stored in a custom graph database. This allows code to be mined using search queries formulated in a Scala-based domain-specific query language. Joern is developed with the goal of providing a useful tool for vulnerability discovery and research in static program analysis.
+
+	- <https://github.com/joernio/joern>
+
+??? question "graphviz"
+
+	> Graphviz is maintained by volunteers. Most work is aimed at improving the overall quality of the code (readability, consistency, organization, and portability), modernizing the build toolchain, and supporting the external audience and ecosystem for graphviz. This effort is supported by an extensive regression test suite. Occasionally, work can address new features, running time bottlenecks or specific bugs.
+
+	- <https://gitlab.com/graphviz/graphviz>
+
+??? example "code2flow"
+
+	> Code2flow generates call graphs for dynamic programming language. Code2flow supports Python, JavaScript, Ruby, and PHP.
+
+	- <https://github.com/scottrogowski/code2flow>
+
+??? example "bandit"
+
+	> Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
+
+	- <https://github.com/PyCQA/bandit>
+
+
 ### :material-link: Supply Chain
 
 
