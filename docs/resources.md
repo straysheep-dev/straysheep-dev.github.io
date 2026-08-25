@@ -4719,6 +4719,32 @@ All things standards, configuration, compliance, and policy related.
 
 	The other methods used to extract strings (stack, tight, decoded) will run the engine FLOSS uses to deobfuscate strings that may only be seen at runtime of the file. This can significantly increase the time it takes for FLOSS to do its thing.
 
+**Archive Analysis**
+
+??? example "zipdump.py"
+
+	> zipdump is a tool to analyze ZIP files.
+
+	- <https://github.com/DidierStevens/DidierStevensSuite/blob/master/zipdump.py>
+
+	```bash
+	zipdump.py file.zip
+	zipdump.py -s <obj> file.zip
+	zipdump.py -y /path/to/yara/rules file.zip
+	```
+
+??? example "zipdetails"
+
+	> zipdetails - display the internal structure of zip files.
+
+	- <https://github.com/pmqs/zipdetails>
+
+	This is often built-in on Linux systems that have perl installed.
+
+	```bash
+	zipdetails --walk file.zip
+	```
+
 
 ### :material-bug-check: Known Samples
 
