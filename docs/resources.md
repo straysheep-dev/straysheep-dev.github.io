@@ -1915,11 +1915,37 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://owasp.org/www-community/Source_Code_Analysis_Tools>
 
+??? example "semgrep"
+
+	> Semgrep is a fast, open-source, static analysis tool that searches code, finds bugs, and enforces secure guardrails and coding standards. Semgrep supports 30+ languages and can run in an IDE, as a pre-commit check, and as part of CI/CD workflows.
+
+	- <https://github.com/semgrep/semgrep>
+
+	The benefit of semgrep over other static analysis tools is it's lightweight, requiring only a [pip install](https://github.com/semgrep/semgrep#option-2-getting-started-from-the-cli).
+
 ??? example "joern - The Bug Hunter's Workbench"
 
 	> Joern is a platform for analyzing source code, bytecode, and binary executables. It generates code property graphs (CPGs), a graph representation of code for cross-language code analysis. Code property graphs are stored in a custom graph database. This allows code to be mined using search queries formulated in a Scala-based domain-specific query language. Joern is developed with the goal of providing a useful tool for vulnerability discovery and research in static program analysis.
 
 	- <https://github.com/joernio/joern>
+
+??? example "osv-scanner"
+
+	> Use OSV-Scanner to find existing vulnerabilities affecting your project's dependencies. OSV-Scanner provides an officially supported frontend to the OSV database and CLI interface to OSV-Scalibr that connects a project's list of dependencies with the vulnerabilities that affect them.
+	>
+	> OSV-Scanner supports a wide range of project types, package managers and features, including but not limited to:
+	>
+	> - Languages: C/C++, Dart, Elixir, Go, Java, Javascript, PHP, Python, R, Ruby, Rust.
+	> - Package Managers: npm, pip, yarn, maven, go modules, cargo, gem, composer, nuget and others.
+	> - Operating Systems: Detects vulnerabilities in OS packages on Linux systems.
+	> - Containers: Scans container images for vulnerabilities in their base images and included packages.
+	> - Guided Remediation: Provides recommendations for package version upgrades based on criteria such as dependency depth, minimum severity, fix strategy, and return on investment.
+
+	- <https://github.com/google/osv-scanner>
+
+	This tool also assists in identifying supply-chain issues.
+
+	osv-scanner supports call analysis, but note that [rust call analysis executes `build.rs` files that can result in RCE](https://google.github.io/osv-scanner/usage/scan-source#scanning-with-call-analysis).
 
 ??? question "graphviz"
 
@@ -1933,7 +1959,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	- <https://github.com/scottrogowski/code2flow>
 
-??? example "bandit"
+??? example "PyCQA/bandit"
 
 	> Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
 
