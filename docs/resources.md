@@ -1348,6 +1348,25 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- <https://archlinux.org/>
 	- <https://archlinux.org/download/>
 
+??? tip ":simple-archlinux: Omarchy"
+
+	> Omarchy is a beautiful, modern & opinionated Linux distribution by DHH.
+
+	Credit to Hippy for sharing this.
+
+	- <https://github.com/omacom/omarchy>
+	- <https://omarchy.org/manual/>
+
+	<https://omarchy.org/manual/security/#signing-keys>
+
+	```
+	pub   ed25519/0xF0134EE680CAC571 2025-08-28 [SC]
+		Key fingerprint = 40DF B630 FF42 BCFF B047  046C F013 4EE6 80CA C571
+	uid                   [ unknown] Omarchy <pkgs@omarchy.org>
+	sub   cv25519/0xFF4700E516FCE0A8 2025-08-28 [E]
+		Key fingerprint = 2839 BEED 54A8 B49A B60B  A862 FF47 00E5 16FC E0A8
+	```
+
 ??? info ":simple-openbsd: OpenBSD"
 
 	- <https://www.openbsd.org/>
@@ -1964,6 +1983,14 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
 
 	- <https://github.com/PyCQA/bandit>
+
+??? example "datadog/guarddog"
+
+	> GuardDog is a CLI tool that identifies malicious PyPI and npm packages, Go modules, Rust crates, RubyGems, GitHub actions, or VSCode extensions. It runs static analysis on package source code (through YARA rules) and analyzes package metadata to detect supply chain attacks.
+	>
+	> What makes GuardDog different: Instead of just listing suspicious patterns, GuardDog correlates findings to identify actual risks based on attack chains. A package needs both the capability to perform an action (e.g., network access) and a threat indicator (e.g., suspicious domain) in the same file to be flagged as high risk.
+
+	- <https://github.com/datadog/guarddog>
 
 
 ### :material-link: Supply Chain
@@ -2751,6 +2778,19 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	uid                             Steve Dower (Python Release Signing) <steve.dower@microsoft.com>
 	sub   rsa4096/0xE314D10907F87583 2015-04-06 [E]
 	```
+
+??? tip ":simple-python: uv"
+
+	> An extremely fast Python package and project manager, written in Rust.
+
+	> A single tool to replace pip, pip-tools, pipx, poetry, pyenv, twine, virtualenv, and more.
+
+	- <https://github.com/astral-sh/uv>
+	- <https://docs.astral.sh/uv/>
+
+	[Prevent packages published more recently than a certain number of days from installing](https://docs.astral.sh/uv/reference/settings/#exclude-newer) (supply-chain protection), install other python versions for specific packages, and more; necessities for pentesting or security tooling.
+
+	Verify GitHub artifact attestations with `gh` (or likely you can use cosign to check as well).
 
 ??? example ":simple-python: pip"
 
