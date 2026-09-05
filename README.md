@@ -11,10 +11,14 @@ These steps will clone the site's source, install Zensical, and serve a working 
 ```bash
 sudo apt update; sudo apt install -y python3-venv
 mkdir -p ~/src
-mkdir -p ~/venv
-python3 -m venv ~/venv
-source ~/venv/bin/activate
-python3 -m pip install zensical
+if command -v uv >/dev/null; then
+    uv tool install zensical
+else
+    mkdir -p ~/venv
+    python3 -m venv ~/venv
+    source ~/venv/bin/activate
+    python3 -m pip install zensical
+fi
 # cd ~/src; git clone https://github.com/straysheep-dev/straysheep-dev.github.io
 cd ~/src/straysheep-dev.github.io/
 # Preview as you write
