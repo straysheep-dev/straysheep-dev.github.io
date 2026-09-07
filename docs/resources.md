@@ -5486,97 +5486,6 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	There are a lot of tips and tricks to workflows with Claude, depending on how you're using it and what the goal is. These will be added here over time as they're tested and reviewed.
 
-	---
-
-	[**Claude Code**](https://claude.ai/code)
-
-	For advanced installation with apt, dnf, or binary integrity checking, see the [advanced installation options](https://code.claude.com/docs/en/setup#advanced-installation-options).
-
-	```
-	pub   rsa4096/0xBAA929FF1A7ECACE 2026-03-30 [SCE]
-		Key fingerprint = 31DD DE24 DDFA B679 F42D  7BD2 BAA9 29FF 1A7E CACE
-	uid                   [ unknown] Anthropic Claude Code Release Signing <security@anthropic.com>
-
-	```
-
-	- <https://code.claude.com/docs/en/security>
-	- <https://code.claude.com/docs/en/devcontainer>
-
-	This is the CLI utility for Claude. It requires at least a Pro subscription, and is easy to install. Once it's available locally, simply run `claude` in any directory. It will have read/write access to everything in that directory and below, and general read access to most files on the system your user context does. Reviewing the security and safety documentation shows Claude various mechanisms in place to attempt to prevent things from going wrong, but it's highly recommended to use this tool within a VM, or isolated instance that you can easily spin down and rebuild.
-
-	[`/cost` and `/usage`](https://platform.claude.com/docs/en/about-claude/pricing)
-
-	Using Claude Code brings two questions to mind:
-
-	- Does it make more sense to use the API cost-wise?
-	- Does it make more sense to use the API security-wise?
-
-	Authenticating to Claude Code via a Pro subscription where you have other conversations and data tied to your Claude account exposes all of that data should the `claude` CLI process or the host itself become compromised. Isolating this activity to an API account is the better option for potentially untrusted workloads (which realistically is most workloads until they're reviewed).
-
-	[**Anthropic Console Account**](https://platform.claude.com/docs/en/get-started)
-
-	This is similar to how OpenAI separates their subscription-based and API-based usage. You can easily logout and login to Claude Code via the Anthropic Console the same way you're able to authenticate using your regular Claude subscription.
-
-	**Claude Code Workspaces & Auth Methods**
-
-	This will need review. It seems interactive Claude Code sessions force OAuth at the org level, meaning a compromised session has full control and access to the org's Anthropic account. Using Claude headlessly, or through a separate identity and service provider (like AWS Bedrock) allows further narrowing of the identity scope, and is almost exclusively for agent workflows. Claude Code interactive sessions are still human-in-the-loop workflows, leading up to agent (headless) workflows. `claude --bare` appears to be the argument used when authenticating entirely over API.
-
-	```
-	Claude Code CLI
-	+---+ auth route (mutually exclusive)
-		|--- OAuth -> Anthropic Console account, org-level, interactive only
-		|--- ANTHROPIC_API_KEY -> direct API, workspace-scoped, works headless
-		+--- CLAUDE_CODE_USE_BEDROCK=1 -> IAM role, your scope boundary, works headless
-	```
-
-	---
-
-	**Workflow Lifecycle**
-
-	The [Claude code best-practices doc](https://code.claude.com/docs/en/best-practices) details this. This is the way I interpret it for cost and usage.
-
-	1. Concepting and planning in the web UI via subscription (best cost-savings)
-	2. Deploying the plans and developing at scale with Claude Code
-	3. Implementing a test harness for any long-running, continuous tasks
-
-	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
-
-	---
-
-	[**Test Harness Basics**](https://www.anthropic.com/engineering/harness-design-long-running-apps)
-
-	The test harness is a mechanism for guiding agent workflows without intervention. Interactive planning, scoping, and human-in-the-loop phases all happen before implementing a test harness, usually in Claude Code or the web UI. How you design and build a test harness determines how successful it is.
-
-	A few points to try and summarize it:
-
-	- How are you handling the plan, build, and QA phases?
-	- Clearly defining success and failure states
-	- When and how to manually review the status or results
-	- What capabilities and limitations are present at each phase
-
-	Practically, and as models change and grow, this can mean one or more of the following:
-
-	- Using separate agents to verify other agent's work (reduces bias and context anxiety)
-	- Narrowly scoping the agent's capabilities
-		- Access to up to two of the following at any time: secrets, code execution, untrusted input
-		- This is known as Meta's ["rule of two"](https://ai.meta.com/blog/practical-ai-agent-security/)
-	- Cost savings via caching, detailed planning, saving your state in some way, and directions
-
-	Ways to begin implementing a test harness in your work:
-
-	- Write a strong `CLAUDE.md`
-	- Think of how to save Claude's state, as context and caching grows (for example a `STATE.md` that summarizes progress)
-	- Think of how and when to `/clear` the context window as it fills
-	- [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action), a general-purpose Claude Code action for GitHub PRs and issues
-		- Quick-start via `claude` and run `/install-github-app`, only works with an Anthropic Console account
-		- For AWS Bedrock, Google Vertex AI, or Microsoft Foundry setup, see [docs/cloud-providers.md](https://github.com/anthropics/claude-code-action/blob/main/docs/cloud-providers.md) (Recommended: AWS Bedrock OIDC)
-		- ==**NEVER allow `@claude` to trigger on a PR from someone who isn't a project maintainer, or other untrusted input**==
-	- [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review)
-		- "An AI-powered security review GitHub Action using Claude to analyze code changes for security vulnerabilities."
-		- [Automate security reviews with Claude Code](https://claude.com/blog/automate-security-reviews-with-claude-code)
-		- Claude Code ships a `/security-review` slash command that provides the same security analysis capabilities as the GitHub Action workflow
-		- This can also be [customized](https://github.com/anthropics/claude-code-security-review/tree/main?tab=readme-ov-file#customizing-the-command)
-
 
 ### :octicons-tools-16: Tools
 
@@ -5605,7 +5514,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	- ollama is essentially a frontend to interface with and retrieve vetted LLM's
 	- Hugging Face is more like GitHub, and not every model is vetted, however official models from trusted sources are available there as well
-	- The resoure requirements aren't high, WSL can run these too since Windows passes the GPU through
+	- The resource requirements aren't high, WSL can run these too since Windows passes the GPU through
 	- It's easy to customize a model
 	- RAG (retrieval-augmented generation) is the process of referencing documents and data without re-training a model (which is expensive and hard)
 
@@ -5639,7 +5548,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- <https://github.com/e2b-dev>
 	- [Quick-Start](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox)
 
-	Their [GitHub README is effectively a quick-start guide](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox). Additional details are availabe in their [docs](https://e2b.dev/docs).
+	Their [GitHub README is effectively a quick-start guide](https://github.com/e2b-dev/E2B?tab=readme-ov-file#run-your-first-sandbox). Additional details are available in their [docs](https://e2b.dev/docs).
 
 	Suggested by [yroc92](https://github.com/yroc92) for AI agent and CLI workflows.
 
@@ -5654,17 +5563,171 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	> **Key Capabilities**
 	>
-    > - **Code When You Need It**: Write JavaScript/Python, add npm packages, or use the visual interface
-    > - **AI-Native Platform**: Build AI agent workflows based on LangChain with your own data and models
-    > - **Full Control**: Self-host with our fair-code license or use our cloud offering
-    > - **Enterprise-Ready**: Advanced permissions, SSO, and air-gapped deployments
-    > - **Active Community**: 400+ integrations and 900+ ready-to-use templates
+	> - **Code When You Need It**: Write JavaScript/Python, add npm packages, or use the visual interface
+	> - **AI-Native Platform**: Build AI agent workflows based on LangChain with your own data and models
+	> - **Full Control**: Self-host with our fair-code license or use our cloud offering
+	> - **Enterprise-Ready**: Advanced permissions, SSO, and air-gapped deployments
+	> - **Active Community**: 400+ integrations and 900+ ready-to-use templates
 
 
 	**Generating n8n Workflows with AI**
 
 	n8n workflows are plain JSON. This means LLMs may be able to generate, modify, and explain them directly. This still needs reviewed and tested.
 
+
+### :octicons-gear-16: Harnesses
+
+!!! abstract "[**Test Harness Basics**](https://www.anthropic.com/engineering/harness-design-long-running-apps)"
+
+	The test harness is a mechanism for guiding agent workflows without intervention. Interactive planning, scoping, and human-in-the-loop phases all happen before implementing a test harness, usually in Claude Code or the web UI. How you design and build a test harness determines how successful it is.
+
+	A few points to try and summarize it:
+
+	- How are you handling the plan, build, and QA phases?
+	- Clearly defining success and failure states
+	- When and how to manually review the status or results
+	- What capabilities and limitations are present at each phase
+
+	Practically, and as models change and grow, this can mean one or more of the following:
+
+	- Using separate agents to verify other agent's work (reduces bias and context anxiety)
+	- Narrowly scoping the agent's capabilities
+		- Access to up to two of the following at any time: secrets, code execution, untrusted input
+		- This is known as Meta's ["rule of two"](https://ai.meta.com/blog/practical-ai-agent-security/)
+	- Cost savings via caching, detailed planning, saving your state in some way, and directions
+
+	Ways to begin implementing a test harness in your work:
+
+	- Write a strong `AGENTS.md`
+	- Think of how to save the agent's state, as context and caching grows (for example a `STATE.md` that summarizes progress)
+	- Think of how and when to `/clear` the context window as it fills (Claude Code)
+	- [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action), a general-purpose Claude Code action for GitHub PRs and issues
+		- Quick-start via `claude` and run `/install-github-app`, only works with an Anthropic Console account
+		- For AWS Bedrock, Google Vertex AI, or Microsoft Foundry setup, see [docs/cloud-providers.md](https://github.com/anthropics/claude-code-action/blob/main/docs/cloud-providers.md) (Recommended: AWS Bedrock OIDC)
+		- ==**NEVER allow `@claude` to trigger on a PR from someone who isn't a project maintainer, or other untrusted input**==
+	- [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review)
+		- "An AI-powered security review GitHub Action using Claude to analyze code changes for security vulnerabilities."
+		- [Automate security reviews with Claude Code](https://claude.com/blog/automate-security-reviews-with-claude-code)
+		- Claude Code ships a `/security-review` slash command that provides the same security analysis capabilities as the GitHub Action workflow
+		- This can also be [customized](https://github.com/anthropics/claude-code-security-review/tree/main?tab=readme-ov-file#customizing-the-command)
+
+
+#### Claude Code
+
+??? abstract "[**Claude Code**](https://claude.ai/code)"
+
+	For advanced installation with apt, dnf, or binary integrity checking, see the [advanced installation options](https://code.claude.com/docs/en/setup#advanced-installation-options).
+
+	```
+	pub   rsa4096/0xBAA929FF1A7ECACE 2026-03-30 [SCE]
+		Key fingerprint = 31DD DE24 DDFA B679 F42D  7BD2 BAA9 29FF 1A7E CACE
+	uid                   [ unknown] Anthropic Claude Code Release Signing <security@anthropic.com>
+
+	```
+
+	- <https://code.claude.com/docs/en/security>
+	- <https://code.claude.com/docs/en/devcontainer>
+
+	This is the CLI utility for Claude. It requires at least a Pro subscription, and is easy to install. Once it's available locally, simply run `claude` in any directory. It will have read/write access to everything in that directory and below, and general read access to most files on the system your user context does. Reviewing the security and safety documentation shows Claude various mechanisms in place to attempt to prevent things from going wrong, but **it's highly recommended to use this tool within a VM, or isolated instance that you can easily spin down and rebuild**.
+
+	[`/cost` and `/usage`](https://platform.claude.com/docs/en/about-claude/pricing)
+
+	Using Claude Code brings two questions to mind:
+
+	- Does it make more sense to use the API cost-wise?
+	- Does it make more sense to use the API security-wise?
+
+	Authenticating to Claude Code via a Pro subscription where you have other conversations and data tied to your Claude account does not actually expose the account history, artifacts, or projects to the Claude Code session. You can even auth with a code and never login through a browser on the machine running Claude Code (avoids any session cookie from being created on that machine). This is what's accessible:
+
+	| Permission | Risk |
+	|---|---|
+	| `user:inference` | Burn your quota/spend running prompts as you. |
+	| `user:mcp_servers` | Pivot into whatever MCP connectors you've wired up (Notion, Linear, Gmail, Slack, etc.) the crown jewel here. |
+	| `user:sessions:claude_code` | Control/read active Claude Code sessions, potentially the other highest blast radius. |
+	| `user:profile` / `user:file_upload` | Profile info and file upload, not full account data export. |
+
+	You can also check `/artifacts` and `/memory` in a Claude Code session auth'd into your subscription, to confirm it has no reach into your web chats.
+
+	For those reasons, depending on your threat model you could try one of these paths (the sandbox options are a separate conversation below):
+
+	- Use a subscription account without MCP / connectors enabled on your own or trusted code, low to moderate risk with web search.
+	- An API account or a separate agent / platform subscription is necessary if you're working on fully untrusted code or doing malware analysis.
+
+	[**Anthropic Console Account**](https://platform.claude.com/docs/en/get-started)
+
+	This is similar to how OpenAI separates their subscription-based and API-based usage. You can easily logout and login to Claude Code via the Anthropic Console the same way you're able to authenticate using your regular Claude subscription.
+
+	**Claude Code Workspaces & Auth Methods**
+
+	This will need review. It seems interactive Claude Code sessions force OAuth at the org level, meaning a compromised session has full control and access to the org's Anthropic account. Using Claude headlessly, or through a separate identity and service provider (like AWS Bedrock) allows further narrowing of the identity scope, and is almost exclusively for agent workflows. Claude Code interactive sessions are still human-in-the-loop workflows, leading up to agent (headless) workflows. `claude --bare` appears to be the argument used when authenticating entirely over API.
+
+	```
+	Claude Code CLI
+	+---+ auth route (mutually exclusive)
+		|--- OAuth -> Anthropic Console account, org-level, interactive only
+		|--- ANTHROPIC_API_KEY -> direct API, workspace-scoped, works headless
+		+--- CLAUDE_CODE_USE_BEDROCK=1 -> IAM role, your scope boundary, works headless
+	```
+
+	---
+
+	**Workflow Lifecycle**
+
+	The [Claude code best-practices doc](https://code.claude.com/docs/en/best-practices) details this. This is the way I interpret it for cost and usage.
+
+	1. Concepting and planning in the web UI via subscription (best cost-savings)
+	2. Deploying the plans and developing at scale with Claude Code
+	3. Implementing a test harness for any long-running, continuous tasks
+
+	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
+
+??? warning "`model` Does Not Reload Mid-Session"
+
+	Most keys reload on file save mid-session. `model` is read once at session start - change it with `/model` or restart.
+
+??? warning "`allowManagedPermissionRulesOnly`"
+
+	**`allowManagedPermissionRulesOnly`** locks the permissions block so only rules in `managed-settings.json` apply - user and project `allow`/`ask`/`deny` rules are ignored entirely. It only takes effect in managed scope (`/etc/claude-code/managed-settings.json`), so using it requires the bootstrap playbook to place a second file with root access alongside the user settings. It's a lock-down step for after your allowlist is stable, not a starting point. For a single-operator harness, the deny rules in `~/.claude/settings.json` plus the CLAUDE.md prohibition on the agent touching settings files covers the same threat, but we'll still use `/etc/claude-code/managed-settings.json`.
+
+??? danger "ENV vs `settings.json`"
+
+	**Environment variables beat `settings.json`** for some keys. `effortLevel: "high"` is ignored if `CLAUDE_CODE_EFFORT_LEVEL` is set in the shell environment. Check `~/.bashrc`, `~/.zshrc`, and `/etc/environment` on the harness VM after bootstrap.
+
+??? danger "apply-seccomp, Nested userns, and CAP_SYS_ADMIN"
+
+	It seems recent Claude Code versions from 2.1.92+ use `apply-seccomp` within the sandbox, which fights apparmor's user namespace hardening on Ubuntu 24.04+. This is being tracked in these issues:
+
+	- [Issue #89478](https://github.com/anthropics/claude-code/issues/89478)
+	- [Issue #87680](https://github.com/anthropics/claude-code/issues/87680)
+	- [Issue #43454](https://github.com/anthropics/claude-code/issues/43454#issuecomment-5322327320)
+
+	GPT Codex has similar notes in its [sandboxing documentation](https://learn.chatgpt.com/docs/sandboxing), however it's concerning that none of these steps currently work to resolve the issue on Ubuntu 26.04.
+
+	- Downgrading and keeping Claude Code pinned to a version many months old is not a viable long-term option.
+	- Loading the apparmor profile for [bwrap-userns-restrict](https://gitlab.com/apparmor/apparmor/-/blob/master/profiles/apparmor/profiles/extras/bwrap-userns-restrict), shows this issue persists (pointing back to the change in Claude Code itself).
+	- [`"enableWeakerNestedSandbox": true`](https://code.claude.com/docs/en/settings-reference#sandbox-enableweakernestedsandbox) expands the attack surface within the sandbox (exposes `/proc`, used for Docker and WSL) but does not resolve the problem.
+	- `sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0` also expands the entire system's attack surface without solving the problem.
+
+	The *only* working solution so far, is `"allowAllUnixSockets": true`:
+
+	```json
+	{
+	"sandbox": {
+		"network": {
+		"allowAllUnixSockets": true
+		}
+	  }
+	}
+	```
+
+	Giving an untrusted session access to all Unix sockets can result in a root escalation depending on the sockets available to the system, rendering the sandbox ineffective. Example: [HackTricks UNIX Socket Enumeration and Command Injection](https://github.com/HackTricks-wiki/hacktricks/blob/master/src/linux-hardening/network-information/local-network-and-socket-triage.md#unix-socket-interaction-and-command-injection)
+
+??? danger "CVE-2026-21852"
+
+	> A vulnerability in Claude Code's project-load flow allowed malicious repositories to exfiltrate data including Anthropic API keys before users confirmed trust. If a user started Claude Code in an attacker-controlled repository, and the repository included a settings file that set ANTHROPIC_BASE_URL to an attacker-controlled endpoint, Claude Code would issue API requests before showing the trust prompt, including potentially leaking the user's API keys.
+
+	- <https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7>
+	- <https://nvd.nist.gov/vuln/detail/cve-2026-21852>
 
 ### :material-lightning-bolt-circle: Attacks
 
