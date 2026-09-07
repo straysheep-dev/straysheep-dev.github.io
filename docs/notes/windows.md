@@ -102,7 +102,7 @@ Windows Sandbox is a temporary, and (depending on your `.wsb` configuration) ful
 
 ### PowerSTIG
 
-*This is covered in [Getting Started with PowerSTIG](../posts/powerstig.md).*
+*This is covered in [Getting Started with PowerSTIG](./powerstig.md).*
 
 
 ## Active Directory
