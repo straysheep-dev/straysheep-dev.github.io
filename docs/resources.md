@@ -5650,7 +5650,7 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	For those reasons, depending on your threat model you could try one of these paths (the sandbox options are a separate conversation below):
 
-	- Use a subscription account without MCP / connectors enabled on your own or trusted code, low to moderate risk with web search.
+	- Use a subscription account without MCP / connectors enabled, only on projects you trust. Low to moderate risk with web search.
 	- An API account or a separate agent / platform subscription is necessary if you're working on fully untrusted code or doing malware analysis.
 
 	[**Anthropic Console Account**](https://platform.claude.com/docs/en/get-started)
@@ -5680,6 +5680,19 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	3. Implementing a test harness for any long-running, continuous tasks
 
 	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
+
+??? warning "`settings.json` is Enterprise Only"
+
+	An Anthropic API account supports managed `settings.json` policy files, however, the subscriptions do not:
+
+	```bash
+	$ claude doctor
+	# snip
+	Managed settings (remote): not fetched - requires an Enterprise or Team subscription
+	Organization policy: not applicable to Pro and Max accounts
+	```
+
+	Applying one will cause Claude to crash, printing escape characters to your terminal. This needs reviewed.
 
 ??? warning "`model` Does Not Reload Mid-Session"
 
