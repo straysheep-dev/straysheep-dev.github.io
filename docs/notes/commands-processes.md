@@ -19,7 +19,7 @@ categories:
 
 # :material-family-tree: Process Tracing Commands
 
-Similar to [Network Commands](../posts/network-commands.md), this post is meant to be a single point of reference for all the random ways of interacting with and tracing processes.
+Similar to [Network Commands](./commands-network.md), this post is meant to be a single point of reference for all the random ways of interacting with and tracing processes.
 
 <!-- more -->
 
