@@ -23,7 +23,7 @@ Getting started with Ansible. If you don't know what Ansible is or what it's use
 
 !!! note "About this Post"
 
-    This post is a mirror of [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs)'s README. It's being added here as both, a searchable reference within this mkdocs site, and because the recent post on [Molecule](../posts/ansible-molecule.md) needed to be split off into it's own post due to the amount of examples and details. This may end up being the primary source to maintain these notes going forward, with the ansible-configs project README linking back to this post.
+    This post is an extension of [straysheep-dev/ansible-configs](https://github.com/straysheep-dev/ansible-configs)'s README. It's being added here as both, a searchable reference within this site, and because the recent post on [Molecule](./ansible-molecule.md) needed to be split off into it's own post due to the amount of examples and details. This is the primary source to maintain these notes going forward, with the ansible-configs project README linking back to this post.
 
 **Resources**
 
@@ -187,7 +187,18 @@ pipx uninstall "$package_name"_"$version_number"
 ```
 
 
-#### Older Systems
+### Ubuntu 26.04 Issues
+
+Currently the sudo prompt on Ubuntu 26.04 does not work by default with Ansible's sudo elevation and password entry. The current work around is giving the account running Ansible temporary passwordless sudo. This needs reviewed.
+
+```bash
+# Temporary use only
+echo "user1 ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansible >/dev/null
+sudo chmod 440 /etc/sudoers.d/ansible
+```
+
+
+### Older Systems
 
 The latest versions of Ansible will not execute on systems with older versions of python3 installed. You will see an error similar to this, where it isn't even able to print the required version information:
 
