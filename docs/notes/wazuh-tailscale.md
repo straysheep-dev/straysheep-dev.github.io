@@ -2039,6 +2039,6 @@ Components to maintain and when:
 
 ## Migrate to Proxmox
 
-*This section mirrors what's mentioned under [blog/Proxmox](../posts/proxmox.md#migrating-vms). Be sure to check that post if you need to get started with proxmox first and for all related details.*
+*This section mirrors what's mentioned under [blog/Proxmox](./proxmox.md#migrating-vms). Be sure to check that post if you need to get started with proxmox first and for all related details.*
 
 Basically, it's fairly straight forward and easy to migrate even a large standalone Hyper-V VM to Proxmox. Keep this in mind if you plan to deploy it in "production" or require more space and a distributed Wazuh cluster.
