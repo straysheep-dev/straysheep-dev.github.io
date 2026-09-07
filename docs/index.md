@@ -63,7 +63,7 @@ h1:first-of-type {
 
         ---
 
-        Utilities and configuration files for any Unix-like OS. [ansible-configs](#ansible-configs) generally uses files from here.
+        Utilities and configuration files for any Unix-like OS. [ansible-configs](https://github.com/straysheep-dev/ansible-configs) generally uses files from here.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/linux-configs)
 
@@ -107,7 +107,7 @@ h1:first-of-type {
 
         ---
 
-        Packer templates ready-to-use, with resources to help you learn, modify, and build upon what's here. [ansible-configs](#ansible-configs) is a submodule of this super project.
+        Packer templates ready-to-use, with resources to help you learn, modify, and build upon what's here. [ansible-configs](https://github.com/straysheep-dev/ansible-configs) is a submodule of this super project.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/packer-configs)
 
@@ -115,7 +115,7 @@ h1:first-of-type {
 
         ---
 
-        Systemd-enabled Docker configuration files for molecule testing. All submodules in [ansible-configs](#ansible-configs) run molecule CI workflows using these.
+        Systemd-enabled Docker configuration files for molecule testing. All submodules in [ansible-configs](https://github.com/straysheep-dev/ansible-configs) run molecule CI workflows using these.
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/docker-configs)
 
@@ -403,7 +403,7 @@ h1:first-of-type {
         - Network interface information
         - Working directory
 
-        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](blog/posts/custom-shell-profiles.md)
+        [:octicons-arrow-right-24: Go to blog post :simple-materialformkdocs:](notes/custom-shell-profiles.md)
 
     </div>
 
@@ -415,7 +415,7 @@ h1:first-of-type {
 
     This site was created as a better way to document, maintain, and share notes with demonstrations or visual components, cross-platform.
 
-    The [blog](blog/index.md) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
+    The [notes](notes/about.md) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
 
     Using [Zensical](https://zensical.org/) to build this makes it both a searchable "database" with no backend, and an archive with everything organized through git.
 
