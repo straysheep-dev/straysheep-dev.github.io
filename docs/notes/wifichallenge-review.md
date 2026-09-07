@@ -60,7 +60,7 @@ I spent the majority of the year after purchasing the course getting lost with D
 
 ### :simple-bookstack: Course Material
 
-The depth of the course is evident if you read through the source code of the public project, look at what it's doing, and think about what attacks are possible based on that. [I was even sidetracked by Nzyme](./nzyme-rpi-proxmox-tailscale.md), setting that up in my lab for real world use which has been one of the more interesting and useful side projects, since it takes IDS into the physical world.
+The depth of the course is evident if you read through the source code of the public project, look at what it's doing, and think about what attacks are possible based on that. [I was even sidetracked by Nzyme](./nzyme.md), setting that up in my lab for real world use which has been one of the more interesting and useful side projects, since it takes IDS into the physical world.
 
 The course walks through every network type, for ***creating*** (yes, creating), connecting to, and attacking, WiFi. That's the strength of this course, you'll know how everything works at a practical level. You can go further and set up your own RADIUS server and authentication through Active Directory if you want, but you never need to memorize how to do things like this because ***templates*** exist both in the course, and in some of the tools designed to attack those networks. Really useful if you want to build your own AP, for example.
 
@@ -131,7 +131,7 @@ Ultimately, my goal is using pentesting to discover and validate the defense + h
 ---
 
 
-## :simple-wikibooks: Cheat Sheets
+## :simple-wikibooks: Cheat Sheets { #cheat-sheets }
 
 Both the pwnbox and eaphammer wikis were referenced throughout the course, as both are very popular repos. A few of these sections specifically proved invaluable for me in tying all of the concepts together that I was still wondering about in the back of my mind after completing the majority of the course content at least once. That will vary for everyone, but these are highlighted here more for me to come back to more than anything.
 
@@ -184,7 +184,7 @@ This section details actions or steps I found most helpful to note when creating
 ---
 
 
-## :simple-docker: Docker Usage & Troubleshooting
+## :simple-docker: Docker Usage & Troubleshooting { #docker-usage-troubleshooting }
 
 You can copy the [docker-compose-local.yml](https://github.com/r4ulcl/WiFiChallengeLab-docker/blob/main/docker-compose-local.yml) build file, modify it, and build the entire lab locally using the Dockerfiles:
 
