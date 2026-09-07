@@ -2382,8 +2382,8 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	These concepts have their own dedicated posts with ready-to-use examples.
 
-	- [CI/CD](../posts/cicd.md)
-	- [Linting Code](../posts/linting.md)
+	- [CI/CD](notes/cicd.md)
+	- [Linting Code](notes/linting.md)
 
 
 ### :material-shield-key: SOPS
@@ -2543,7 +2543,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [GitHub README Stats](https://github.com/anuraghazra/github-readme-stats)
 
 
-#### :simple-githubactions: GitHub Actions
+#### :simple-githubactions: GitHub Actions { #github-actions }
 
 ??? example "checkout"
 
@@ -4222,7 +4222,7 @@ This includes general network information as well as network-focused tools.
 
 	Nessus is possibly the most well known vulnerability scanner. Any pentesting course is likely to introduce Nessus as a method of assessing targets via a network scan.
 
-	See my [notes on Nessus](../posts/nessus.md).
+	See my [notes on Nessus](notes/nessus.md).
 
 	- <https://www.tenable.com/products/nessus>
 
