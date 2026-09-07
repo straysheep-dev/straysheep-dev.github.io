@@ -4,7 +4,7 @@ icon: material/wifi-cancel
 draft: true
 #date:
 #  created: 2025-06-27
-#  updated: 2026-09-01
+#  updated: 2026-09-07
 categories:
   - zerotrust
   - networking
@@ -30,7 +30,7 @@ categories:
 
     At some point everyone, even security professionals, will need to use an untrusted network for one reason or another. It doesn't make sense, for example, to burn gigs of data tethering to a mobile hotspot when you can configure your device to withstand hostile LAN activity on a random Wi-Fi access point.
 
-    Additionally you may have heard that it's safer to connect to the official DEFCON Wi-Fi instead of using cell service during and around the conference. This can lead to a lot of questions if you don't know why and how that's true.
+    Additionally you may have heard that it's safer to connect to the official DEF CON Wi-Fi instead of using cell service during and around the conference. This can lead to a lot of questions if you don't know why and how that's true.
 
     The truth is, you should *assume any network is hostile*.
 
@@ -39,7 +39,6 @@ categories:
     Let's look at this from all angles to obtain a general set of "things" to do when preparing to use untrusted (potentially hostile) networks.
 
 <!-- more -->
-
 
 ## Proposed Sections
 
@@ -55,7 +54,7 @@ categories:
             - HSTS
             - Certificate Stores
         - Public Key Fingerprint Checking (GPG, SSH, etc)
-        - Why the DEFCON Wi-Fi *is* Safer
+        - Why the DEF CON Wi-Fi *is* Safer
         - History of Exploits Targeting Network Stacks
             - LAN
             - Wi-Fi
@@ -122,13 +121,13 @@ You'll see **untrusted sources** a lot in this article. This is anything we do n
 
 ## Attacks
 
-!!! danger "Evil Twins are Trivial on Public / Guest Networks (or why the DEFCON WiFi is safer)"
+!!! danger "Evil Twins are Trivial on Public / Guest Networks (or why the DEF CON Wi-Fi is safer)"
 
     **Why This Works**: Without TLS certificate validation, the pre-shared key is doing *everything* here. (auth + verification)
 
     Most public networks freely publish the ESSID and pre-shared key (if there even is one). In the best case scenario, the venue assigns each user a unique pre-shared key, runs a fully patched AP with WPA3, and fully isolates all client traffic. This is completely doable, but it's not something you should rely on.
 
-    In most cases, the ESSID *is* the pre-shared key. Try this on your home WiFi, without any hacking tools, you can run another AP (Raspberry Pi, Ubuntu + hostapd, etc.) that has the same:
+    In most cases, the ESSID *is* the pre-shared key. Try this on your home Wi-Fi, without any hacking tools, you can run another AP (Raspberry Pi, Ubuntu + hostapd, etc.) that has the same:
 
     * ESSID
     * BSSID (MAC address)
@@ -137,7 +136,7 @@ You'll see **untrusted sources** a lot in this article. This is anything we do n
 
     At this point, how does your client device know which one is the real one? **There's actually no way to verify which one is the real AP**.
 
-    The DEFCON WiFi by contrast provisions each user with a unique TLS certificate. So long as you obtained the certificate from the real DEFCON website, and enforce client-side certificate validation, evil twin attacks aren't possible without a novel exploit.
+    The DEF CON Wi-Fi by contrast provisions each user with a unique TLS certificate. So long as you obtained the certificate from the real DEF CON website, and enforce client-side certificate validation, evil twin attacks aren't possible without a novel exploit.
 
     Home and small office WPA2/3 networks are entirely protected by the pre-shared key. If that's ever discovered, authentication, verification, and integrity are lost. WPA3 at least [prevents offline brute-force of the key exchange frames](https://datatracker.ietf.org/doc/html/rfc7664) ***and*** retroactively decrypting previously captured traffic if the key is ever discovered.
 
@@ -183,10 +182,10 @@ Dynamic host configuration protocol.
 
     The DHCP-based attack vectors on a LAN depend on what device is being malicious:
 
-    - Malicious neighbor: [ARP cache poisoning](https://en.wikipedia.org/wiki/ARP_spoofing) or [DHCP lease starvation](https://wazuh.com/blog/monitoring-dhcp-starvation-attack-with-suricata-and-wazuh/) + a hostile DHCP server hosted by the attack's machine
+    - Malicious neighbor: [ARP cache poisoning](https://en.wikipedia.org/wiki/ARP_spoofing) or [DHCP lease starvation](https://wazuh.com/blog/monitoring-dhcp-starvation-attack-with-suricata-and-wazuh/) + a hostile DHCP server hosted by the attacker's machine
     - Malicious router (mostly transparent)
 
-    This is not breaking VPN crypto, but a hostile DHCP server can tell your system to send tunneled traffic to the LAN first. This is transparent to the user. It also is not an immediate win for attackers, but here are some scenerios where it can be a risk. If you're sending any of the following data over a VPN, an attacker's machine may get a copy first and potentially respond:
+    This is not breaking VPN crypto, but a hostile DHCP server can tell your system to send tunneled traffic to the LAN first. This is transparent to the user. It's also not an immediate win for attackers, but here are some scenarios where it can be a risk. If you're sending any of the following data over a VPN, an attacker's machine may get a copy first and potentially respond:
 
     - Any unencrypted traffic relying on the tunnel
     - Web requests to self-signed CA's (internal or dev applications)
@@ -199,13 +198,13 @@ Dynamic host configuration protocol.
     - If your host, or the VPN application is configured to account for this, that's one remedy
     - Not all hosts and VPN applications can, and do, guard against this
 
-    [Tailscale's analysis](https://tailscale.com/blog/tunnelvision-analysis) of this for their own service illustrates it very well. Wireguard itself (used by Tailscale) has [a mechanism on Linux](https://www.wireguard.com/netns/#the-new-namespace-solution) that can be used to mitigate this issue. But each OS is different.
+    [Tailscale's analysis](https://tailscale.com/blog/tunnelvision-analysis) of this for their own service illustrates it very well. WireGuard itself (used by Tailscale) has [a mechanism on Linux](https://www.wireguard.com/netns/#the-new-namespace-solution) that can be used to mitigate this issue. But each OS is different.
 
 ??? example "Apple Devices & Tailscale - Extended Review"
 
     The Apple ecosystem (excluding AppleTV for some reason) is largely still vulnerable to this attack, particularly when using full tunneling (exit-nodes). In this specific case, *not* using full tunneling makes the attack on your Tailnet assets a little trickier, potentially mitigating it (but with no guarantee). With DHCP option 121, the more specific route wins. That's how TunnelVision works. On iOS and macOS, in addition to the more specific route, it's unclear what happens if there's a tie, as in two `/32` routes for the same host are pushed, but on different interfaces. Both Google and Claude suggest the most recently defined route wins in a tie, which would mean the malicious route always wins if it gets defined. [This forum post suggests there's a priority](https://developer.apple.com/forums/thread/724430), however there's nothing that seems to answer this specifically in the [developer docs](https://developer.apple.com/documentation/networkextension/routing-your-vpn-network-traffic), and instead this should be tested.
 
-    For example, you can use the [Hurricane Electric Tools app for iOS](https://networktools.he.net/) to examine your systems routes. On macOS you can simply use the CLI tools, which iOS does not have. As of the time of writing, every Tailnet asset gets a `/32` route. An attacker would need to flood the routing table with `/32` routes for the entire CGNAT range. This becomes a less likely attack scenario, but you're still left without a security guarantee.
+    For example, you can use the [Hurricane Electric Tools app for iOS](https://networktools.he.net/) to examine your system's routes. On macOS you can simply use the CLI tools, which iOS does not have. As of the time of writing, every Tailnet asset gets a `/32` route. An attacker would need to flood the routing table with `/32` routes for the entire CGNAT range. This becomes a less likely attack scenario, but you're still left without a security guarantee.
 
     The bottom line seems to be, do not use untrusted networks, while also needing to rely on tunneling, with Apple operating systems. macOS now has a way to detect this and alert the user (in Tailscale's case), but generally, use a hotspot or LAN you control if possible. This does not mean you cannot safely use untrusted networks on macOS, just be aware that TunnelVision is an attack vector if you do.
 
@@ -245,7 +244,7 @@ NTP can be overlooked, because it doesn't really lead to sensitive data intercep
 
 !!! info "Good DNS Servers"
 
-    See [resources#dns](../resources.md#dns)
+    See [resources#dns](../resources.md#dns).
 
 !!! abstract "DNS over TLS/HTTPS"
 
@@ -289,8 +288,8 @@ The mechanisms below are how TLS works today, and how it has been attacked.
 
     Review HSTS and other settings in your browsers:
 
-    - [Chrome](chrome://net-internals/#hsts)
-    - [Firefox](about:networking)
+    - Chrome: `chrome://net-internals/#hsts`
+    - Firefox: `about:networking`
 
 **References**
 
@@ -346,6 +345,18 @@ Assuming you're using a Linux desktop, it can quickly feel very complicated with
 
 === "Firewall"
 
+    !!! danger "Docker & Firewalls"
+
+        [Docker's functionality requires it to behave in a way that will most likely side-step your firewall rules](https://docs.docker.com/engine/network/packet-filtering-firewalls/). Because of this, you should ensure that any container you run is not listening on a public NIC if that's not the intention.
+
+        ```bash
+        # You must bind to localhost, or the intended interface, else it's 0.0.0.0:8080.
+        docker run -p 127.0.0.1:8080:80 nginx
+
+        # Confirm
+        sudo ss -anp -A inet
+        ```
+
     If on Debian-based Linux, you're using `ufw`:
 
     ```bash
@@ -384,7 +395,7 @@ Assuming you're using a Linux desktop, it can quickly feel very complicated with
 
     **NetworkManager**
 
-    See [my references for using NetworkManager](https://straysheep.dev/notes/commands-network/#networkmanager-nmcli).
+    See [my references for using NetworkManager](commands-network.md#networkmanager-nmcli).
 
     If your network renderer is NetworkManager, you should use `nmcli`. I have [templates published for both](https://github.com/straysheep-dev/linux-configs/tree/main/NetworkManager).
 
@@ -399,7 +410,7 @@ Assuming you're using a Linux desktop, it can quickly feel very complicated with
 
     If your network renderer is `systemd-networkd` (like it would be on Ubuntu Server), you'll want to use [netplan](https://netplan.readthedocs.io/en/stable/netplan-yaml/) (that link is the full configuration reference).
 
-    I have my own configuration reference [published here](https://straysheep.dev/notes/commands-network/#netplan).
+    I have my own configuration reference [published here](commands-network.md#netplan).
 
 === "DNS"
 
@@ -458,11 +469,11 @@ Assuming you're using a Linux desktop, it can quickly feel very complicated with
 
     **Lockdown Mode**
 
-    Additionally whether you have secure boot enforced or not, you can manually set the Kernel's lockdown mode to confidentiality. Lockdown prevents unsigned kmods from loading, and confidentiality mode prevents even root from dumping certain process details. See [Kernel Lockdown](https://straysheep.dev/resources/#linux-linux-unix-like_1) for full details.
+    Additionally whether you have secure boot enforced or not, you can manually set the Kernel's lockdown mode to confidentiality. Lockdown prevents unsigned kmods from loading, and confidentiality mode prevents even root from dumping certain process details. See [Kernel Lockdown](../resources.md#linux-linux-unix-like_1) for full details.
 
 === "Disk Encryption"
 
-    Always encrypt the full disk. This does two things; prevents use of your data in the event of a theft (remove hard drive, read it on another machine to gather data) is a signal if someone power cycles the device while you're away, and you left your device locked (and even asleep).
+    Always encrypt the full disk. This does two things: it prevents use of your data in the event of a theft (remove hard drive, read it on another machine to gather data), and it's a signal if someone power cycles the device while you're away and you left it locked (and even asleep).
 
     Failing to encrypt the full disk means determined attackers can still remove the disk, modify system files, and reinstall the disk. Effectively backdooring the system with trivial tools like system services or rootkits that are hidden from the OS or EDR. If you're following all pieces of this guide, the physical security and OPSEC considerations should alert you to this.
 
@@ -481,10 +492,72 @@ Assuming you're using a Linux desktop, it can quickly feel very complicated with
 
 ---
 
+### iOS
+
+=== "Network"
+
+    Due to [how iOS responds to TunnelVision](https://tailscale.com/blog/tunnelvision-analysis), VPNs are not a protection mechanism. To be clear, they're still fine for reaching remote resources, but you must assume those connections can leak or be intercepted now. For this reason, it's generally better to avoid connecting to untrusted Wi-Fi access points with iOS devices. If you must, ensure resources accessed over any VPN have valid keys or certificates that you can verify should a MITM attack happen.
+
+    !!! note "TunnelVision Recap"
+
+        To recap how TunnelVision applies here practically, it's easier for an attacker to intercept and leak full tunnel connections (e.g. 0.0.0.0/0). If you're only routing specific connections over your VPN, an attacker will have to guess them and push more specific routes, because the more specific route wins with option 121. Ultimately if you're routing 1:1 resources, they'll need to push a colliding route to leak the connection. It's still possible, but it becomes a little more trial-and-error from the attacker's perspective.
+
+    Safari also has a [private relay](https://support.apple.com/en-us/102602) feature if you pay $1/mo for iCloud+. This only protects Safari connections, and issues have been discovered with it, however it's still worth having to protect your browser connections. This does not protect application, or third-party browser connections.
+
+    The [Cloudflare 1.1.1.1 app](https://developers.cloudflare.com/warp-client/get-started/ios/) is a good tool to have available if you don't already have a VPN profile. This provides your entire system with DNS over HTTPS, which is a must. Despite being a VPN profile, the narrow scope makes it more resistant to what TunnelVision actually does.
+
+=== "App Privacy Report"
+
+    **Settings > Privacy & Security > App Privacy Report**
+
+    Application privacy reporting is a must-have. It logs all system activity including hardware or sensor usage by apps, DNS logs by all apps and websites, sortable, and exportable to JSON. It's also easily viewed and queried within the system settings. There's no reason to not enable this for logging.
+
+=== "Face ID & Passcode"
+
+    **Settings > Face ID & Passcode**
+
+    - Require attention for unlock
+    - Require passcode immediately
+    - Do or do not unlock with nearby devices such as an Apple Watch; do this to avoid typing your passcode in public or don't if you're asleep wearing your watch
+    - Disable all access while locked
+    - Erase data after 10 failed login attempts
+
+    Separately, if your device is stolen while unlocked, if you've enforced Face ID as a requirement to open any important apps like your password manager or vaults, this can limit the blast radius of a theft.
+
+=== "Physical Security"
+
+    **Settings > Privacy & Security > Security**
+
+    - Wired Accessories: Never set to "Always Allow", similar to USBGuard but for iOS.
+    - Background Security Improvements: Allow / Enable for automatic install
+    - Stolen Device Protection: Enable
+
+=== "Lockdown Mode"
+
+    **Settings > Privacy & Security > Security**
+
+    [Lockdown mode](https://support.apple.com/en-us/105120) is the strongest option overall. This guide has tested lockdown mode for years. Depending on the iOS device and version, you may find there's effectively no usage difference, or in some cases necessary system services no longer work correctly. This makes it an option that can work best temporarily if you find you experience the usage issues.
+
+---
+
+### Android
+
+TODO
+
+---
+
 ### EDR
+
+=== "Canary Tokens"
+
+    TODO
 
 === "Wazuh"
 
     [Wazuh](https://wazuh.com/) is a great choice if you want to roll your own EDR.
 
-    I have extensive [notes published on deploying and maintaining Wazuh](https://straysheep.dev/notes/wazuh-tailscale/) for reference.
+    I have extensive [notes published on deploying and maintaining Wazuh](wazuh-tailscale.md) for reference.
+
+=== "Sysmon"
+
+    TODO
