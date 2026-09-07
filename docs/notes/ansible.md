@@ -143,10 +143,23 @@ Upgrade Ansible:
 python3 -m pip install --upgrade --user ansible
 ```
 
+### uv
+
+`uv` is a popular replacement for all python tooling and maintenance. This isn't mentioned in the official Ansible docs, but works the same as pipx.
+
+```bash
+uv tool install --with-executables-from ansible-core ansible
+```
 
 ### Install Multiple Versions
 
 See: [Ansible Community Changelogs](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-community-changelogs)
+
+`uvx` (alias for `uv tool run`) supports this as one of its features. The package is cached vs installed to PATH, and you will have to call it with the version number like below.
+
+```bash
+uvx --from ansible-core==2.21.0 ansible-playbook --version
+```
 
 Using [pipx you can install multiple versions of packages side by side](https://github.com/pypa/pipx/pull/445). This is useful when you want the latest version of a package, and also a specific version of a package on the same system for testing.
 
