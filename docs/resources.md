@@ -5681,26 +5681,9 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
 
-??? warning "`settings.json` is Enterprise Only"
-
-	An Anthropic API account supports managed `settings.json` policy files, however, the subscriptions do not:
-
-	```bash
-	$ claude doctor
-	# snip
-	Managed settings (remote): not fetched - requires an Enterprise or Team subscription
-	Organization policy: not applicable to Pro and Max accounts
-	```
-
-	Applying one will cause Claude to crash, printing escape characters to your terminal. This needs reviewed.
-
 ??? warning "`model` Does Not Reload Mid-Session"
 
 	Most keys reload on file save mid-session. `model` is read once at session start - change it with `/model` or restart.
-
-??? warning "`allowManagedPermissionRulesOnly`"
-
-	**`allowManagedPermissionRulesOnly`** locks the permissions block so only rules in `managed-settings.json` apply - user and project `allow`/`ask`/`deny` rules are ignored entirely. It only takes effect in managed scope (`/etc/claude-code/managed-settings.json`), so using it requires the bootstrap playbook to place a second file with root access alongside the user settings. It's a lock-down step for after your allowlist is stable, not a starting point. For a single-operator harness, the deny rules in `~/.claude/settings.json` plus the CLAUDE.md prohibition on the agent touching settings files covers the same threat, but we'll still use `/etc/claude-code/managed-settings.json`.
 
 ??? danger "ENV vs `settings.json`"
 
@@ -5708,32 +5691,10 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 ??? danger "apply-seccomp, Nested userns, and CAP_SYS_ADMIN"
 
-	It seems recent Claude Code versions from 2.1.92+ use `apply-seccomp` within the sandbox, which fights apparmor's user namespace hardening on Ubuntu 24.04+. This is being tracked in these issues:
+	If you're hitting this error even after applying the suggested exception for [`/etc/apparmor.d/bwrap`](https://code.claude.com/docs/en/sandboxing#ubuntu-24-04-and-later-allow-bubblewrap-to-create-user-namespaces), two things can make it appear as though the sandbox is broken:
 
-	- [Issue #89478](https://github.com/anthropics/claude-code/issues/89478)
-	- [Issue #87680](https://github.com/anthropics/claude-code/issues/87680)
-	- [Issue #43454](https://github.com/anthropics/claude-code/issues/43454#issuecomment-5322327320)
-
-	GPT Codex has similar notes in its [sandboxing documentation](https://learn.chatgpt.com/docs/sandboxing), however it's concerning that none of these steps currently work to resolve the issue on Ubuntu 26.04.
-
-	- Downgrading and keeping Claude Code pinned to a version many months old is not a viable long-term option.
-	- Loading the apparmor profile for [bwrap-userns-restrict](https://gitlab.com/apparmor/apparmor/-/blob/master/profiles/apparmor/profiles/extras/bwrap-userns-restrict), shows this issue persists (pointing back to the change in Claude Code itself).
-	- [`"enableWeakerNestedSandbox": true`](https://code.claude.com/docs/en/settings-reference#sandbox-enableweakernestedsandbox) expands the attack surface within the sandbox (exposes `/proc`, used for Docker and WSL) but does not resolve the problem.
-	- `sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0` also expands the entire system's attack surface without solving the problem.
-
-	The *only* working solution so far, is `"allowAllUnixSockets": true`:
-
-	```json
-	{
-	"sandbox": {
-		"network": {
-		"allowAllUnixSockets": true
-		}
-	  }
-	}
-	```
-
-	Giving an untrusted session access to all Unix sockets can result in a root escalation depending on the sockets available to the system, rendering the sandbox ineffective. Example: [HackTricks UNIX Socket Enumeration and Command Injection](https://github.com/HackTricks-wiki/hacktricks/blob/master/src/linux-hardening/network-information/local-network-and-socket-triage.md#unix-socket-interaction-and-command-injection)
+	- An error or invalid key in your `managed-settings.json`.
+	- You need to reboot, or run `sudo apparmor_parser -r /etc/apparmor.d/bwrap`, not just reload the apparmor service.
 
 ??? danger "CVE-2026-21852"
 
