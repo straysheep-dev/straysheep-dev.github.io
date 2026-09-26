@@ -4,7 +4,7 @@ icon: simple/proxmox
 draft: false
 #date:
 #  created: 2024-08-13
-#  updated: 2025-12-14
+#  updated: 2026-09-26
 categories:
   - how-to
   - automation
@@ -113,6 +113,70 @@ You can browse directly to your Proxmox machine's `https://<IP>:8006` or use SSH
 
 ## :lucide-settings: Configure
 
+### :lucide-shield-check: TLS Certificates
+
+You can use Tailscale to provision real TLS certificates, consumed by the Proxmox settings. This is better than using `tailscale serve`, since it will protect both the web interface and the API.
+
+Install the following systemd service files and script to maintain Tailscale TLS certs for Proxmox:
+
+=== "tailscale-cert-renew.timer"
+
+    ```
+    # /etc/systemd/system/tailscale-cert-renew.timer
+
+    [Unit]
+    Description=Run Tailscale cert renewal every 30 days
+
+    [Timer]
+    OnBootSec=10min
+    OnUnitActiveSec=30d
+    Persistent=true
+
+    [Install]
+    WantedBy=timers.target
+    ```
+
+=== "tailscale-cert-renew.service"
+
+    ```
+    # /etc/systemd/system/tailscale-cert-renew.service
+
+    [Unit]
+    Description=Renew Tailscale-backed cert for Proxmox web UI
+    Wants=network-online.target tailscaled.service
+    After=network-online.target tailscaled.service
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/local/sbin/tailscale-cert-renew.sh
+    ```
+
+=== "tailscale-cert-renew.sh"
+
+    ```bash
+    #!/usr/bin/env bash
+    # /usr/local/sbin/tailscale-cert-renew.sh
+
+    set -euo pipefail
+
+    NODE=$(hostname)
+    # Use inline python to extract the FQDN, no need to install jq.
+    DNS_NAME="$(tailscale status --json | python3 -c 'import json, sys; print(json.load(sys.stdin)["Self"]["DNSName"].rstrip("."))')"
+    WORKDIR="$(mktemp -d)"
+    CERT_DIR="/etc/pve/nodes/${NODE}"
+
+    mkdir -p "$WORKDIR"
+    cd "$WORKDIR"
+
+    tailscale cert "$DNS_NAME"
+
+    cp "${DNS_NAME}.crt" "${CERT_DIR}/pveproxy-ssl.pem"
+    cp "${DNS_NAME}.key" "${CERT_DIR}/pveproxy-ssl.key"
+
+    systemctl restart pveproxy
+
+    logger -t tailscale-cert-renew "Renewed Tailscale cert for ${DNS_NAME} on node ${NODE}"
+    ```
 
 ### :lucide-clock-2: MFA
 
