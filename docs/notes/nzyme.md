@@ -64,11 +64,15 @@ External links to referenced software and services you may need as you follow al
 
 If you're planning to use Tailscale to securely access the nzyme dashboard from anywhere (as well as allow the tap(s) to securely communicate to the node(s), you'll need to define the following ACL's in your Tailnet. These allow you as the nzyme-admin to access all nzyme endpoints over SSH, as well as the WebUI on all nzyme-nodes. It also allows nzyme-tap endpoints to connect back to nzyme-nodes to send data.
 
+!!! note "443 for TLS"
+
+	`:443` is only included here to allow us to use `tailscale serve` to proxy a connection back to the web UI and API while serving the client a real TLS cert. Otherwise you really only need 22/tcp for SSH and 22900/tcp for Nzyme's default web and API connections.
+
 ```mermaid
 graph LR
 	A{💻 nzyme-admin};
 	B(🛜 nzyme-tap);
-	C(📦 nzyme-node:22,22900);
+	C(📦 nzyme-node:22,443,22900);
 	A -->| SSH | B;
 	A -->| SSH, HTTPS | C;
 	B -->| Wireless Data via HTTPS | C;
@@ -89,13 +93,13 @@ graph LR
 		{
 			"action": "accept",
 			"src":    ["tag:nzyme-admin"],
-			"dst":    ["tag:nzyme-node:22,22900", "tag:nzyme-tap:22"],
+			"dst":    ["tag:nzyme-node:22,443,22900", "tag:nzyme-tap:22"],
 		},
 		// Allow nzyme-taps to send data to nzyme-nodes
 		{
 			"action": "accept",
 			"src":    ["tag:nzyme-tap"],
-			"dst":    ["tag:nzyme-node:22900"],
+			"dst":    ["tag:nzyme-node:443,22900"],
 		},
 	//SNIP
 
@@ -646,6 +650,64 @@ sudo systemctl start nzyme-tap
 	- UAV (Unmanned Aerial Vehicle) model and classification information
 
 	This API isn't enabled by default, and you need an account. nzyme doesn't collect any unique information. [You can even inspect the code your local nzyme nodes are using the talk to the API](https://connect.nzyme.org/faq). The API data is incredibly useful, especially for Bluetooth monitoring.
+
+
+## TLS Certificates
+
+Tailscale can be used to easily proxy a TLS connection to your Nzyme web UI and API with `tailscale serve`. This is different than having the Nzyme service itself consume a Tailscale cert, and is less maintenance.
+
+!!! tip "When to Use `tailscale serve`"
+
+	This is a good choice if you have a single `<interface>:<port>` that handles all communications back to a service. If a service uses multiple interfaces and ports, you'll likely need to have that service consume the Tailscale cert so they all benefit from TLS.
+
+Make sure your Tailnet allows TLS certs, uses MagicDNS, and the Tailnet ACLs are setup to allow your taps to talk back to the server.
+
+=== "Nzyme Server"
+
+	Edit `/etc/nzyme/nzyme.conf`.
+
+	```conf
+	# ...
+	interfaces: {
+		# ...
+		rest_listen_uri: "https://127.0.0.1:22900/"  # <- point this to localhost, like this
+		# ...
+
+		http_external_uri: "https://<nzyme-hostname>.your-tailnet.ts.net/"  # <- point this to your tailscale FQDN, no port (443 implied)
+	}
+	# ...
+	```
+
+	Configure Tailscale to proxy to the web UI and API (now listening on localhost) via TLS. Tailscale will wire this into its daemon so there's no need to write a systemd service file or timer to start this on boot, or even renew the cert.
+
+	```bash
+	# Restart nzyme
+	sudo systemctl restart nzyme.service
+
+	# Configure tailscale
+	sudo tailscale serve --bg --https=443 https+insecure://127.0.0.1:22900
+	tailscale serve status
+	```
+
+=== "Nzyme Tap"
+
+	Edit `/etc/nzyme/nzyme-tap.conf`.
+
+	```conf
+	[general]
+	# ...
+	leader_uri = "https://<nzyme-hostname>.your-tailnet.ts.net/"  # <- point this back to your nzyme server's tailscale FQDN, no port (443 implied)
+	accept_insecure_certs = false  # <- set to false
+	# ...
+	```
+
+	Restart the service.
+
+	```bash
+	sudo systemctl restart nzyme-tap.service
+	```
+
+Once this is done, you can access your Nzyme web interface via a browser with `https://<nzyme-hostname>.your-tailnet.ts.net/`. Note that if you're using Firefox with secure DNS, you'll need to allow it to bypass that for this URL so your host's Tailscale daemon can step in and resolve the FQDN over MagicDNS.
 
 
 ## WiFi Monitoring
