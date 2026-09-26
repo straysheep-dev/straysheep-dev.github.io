@@ -95,6 +95,16 @@ Install Ansible's dev tools, Molecule, and the Docker Python SDK:
     pipx inject molecule "molecule-plugins[docker]" docker
     ```
 
+=== "uv"
+
+    ```bash
+    # uv creates isolated environments for single tool installs, so you'll
+    # need to drop everything into a venv so it can work together.
+    uv venv ~/.venvs/molecule-dev
+    source ~/.venvs/molecule-dev/bin/activate
+    uv pip install ansible molecule "molecule-plugins[docker]" docker
+    ```
+
 Finally, install Docker itself if you already haven't.
 
 - [Docker Install Instructions](https://docs.docker.com/engine/install/)
