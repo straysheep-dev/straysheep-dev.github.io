@@ -243,6 +243,27 @@ This section contains various tools that will eventually be split into their own
 
 	That's it. They're processed in sequence, similar to python's positional parameters.
 
+??? info "eget"
+
+	> The best way to easily get pre-built binaries for your favorite tools.
+
+	*Note that this project hasn't been updated in a while, but could be a good point of reference for fetching arbitrary artifacts.*
+
+	A single CLI tool that downloads and extracts the right pre-built binary from a GitHub repo's releases for your OS and architecture, verifying the SHA-256 checksum along the way. Works directly against `owner/repo` shorthand, direct URLs, or local files, with per-tool defaults configurable via a TOML file.
+
+	- <https://github.com/zyedidia/eget>
+
+	Notable features:
+
+	- Automatic OS/architecture detection
+	- SHA-256 checksum verification for downloaded assets
+	- TOML config file for per-tool install targets
+	- GitHub API token support for higher rate limits
+	- Asset filtering when a release has multiple binaries
+
+	Supported OS's: Linux, macOS (darwin), Windows, NetBSD, OpenBSD, FreeBSD, Android, illumos, Solaris, Plan9.
+
+	Architectures: amd64, i386, arm, arm64, riscv64.
 
 ## :material-note-text: Note Taking
 
@@ -2778,6 +2799,12 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	uid                             Steve Dower (Python Release Signing) <steve.dower@microsoft.com>
 	sub   rsa4096/0xE314D10907F87583 2015-04-06 [E]
 	```
+
+!!! tip "Managing Python Versions"
+
+	Currently, [`pyenv`](https://www.kali.org/docs/general-use/using-eol-python-versions/) is the best solution for `python2` support. This is a common need for older pentesting tools.
+
+	[`uv` only supports python3](https://docs.astral.sh/uv/concepts/python-versions/), but is the best way to manage multiple modern python versions on a system.
 
 ??? tip ":simple-python: uv"
 
