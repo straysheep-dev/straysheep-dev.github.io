@@ -5053,6 +5053,12 @@ All things standards, configuration, compliance, and policy related.
 
 	- [Search Tools](https://inteltechniques.com/tools/index.html)
 
+!!! info "infosec.exchange/@mishaal"
+
+	Mishaal frequently shares current and new OSINT techniques on Mastodon (see the Blogs & Authors section below for additional details).
+
+	- <https://infosec.exchange/@mishaal>
+
 
 ### :material-network: Internet Research
 
@@ -5708,6 +5714,14 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 
 	***TIP**: You may never need more than `1.` for what you're working on, and you may need to fall back to `1.` if you'd like to change how `3.` is working.*
 
+??? note "Remote Controlling Sessions"
+
+	It seems now you need to run `claude remote-control` from a host where you want to remotely monitor and control any workloads or other local sessions.
+
+	Keys exist to scope this per-machine, so an untrusted workload on another machine cannot reach over into a more trusted machine and affect their sessions.
+
+	See <https://code.claude.com/docs/en/remote-control> for update-to-date requirements and details.
+
 ??? warning "`model` Does Not Reload Mid-Session"
 
 	Most keys reload on file save mid-session. `model` is read once at session start - change it with `/model` or restart.
@@ -5763,6 +5777,18 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	- Gemini: Intended behavior, not a vulnerability
 	- Copilot: Fix applied
 	- Comet: Fix applied
+
+
+## Training & Certifications
+
+??? tip "Antisyphon Training"
+
+	> Antisyphon Infosec Training is here to disrupt the traditional training industry by providing high-quality and cutting-edge education to everyone, regardless of their financial position. We offer students the opportunity to learn skills, practice what is taught and engage with their community, in a fun and inclusive way.
+
+	The pay-what-you-can courses are excellent starters, and the dedicated courses are worth pursuing too depending on your focus.
+
+	- <https://www.antisyphontraining.com/>
+	- [Pay-what-you-can](https://www.antisyphontraining.com/pay-what-you-can/)
 
 
 ## :fontawesome-solid-book-atlas: Blogs & Authors
@@ -5900,3 +5926,10 @@ Sources used when attempting to triage and produce a proof-of-concept exploit or
 	This story was a recent example (as of 2025) of why it's important to understand your update / patch / and even install / deployment processes. Applications with extensions that have their own update process make this even trickier. Often times standalone applications that are not part of a package management system all have their own versions of updating and signature verification. This does not make package managers immune to supply chain or similar attacks, but it does narrow the attack surface in this comparison.
 
 	I tend to think about the lengths that many projects go to, to ensure the integrity of the data or packages. [APT](https://wiki.debian.org/SecureApt) and [RPM](https://www.redhat.com/en/blog/rpm-gpg-verify-packages) are examples of package managers, those links detail their validation mechanisms. [Ubuntu](https://ubuntu.com/tutorials/how-to-verify-ubuntu#1-overview), [SOPS](https://github.com/getsops/sops/releases), [OpenBSD](https://www.openbsd.org/faq/faq4.html#Download), and [CoreBoot](https://www.coreboot.org/downloads.html) all have descriptions on how to do this manually. It becomes apparent why this is all necessary if you use the attack vectors in that article as a reference. TLS and your operating system's certificate store also do some heavy lifting, but aren't as immune to mitm attacks, phishing, or malvertising as the methods APT and RPM use when you don't stray outside of those packages known by the package manager. When you must install software that isn't maintained by a package manager, you'll likely want to replicate what package managers do, only manually. There's really no silver bullet here, but the awareness and vigilence will go a long way.
+
+??? quote "Mishaal Khan"
+
+	First discovered back on the Privacy, Security, and OSINT show, now that the show has concluded Mishaal seems to be carrying that torch with the pentester background applied to OSINT. Follow any Antisyphon webcasts or courses and Mastodon updates for OSINT tips and tricks.
+
+	- <https://infosec.exchange/@mishaal>
+	- <https://www.antisyphontraining.com/instructor/mishaal-khan/>
