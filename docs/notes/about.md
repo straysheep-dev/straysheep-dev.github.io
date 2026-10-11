@@ -27,6 +27,8 @@ Information, compiled for easy reference. This section has longer form write-ups
     ```
     Assisted-by: Claude:claude-fable-5
 
+    Assisted-by: Claude:claude-sonnet-5-5
+
     Assisted-by: Claude:claude-sonnet-5
 
     Assisted-by: Claude:claude-opus-4-8
