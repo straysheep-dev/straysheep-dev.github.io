@@ -2035,6 +2035,216 @@ Components to maintain and when:
 
     This addresses the issue of a stuck index migration. You won't lose any log data, and while the dashboard is unavailable in this state, your Wazuh instance will still be functional and gathering logs / taking actions as normal in the background.
 
+
+### 3099 - ERROR3099 - Invalid credentials
+
+!!! quote "Related Documentation"
+
+    - Interestingly, error code 3099 can't be found in the codebase for v4.14.8.
+    - [rbac_control.py @ v4.14.8](https://raw.githubusercontent.com/wazuh/wazuh/v4.14.8/framework/scripts/rbac_control.py)
+    - [wazuh/security.py @ v4.14.8, update_user](https://github.com/wazuh/wazuh/blob/v4.14.8/framework/wazuh/security.py)
+    - [api/authentication.py @ v4.14.8, generate_keypair](https://github.com/wazuh/wazuh/blob/v4.14.8/api/api/authentication.py)
+    - [wazuh/core/security.py @ v4.14.8, rbac_db_factory_reset](https://github.com/wazuh/wazuh/blob/v4.14.8/framework/wazuh/core/security.py)
+
+!!! bug "Problem"
+
+    **This issue was encountered right after an unattended upgrade failed from v4.14.7 to v4.14.8. This isn't the first time an upgrade failed and needed manual rescuing, despite the automation taking all of the necessary actions to prepare Wazuh for an upgrade.**
+
+    Logging into Wazuh in this state revealed the API password no longer worked. You'll be dropped into the Dashboard management / Server APIs page, showing the `default` API connection is offline along with the following error in the web UI:
+
+    ```
+    3099 - ERROR3099 - Invalid credentials
+
+    returnErrorInstance@https://<wazuh-host>/414802/bundles/plugin/wazuh/wazuh.plugin.js:1:537410
+    checkApi@https://<wazuh-host>/414802/bundles/plugin/wazuh/wazuh.plugin.js:1:537122
+    ```
+
+    The `wazuh` and `wazuh-wui` identities are components that are meant to operate under the hood, and you shouldn't ever really need to deal with them directly.
+
+    If you followed Wazuh's own install docs from recent years, you might even have a backup tar file called `wazuh-install-files.tar` saved somewhere. This was the first stop, as the secrets shouldn't expire, but these of course didn't work.
+
+    Searching around for a way to recover these accounts will eventually point you to [`rbac_control`](https://github.com/wazuh/wazuh/blob/v4.14.8/framework/scripts/rbac_control.py).
+
+    If we try to modify the passwords to known values we hit this error:
+
+    ```
+    /var/ossec/bin/rbac_control change-password
+
+    New password for 'wazuh' (skip):
+    New password for 'wazuh-wui' (skip):
+            wazuh: FAILED | Error 5011 - Administrator users can only be modified by themselves
+            wazuh-wui: FAILED | Error 5011 - Administrator users can only be modified by themselves
+    ```
+
+    Further, running `/var/ossec/bin/rbac_control factory-reset` as root will override the permissions on the key files under `/var/ossec/api/configuration/security` resulting in this error:
+
+    ```
+    {"title": "Wazuh Internal Error", "detail": "Error trying to load the JWT secret", "remediation": "Make sure you have the right permissions: WAZUH_PATH/api/configuration/security/jwt_secret", "error": 6003}
+    ```
+
+Factory reset the database. This appears to reset the credentials to `wazuh:wazuh`.
+
+!!! warning "Confirm Access"
+
+    Do not do this if any untrusted sources can talk to port 55000 on the Wazuh host(s). Otherwise the integrity of the system is at risk.
+
+```bash
+/var/ossec/bin/rbac_control factory-reset
+# Type RESET when asked.
+```
+
+Ensure the private key files have the correct ownership:
+
+```bash
+cd /var/ossec/api/configuration/security
+chown wazuh:wazuh private_key.pem public_key.pem rbac.db
+chmod 640 private_key.pem public_key.pem
+systemctl restart wazuh-manager
+```
+
+Generate unique credentials, using your password manager. `openssl` is just here for example.
+
+```bash
+# The Aa1. on the end ensures we have one of each: upper + lower + digit + special
+WUI_PW="$(openssl rand -base64 30 | tr -d '/+=\n')Aa1."
+API_PW="$(openssl rand -base64 30 | tr -d '/+=\n')Aa1."
+```
+
+Auth as `wazuh:wazuh`.
+
+```bash
+TOKEN=$(curl -sk -u wazuh:wazuh -X POST \
+  "https://127.0.0.1:55000/security/user/authenticate?raw=true")
+```
+
+Change the creds for `wazuh-wui` FIRST, while the token is still valid. This is user ID 2 (`/users/2`) here.
+
+```bash
+curl -sk -X PUT "https://127.0.0.1:55000/security/users/2" \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d "{\"password\":\"$WUI_PW\"}"
+```
+
+Then `wazuh` itself (ID 1). This revokes its tokens.
+
+```bash
+curl -sk -X PUT "https://127.0.0.1:55000/security/users/1" \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d "{\"password\":\"$API_PW\"}"
+```
+
+Confirm access.
+
+```bash
+curl -sk -u wazuh-wui:"$WUI_PW" -X POST "https://127.0.0.1:55000/security/user/authenticate?raw=true"
+curl -sk -u wazuh:"$API_PW" -X POST "https://127.0.0.1:55000/security/user/authenticate?raw=true"
+```
+
+Get the raw values into your password manager.
+
+```bash
+echo "$WUI_PW"
+echo "$API_PW"
+```
+
+Edit `/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml` to have the new `wazuh-wui` password.
+
+```yaml
+hosts:
+  - default:
+      url: https://localhost
+      port: 55000
+      username: wazuh-wui
+      password: "<new wazuh-wui password>"
+      run_as: false
+```
+
+!!! note "Summary"
+
+    We were able to regain access to Wazuh, which is one thing. However, all data (agents, logs, customizations, rules, etc.) were gone. It's as if this was a brand new install. Likely something went wrong during a recent upgrade (v4.14.7 to v4.14.8) that caused some (not all) configuration files to be overwritten with defaults. This will be updated later if it's determined exactly what happened.
+
+### IT Hygiene Data Empty
+
+!!! quote "Related Documentation"
+
+    - [Wazuh Docs: Syscollector](https://documentation.wazuh.com/current/user-manual/capabilities/system-inventory/index.html)
+    - [Wazuh Docs: Indexer connector](https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/indexer.html) (the `<indexer>` block in the manager's `ossec.conf`)
+
+!!! bug "Problem"
+
+    After a failed upgrade (and re-enrolling the agents), the dashboard's **IT Hygiene** is empty for processes and system info. Everything else looks healthy:
+
+    - Agents show as active
+    - FIM and event data are showing up
+    - `/var/ossec/bin/agent_control -l` shows all agents visible in the dashboard with the same agent IDs
+    - Server Management > Dev Tools > `GET /syscollector/<agent-id>/processes` returns current data for active agents
+    - Indexer Management > Dev Tools `GET wazuh-states-inventory-processes-*/_search` does not show data for any active agents
+
+Read the manager log.
+
+```bash
+sudo grep -iE "indexer-connector|inventory-harvester" /var/ossec/logs/ossec.log | tail -40
+```
+
+If you see this, you've found it:
+
+```
+indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-system-<wazuh-host>', retrying until the connection is successful.
+indexer-connector: WARNING: Failed to sync agent '001': No available server
+indexer-connector: WARNING: Failed to sync agent '002': No available server
+// SNIP
+```
+
+`No available server` is a connection-level failure (wrong host, TLS verification, unreadable cert, or credentials). The connector retries on its own, so **once it can connect, the data with be sent**.
+
+Check that the `<indexer>` block exists and is correctly configured.
+
+```bash
+sudo grep -n -A15 "<indexer>" /var/ossec/etc/ossec.conf
+```
+
+In this case it contained the default config values:
+
+- `<host>` was `https://0.0.0.0:9200`, so it's likely the indexer process didn't know where to send the data.
+- The cert and key paths pointed at the default file names for filebeat.
+
+!!! info "How did ossec.conf get like this?"
+
+    The installer script normally rewrites these placeholders with your real indexer address and cert paths. If an upgrade failure leaves the manager in a fresh-install state (see [3099 - ERROR3099 - Invalid credentials](#3099-error3099-invalid-credentials), where all agents, rules, and customizations were gone too), you get the template defaults back. This is the likely explanation here, not a confirmed one.
+
+Check the connection with curl. Use the exact host and CA from the `<indexer>` block, and test with the `admin` account you use to login to the web UI.
+
+```bash
+read -rs admin_pw
+curl -v --cacert /etc/filebeat/certs/root-ca.pem -u "admin:$admin_pw" https://127.0.0.1:9200
+```
+
+How to read the result:
+
+- If you get a 40X error, the creds are wrong
+- If you get a TLS error, check the paths and permissions
+- If you get a JSON payload response, you likely just succeeded in authenticating (pending what the response actually says)
+
+These two changes resolved the issue: set the host to `127.0.0.1` instead of `0.0.0.0`, then point the cert and key paths at the `wazuh-*` files. Check `sudo ls /etc/filebeat/certs/` for the exact names on your install:
+
+```xml
+  <indexer>
+    <enabled>yes</enabled>
+    <hosts>
+      <host>https://127.0.0.1:9200</host>
+    </hosts>
+    <ssl>
+      <certificate_authorities>
+        <ca>/etc/filebeat/certs/root-ca.pem</ca>
+      </certificate_authorities>
+      <certificate>/etc/filebeat/certs/wazuh-server.pem</certificate>
+      <key>/etc/filebeat/certs/wazuh-server-key.pem</key>
+    </ssl>
+  </indexer>
+```
+
+Restart the manager (`sudo systemctl restart wazuh-manager`) to apply it. Now you should see the IT Hygiene data appear in the dashboard for all agents.
+
 ---
 
 ## Migrate to Proxmox
