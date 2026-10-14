@@ -25,11 +25,34 @@ categories:
 
 ## Dependabot
 
+It's recommended to enable Dependabot globally for your account or org.
+
+- **Settings** > **Code Security** > **Dependabot**
+- `Enable all` for the alerts and security updates
+
 The best way to understand this is to walk through the [quickstart-guide](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide). This has you fork the [github.com/dependabot/demo](https://github.com/dependabot/demo) repo, and run Dependabot on it by enabling it in the repo settings.
 
 This creates `.github/dependabot.yml` and targets languages based on those it detects in the repo. When you first enable it you may be asked to manually edit the `dependabot.yml` file.
 
 Dependabot is best suited for code that uses packages, or is built on other libraries and modules. There's less use here for static, self-contained scripting. However if you have a requirements file or version dependancies this is where it shines.
+
+One example where Dependabot takes care of maintenance "chores" is by updating the GitHub Actions themselves. Not only is it doing this automatically, but Dependabot is aware of all GHSA (GitHub Security Advisores).
+
+```yaml
+# .github/dependabot.yml
+version: 2
+updates:
+  # Enable version updates for GitHub Actions
+  # https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/configure-version-updates
+  - package-ecosystem: "github-actions"
+    directory: /
+    schedule:
+      interval: weekly
+      day: "monday"
+      time: "00:00"
+    cooldown:
+      default-days: 5  # Waits 5 days, this will avoid most supply chain compromises on heavily audited dependencies
+```
 
 
 ## CodeQL Analysis
