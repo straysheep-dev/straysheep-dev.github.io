@@ -2136,6 +2136,53 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	> - The [Ignoring Files article](https://help.github.com/articles/ignoring-files) on the GitHub Help site.
 	> - The [gitignore(5)](https://git-scm.com/docs/gitignore) manual page.
 
+??? example "Syncing Upstream Changes"
+
+	If you maintain a fork of a project simply to have a copy you control and don't actually contribute changes back to that project, this is all you need
+
+	```bash
+	# Sync branches: mirror under mirror/* so they can't collide with your own branches.
+	# The side-effect is all branches are prefixed with `mirror/`. This does not affect tags.
+	git fetch upstream '+refs/heads/*:refs/heads/mirror/*'
+	git push --prune origin '+refs/heads/mirror/*:refs/heads/mirror/*'
+
+	# Sync tags; if you're only syncing tags you do not need a new namespace.
+	git fetch upstream --tags && git push origin --tags
+	```
+
+	Both examples above can be done via GitHub actions. Alternatively, you can set your default branch to a `devops` branch (if the upstream doesn't use that string as a branch) to stay out of the way of `main`/`master` branches. This allows you to automate with `.github/workflows/*` from a dedicated branch without the main branches you're syncing from complaining about a mismatched commit history.
+
+	Example GitHub actions workflow to sync just tags:
+
+	```yaml
+	name: Sync Upstream Tags
+	on:
+	schedule:
+		- cron: '0 0 * * 1'
+	workflow_dispatch: {}  # This allows us to manually run the flow on-demand
+
+	permissions: {}  # Deny everything by default, grant per job
+
+	jobs:
+	sync:
+		runs-on: ubuntu-latest
+		permissions:
+		contents: write
+		steps:
+		- uses: actions/checkout@v7.0.1   # We could pin by SHA instead, dependabot will keep this updated
+			with:
+			fetch-depth: 0
+		- name: Mirror Upstream Tags
+			env:
+			UPSTREAM: https://github.com/wazuh/wazuh-ansible.git
+			run: git fetch "$UPSTREAM" --tags && git push origin --tags
+
+	```
+
+??? example "Dependency Maintenance"
+
+	See [CI/CD notes](./notes/cicd.md).
+
 ??? example "Git `--amend` to Rewrite History"
 
 	You can change previous commits, if for example you made a mistake or typo *and have not yet pushed them*.
