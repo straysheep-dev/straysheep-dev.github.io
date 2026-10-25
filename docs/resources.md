@@ -33,16 +33,6 @@ This section contains various tools that will eventually be split into their own
 
 	- <https://github.com/rustdesk/rustdesk>
 
-
-??? info "ghostty"
-
-	Fast, feature rich, native terminal emulator.
-
-	This tool was mentioned on Daniel Miessler's [UL NO. 463](https://newsletter.danielmiessler.com/p/ul-463).
-
-	- <https://ghostty.org/>
-	- <https://github.com/ghostty-org/ghostty>
-
 ??? question "unfurl"
 
 	> Unfurl takes a URL and expands ("unfurls") it into a directed graph, extracting every bit of information from the URL and exposing the obscured. It does this by breaking up a URL into components, extracting as much information as it can from each piece, and presenting it all visually.
@@ -391,6 +381,169 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- [GitHub: Creating and Highlighting Codeblocks](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks#syntax-highlighting)
 	- [github-linguist: Supported Languages](https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml)
 
+
+### Screen Capture & Recording
+
+??? info "OBS"
+
+	TODO
+
+??? info "asciinema"
+
+	Records terminal sessions to small text files (`.cast`) instead of video, so playback text stays selectable.
+
+	- <https://docs.asciinema.org/>
+	- <https://github.com/asciinema/asciinema>
+
+	```bash
+	asciinema rec demo.cast
+	asciinema play demo.cast
+	```
+
+??? info "agg"
+
+	Converts asciinema `.cast` files to animated GIFs, useful for READMEs where the web player can't be embedded.
+
+	- <https://github.com/asciinema/agg>
+	- <https://docs.asciinema.org/manual/agg/>
+
+	```bash
+	agg demo.cast demo.gif
+	```
+
+	NOTE: `agg` does not appear to be available in apt and must be pulled from the GitHub release page.
+
+## :octicons-terminal-16: Terminals & Shells
+
+??? info "ghostty"
+
+	Fast, feature rich, native terminal emulator.
+
+	This tool was mentioned on Daniel Miessler's [UL NO. 463](https://newsletter.danielmiessler.com/p/ul-463).
+
+	- <https://ghostty.org/>
+	- <https://github.com/ghostty-org/ghostty>
+
+??? info "sh"
+
+	TODO
+
+??? tip "bash"
+
+	`bash` is possibly the most universal *nix shell out there. It's the default on numerous Linux distributions next to `sh` (which is actually `dash` in most cases) and `zsh`.
+
+	---
+
+	:material-hook: **Bash Traps**
+
+	*Run cleanup or handler code when a script exits, fails, or receives a signal.*
+
+	This section was constructed by Claude Sonnet 5.5 for reference.
+
+	A trap registers a command string to run when a signal or shell event fires.
+
+	```bash
+	trap '<commands>' <event> [<event>...]   # Set a trap; e.g. cleanup a file if a script exits
+	trap -p [<event>]                        # Print current traps tied to this shell (threat hunting)
+	trap -l                                  # List signal names/numbers available in the running kernel
+	```
+
+	**Quote with Single Quotes**
+
+	Single quotes defer variable expansion until the trap *fires*. Double quotes expand when the trap is *defined*.
+
+	```bash
+	f=/tmp/a
+	trap "rm $f" EXIT    # Expands now: always removes /tmp/a
+	trap 'rm "$f"' EXIT  # Expands at exit: removes whatever $f is then
+	```
+
+	**Events**
+
+	*See `man bash` > `SHELL BUILTIN COMMANDS` > `trap`.*
+
+	| Event                      | Fires when                                         | Shell      |
+	| -------------------------- | -------------------------------------------------- | ---------- |
+	| `EXIT` (or `0`)            | The shell is about to terminate, for any reason    | bash, sh   |
+	| `SIGINT` `SIGTERM` `SIGHUP`| Ctrl-C, `kill`, terminal hangup                    | bash, sh   |
+	| `ERR`                      | A command returns nonzero (same rules as `set -e`) | bash only  |
+	| `DEBUG`                    | Before every simple command                        | bash only  |
+	| `RETURN`                   | A function or sourced script finishes              | bash only  |
+
+	*`EXIT`/`0` is the unique entry here, while not listed in `trap -l` it's supported everywhere.*
+
+	What **triggers** `EXIT`:
+
+	- Reaching the end of the script
+	- An explicit `exit N`
+	- `set -e` aborting on a failed command
+	- Most catchable signals (`SIGINT`, `SIGTERM`, `SIGHUP`), see the caveat below
+
+	What **doesn't**:
+
+	- `SIGKILL` / `SIGSTOP` (uncatchable), power loss, kernel panic
+	- `exec`, because the shell process is replaced
+	- Subshells, where traps are reset: `( ... )`, `$( ... )`, and pipeline segments
+
+	**Common Patterns**
+
+	Temp file or directory cleanup:
+
+	```bash
+	tmp=$(mktemp -d)
+	trap 'rm -rf "$tmp"' EXIT
+	```
+
+	Temporary config that must not outlive the script:
+
+	```bash
+	echo 'Dpkg::Options { "--force-confold"; };' > /etc/apt/apt.conf.d/99-noprompt
+	trap 'rm -f /etc/apt/apt.conf.d/99-noprompt' EXIT
+	```
+
+	Report where a script failed (with `set -E`, `ERR` is inherited by functions and subshells):
+
+	```bash
+	set -Eeuo pipefail
+	trap 'echo "failed: line $LINENO: $BASH_COMMAND" >&2' ERR
+	```
+
+	Stack multiple cleanups by using one function, since a second `trap ... EXIT` **replaces** the first:
+
+	```bash
+	cleanup() {
+		rm -f "$lockfile"
+		rm -rf "$tmp"
+	}
+	trap cleanup EXIT
+	```
+
+	Trace every command as it runs:
+
+	```bash
+	trap 'echo "+ $BASH_COMMAND" >&2' DEBUG
+	```
+
+	**Security Notes**
+
+	*Traps are a persistence and detection surface.*
+
+	- **Triage**: run `trap -p` in a suspicious interactive shell to see what's hooked.
+	- **Persistence**: a `trap ... DEBUG` or `trap ... EXIT` in `~/.bashrc`, `~/.bash_logout`, or `/etc/profile.d/*` runs code on every command or logout. `PROMPT_COMMAND` is a similar hook.
+	- **Detection**: monitor those dotfiles with Wazuh FIM (syscheck), and alert on writes outside of expected config management runs.
+	- **Hardening Scripts**: in privileged scripts, set traps *before* creating temp files or config drop-ins, so you can clean them up safely, and use `mktemp` instead of predictable paths in `/tmp`.
+
+??? tip "zsh"
+
+	TODO
+
+??? info "cmd.exe"
+
+	TODO
+
+??? info "PowerShell"
+
+	TODO
 
 ## :octicons-browser-16: Web Browsers
 
@@ -3248,6 +3401,21 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	- What should and should not be in this map
 
 	This creates the context or foundation for you to begin any assessment by revealing areas to focus on you would otherwise not know about without this context.
+
+!!! warning "HoneyPoC: Safely Sourcing Exploits"
+
+    **What happened:** After SIGRed (CVE-2020-1350) was published, [ZephrFish](https://github.com/ZephrFish) posted a fake proof-of-concept to GitHub. Its binaries pinged canary tokens and rickrolled the user. The repo was later renamed [**`CVE-2020-1350_HoneyPoC`**](https://github.com/ZephrFish/CVE-2020-1350_HoneyPoC).
+
+    **Why it matters for PHP2Shell (CVE-2026-109618/109619):** Most public proof-of-concepts are non-functional, mistargeted, AI-generated, cloned, or malicious. Within the first week, a flood of exploit *attempts* have been logged, but it seems only research groups have a functioning exploit. Due to the nature of the bug, it does not look like it can be used at scale. Each target likely needs adjustments for the exploit to succeed. This could change over time, but that's how this started.
+
+	HoneyPoC's payload was a harmless canary, but a real threat actor would have swapped in an implant.
+
+    **Rules:**
+
+    - Read it before you run it, including dependencies. If you can't read it, don't run it.
+    - Precompiled binaries with no source to rebuild them yourself, is suspicious.
+    - Treat unvetted proof of concept code as malware.
+    - Patch regardless. Patching doesn't depend on a PoC existing.
 
 ??? abstract "HackTricks"
 
