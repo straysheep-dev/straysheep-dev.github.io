@@ -21,9 +21,10 @@ categories:
 
 # :material-keyboard: System Administration Commands
 
-Useful commands for managing systems.
+*Useful commands for managing systems.*
 
 <!-- more -->
+---
 
 
 ## Linux / Unix
@@ -43,7 +44,7 @@ last | head   # List of last logged in users
 
 ### apt
 
-Essential maintenance.
+**Essential Maintenance**
 
 ```bash
 sudo apt update -q
@@ -73,7 +74,7 @@ sudo apt update -q
     - <https://manpages.debian.org/bullseye/debconf-doc/debconf.7.en.html#Frontends>
     - <https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-dpkg_options>
 
-Package review commands.
+**Package Review Commands**
 
 ```bash
 apt-mark showauto         # Lists all packages installed automatically / by default
@@ -88,6 +89,85 @@ dpkg -l <pattern>  # List packages matching given pattern
 dpkg -s <pkg>      # Report status of specified package
 dpkg -L <pkg>      # List files installed to your system from package-name
 
+```
+
+**OS Major Version Upgrades**
+
+*Commands and detached systemd unit trick provided by Claude Sonnet 5.5*
+
+!!! note "Major Versions Tested"
+
+    The steps below were tested on a 64-bit Nzyme node, successfully upgrading from 22.04 LTS to 26.04 LTS.
+
+    The upgrade is slower than rebuilding in `packer`, but may be the only option in some cases. It can take roughly 30-60 minutes per major version jump.
+
+!!! note "Detached Systemd Unit"
+
+    This is ideal instead of a tmux session because it writes the output to the system journal and won't go away if the shell (or tmux) dies mid-upgrade.
+
+```bash
+# Pre-flight: apt will refuse a major version upgrade until everything is patched.
+# Optionally, hold any third party packages.
+sudo apt update && sudo apt full-upgrade -y
+sudo apt-mark hold tailscale wazuh-agent
+grep ^Prompt /etc/update-manager/release-upgrades   # want Prompt=lts
+sudo dpkg --audit
+sudo reboot
+```
+
+Run the upgrade as a detached systemd unit (writes to journal).
+
+Read the command below; adjust it as needed based on the third-party packages you have installed.
+
+```bash
+# Detached upgrade, no prompts. Edit THIRD_PARTY to the repo files you want restored.
+# Uses environment variables to dynamically handle the OS codenames.
+sudo systemd-run --unit=osupgrade --collect \
+  --setenv=DEBIAN_FRONTEND=noninteractive \
+  --setenv=NEEDRESTART_MODE=a \
+  --setenv=OLD_CODENAME="$(. /etc/os-release; echo $VERSION_CODENAME)" \
+  --setenv=THIRD_PARTY="tailscale.list" \
+  bash -c '
+    echo "Dpkg::Options { \"--force-confold\"; \"--force-confdef\"; };" \
+      > /etc/apt/apt.conf.d/99-upgrade-noprompt
+    trap "rm -f /etc/apt/apt.conf.d/99-upgrade-noprompt" EXIT
+    do-release-upgrade -f DistUpgradeViewNonInteractive || exit 1
+    . /etc/os-release            # now reports the new VERSION_CODENAME
+    for f in $THIRD_PARTY; do
+      sed -i "s/$OLD_CODENAME/$VERSION_CODENAME/g" \
+        /etc/apt/sources.list.d/$f
+    done
+  '
+
+journalctl -fu osupgrade     # watch; then reboot manually when it exits 0
+```
+
+When the upgrade completes, you'll want to see what errors need addressed, if anything:
+
+```bash
+systemctl status osupgrade   # want inactive, exit 0
+
+# Sometimes you'll need to reconfigure a broken package install.
+sudo dpkg --configure -a
+sudo apt -f install
+
+# In many cases, a reboot will resolve any package errors.
+# Be sure you know you will still have (remote) access to the system after rebooting.
+# For example, Tailscale is a static go binary, and the service will still come right
+# back after upgrades. Check this on a test system first.
+sudo systemctl reboot
+```
+
+Check the system health after reboot.
+
+!!! note "Disabled Repos"
+
+    Be sure to review everything under `/etc/apt/sources.list.d/` to fix any issues with third-party repos that were disabled for the upgrade.
+
+```bash
+sudo apt-mark unhold tailscale wazuh-agent
+systemctl --failed
+systemctl status
 ```
 
 ---
