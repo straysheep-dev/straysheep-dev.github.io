@@ -413,6 +413,15 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	NOTE: `agg` does not appear to be available in apt and must be pulled from the GitHub release page.
 
+??? info "vhs"
+
+	> Write terminal GIFs as code for integration testing and demoing your CLI tools.
+
+	- <https://github.com/charmbracelet/vhs>
+
+	Creates plaintext `.tape` files (similar to asciinema) and has the ability to convert them to various output formats.
+
+
 ## :octicons-terminal-16: Terminals & Shells
 
 ??? info "ghostty"
@@ -436,9 +445,9 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	:material-hook: **Bash Traps**
 
-	*Run cleanup or handler code when a script exits, fails, or receives a signal.*
+	Run cleanup or handler code when a script exits, fails, or receives a signal.
 
-	This section was constructed by Claude Sonnet 5.5 for reference.
+	*This section was drafted by Claude Sonnet 5.5 and then manually adjusted + tested for reference.*
 
 	A trap registers a command string to run when a signal or shell event fires.
 
