@@ -607,7 +607,18 @@ After making these adjustments, `sudo systemctl restart nzyme-tap` should result
 
 ## Updating nzyme
 
-The [GitHub releases page](https://go.nzyme.org/downloads) (which points to <https://github.com/nzymedefense/nzyme/releases>) always has the latest update instructions for each verison.
+Downloads have moved to the main Nzyme site:
+
+- <https://www.nzyme.org/download>
+- <https://go.nzyme.org/release-verification>
+- <https://docs.nzyme.org/getting-started/upgrading/upgrading/>
+
+Currently the steps to update manually are:
+
+- Download the [Nzyme public key](https://releases.nzyme.org/nzyme-alpha.pub.pem)
+- Confirm the sha256sum of that key [using multiple sources](https://go.nzyme.org/release-verification)
+- Use that .pem format key to verify the `nzyme-util` binary
+- Use `nyzme-util` and the .pub binary format key to verify further downloads
 
 !!! important "Update Process"
 
@@ -618,7 +629,7 @@ To upgrade an **nzyme-node**:
 ```bash
 # As of 2.0.0-alpha.16
 sudo systemctl stop nzyme
-wget <release-link>
+wget <release-link>  # + verify the signature using nzyme-util
 sudo dpkg -i nzyme-node_[version].deb
 sudo nzyme --migrate-database
 sudo systemctl daemon-reload
@@ -629,10 +640,17 @@ To upgrade an **nzyme-tap**:
 
 ```bash
 sudo systemctl stop nzyme-tap
-wget <release-link>
+wget <release-link>  # + verify the signature using nzyme-util
 sudo dpkg -i nzyme-tap_[version].deb
 sudo systemctl daemon-reload
 sudo systemctl start nzyme-tap
+```
+
+Sometimes you'll encounter errors. Across all of the upgrades I've only encountered a couple errors, and following both the system journal and Nzyme's own logs will quickly show you how to resolve them.
+
+```bash
+sudo journalctl -fu nzyme
+sudo tail -F /var/log/nzyme/nzyme.log
 ```
 
 
