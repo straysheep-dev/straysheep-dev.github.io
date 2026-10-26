@@ -97,7 +97,10 @@ dpkg -L <pkg>      # List files installed to your system from package-name
 
 !!! note "Major Versions Tested"
 
-    The steps below were tested on a 64-bit Nzyme node, successfully upgrading from 22.04 LTS to 26.04 LTS.
+    The steps below were tested on:
+
+    - amd64 Nzyme node, successfully upgrading from 22.04 LTS to 26.04 LTS
+    - arm64 Nzyme tap, successfully upgrading from Debian 12 (bookworm) to 13 (trixie)
 
     The upgrade is slower than rebuilding in `packer`, but may be the only option in some cases. It can take roughly 30-60 minutes per major version jump.
 
@@ -105,47 +108,93 @@ dpkg -L <pkg>      # List files installed to your system from package-name
 
     This is ideal instead of a tmux session because it writes the output to the system journal and won't go away if the shell (or tmux) dies mid-upgrade.
 
-```bash
-# Pre-flight: apt will refuse a major version upgrade until everything is patched.
-# Optionally, hold any third party packages.
-sudo apt update && sudo apt full-upgrade -y
-sudo apt-mark hold tailscale wazuh-agent
-grep ^Prompt /etc/update-manager/release-upgrades   # want Prompt=lts
-sudo dpkg --audit
-sudo reboot
-```
+=== "Ubuntu"
 
-Run the upgrade as a detached systemd unit (writes to journal).
+    ```bash
+    # Pre-flight: apt will refuse a major version upgrade until everything is patched.
+    # Optionally, hold any third party packages.
+    sudo apt update && sudo apt full-upgrade -y
+    sudo apt-mark hold tailscale wazuh-agent
+    grep ^Prompt /etc/update-manager/release-upgrades   # want Prompt=lts
+    sudo dpkg --audit
+    sudo reboot
+    ```
 
-Read the command below; adjust it as needed based on the third-party packages you have installed.
+    Run the upgrade as a detached systemd unit (writes to journal).
 
-```bash
-# Detached upgrade, no prompts. Edit THIRD_PARTY to the repo files you want restored.
-# Uses environment variables to dynamically handle the OS codenames.
-sudo systemd-run --unit=osupgrade --collect \
-  --setenv=DEBIAN_FRONTEND=noninteractive \
-  --setenv=NEEDRESTART_MODE=a \
-  --setenv=OLD_CODENAME="$(. /etc/os-release; echo $VERSION_CODENAME)" \
-  --setenv=THIRD_PARTY="tailscale.list" \
-  bash -c '
-    echo "Dpkg::Options { \"--force-confold\"; \"--force-confdef\"; };" \
-      > /etc/apt/apt.conf.d/99-upgrade-noprompt
-    trap "rm -f /etc/apt/apt.conf.d/99-upgrade-noprompt" EXIT
-    do-release-upgrade -f DistUpgradeViewNonInteractive || exit 1
-    . /etc/os-release            # now reports the new VERSION_CODENAME
-    for f in $THIRD_PARTY; do
-      sed -i "s/$OLD_CODENAME/$VERSION_CODENAME/g" \
-        /etc/apt/sources.list.d/$f
-    done
-  '
+    Read the command below; adjust it as needed based on the third-party packages you have installed.
 
-journalctl -fu osupgrade     # watch; then reboot manually when it exits 0
-```
+    ```bash
+    # Detached upgrade, no prompts. Edit THIRD_PARTY to the repo files you want restored.
+    # Uses environment variables to dynamically handle the OS codenames.
+    sudo systemd-run --unit=osupgrade --collect \
+      --setenv=DEBIAN_FRONTEND=noninteractive \
+      --setenv=NEEDRESTART_MODE=a \
+      --setenv=OLD_CODENAME="$(. /etc/os-release; echo $VERSION_CODENAME)" \
+      --setenv=THIRD_PARTY="tailscale.list" \
+      bash -c '
+        echo "Dpkg::Options { \"--force-confold\"; \"--force-confdef\"; };" \
+          > /etc/apt/apt.conf.d/99-upgrade-noprompt
+        trap "rm -f /etc/apt/apt.conf.d/99-upgrade-noprompt" EXIT
+        do-release-upgrade -f DistUpgradeViewNonInteractive || exit 1
+        . /etc/os-release            # now reports the new VERSION_CODENAME
+        for f in $THIRD_PARTY; do
+          sed -i "s/$OLD_CODENAME/$VERSION_CODENAME/g" \
+            /etc/apt/sources.list.d/$f
+        done
+      '
+
+    journalctl -fu osupgrade     # watch; then reboot manually when it exits 0
+    ```
+
+=== "Debian"
+
+    Official instructions: [debian.org/releases/trixie/release-notes](https://www.debian.org/releases/trixie/release-notes/upgrading.en.html)
+
+    This process is very similar to upgrading Proxmox major versions, you're literally pointing the apt sources to the next major version codename. This is different from Ubuntu's `do-release-upgrade` which will comment out third-party repos and handle this for you.
+
+    ```bash
+    # Pre-flight
+    sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y
+    sudo apt-mark hold tailscale wazuh-agent
+    sudo dpkg --audit && sudo reboot
+    ```
+
+    Run the upgrade as a detached systemd unit (writes to journal).
+
+    Read the command below; adjust it as needed based on the third-party packages you have installed.
+
+    ```bash
+    sudo systemd-run --unit=osupgrade --collect \
+      --setenv=DEBIAN_FRONTEND=noninteractive \
+      --setenv=NEEDRESTART_SUSPEND=1 \
+      --setenv=OLD_CODENAME="$(. /etc/os-release; echo $VERSION_CODENAME)" \
+      --setenv=NEW_CODENAME=trixie \
+      bash -c '
+        set -e
+        echo "Dpkg::Options { \"--force-confold\"; \"--force-confdef\"; };" \
+          > /etc/apt/apt.conf.d/99-upgrade-noprompt
+        trap "rm -f /etc/apt/apt.conf.d/99-upgrade-noprompt" EXIT
+
+        cp -a /etc/apt "/root/apt-backup-$OLD_CODENAME"
+
+        # THIS is the step that changes releases (covers .list and .sources)
+        grep -rl "$OLD_CODENAME" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null \
+          | xargs -r sed -i "s/$OLD_CODENAME/$NEW_CODENAME/g"
+
+        apt update
+        apt upgrade --without-new-pkgs -y
+        apt full-upgrade -y
+      '
+
+    journalctl -fu osupgrade     # watch; reboot manually when it exits 0
+    ```
 
 When the upgrade completes, you'll want to see what errors need addressed, if anything:
 
 ```bash
 systemctl status osupgrade   # want inactive, exit 0
+# Determine what to do next based on the output.
 
 # Sometimes you'll need to reconfigure a broken package install.
 sudo dpkg --configure -a
@@ -195,7 +244,7 @@ Revert a snap package to a previous version, if an update broke functionality:
 # Get all versions available
 snap list <package-name> --all
 
-# Refresh to another verison
+# Refresh to another version
 sudo snap refresh <package-name> --revision=<number>
 ```
 
@@ -234,7 +283,7 @@ systemd-analyze security [<unit>]  # Reviews sandbox settings of units, calculat
 ```bash
 systemctl status [<unit>|<pid>]  # Runtime status + latest journal logs
 systemctl list-units [--failed]  # List units systemd has loaded in memory
-systemctl list-timers            # All timers in memory, orderd by next run time
+systemctl list-timers            # All timers in memory, ordered by next run time
 systemctl cat <unit>             # Cat the systemd unit file
 systemctl show <unit>            # Shows low-level properties of units
 systemctl is-active <unit>       # Returns true if the unit is active
@@ -258,7 +307,7 @@ journalctl <args>  -o json       # JSON output
 ```bash
 hostnamectl                       # Show hostname and device details (virtualization, chassis info, etc)
 hostnamectl hostname <hostname>   # Set the hostname
-hostnamectl <args> --json=pretty  # JSON oputput
+hostnamectl <args> --json=pretty  # JSON output
 ```
 
 `networkctl` - systemd-networkd status (only complete if networkd is running)
