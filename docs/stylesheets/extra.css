@@ -1,0 +1,189 @@
+/*
+ * Assisted-by: Claude Code:claude-sonnet-5-5
+ *
+ * Every line of this file was written by the AI coding agent named above,
+ * working from design direction given by the site maintainer. Review of, and
+ * responsibility for, this file rest with the maintainer.
+ *
+ * Landing page hero (docs/index.md). No box: it sits directly on the page.
+ *
+ * The glitch is CSS only, no JavaScript. Two masked copies of the logo (cyan
+ * and orange) sit behind the real one and are normally invisible. Every few
+ * seconds they jump out of register in thin slices, like chromatic aberration
+ * or a VHS tracking error, while the real logo warps. All of it is skipped
+ * when the visitor prefers reduced motion.
+ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 2.5rem;
+  padding: 3rem 0 2rem;
+  text-align: center;
+}
+
+/* Soft glow behind the logo. Delete this block for a completely flat look. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  width: min(48rem, 100%);
+  height: 24rem;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(255, 111, 66, 0.12), transparent);
+  pointer-events: none;
+}
+
+/* Logo */
+.hero-logo {
+  position: relative;
+  isolation: isolate;
+  width: clamp(13rem, 45vw, 24rem);
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset .hero-logo .twemoji {
+  display: block;
+  height: auto;
+}
+
+.md-typeset .hero-logo .twemoji svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+}
+
+/* Glitch copies of the logo, drawn from the same file as a mask */
+.hero-logo::before,
+.hero-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-mask: url("../assets/logo.svg") center / contain no-repeat;
+  mask: url("../assets/logo.svg") center / contain no-repeat;
+}
+
+.hero-logo::before {
+  background: #19d3ff;
+}
+
+.hero-logo::after {
+  background: #ff6f42;
+}
+
+/* 8 second loop (1% = 80ms): a strong burst near 2s, a small one near 5.8s.
+   steps(1) makes every keyframe a hard cut, which is what reads as digital. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-logo::before {
+    animation: glitch-cyan 8s steps(1, end) 1s infinite;
+  }
+
+  .hero-logo::after {
+    animation: glitch-orange 8s steps(1, end) 1s infinite;
+  }
+
+  .hero-logo svg {
+    animation: glitch-main 8s steps(1, end) 1s infinite;
+  }
+}
+
+@keyframes glitch-cyan {
+  0%    { opacity: 0; }
+  25%   { opacity: 0.9; transform: translate(-7px, 0); clip-path: inset(8% 0 62% 0); }
+  26.5% { transform: translate(6px, 0); clip-path: inset(52% 0 14% 0); }
+  28%   { transform: translate(-4px, 1px); clip-path: inset(28% 0 44% 0); }
+  29.5% { transform: translate(8px, 0); clip-path: inset(66% 0 6% 0); }
+  31%   { opacity: 0; transform: none; clip-path: inset(0); }
+  72%   { opacity: 0.9; transform: translate(5px, 0); clip-path: inset(40% 0 38% 0); }
+  73.5% { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+@keyframes glitch-orange {
+  0%    { opacity: 0; }
+  25.5% { opacity: 0.9; transform: translate(7px, 0); clip-path: inset(60% 0 10% 0); }
+  27%   { transform: translate(-6px, 0); clip-path: inset(14% 0 58% 0); }
+  28.5% { transform: translate(4px, -1px); clip-path: inset(44% 0 30% 0); }
+  30%   { transform: translate(-8px, 0); clip-path: inset(4% 0 80% 0); }
+  31.5% { opacity: 0; transform: none; clip-path: inset(0); }
+  72.5% { opacity: 0.9; transform: translate(-5px, 0); clip-path: inset(18% 0 56% 0); }
+  74%   { opacity: 0; transform: none; clip-path: inset(0); }
+}
+
+@keyframes glitch-main {
+  0%    { transform: none; }
+  25%   { transform: translate(-2px, 0) skewX(-6deg); }
+  27%   { transform: translate(3px, 0); }
+  29%   { transform: translate(-1px, 0) skewX(4deg); }
+  30.5% { transform: none; }
+  72%   { transform: translate(2px, 0); }
+  73.5% { transform: none; }
+}
+
+/* Text */
+.md-typeset .hero-title {
+  margin: 1.75rem 0 0.5rem;
+  font-family: var(--md-code-font-family);
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset .hero-tagline {
+  max-width: 34rem;
+  margin: 0 auto 1.75rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Buttons and links: Markdown puts each group in a single paragraph */
+.hero-actions p,
+.hero-links p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.md-typeset .hero-actions .md-button {
+  margin: 0;
+}
+
+.hero-links {
+  max-width: 40rem;
+  margin-top: 1.75rem;
+}
+
+.hero-links p > a,
+.hero-links p > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  color: var(--md-default-fg-color--light);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 999px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.hero-links p > a:hover,
+.hero-links p > a:focus-visible {
+  color: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 2rem 0 1rem;
+  }
+}

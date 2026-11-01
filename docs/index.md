@@ -7,6 +7,11 @@ hide:
 ---
 
 <!--
+Landing page hero. The logo is the inline SVG from overrides/.icons. The
+glitch effect is CSS only (docs/stylesheets/home.css): two masked copies of
+docs/assets/logo.svg sit behind it and flicker out of register every few
+seconds. It is skipped when the visitor prefers reduced motion.
+
 You can use HTML in MD pages to modify them.
 https://github.com/squidfunk/mkdocs-material/discussions/2893
 https://developer.mozilla.org/en-US/docs/Web/CSS/:first-of-type
@@ -14,46 +19,39 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/display
 -->
 
 <style>
-h1:first-of-type {
+/* The theme has no per-page switch for the tab bar, so hide it here */
+.md-tabs {
     display: none;
 }
 </style>
 
-# Main
+<div class="hero" markdown>
 
-<div class="grid cards" markdown>
+<div class="hero-logo" markdown="span">:straysheep-dev-logo:</div>
 
-- :material-transit-connection-variant:{ .lg .middle } __Whoami__
+<h1 class="hero-title">straysheep.dev</h1>
 
-    ---
+*Researching and documenting.*
+{ .hero-tagline }
 
-    Hi, I'm straysheep-dev. :material-hand-wave:{ .middle }
-
-    I'm here learning security from an offensive perspective and documenting things in a useful way as I go.
-
-    I also focus on building defensive (or "visibility") tools, and configuration templates learned from applying offensive techniques to systems.
-
-- :octicons-location-16:{ .lg .middle } __Connect__
-
-    ---
-
-    :material-github: [https://github.com/straysheep-dev](https://github.com/straysheep-dev)
-
-    :material-gitlab: [https://gitlab.com/straysheep-dev](https://gitlab.com/straysheep-dev)
-
-    :simple-ansible: [straysheep_dev](https://galaxy.ansible.com/ui/standalone/namespaces/22091/)
-
-    :fontawesome-brands-discord: straysheep_dev
-
-    :simple-hackthebox: straysheepdev
-
-    :simple-tryhackme: [straysheep.dev](https://tryhackme.com/p/straysheep.dev)
-
-    :material-key: [straysheep-dev/public-keys](https://github.com/straysheep-dev/public-keys)
-
+<div class="hero-actions" markdown>
+[Notes](notes/about.md){ .md-button .md-button--primary }
+[Resources](resources.md){ .md-button .md-button--primary }
+[Legal](license.md){ .md-button .md-button--primary }
 </div>
 
----
+<div class="hero-links" markdown>
+[:material-github: GitHub](https://github.com/straysheep-dev)
+[:material-gitlab: GitLab](https://gitlab.com/straysheep-dev)
+[:simple-ansible: Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/namespaces/22091/)
+[:simple-tryhackme: TryHackMe](https://tryhackme.com/p/straysheep.dev)
+<span title="WiGLE">:material-wifi-arrow-right: straysheep-dev</span>
+[:material-key: Public keys](https://github.com/straysheep-dev/public-keys)
+<span title="Discord">:fontawesome-brands-discord: straysheep_dev</span>
+<span title="Hack The Box">:simple-hackthebox: straysheepdev</span>
+</div>
+
+</div>
 
 === "Pinned Repos"
 
@@ -150,6 +148,14 @@ h1:first-of-type {
         Browser configuration files. [Documentation](https://straysheep.dev/resources/#web-browsers).
 
         [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/browser-configs)
+
+    - :octicons-terminal-16:{ .lg .middle } __Terminal Configs__
+
+        ---
+
+        Configuration management for terminal and shell environments, organized by use case (VM, red team, server, generic) instead of by shell.
+
+        [:octicons-arrow-right-24: Go to repo :material-github:](https://github.com/straysheep-dev/terminal-configs)
 
     </div>
 
@@ -407,16 +413,6 @@ h1:first-of-type {
 
     </div>
 
-<div class="grid cards" markdown>
+=== "About"
 
-- :octicons-info-16:{ .middle } __About__
-
-    ---
-
-    This site was created as a better way to document, maintain, and share notes with demonstrations or visual components, cross-platform.
-
-    The [notes](notes/about.md) section (at the top) is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content.
-
-    Using [Zensical](https://zensical.org/) to build this makes it both a searchable "database" with no backend, and an archive with everything organized through git.
-
-</div>
+    This site was created as a better way to document, maintain, and share notes with demonstrations or visual components, cross-platform. The [notes](notes/about.md) section is where this content lives, and is an easily searchable archive of anything I've found useful to demonstrate. Try using the :octicons-search-16: search function at the top of the page. It autocompletes suggestions from all of my content. Using [Zensical](https://zensical.org/) to build this makes it both a searchable "database" with no backend, and an archive with everything organized through `git`.
