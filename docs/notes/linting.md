@@ -285,6 +285,65 @@ python3 -m pip install mypy
 mypy program.py
 ```
 
+
+### bandit
+
+!!! abstract "Overview"
+
+	> Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
+
+	- <https://github.com/PyCQA/bandit>
+
+**Install**
+
+Install via pip, in a venv, or possibly with pipx:
+
+```bash
+python3 -m pip install bandit
+```
+
+**Usage**
+
+This will run recursively in the current directory:
+
+```bash
+bandit -r .
+```
+
+**GitHub Actions**
+
+```yaml
+# .github/workflows/bandit.yml
+
+# Built from the following examples:
+# - https://www.shellcheck.net/wiki/GitHub-Actions
+# - https://github.com/geerlingguy/ansible-role-docker/blob/master/.github/workflows/ci.yml
+
+name: bandit
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+permissions: {}
+jobs:
+  bandit:
+    name: bandit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+      #  with:
+      #    python-version: '3.13'
+      - name: Run bandit
+        run: |
+          python3 -m pip install bandit
+          bandit -r .
+
+```
+
 ---
 
 
