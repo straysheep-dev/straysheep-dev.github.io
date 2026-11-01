@@ -54,12 +54,12 @@ This guide is meant to get you started with linting, from "how to install" to "h
 ```yaml
 # https://github.com/actions/checkout?tab=readme-ov-file#checkout-multiple-repos-side-by-side
 - name: Checkout
-  uses: actions/checkout@v6
+  uses: actions/checkout@v7
   with:
     path: main
 
 - name: Checkout another repo
-  uses: actions/checkout@v6
+  uses: actions/checkout@v7
   with:
     repository: my-org/my-tools
     path: my-tools
@@ -72,7 +72,7 @@ This guide is meant to get you started with linting, from "how to install" to "h
 
     > Set up a specific version of Python and add the command-line tools to the PATH
 
-    This action is used to test, build, and publish numerous official python packages. See the [Python packaging documentaiton for examples](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/). It has also been verified by GitHub.
+    This action is used to test, build, and publish numerous official python packages. See the [Python packaging documentation for examples](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/). It has also been verified by GitHub.
 
     - [github.com/actions/setup-python](https://github.com/actions/setup-python)
     - [GitHub Marketplace](https://github.com/marketplace/actions/setup-python)
@@ -81,7 +81,7 @@ This guide is meant to get you started with linting, from "how to install" to "h
 
     ```yaml
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
     - uses: actions/setup-python@v6
       with:
         python-version: '3.13'
@@ -159,12 +159,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   pylint:
     name: pylint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
       #  with:
       #    python-version: '3.13'
@@ -239,12 +242,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   flake8:
     name: flake8
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
       #  with:
       #    python-version: '3.13'
@@ -290,9 +296,9 @@ mypy program.py
 
 !!! abstract "Overview"
 
-	> Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
+    > Bandit is a tool designed to find common security issues in Python code. To do this Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files it generates a report.
 
-	- <https://github.com/PyCQA/bandit>
+    - <https://github.com/PyCQA/bandit>
 
 **Install**
 
@@ -406,7 +412,7 @@ disable=SC1090-SC1100 # Disable a range of error codes
 **GitHub Actions**
 
 ```yaml
-# .github/worflows/shellcheck.yml
+# .github/workflows/shellcheck.yml
 
 # Built from the following examples:
 # - https://github.com/koalaman/shellcheck/wiki/GitHub-Actions
@@ -418,12 +424,16 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions: {}
+
 jobs:
   shellcheck:
     name: ShellCheck
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run ShellCheck
         run: find . -type f -name "*.sh" -exec shellcheck {} +
 
@@ -480,7 +490,7 @@ jobs:
 **GitHub Actions**
 
 ```yaml
-# .github/worflows/psscriptanalyzer.yml
+# .github/workflows/psscriptanalyzer.yml
 
 # Built from the following examples:
 # - https://github.com/koalaman/shellcheck/wiki/GitHub-Actions
@@ -493,16 +503,20 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions: {}
+
 jobs:
   psscriptanalyzer:
     name: PSScriptAnalyzer
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Run PSScriptAnalyzer
-      run: |
-        Install-Module -Name PSScriptAnalyzer -Force
-        Invoke-ScriptAnalyzer -Path .
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force
+          Invoke-ScriptAnalyzer -Path .
 
 ```
 
@@ -569,12 +583,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   lint:
     name: Lint YAML files
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
       #  with:
       #    python-version: '3.13'
@@ -641,12 +658,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   lint:
     name: Lint TOML files
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Install tomlv
         run: go install github.com/BurntSushi/toml/cmd/tomlv@master
       - name: Process files
@@ -681,9 +701,9 @@ jobs:
     - [jq Wiki](https://github.com/jqlang/jq/wiki)
     - [Homepage](https://jqlang.org/) (redirect from http://jqlang.github.io/jq)
 
-!!! note "Not jQuerry"
+!!! note "Not jQuery"
 
-    This is a CLI parser like `sed` or `awk` but for JSON. It's not related to the [jQuerry](https://en.wikipedia.org/wiki/JQuery) JavaScript library.
+    This is a CLI parser like `sed` or `awk` but for JSON. It's not related to the [jQuery](https://en.wikipedia.org/wiki/JQuery) JavaScript library.
 
 **Install**
 
@@ -718,12 +738,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   lint:
     name: Lint JSON files
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Install jq
         run: sudo apt update; sudo apt install -y jq
       - name: Process files
@@ -844,7 +867,7 @@ This is an example file that runs `ansible-lint` on your GitHub repo when a new 
 
 !!! warning "GitHub Actions Version vs Pip"
 
-    Sometimes the version of `ansible-lint` installed by the GitHub Actions workflow is aheads of the latest stable release you'd get from pip. This may cause failures that you may not see while running the version installed via `pip`/`pipx` locally.
+    Sometimes the version of `ansible-lint` installed by the GitHub Actions workflow is ahead of the latest stable release you'd get from pip. This may cause failures that you may not see while running the version installed via `pip`/`pipx` locally.
 
 ```yaml
 # .github/workflows/ansible-lint.yml
@@ -858,12 +881,15 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+permissions: {}
 jobs:
   build:
     name: Ansible Lint # Naming the build is important to use it as a status check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main # or version tag instead of 'main'
 
@@ -871,7 +897,7 @@ jobs:
 
 **Errors**
 
-Older versions of ansible-lint may produces errors that are difficult to diagnose. When this happens, use a very simple main.yml file, and start slowly adding tasks or vars to this file. Once you identify a task that creates an error, you can begin narrowing down which line(s) in the task or vars are producing the error.
+Older versions of ansible-lint may produce errors that are difficult to diagnose. When this happens, use a very simple main.yml file, and start slowly adding tasks or vars to this file. Once you identify a task that creates an error, you can begin narrowing down which line(s) in the task or vars are producing the error.
 
 One example of this is new versions of Ansible lint will want you to use `become_method: ansible.builtin.sudo`, while older versions require `become_method: sudo` and will generate a `schema[tasks]` error in this case.
 
@@ -954,6 +980,8 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions: {}
+
 env:
   PRODUCT_VERSION: "latest"
 
@@ -961,9 +989,11 @@ jobs:
   packer:
     runs-on: ubuntu-latest
     name: Run Packer
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
@@ -1051,13 +1081,17 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions: {}
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
     name: Run Terraform
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
