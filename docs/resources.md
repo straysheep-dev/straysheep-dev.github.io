@@ -554,6 +554,21 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	TODO
 
+??? tip "Termius"
+
+	> Termius is a modern SSH client designed for productivity and collaboration. Connect securely to remote infrastructure with just one click from any device and collaborate with your team in an encrypted cloud vault.
+
+	The is the ideal way to have a remote shell natively on iOS.
+
+	- <https://termius.com/index.html>
+	- <https://docs.termius.com/>
+
+	[**Biometric Key Storage on iOS**](https://docs.termius.com/keychain/ssh-keys-and-certificates#generate-biometric-key-1)
+
+	- FaceID or keys generated and stored in the encrypted enclave require *you* to unlock them to use them
+	- Monitor logins [via a webhook or similar](https://github.com/straysheep-dev/alert-service) and system activity with auditd, sysmonforlinux, or an EDR like Wazuh
+	- Enable Privacy Report on iOS and monitor the Termius network connections
+
 ## :octicons-browser-16: Web Browsers
 
 !!! abstract "Overview"
@@ -3027,6 +3042,91 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	[Prevent packages published more recently than a certain number of days from installing](https://docs.astral.sh/uv/reference/settings/#exclude-newer) (supply-chain protection), install other python versions for specific packages, and more; necessities for pentesting or security tooling.
 
 	Verify GitHub artifact attestations with `gh` (or likely you can use cosign to check as well).
+
+	**Basic Usage**
+
+	```bash
+	# Install a tool (latest version
+	uv tool install zensical
+
+	# Exact version, two spellings, pins the version
+	uv tool install "zensical==0.0.59"
+	uv tool install zensical@0.0.59        # shorthand for ==
+
+	# List installed tools
+	uv tool list
+
+	# Upgrade all tools, constrained based on pinned versions, does not have a `--force` option
+	uv tool upgrade --all
+
+	# Pin the community package. It decides which ansible-core it pulls in.
+	uv tool install --with-executables-from ansible-core "ansible<14"
+	uv tool install --with-executables-from ansible-core ansible==13.0.0
+	uv tool install --with-executables-from ansible-core "ansible~=13.0"
+
+	# Pin ansible-core directly. --with adds a constraint to the same environment
+	# and --with-executables-from still exposes its binaries.
+	uv tool install --with-executables-from ansible-core --with "ansible-core<2.22" ansible
+
+	# Add pinned companions (collections' Python deps, molecule, docker SDK) alongside.
+	# This is an example only, molecule should use a uv venv.
+	uv tool install --with-executables-from ansible-core \
+		--with "ansible-core<2.22" \
+		--with "docker>=7,<8" \
+		--with "molecule~=25.0" \
+		ansible
+
+	# Upper bound / range / compatible release
+	uv tool install "ansible-lint<27"
+	uv tool install "ansible-lint>=26.1,<27"
+	uv tool install "ansible-lint~=26.1"       # >=26.1, <27
+
+	# Change the version of a tool that's already installed
+	uv tool install --force "ansible-core<2.22"
+	uv tool install ansible-core@latest        # Drop the pin, take the newest
+
+	# Pin a companion package inside the tool's environment
+	uv tool install ansible-lint --with "ansible-core<2.22"
+
+	# Pin which Python version the tool runs on
+	uv tool install --python 3.14 "ansible-core<2.22"
+
+	# Run a specific version once, without installing it
+	uvx ansible-lint@26.1.0 --version
+	uvx --from "ansible-lint<27" ansible-lint --version
+
+	# To check and maintain what you've set:
+	uv tool list --show-version-specifiers     # Installed versions and the constraint each was installed with
+	uv tool upgrade ansible-lint               # Newest version that still fits the stored constraint
+	uv tool upgrade --all
+	uv tool uninstall ansible-lint
+	```
+
+	`uv` can create virtual environments. By default, `uv` creates isolated environments for single tool installs, so for tools like `molecule` that need access to other python tools and libraries to function, you'll need to drop everything into a venv so they can work together.
+
+	```bash
+	# Create and install
+	uv venv ~/.venvs/molecule-dev
+	source ~/.venvs/molecule-dev/bin/activate
+	uv pip install ansible molecule "molecule-plugins[docker]" docker
+	```
+
+	To upgrade and maintain packages in a `uv` venv:
+
+	```bash
+	# See what's stale, to be upgraded
+	uv pip list --outdated
+
+	# Upgrade everything installed (uv has no single "upgrade all" for pip-style venvs)
+	uv pip list --format=freeze | cut -d= -f1 | xargs uv pip install --upgrade
+
+	# If you keep a requirements.txt with the top-level packages, this is cleaner
+	uv pip install --upgrade -r requirements.txt
+
+	# uv sync ensures the environment matches the project's lock file (pyproject.toml and uv.lock),
+	# adding what's missing and removing what shouldn't be there.
+	uv sync --upgrade
+	```
 
 ??? example ":simple-python: pip"
 
