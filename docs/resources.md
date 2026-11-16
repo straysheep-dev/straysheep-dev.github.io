@@ -565,7 +565,7 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 
 	[**Biometric Key Storage on iOS**](https://docs.termius.com/keychain/ssh-keys-and-certificates#generate-biometric-key-1)
 
-	- FaceID or keys generated and stored in the encrypted enclave require *you* to unlock them to use them
+	- Biometric keys, or keys generated and stored in the encrypted enclave require *you* to unlock them to use them
 	- Monitor logins [via a webhook or similar](https://github.com/straysheep-dev/alert-service) and system activity with auditd, sysmonforlinux, or an EDR like Wazuh
 	- Enable Privacy Report on iOS and monitor the Termius network connections
 
@@ -2286,6 +2286,54 @@ The best advice I've heard about note taking is 1) it should work for you, and 2
 	```bash
 	sha256sum -c <checksums-file>.txt --ignore-missing
 	```
+
+
+#### :octicons-terminal-16: gh
+
+??? tip "Verifying Release Artifacts with gh"
+
+	*Assisted-by: Claude:claude-sonnet-5-5*
+
+	`gh attestation verify` checks a downloaded release asset against its GitHub artifact attestation (Sigstore-signed build provenance). A passing check means the asset was built by a workflow in the repo you expect, not just that the download matches a checksum published next to it. The steps below fetch everything first, then verify from local files, which makes it easy to script.
+
+	*The example uses [uv](https://github.com/astral-sh/uv) release assets. Swap in your own repo, tag, and asset name.*
+
+	```bash
+	repo=astral-sh/uv; tag=0.13.8; asset=uv-x86_64-unknown-linux-gnu.tar.gz
+	api="https://api.github.com/repos/$repo"
+	work=$(mktemp -d); cd "$work"
+
+	# The asset's sha256 digest comes from the release metadata
+	digest=$(curl -fsS "$api/releases/tags/$tag" |
+		jq -r --arg n "$asset" '.assets[] | select(.name == $n) | .digest')
+	[ -n "$digest" ] && [ "$digest" != null ] || { echo "no digest for $asset" >&2; exit 1; }
+
+	# The asset itself, and its attestation bundle(s)
+	curl -fsSLO "https://github.com/$repo/releases/download/$tag/$asset"
+	curl -fsS "$api/attestations/$digest" | jq -c '.attestations[].bundle' > "$asset.jsonl"
+
+	# Sigstore trusted root
+	gh attestation trusted-root > trusted_root.jsonl
+
+	# Verify
+	gh attestation verify "./$asset" \
+		--bundle "$asset.jsonl" \
+		--custom-trusted-root trusted_root.jsonl \
+		--repo "$repo"
+	```
+
+	Things worth knowing about this flow:
+
+	- The digest is only a lookup key for finding the attestation. The trust comes from `gh` validating the bundle's signature against the trusted root, and from `--repo` pinning which repository must have produced the asset.
+	- The API calls above are unauthenticated, so they are rate limited.
+	- Because `--bundle` and `--custom-trusted-root` are passed, the verify step uses only local files.
+	- You're looking for `Verification succeeded!`. Any other result means verification failed.
+
+	- <https://github.com/cli/cli>
+	- <https://cli.github.com/manual/gh_attestation_verify>
+	- <https://docs.github.com/en/actions/concepts/security/artifact-attestations>
+
+	See also the [gh cli](#github-github) entry in the GitHub section for the apt repo and GPG key.
 
 
 ### :simple-git: Git
