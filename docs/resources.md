@@ -5496,6 +5496,26 @@ All things standards, configuration, compliance, and policy related.
 	```
 
 
+### :material-card-account-details: Identity Research
+
+Services that show what an identity has exposed, and where. Useful both defensively and for investigations.
+
+??? question "Have I Been Pwned"
+
+	Have I Been Pwned (HIBP) is a free service for checking whether an email address, domain, or password has appeared in a known data breach. It was created in 2013 and is run by [Troy Hunt](https://www.troyhunt.com/).
+
+	- <https://haveibeenpwned.com/>
+	- <https://github.com/HaveIBeenPwned>
+
+	**Using it for Active Defense**
+
+	- Search for email addresses that have appeared in a breach
+	- Learn of new breaches
+	- Subscribe and get notified when any of your addresses appear in a breach
+	- The dashboard is a newer feature, supports passkeys, and allows for domain-wide monitoring
+	- There's an API and MCP server
+
+
 ### :octicons-file-code-24: Vulnerability Research
 
 Sources used when attempting to triage and produce a proof-of-concept exploit or demonstrate risk.
